@@ -10,6 +10,12 @@ const STORE_KEY = PREVIEW_PATH ? `macro-map${PREVIEW_PATH[0]}` : "macro-map";
 
 // Triangle corners in SVG units: protein at the top, carbs bottom-left, fat bottom-right.
 const CORNERS = { p: [300, 52], c: [40, 502], f: [560, 502] };
+const PLOT_W = 600, PLOT_H = 540;
+const MAX_ZOOM = 30; // enough to pull apart the closest pairs (~0.7 units) for labels
+const GRID_STEPS = [0.2, 0.1, 0.05, 0.02, 0.01, 0.005]; // macro shares, coarse to fine
+const MIN_GRID_GAP = 50; // SVG units between neighbouring ruler lines
+const LABEL_ZOOM = 1.8; // names appear beside dots from this zoom on
+const LABEL_FONT = 11; // SVG units; keep in step with .dot-label in style.css
 
 const state = {
   foods: [],
@@ -19,6 +25,7 @@ const state = {
   query: "",
   sort: "closest",
   focus: null, // { id, nearby: ids of the dots around it }
+  view: { x: 0, y: 0, w: PLOT_W }, // visible part of the plot, in SVG units
 };
 // Reach of a pointer, in CSS px: how far from a dot a hover or tap still picks it.
 const REACH = { mouse: 14, touch: 24 };
@@ -204,41 +211,51 @@ function macroLine(m, unit = "") {
   return MACROS.map((k) => `${MACRO_NAMES[k][0]} ${fmt(m[k])}${unit}`).join(" · ");
 }
 
+const zoom = () => PLOT_W / state.view.w;
+// Zooming moves points apart rather than scaling the drawing, so dots and text keep their size.
+const toView = ([x, y]) => [(x - state.view.x) * zoom(), (y - state.view.y) * zoom()];
+const plotXY = (m) => {
+  const xy = toXY(m);
+  return xy && toView(xy);
+};
+
 function drawPlot(rank) {
   const svg = $("#tri");
   svg.replaceChildren();
 
+  // Ruler lines get finer as you zoom, keeping about MIN_GRID_GAP apart on screen.
+  const triangleHeight = CORNERS.c[1] - CORNERS.p[1];
+  const step = GRID_STEPS.filter((st) => st * triangleHeight * zoom() >= MIN_GRID_GAP).at(-1);
   const grid = svgEl("g", { class: "grid" });
-  for (const s of [0.2, 0.4, 0.6, 0.8]) {
+  const rulers = [];
+  for (let i = 1; i * step < 1 - 1e-9; i++) {
+    const v = Math.round(i * step * 1e4) / 1e4;
     for (const k of MACROS) {
       const [o1, o2] = MACROS.filter((j) => j !== k);
-      const a = toXY({ [k]: s, [o1]: 1 - s, [o2]: 0 });
-      const b = toXY({ [k]: s, [o1]: 0, [o2]: 1 - s });
-      grid.append(svgEl("line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1] }));
+      const seg = clipToPlot(plotXY({ [k]: v, [o1]: 1 - v, [o2]: 0 }), plotXY({ [k]: v, [o1]: 0, [o2]: 1 - v }));
+      if (!seg) continue;
+      grid.append(svgEl("line", { x1: seg[0][0], y1: seg[0][1], x2: seg[1][0], y2: seg[1][1] }));
+      rulers.push({ k, v, seg });
     }
   }
   svg.append(grid);
-  svg.append(svgEl("polygon", { class: "frame", points: MACROS.map((k) => CORNERS[k].join(",")).join(" ") }));
+  svg.append(svgEl("polygon", { class: "frame", points: MACROS.map((k) => toView(CORNERS[k]).join(",")).join(" ") }));
 
-  // Protein-share ticks along the left edge (the line from carbs up to protein).
-  for (const s of [0.2, 0.4, 0.6, 0.8]) {
-    const [x, y] = toXY({ p: s, c: 1 - s, f: 0 });
-    const t = svgEl("text", { class: "tick", x: x - 8, y: y + 4, "text-anchor": "end" });
-    t.textContent = `${s * 100}%`;
-    svg.append(t);
-  }
-  const corner = (k, x, y, anchor) => {
-    const t = svgEl("text", { class: "corner", x, y, "text-anchor": anchor });
+  const ticks = svgEl("g"); // filled once food names are placed, which take priority
+  svg.append(ticks);
+  const corner = (k, dy) => {
+    const [x, y] = toView(CORNERS[k]);
+    const t = svgEl("text", { class: "corner", x, y: y + dy, "text-anchor": "middle" });
     t.textContent = MACRO_NAMES[k];
     svg.append(t);
   };
-  corner("p", 300, 34, "middle");
-  corner("c", 40, 528, "middle");
-  corner("f", 560, 528, "middle");
+  corner("p", -18);
+  corner("c", 26);
+  corner("f", 26);
 
   const items = comboItems();
   if (items.length >= 2) {
-    const pts = items.map(({ food }) => toXY(food).join(",")).join(" ");
+    const pts = items.map(({ food }) => plotXY(food).join(",")).join(" ");
     svg.append(svgEl(items.length === 2 ? "polyline" : "polygon", { class: "combo-shape", points: pts }));
   }
 
@@ -247,7 +264,7 @@ function drawPlot(rank) {
   const top = svgEl("g");
   plotDots = [];
   for (const { food, grams, share } of rank) {
-    const xy = toXY(food);
+    const xy = plotXY(food);
     if (!xy) continue;
     plotDots.push({ food, grams, share, x: xy[0], y: xy[1] });
     const n = matchRank.get(food.id);
@@ -264,11 +281,14 @@ function drawPlot(rank) {
     }
   }
   svg.append(dots, top);
+  const nameBoxes = [];
+  if (zoom() >= LABEL_ZOOM) svg.append(dotLabels(matchRank, nameBoxes));
+  drawRulerLabels(ticks, rulers, step, nameBoxes);
 
   const focused = state.focus && plotDots.find((d) => d.food.id === state.focus.id);
   if (focused) svg.append(svgEl("circle", { class: "focus-ring", cx: focused.x, cy: focused.y, r: 13 }));
 
-  const target = toXY(state.remaining);
+  const target = plotXY(state.remaining);
   if (target) {
     const g = svgEl("g", { class: "target", "pointer-events": "none" });
     g.append(svgEl("circle", { cx: target[0], cy: target[1], r: 11 }));
@@ -279,8 +299,101 @@ function drawPlot(rank) {
     svg.append(g);
   }
 
-  const mix = items.length >= 2 && toXY(comboTotal(items));
+  const mix = items.length >= 2 && plotXY(comboTotal(items));
   if (mix) svg.append(svgEl("circle", { class: "combo-point", cx: mix[0], cy: mix[1], r: 6, "pointer-events": "none" }));
+}
+
+// Percent labels for the ruler lines, skipping any that would cover a placed box.
+function drawRulerLabels(g, rulers, step, placed) {
+  const pct = (v) => `${(v * 100).toFixed(step < 0.01 ? 1 : 0)}%`;
+  if (zoom() < 1.001) {
+    // Protein-share ticks along the left edge (the line from carbs up to protein).
+    for (const { k, v, seg } of rulers) {
+      if (k !== "p") continue;
+      const [x, y] = seg[0][0] < seg[1][0] ? seg[0] : seg[1];
+      const t = svgEl("text", { class: "tick", x: x - 8, y: y + 4, "text-anchor": "end" });
+      t.textContent = pct(v);
+      g.append(t);
+    }
+  } else {
+    // Zoomed in, the triangle's edges may be out of view, so label each ruler where it
+    // leaves the view: protein lines (horizontal) on the left, carbs and fat at the bottom.
+    for (const { k, v, seg } of rulers) {
+      const [x, y] = k === "p"
+        ? (seg[0][0] < seg[1][0] ? seg[0] : seg[1])
+        : (seg[0][1] > seg[1][1] ? seg[0] : seg[1]);
+      const text = `${MACRO_NAMES[k][0]} ${pct(v)}`;
+      const box = { x0: x + 3, x1: x + 3 + text.length * 6.2, y0: y - 16, y1: y - 3 };
+      if (box.x1 > PLOT_W) [box.x0, box.x1] = [x - 3 - (box.x1 - box.x0), x - 3];
+      if (placed.some((o) => o.x0 < box.x1 && box.x0 < o.x1 && o.y0 < box.y1 && box.y0 < o.y1)) continue;
+      placed.push(box);
+      const t = svgEl("text", { class: "tick", x: box.x0, y: y - 5 });
+      t.textContent = text;
+      g.append(t);
+    }
+  }
+}
+
+// The part of segment a–b inside the plot area (Liang–Barsky), or null if none is.
+function clipToPlot(a, b) {
+  const [dx, dy] = [b[0] - a[0], b[1] - a[1]];
+  let t0 = 0, t1 = 1;
+  for (const [p, q] of [[-dx, a[0]], [dx, PLOT_W - a[0]], [-dy, a[1]], [dy, PLOT_H - a[1]]]) {
+    if (p === 0) {
+      if (q < 0) return null;
+    } else if (p < 0) t0 = Math.max(t0, q / p);
+    else t1 = Math.min(t1, q / p);
+  }
+  if (t0 > t1) return null;
+  return [[a[0] + t0 * dx, a[1] + t0 * dy], [a[0] + t1 * dx, a[1] + t1 * dy]];
+}
+
+// Names beside dots, placed greedily (top matches first), on the right or else the left,
+// and skipped where they'd overlap. Dots sharing a spot (e.g. two pure oils) share a label.
+function dotLabels(matchRank, placed) {
+  const g = svgEl("g", { class: "dot-labels" });
+  const spots = [];
+  const order = [...plotDots].sort((a, b) => (matchRank.get(a.food.id) ?? 99) - (matchRank.get(b.food.id) ?? 99));
+  for (const dot of order) {
+    if (dot.x < 0 || dot.x > PLOT_W || dot.y < 0 || dot.y > PLOT_H) continue;
+    const name = dot.food.name.replace(/\s*\(.*\)$/, "");
+    const spot = spots.find((s) => Math.hypot(s.x - dot.x, s.y - dot.y) < 1.5);
+    if (spot) spot.names.push(name);
+    else spots.push({ x: dot.x, y: dot.y, names: [name] });
+  }
+  const hits = (box) => (o) => o.x0 < box.x1 && box.x0 < o.x1 && o.y0 < box.y1 && box.y0 < o.y1;
+  for (const { x, y, names } of spots) {
+    const text = names.join(" / ");
+    const w = text.length * LABEL_FONT * 0.55;
+    const [y0, y1] = [y - LABEL_FONT * 0.6, y + LABEL_FONT * 0.6];
+    const box = [{ x0: x + 8, x1: x + 10 + w, y0, y1 }, { x0: x - 10 - w, x1: x - 8, y0, y1 }].find((b) =>
+      b.x0 >= 0 && b.x1 <= PLOT_W && !placed.some(hits(b)) &&
+      !plotDots.some((d) => Math.hypot(d.x - x, d.y - y) >= 1.5 && hits(b)({ x0: d.x - 4, x1: d.x + 4, y0: d.y - 4, y1: d.y + 4 })));
+    if (!box) continue;
+    placed.push(box);
+    const t = svgEl("text", { class: "dot-label", x: box.x0, y });
+    t.textContent = text;
+    g.append(t);
+  }
+  return g;
+}
+
+// Zoom by factor f about a point given in current view coordinates.
+function zoomAt(f, [vx, vy]) {
+  const v = state.view;
+  const w = Math.min(PLOT_W, Math.max(PLOT_W / MAX_ZOOM, v.w / f));
+  const px = v.x + vx / zoom(), py = v.y + vy / zoom();
+  setView(px - (px - v.x) * (w / v.w), py - (py - v.y) * (w / v.w), w);
+}
+function panBy(dx, dy) {
+  setView(state.view.x - dx / zoom(), state.view.y - dy / zoom(), state.view.w);
+}
+function setView(x, y, w) {
+  const h = (w * PLOT_H) / PLOT_W;
+  state.view = { x: Math.min(Math.max(x, 0), PLOT_W - w), y: Math.min(Math.max(y, 0), PLOT_H - h), w };
+  $("#tri").classList.toggle("zoomed", w < PLOT_W);
+  $("#zoom-reset").disabled = w >= PLOT_W;
+  drawPlot(ranked());
 }
 
 function drawList(rank) {
@@ -495,8 +608,42 @@ async function init() {
   // A mouse hovers for details and clicks to add; a tap opens a details card instead,
   // since a fingertip usually covers several dots and there's no hover.
   const svg = $("#tri");
-  svg.addEventListener("pointerdown", (e) => (lastPointer = e.pointerType));
+  const toPlot = (e) => {
+    const { x, y } = new DOMPoint(e.clientX, e.clientY).matrixTransform(svg.getScreenCTM().inverse());
+    return [x, y];
+  };
+  const unitsPerPx = () => PLOT_W / svg.getBoundingClientRect().width;
+  // One pointer pans once zoomed in; two pinch. A drag mustn't also count as a tap.
+  const pointers = new Map();
+  let dragged = false;
+  svg.addEventListener("pointerdown", (e) => {
+    lastPointer = e.pointerType;
+    if (!pointers.size) dragged = false;
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.size === 2 || state.view.w < PLOT_W) svg.setPointerCapture(e.pointerId);
+  });
+  const release = (e) => pointers.delete(e.pointerId);
+  svg.addEventListener("pointerup", release);
+  svg.addEventListener("pointercancel", release);
   svg.addEventListener("pointermove", (e) => {
+    const prev = pointers.get(e.pointerId);
+    if (prev) {
+      const cur = { x: e.clientX, y: e.clientY };
+      if (pointers.size === 2) {
+        const [other] = [...pointers].filter(([id]) => id !== e.pointerId).map(([, pt]) => pt);
+        const f = Math.hypot(cur.x - other.x, cur.y - other.y) / (Math.hypot(prev.x - other.x, prev.y - other.y) || 1);
+        const mid = toPlot({ clientX: (cur.x + other.x) / 2, clientY: (cur.y + other.y) / 2 });
+        zoomAt(f, mid);
+        panBy(((cur.x - prev.x) / 2) * unitsPerPx(), ((cur.y - prev.y) / 2) * unitsPerPx());
+        dragged = true;
+      } else if (state.view.w < PLOT_W && (dragged || Math.hypot(cur.x - prev.x, cur.y - prev.y) > 3)) {
+        panBy((cur.x - prev.x) * unitsPerPx(), (cur.y - prev.y) * unitsPerPx());
+        dragged = true;
+      } else return; // under the drag threshold: keep the start point
+      pointers.set(e.pointerId, cur);
+      hideTip();
+      return;
+    }
     if (e.pointerType !== "mouse") return;
     const [dot] = dotsNear(e, REACH.mouse);
     svg.style.cursor = dot ? "pointer" : "";
@@ -505,6 +652,7 @@ async function init() {
   });
   svg.addEventListener("pointerleave", hideTip);
   svg.addEventListener("click", (e) => {
+    if (dragged) return;
     if (lastPointer === "mouse") {
       const [dot] = dotsNear(e, REACH.mouse);
       if (dot) toggleCombo(dot.food.id);
@@ -516,6 +664,16 @@ async function init() {
     drawPlot(ranked());
     drawDotCard();
   });
+  // Scrolling out past full view is left to the page, so the chart doesn't trap scrolling.
+  svg.addEventListener("wheel", (e) => {
+    if (e.deltaY > 0 && state.view.w >= PLOT_W) return;
+    e.preventDefault();
+    zoomAt(Math.exp(-e.deltaY * 0.002), toPlot(e));
+  }, { passive: false });
+  const center = [PLOT_W / 2, PLOT_H / 2];
+  $("#zoom-in").addEventListener("click", () => zoomAt(2, center));
+  $("#zoom-out").addEventListener("click", () => zoomAt(1 / 2, center));
+  $("#zoom-reset").addEventListener("click", () => setView(0, 0, PLOT_W));
   $("#dot-card").addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-action]");
     if (!btn) return;
