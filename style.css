@@ -65,6 +65,7 @@ h1 { margin: 0 0 4px; font-size: 24px; }
 .title-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
 .title-row h1 { white-space: nowrap; }
 .title-row .controls { flex: none; }
+#theme-toggle { min-width: 32px; padding: 4px 8px; }
 h2 { margin: 0; font-size: 15px; }
 .lede { margin: 0 0 16px; color: var(--text-secondary); }
 .target-key {
