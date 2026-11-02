@@ -773,7 +773,7 @@
  {
   "id": 173180,
   "name": "Whey protein powder",
-  "group": "Plant & other protein",
+  "group": "Eggs & dairy",
   "diet": "vegetarian",
   "p": 78.13,
   "c": 6.25,
@@ -790,7 +790,7 @@
  {
   "id": 172448,
   "name": "Tofu (firm)",
-  "group": "Plant & other protein",
+  "group": "Plant protein",
   "diet": "vegan",
   "p": 9.04,
   "c": 2.85,
@@ -811,7 +811,7 @@
  {
   "id": 174272,
   "name": "Tempeh",
-  "group": "Plant & other protein",
+  "group": "Plant protein",
   "diet": "vegan",
   "p": 20.29,
   "c": 7.64,
@@ -828,7 +828,7 @@
  {
   "id": 168147,
   "name": "Seitan (vital wheat gluten)",
-  "group": "Plant & other protein",
+  "group": "Plant protein",
   "diet": "vegan",
   "p": 75.16,
   "c": 13.79,
@@ -840,7 +840,7 @@
  {
   "id": 168411,
   "name": "Edamame",
-  "group": "Plant & other protein",
+  "group": "Plant protein",
   "diet": "vegan",
   "p": 11.91,
   "c": 8.91,
@@ -857,7 +857,7 @@
  {
   "id": 173735,
   "name": "Black beans (cooked)",
-  "group": "Plant & other protein",
+  "group": "Plant protein",
   "diet": "vegan",
   "p": 8.86,
   "c": 23.71,
@@ -874,7 +874,7 @@
  {
   "id": 173740,
   "name": "Kidney beans (cooked)",
-  "group": "Plant & other protein",
+  "group": "Plant protein",
   "diet": "vegan",
   "p": 8.67,
   "c": 22.8,
@@ -895,7 +895,7 @@
  {
   "id": 175200,
   "name": "Pinto beans (cooked)",
-  "group": "Plant & other protein",
+  "group": "Plant protein",
   "diet": "vegan",
   "p": 9.01,
   "c": 26.22,
@@ -916,7 +916,7 @@
  {
   "id": 172421,
   "name": "Lentils (cooked)",
-  "group": "Plant & other protein",
+  "group": "Plant protein",
   "diet": "vegan",
   "p": 9.02,
   "c": 20.13,
@@ -937,7 +937,7 @@
  {
   "id": 173757,
   "name": "Chickpeas (cooked)",
-  "group": "Plant & other protein",
+  "group": "Plant protein",
   "diet": "vegan",
   "p": 8.86,
   "c": 27.42,
@@ -954,7 +954,7 @@
  {
   "id": 172438,
   "name": "Refried beans",
-  "group": "Plant & other protein",
+  "group": "Plant protein",
   "diet": null,
   "p": 4.98,
   "c": 13.55,
@@ -975,7 +975,7 @@
  {
   "id": 174289,
   "name": "Hummus",
-  "group": "Plant & other protein",
+  "group": "Plant protein",
   "diet": "vegan",
   "p": 7.78,
   "c": 15.0,
@@ -996,7 +996,7 @@
  {
   "id": 172446,
   "name": "Soy milk",
-  "group": "Plant & other protein",
+  "group": "Plant protein",
   "diet": "vegan",
   "p": 3.27,
   "c": 6.28,
@@ -3326,7 +3326,7 @@
  {
   "id": 170693,
   "name": "Hamburger (fast food)",
-  "group": "Prepared & drinks",
+  "group": "Prepared foods",
   "diet": null,
   "p": 16.52,
   "c": 31.5,
@@ -3343,7 +3343,7 @@
  {
   "id": 170698,
   "name": "French fries (fast food)",
-  "group": "Prepared & drinks",
+  "group": "Prepared foods",
   "diet": "vegan",
   "p": 3.43,
   "c": 41.44,
@@ -3368,7 +3368,7 @@
  {
   "id": 172039,
   "name": "Bean & cheese burrito",
-  "group": "Prepared & drinks",
+  "group": "Prepared foods",
   "diet": "vegetarian",
   "p": 7.35,
   "c": 31.23,
@@ -3385,7 +3385,7 @@
  {
   "id": 170317,
   "name": "Cheese pizza (frozen)",
-  "group": "Prepared & drinks",
+  "group": "Prepared foods",
   "diet": "vegetarian",
   "p": 10.36,
   "c": 29.02,
@@ -3430,7 +3430,7 @@
  {
   "id": 171192,
   "name": "Marinara sauce",
-  "group": "Prepared & drinks",
+  "group": "Prepared foods",
   "diet": "vegan",
   "p": 1.39,
   "c": 7.43,
@@ -3447,7 +3447,7 @@
  {
   "id": 168556,
   "name": "Ketchup",
-  "group": "Prepared & drinks",
+  "group": "Prepared foods",
   "diet": "vegan",
   "p": 1.04,
   "c": 27.4,
@@ -3472,7 +3472,7 @@
  {
   "id": 174852,
   "name": "Cola",
-  "group": "Prepared & drinks",
+  "group": "Drinks",
   "diet": "vegan",
   "p": 0.0,
   "c": 10.36,
@@ -3509,7 +3509,7 @@
  {
   "id": 173190,
   "name": "Red wine",
-  "group": "Prepared & drinks",
+  "group": "Drinks",
   "diet": "vegan",
   "p": 0.07,
   "c": 2.61,
@@ -3530,7 +3530,7 @@
  {
   "id": 174832,
   "name": "Almond milk (unsweetened)",
-  "group": "Prepared & drinks",
+  "group": "Drinks",
   "diet": "vegan",
   "p": 0.4,
   "c": 1.31,

@@ -106,8 +106,16 @@ input, select {
 #search { max-width: 170px; }
 select { width: auto; }
 
-.filters { display: grid; gap: 6px; margin-bottom: 8px; }
+.filters { display: grid; gap: 8px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.filter-row { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 8px; align-items: start; }
+.filter-label { font-size: 12px; color: var(--text-muted); padding-top: 3px; }
 .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+/* Diet is one choice, so its options join into a single control. */
+.segmented { display: inline-flex; justify-self: start; }
+.segmented .chip { border-radius: 0; margin-left: -1px; }
+.segmented .chip:first-child { border-radius: 999px 0 0 999px; margin-left: 0; }
+.segmented .chip:last-child { border-radius: 0 999px 999px 0; }
+.segmented .chip[aria-pressed="true"] { position: relative; }
 .chip {
   font: inherit; font-size: 12px; color: var(--text-secondary); background: none;
   border: 1px solid var(--border); border-radius: 999px; padding: 2px 10px; cursor: pointer;
@@ -128,6 +136,13 @@ select { width: auto; }
 .frame { fill: none; stroke: var(--text-muted); stroke-width: 1; }
 .corner { font-size: 15px; font-weight: 600; fill: var(--text-primary); }
 .tick { font-size: 11px; fill: var(--text-muted); }
+/* Rulers and their labels take their macro's hue; text is mixed toward the ink colour to stay readable. */
+.grid line.p { stroke: color-mix(in srgb, var(--protein) 40%, var(--surface)); }
+.grid line.c { stroke: color-mix(in srgb, var(--carbs) 40%, var(--surface)); }
+.grid line.f { stroke: color-mix(in srgb, var(--fat) 40%, var(--surface)); }
+.tick.p, .corner.p { fill: color-mix(in srgb, var(--protein) 75%, var(--text-primary)); }
+.tick.c, .corner.c { fill: color-mix(in srgb, var(--carbs) 75%, var(--text-primary)); }
+.tick.f, .corner.f { fill: color-mix(in srgb, var(--fat) 75%, var(--text-primary)); }
 .dot { fill: var(--dot); stroke: var(--surface); stroke-width: 2; cursor: pointer; }
 .dot.match { fill: var(--dot-match); }
 .dot.selected { stroke: var(--text-primary); stroke-width: 3; }
