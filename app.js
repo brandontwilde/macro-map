@@ -25,6 +25,7 @@ const state = {
   query: "",
   sort: "closest",
   focus: null, // { id, nearby: ids of the dots around it }
+  filters: { groups: [], diet: "" }, // no groups means every group; diet "", "vegetarian" or "vegan"
   view: { x: 0, y: 0, w: PLOT_W }, // visible part of the plot, in SVG units
 };
 // Reach of a pointer, in CSS px: how far from a dot a hover or tap still picks it.
@@ -47,11 +48,12 @@ function load() {
     if (saved.remaining) state.remaining = saved.remaining;
     if (saved.combo) state.combo = saved.combo;
     if (saved.maxGrams) state.maxGrams = saved.maxGrams;
+    if (saved.filters) state.filters = saved.filters;
   } catch {}
 }
 function save() {
   try {
-    localStorage.setItem(STORE_KEY, JSON.stringify({ remaining: state.remaining, combo: state.combo, maxGrams: state.maxGrams }));
+    localStorage.setItem(STORE_KEY, JSON.stringify({ remaining: state.remaining, combo: state.combo, maxGrams: state.maxGrams, filters: state.filters }));
   } catch {}
 }
 
@@ -189,6 +191,12 @@ function gaussSolve(M, b) {
 }
 
 // "closest": nearest on the triangle to the split of what's left. "covers": most of what's left filled.
+function passesFilters(food) {
+  const { groups, diet } = state.filters;
+  if (groups.length && !groups.includes(food.group)) return false;
+  return diet === "vegan" ? food.diet === "vegan" : diet === "vegetarian" ? !!food.diet : true;
+}
+
 function ranked() {
   const target = toXY(state.remaining);
   const dist = (food) => {
@@ -196,6 +204,7 @@ function ranked() {
     return target && xy ? Math.hypot(xy[0] - target[0], xy[1] - target[1]) : Infinity;
   };
   return state.foods
+    .filter(passesFilters)
     .map((food) => ({ food, d: dist(food), ...fit(food, state.remaining, state.maxGrams) }))
     .sort(state.sort === "covers" ? (a, b) => b.share - a.share : (a, b) => a.d - b.d);
 }
@@ -260,6 +269,12 @@ function drawPlot(rank) {
   }
 
   const matchRank = new Map(rank.slice(0, TOP_MATCHES).map((r, i) => [r.food.id, i + 1]));
+  const faded = svgEl("g", { class: "faded" });
+  for (const food of state.foods) {
+    const xy = !passesFilters(food) && plotXY(food);
+    if (xy) faded.append(svgEl("circle", { cx: xy[0], cy: xy[1], r: 3 }));
+  }
+  svg.append(faded);
   const dots = svgEl("g");
   const top = svgEl("g");
   plotDots = [];
@@ -404,7 +419,7 @@ function drawList(rank) {
     .slice(0, LIST_LENGTH);
   const ol = $("#ranked");
   if (!rows.length) {
-    ol.innerHTML = `<li class="empty">No foods match “${esc(state.query)}”.</li>`;
+    ol.innerHTML = `<li class="empty">${q ? `No foods match “${esc(state.query)}”` : "No foods pass the filters"}.</li>`;
     return;
   }
   ol.innerHTML = rows.map(({ food, grams, share, n }) => `
@@ -551,8 +566,22 @@ function toggleCombo(id) {
   render();
 }
 
+const DIETS = [["", "Any diet"], ["vegetarian", "Vegetarian"], ["vegan", "Vegan"]];
+
+function drawFilters() {
+  const { groups, diet } = state.filters;
+  const all = [...new Set(state.foods.map((f) => f.group))];
+  const chip = (attrs, label, on) => `<button type="button" class="chip" ${attrs} aria-pressed="${on}">${esc(label)}</button>`;
+  $("#filters").innerHTML =
+    `<div class="chips" role="group" aria-label="Food groups">${chip('data-group=""', "All foods", !groups.length)}${
+      all.map((g) => chip(`data-group="${esc(g)}"`, g, groups.includes(g))).join("")}</div>` +
+    `<div class="chips" role="group" aria-label="Diet">${
+      DIETS.map(([value, label]) => chip(`data-diet="${value}"`, label, diet === value)).join("")}</div>`;
+}
+
 function render() {
   const rank = ranked();
+  drawFilters();
   drawPlot(rank);
   drawList(rank);
   drawCombo();
@@ -674,6 +703,19 @@ async function init() {
   $("#zoom-in").addEventListener("click", () => zoomAt(2, center));
   $("#zoom-out").addEventListener("click", () => zoomAt(1 / 2, center));
   $("#zoom-reset").addEventListener("click", () => setView(0, 0, PLOT_W));
+  // Group chips combine (any of the picked groups); "All foods" clears them.
+  $("#filters").addEventListener("click", (e) => {
+    const btn = e.target.closest(".chip");
+    if (!btn) return;
+    const f = state.filters;
+    if ("diet" in btn.dataset) f.diet = btn.dataset.diet;
+    else if (!btn.dataset.group) f.groups = [];
+    else if (f.groups.includes(btn.dataset.group)) f.groups = f.groups.filter((g) => g !== btn.dataset.group);
+    else f.groups = [...f.groups, btn.dataset.group];
+    state.focus = null;
+    save();
+    render();
+  });
   $("#dot-card").addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-action]");
     if (!btn) return;
