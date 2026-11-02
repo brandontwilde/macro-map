@@ -19,6 +19,9 @@ CURATED = ROOT / "scripts" / "curated.csv"
 OUT = ROOT / "foods.json"
 
 NUTRIENTS = {"1003": "p", "1005": "c", "1004": "f", "1008": "kcal"}
+# The page offers g and oz for every food, so USDA's own weight portions are dropped.
+WEIGHT_UNITS = {"g", "oz"}
+WEIGHT_ONLY = re.compile(r"^(oz|lb|g|grams?\b.*)$", re.I)
 
 
 def read(path):
@@ -46,7 +49,7 @@ def main(usda_dir):
 
     portions = {i: [] for i in ids}
     for row in read(usda / "food_portion.csv"):
-        if row["fdc_id"] in ids:
+        if row["fdc_id"] in ids and not WEIGHT_ONLY.match(unit_portion(row)[0]):
             portions[row["fdc_id"]].append((int(row["seq_num"] or 0), *unit_portion(row)))
 
     foods, problems = [], []
@@ -56,9 +59,16 @@ def main(usda_dir):
         if missing:
             problems.append(f"{c['name']}: no data for {sorted(missing)}")
             continue
-        ps = [{"label": label, "g": round(g, 1)} for _, label, g in sorted(portions[c["fdc_id"]])]
-        default = None
-        if c["portion"]:
+        ps, seen = [], set()
+        for _, label, g in sorted(portions[c["fdc_id"]]):
+            label = re.sub(r"^NLEA serving$", "label serving", label, flags=re.I)
+            if label.lower() not in seen:
+                seen.add(label.lower())
+                ps.append({"label": label, "g": round(g, 1)})
+        unit = None
+        if c["portion"] in WEIGHT_UNITS:
+            unit = c["portion"]
+        elif c["portion"]:
             want = c["portion"].lower()
             labels = [p["label"].lower() for p in ps]
             default = next((i for i, l in enumerate(labels) if l == want), None)
@@ -66,8 +76,10 @@ def main(usda_dir):
                 default = next((i for i, l in enumerate(labels) if want in l), None)
             if default is None:
                 problems.append(f"{c['name']}: no portion matching {c['portion']!r}")
-            elif c["portion_label"]:
-                ps[default]["label"] = c["portion_label"]
+            else:
+                if c["portion_label"]:
+                    ps[default]["label"] = c["portion_label"]
+                unit = ps[default]["label"]
         foods.append(
             {
                 "id": int(c["fdc_id"]),
@@ -79,7 +91,7 @@ def main(usda_dir):
                 "f": n["f"],
                 "kcal": n.get("kcal"),
                 "portions": ps,
-                "defaultPortion": default,
+                "unit": unit,
             }
         )
 

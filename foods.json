@@ -21,7 +21,7 @@
     "g": 172.0
    }
   ],
-  "defaultPortion": 2
+  "unit": "breast"
  },
  {
   "id": 172388,
@@ -33,10 +33,6 @@
   "kcal": 179.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.3
-   },
-   {
     "label": "thigh",
     "g": 116.0
    },
@@ -45,7 +41,7 @@
     "g": 137.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "thigh"
  },
  {
   "id": 173630,
@@ -57,15 +53,11 @@
   "kcal": 254.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.3
-   },
-   {
     "label": "piece",
     "g": 85.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "piece"
  },
  {
   "id": 171496,
@@ -77,15 +69,11 @@
   "kcal": 147.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.3
-   },
-   {
     "label": "breast",
     "g": 1413.0
    }
   ],
-  "defaultPortion": null
+  "unit": "oz"
  },
  {
   "id": 172851,
@@ -95,13 +83,8 @@
   "c": 0.0,
   "f": 11.6,
   "kcal": 213.0,
-  "portions": [
-   {
-    "label": "oz",
-    "g": 28.3
-   }
-  ],
-  "defaultPortion": 0
+  "portions": [],
+  "unit": "oz"
  },
  {
   "id": 171792,
@@ -111,13 +94,8 @@
   "c": 0.0,
   "f": 5.94,
   "kcal": 164.0,
-  "portions": [
-   {
-    "label": "oz",
-    "g": 28.3
-   }
-  ],
-  "defaultPortion": null
+  "portions": [],
+  "unit": "oz"
  },
  {
   "id": 171793,
@@ -127,13 +105,8 @@
   "c": 0.0,
   "f": 10.68,
   "kcal": 204.0,
-  "portions": [
-   {
-    "label": "oz",
-    "g": 28.3
-   }
-  ],
-  "defaultPortion": null
+  "portions": [],
+  "unit": "oz"
  },
  {
   "id": 171798,
@@ -143,13 +116,8 @@
   "c": 0.0,
   "f": 15.94,
   "kcal": 246.0,
-  "portions": [
-   {
-    "label": "oz",
-    "g": 28.3
-   }
-  ],
-  "defaultPortion": null
+  "portions": [],
+  "unit": "oz"
  },
  {
   "id": 173118,
@@ -159,17 +127,8 @@
   "c": 0.0,
   "f": 6.72,
   "kcal": 187.0,
-  "portions": [
-   {
-    "label": "oz",
-    "g": 28.3
-   },
-   {
-    "label": "lb",
-    "g": 453.6
-   }
-  ],
-  "defaultPortion": null
+  "portions": [],
+  "unit": "oz"
  },
  {
   "id": 168250,
@@ -181,10 +140,6 @@
   "kcal": 143.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.3
-   },
-   {
     "label": "piece, cooked, excluding refuse",
     "g": 333.0
    },
@@ -193,7 +148,7 @@
     "g": 402.0
    }
   ],
-  "defaultPortion": null
+  "unit": "oz"
  },
  {
   "id": 168277,
@@ -205,10 +160,6 @@
   "kcal": 393.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.2
-   },
-   {
     "label": "slice raw",
     "g": 28.0
    },
@@ -217,7 +168,7 @@
     "g": 442.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "slice raw"
  },
  {
   "id": 173864,
@@ -229,15 +180,11 @@
   "kcal": 164.0,
   "portions": [
    {
-    "label": "grams 1 serving",
-    "g": 1.0
-   },
-   {
     "label": "slice",
     "g": 28.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "slice"
  },
  {
   "id": 173862,
@@ -257,7 +204,7 @@
     "g": 446.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "hot dog"
  },
  {
   "id": 172544,
@@ -269,15 +216,11 @@
   "kcal": 283.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.3
-   },
-   {
     "label": "unit, cooked",
     "g": 313.0
    }
   ],
-  "defaultPortion": null
+  "unit": "oz"
  },
  {
   "id": 167536,
@@ -289,19 +232,11 @@
   "kcal": 410.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.4
-   },
-   {
     "label": "piece, large",
     "g": 20.0
-   },
-   {
-    "label": "oz",
-    "g": 28.4
    }
   ],
-  "defaultPortion": null
+  "unit": "piece, large"
  },
  {
   "id": 175168,
@@ -313,15 +248,11 @@
   "kcal": 206.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.3
-   },
-   {
     "label": "fillet",
     "g": 356.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "fillet"
  },
  {
   "id": 173709,
@@ -332,14 +263,6 @@
   "f": 0.96,
   "kcal": 86.0,
   "portions": [
-   {
-    "label": "oz",
-    "g": 28.4
-   },
-   {
-    "label": "oz",
-    "g": 28.3
-   },
    {
     "label": "can",
     "g": 165.0
@@ -353,7 +276,7 @@
     "g": 315.0
    }
   ],
-  "defaultPortion": 2
+  "unit": "can"
  },
  {
   "id": 171956,
@@ -365,15 +288,11 @@
   "kcal": 105.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.3
-   },
-   {
     "label": "fillet",
     "g": 180.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "fillet"
  },
  {
   "id": 175177,
@@ -389,7 +308,7 @@
     "g": 87.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "fillet"
  },
  {
   "id": 174198,
@@ -403,13 +322,9 @@
    {
     "label": "fillet",
     "g": 150.0
-   },
-   {
-    "label": "oz",
-    "g": 28.3
    }
   ],
-  "defaultPortion": 0
+  "unit": "fillet"
  },
  {
   "id": 175180,
@@ -419,13 +334,8 @@
   "c": 0.2,
   "f": 0.28,
   "kcal": 99.0,
-  "portions": [
-   {
-    "label": "oz",
-    "g": 28.3
-   }
-  ],
-  "defaultPortion": 0
+  "portions": [],
+  "unit": "oz"
  },
  {
   "id": 167742,
@@ -435,13 +345,8 @@
   "c": 5.41,
   "f": 0.84,
   "kcal": 111.0,
-  "portions": [
-   {
-    "label": "oz",
-    "g": 28.3
-   }
-  ],
-  "defaultPortion": null
+  "portions": [],
+  "unit": "oz"
  },
  {
   "id": 175139,
@@ -455,10 +360,6 @@
    {
     "label": "cup, drained",
     "g": 149.0
-   },
-   {
-    "label": "oz",
-    "g": 28.4
    },
    {
     "label": "cubic inch",
@@ -477,7 +378,7 @@
     "g": 12.0
    }
   ],
-  "defaultPortion": null
+  "unit": "can"
  },
  {
   "id": 173424,
@@ -501,7 +402,7 @@
     "g": 50.0
    }
   ],
-  "defaultPortion": 2
+  "unit": "large"
  },
  {
   "id": 172183,
@@ -521,7 +422,7 @@
     "g": 243.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "large"
  },
  {
   "id": 172184,
@@ -541,7 +442,7 @@
     "g": 243.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "large"
  },
  {
   "id": 170894,
@@ -557,7 +458,7 @@
     "g": 170.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "container"
  },
  {
   "id": 171304,
@@ -568,7 +469,7 @@
   "f": 5.0,
   "kcal": 97.0,
   "portions": [],
-  "defaultPortion": null
+  "unit": "oz"
  },
  {
   "id": 170886,
@@ -584,19 +485,11 @@
     "g": 170.0
    },
    {
-    "label": "container",
-    "g": 227.0
-   },
-   {
-    "label": "container",
-    "g": 226.0
-   },
-   {
     "label": "cup",
     "g": 245.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "container"
  },
  {
   "id": 170904,
@@ -616,7 +509,7 @@
     "g": 971.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 172182,
@@ -628,15 +521,11 @@
   "kcal": 81.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.2
-   },
-   {
     "label": "cup",
     "g": 226.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "cup"
  },
  {
   "id": 171269,
@@ -660,7 +549,7 @@
     "g": 980.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 171267,
@@ -684,7 +573,7 @@
     "g": 976.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 171265,
@@ -712,7 +601,7 @@
     "g": 976.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 170899,
@@ -726,17 +615,9 @@
    {
     "label": "slice",
     "g": 19.0
-   },
-   {
-    "label": "slice",
-    "g": 21.0
-   },
-   {
-    "label": "slice",
-    "g": 28.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "slice"
  },
  {
   "id": 170847,
@@ -746,13 +627,8 @@
   "c": 2.77,
   "f": 15.92,
   "kcal": 254.0,
-  "portions": [
-   {
-    "label": "oz",
-    "g": 28.4
-   }
-  ],
-  "defaultPortion": 0
+  "portions": [],
+  "unit": "oz"
  },
  {
   "id": 173420,
@@ -768,10 +644,6 @@
     "g": 150.0
    },
    {
-    "label": "oz",
-    "g": 28.4
-   },
-   {
     "label": "cubic inch",
     "g": 17.0
    },
@@ -780,7 +652,7 @@
     "g": 38.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "oz"
  },
  {
   "id": 171247,
@@ -798,13 +670,9 @@
    {
     "label": "tbsp",
     "g": 5.0
-   },
-   {
-    "label": "oz",
-    "g": 28.4
    }
   ],
-  "defaultPortion": 1
+  "unit": "tbsp"
  },
  {
   "id": 173418,
@@ -828,10 +696,6 @@
     "g": 10.0
    },
    {
-    "label": "oz",
-    "g": 28.4
-   },
-   {
     "label": "cubic inch",
     "g": 16.0
    },
@@ -840,7 +704,7 @@
     "g": 85.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "tbsp"
  },
  {
   "id": 171257,
@@ -860,7 +724,7 @@
     "g": 230.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "tbsp"
  },
  {
   "id": 167575,
@@ -876,7 +740,7 @@
     "g": 66.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "\u00bd cup"
  },
  {
   "id": 173180,
@@ -892,7 +756,7 @@
     "g": 97.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 172448,
@@ -910,13 +774,9 @@
    {
     "label": "block",
     "g": 324.0
-   },
-   {
-    "label": "block",
-    "g": 455.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "block"
  },
  {
   "id": 174272,
@@ -932,7 +792,7 @@
     "g": 166.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 168147,
@@ -943,7 +803,7 @@
   "f": 1.85,
   "kcal": 370.0,
   "portions": [],
-  "defaultPortion": null
+  "unit": "oz"
  },
  {
   "id": 168411,
@@ -959,7 +819,7 @@
     "g": 155.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 173735,
@@ -975,7 +835,7 @@
     "g": 172.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 173740,
@@ -995,7 +855,7 @@
     "g": 11.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 175200,
@@ -1015,7 +875,7 @@
     "g": 10.6
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 172421,
@@ -1035,7 +895,7 @@
     "g": 12.3
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 173757,
@@ -1051,7 +911,7 @@
     "g": 164.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 172438,
@@ -1071,7 +931,7 @@
     "g": 442.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 174289,
@@ -1091,7 +951,7 @@
     "g": 246.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "tbsp"
  },
  {
   "id": 172446,
@@ -1111,7 +971,7 @@
     "g": 30.6
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 168878,
@@ -1127,7 +987,7 @@
     "g": 158.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 169704,
@@ -1143,7 +1003,7 @@
     "g": 202.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 168897,
@@ -1159,7 +1019,7 @@
     "g": 164.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 168917,
@@ -1175,7 +1035,7 @@
     "g": 185.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 169737,
@@ -1223,7 +1083,7 @@
     "g": 116.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 169700,
@@ -1247,7 +1107,7 @@
     "g": 86.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup, cooked"
  },
  {
   "id": 170285,
@@ -1263,7 +1123,7 @@
     "g": 157.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 170287,
@@ -1283,7 +1143,7 @@
     "g": 8.4
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 171655,
@@ -1303,7 +1163,7 @@
     "g": 16.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 173904,
@@ -1317,13 +1177,9 @@
    {
     "label": "cup",
     "g": 81.0
-   },
-   {
-    "label": "cup",
-    "g": 81.8
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 173884,
@@ -1339,7 +1195,7 @@
     "g": 28.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 171646,
@@ -1353,13 +1209,9 @@
    {
     "label": "cup",
     "g": 122.0
-   },
-   {
-    "label": "oz",
-    "g": 28.4
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 172688,
@@ -1373,13 +1225,9 @@
    {
     "label": "slice",
     "g": 32.0
-   },
-   {
-    "label": "oz",
-    "g": 28.4
    }
   ],
-  "defaultPortion": 0
+  "unit": "slice"
  },
  {
   "id": 174924,
@@ -1395,10 +1243,6 @@
     "g": 29.0
    },
    {
-    "label": "oz",
-    "g": 28.4
-   },
-   {
     "label": "cup, crumbs",
     "g": 45.0
    },
@@ -1409,10 +1253,6 @@
    {
     "label": "slice, large",
     "g": 30.0
-   },
-   {
-    "label": "slice",
-    "g": 25.0
    },
    {
     "label": "slice crust not eaten",
@@ -1431,7 +1271,7 @@
     "g": 15.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "slice"
  },
  {
   "id": 174899,
@@ -1461,13 +1301,9 @@
    {
     "label": "large bagel",
     "g": 131.0
-   },
-   {
-    "label": "oz",
-    "g": 28.4
    }
   ],
-  "defaultPortion": 3
+  "unit": "medium bagel"
  },
  {
   "id": 175063,
@@ -1479,15 +1315,11 @@
   "kcal": 235.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.4
-   },
-   {
     "label": "muffin",
     "g": 57.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "muffin"
  },
  {
   "id": 173242,
@@ -1499,27 +1331,15 @@
   "kcal": 325.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.4
-   },
-   {
     "label": "tortilla",
     "g": 32.0
    },
    {
     "label": "tortilla",
     "g": 72.0
-   },
-   {
-    "label": "tortilla",
-    "g": 117.0
-   },
-   {
-    "label": "tortilla",
-    "g": 49.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "tortilla"
  },
  {
   "id": 175036,
@@ -1531,10 +1351,6 @@
   "kcal": 218.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.4
-   },
-   {
     "label": "enchilada",
     "g": 19.0
    },
@@ -1543,7 +1359,7 @@
     "g": 24.0
    }
   ],
-  "defaultPortion": 2
+  "unit": "tortilla"
  },
  {
   "id": 175009,
@@ -1555,19 +1371,11 @@
   "kcal": 227.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.4
-   },
-   {
     "label": "pancake",
     "g": 38.0
-   },
-   {
-    "label": "pancake",
-    "g": 77.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "pancake"
  },
  {
   "id": 170093,
@@ -1579,7 +1387,7 @@
   "kcal": 93.0,
   "portions": [
    {
-    "label": "NLEA serving",
+    "label": "label serving",
     "g": 148.0
    },
    {
@@ -1595,7 +1403,7 @@
     "g": 138.0
    }
   ],
-  "defaultPortion": 2
+  "unit": "medium potato"
  },
  {
   "id": 168483,
@@ -1623,7 +1431,7 @@
     "g": 60.0
    }
   ],
-  "defaultPortion": 2
+  "unit": "medium"
  },
  {
   "id": 168555,
@@ -1639,7 +1447,7 @@
     "g": 210.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 169999,
@@ -1671,7 +1479,7 @@
     "g": 8.0
    }
   ],
-  "defaultPortion": 3
+  "unit": "cup cut"
  },
  {
   "id": 170017,
@@ -1691,7 +1499,7 @@
     "g": 253.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 169296,
@@ -1707,7 +1515,7 @@
     "g": 205.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup, cubes"
  },
  {
   "id": 173944,
@@ -1747,11 +1555,11 @@
     "g": 152.0
    },
    {
-    "label": "NLEA serving",
+    "label": "label serving",
     "g": 126.0
    }
   ],
-  "defaultPortion": 4
+  "unit": "medium"
  },
  {
   "id": 171688,
@@ -1787,11 +1595,11 @@
     "g": 101.0
    },
    {
-    "label": "NLEA serving",
+    "label": "label serving",
     "g": 242.0
    }
   ],
-  "defaultPortion": 3
+  "unit": "medium"
  },
  {
   "id": 169097,
@@ -1819,7 +1627,7 @@
     "g": 131.0
    }
   ],
-  "defaultPortion": 3
+  "unit": "fruit"
  },
  {
   "id": 169118,
@@ -1851,11 +1659,11 @@
     "g": 230.0
    },
    {
-    "label": "NLEA serving",
+    "label": "label serving",
     "g": 166.0
    }
   ],
-  "defaultPortion": 3
+  "unit": "medium"
  },
  {
   "id": 169928,
@@ -1887,11 +1695,11 @@
     "g": 224.0
    },
    {
-    "label": "NLEA serving",
+    "label": "label serving",
     "g": 147.0
    }
   ],
-  "defaultPortion": 2
+  "unit": "medium"
  },
  {
   "id": 171711,
@@ -1911,7 +1719,7 @@
     "g": 1.4
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 167762,
@@ -1959,11 +1767,11 @@
     "g": 7.0
    },
    {
-    "label": "NLEA serving",
+    "label": "label serving",
     "g": 147.0
    }
   ],
-  "defaultPortion": 3
+  "unit": "cup"
  },
  {
   "id": 174683,
@@ -1983,11 +1791,11 @@
     "g": 4.9
    },
    {
-    "label": "NLEA serving",
+    "label": "label serving",
     "g": 126.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 171719,
@@ -2011,11 +1819,11 @@
     "g": 8.2
    },
    {
-    "label": "NLEA serving",
+    "label": "label serving",
     "g": 140.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "cup"
  },
  {
   "id": 169124,
@@ -2039,15 +1847,11 @@
     "g": 166.0
    },
    {
-    "label": "slice",
-    "g": 84.0
-   },
-   {
     "label": "slice, thin",
     "g": 56.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup, chunks"
  },
  {
   "id": 169910,
@@ -2067,7 +1871,7 @@
     "g": 336.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup pieces"
  },
  {
   "id": 167765,
@@ -2099,11 +1903,11 @@
     "g": 12.2
    },
    {
-    "label": "NLEA serving",
+    "label": "label serving",
     "g": 280.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup, balls"
  },
  {
   "id": 168153,
@@ -2123,11 +1927,11 @@
     "g": 69.0
    },
    {
-    "label": "NLEA serving",
+    "label": "label serving",
     "g": 148.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "fruit"
  },
  {
   "id": 168191,
@@ -2143,7 +1947,7 @@
     "g": 24.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "date, pitted"
  },
  {
   "id": 169098,
@@ -2167,7 +1971,7 @@
     "g": 86.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 169967,
@@ -2199,7 +2003,7 @@
     "g": 37.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup, chopped"
  },
  {
   "id": 169971,
@@ -2219,7 +2023,7 @@
     "g": 156.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "cup"
  },
  {
   "id": 169141,
@@ -2235,7 +2039,7 @@
     "g": 125.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 168390,
@@ -2255,7 +2059,7 @@
     "g": 15.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 168462,
@@ -2283,7 +2087,7 @@
     "g": 284.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 168421,
@@ -2299,7 +2103,7 @@
     "g": 21.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 169247,
@@ -2327,11 +2131,11 @@
     "g": 626.0
    },
    {
-    "label": "NLEA serving",
+    "label": "label serving",
     "g": 85.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup shredded"
  },
  {
   "id": 170393,
@@ -2379,7 +2183,7 @@
     "g": 4.0
    }
   ],
-  "defaultPortion": 4
+  "unit": "medium"
  },
  {
   "id": 168409,
@@ -2399,7 +2203,7 @@
     "g": 301.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup slices"
  },
  {
   "id": 170457,
@@ -2459,11 +2263,11 @@
     "g": 15.0
    },
    {
-    "label": "NLEA serving",
+    "label": "label serving",
     "g": 148.0
    }
   ],
-  "defaultPortion": 5
+  "unit": "medium whole"
  },
  {
   "id": 170108,
@@ -2503,7 +2307,7 @@
     "g": 10.0
    }
   ],
-  "defaultPortion": 4
+  "unit": "medium"
  },
  {
   "id": 169251,
@@ -2543,7 +2347,7 @@
     "g": 70.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 170000,
@@ -2595,7 +2399,7 @@
     "g": 6.0
    }
   ],
-  "defaultPortion": 5
+  "unit": "medium"
  },
  {
   "id": 169986,
@@ -2627,7 +2431,7 @@
     "g": 265.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup chopped"
  },
  {
   "id": 169291,
@@ -2663,7 +2467,7 @@
     "g": 118.0
    }
   ],
-  "defaultPortion": 3
+  "unit": "medium"
  },
  {
   "id": 171705,
@@ -2691,11 +2495,11 @@
     "g": 201.0
    },
    {
-    "label": "NLEA Serving",
+    "label": "label serving",
     "g": 50.0
    }
   ],
-  "defaultPortion": 3
+  "unit": "avocado"
  },
  {
   "id": 170567,
@@ -2723,15 +2527,11 @@
     "g": 95.0
    },
    {
-    "label": "oz",
-    "g": 28.4
-   },
-   {
     "label": "almond",
     "g": 1.2
    }
   ],
-  "defaultPortion": 4
+  "unit": "oz"
  },
  {
   "id": 170187,
@@ -2761,13 +2561,9 @@
    {
     "label": "cup pieces or chips",
     "g": 120.0
-   },
-   {
-    "label": "oz",
-    "g": 28.4
    }
   ],
-  "defaultPortion": 5
+  "unit": "oz"
  },
  {
   "id": 170571,
@@ -2785,13 +2581,9 @@
    {
     "label": "tbsp",
     "g": 8.6
-   },
-   {
-    "label": "oz",
-    "g": 28.4
    }
   ],
-  "defaultPortion": 2
+  "unit": "oz"
  },
  {
   "id": 170185,
@@ -2807,15 +2599,11 @@
     "g": 123.0
    },
    {
-    "label": "oz",
-    "g": 28.4
-   },
-   {
     "label": "kernel",
     "g": 0.7
    }
   ],
-  "defaultPortion": 1
+  "unit": "oz"
  },
  {
   "id": 170182,
@@ -2833,13 +2621,9 @@
    {
     "label": "cup, halves",
     "g": 99.0
-   },
-   {
-    "label": "oz",
-    "g": 28.4
    }
   ],
-  "defaultPortion": 2
+  "unit": "oz"
  },
  {
   "id": 170178,
@@ -2853,13 +2637,9 @@
    {
     "label": "cup, whole or halves",
     "g": 134.0
-   },
-   {
-    "label": "oz",
-    "g": 28.4
    }
   ],
-  "defaultPortion": 1
+  "unit": "oz"
  },
  {
   "id": 173806,
@@ -2875,15 +2655,11 @@
     "g": 146.0
    },
    {
-    "label": "oz",
-    "g": 28.4
-   },
-   {
     "label": "peanut",
     "g": 1.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "oz"
  },
  {
   "id": 172470,
@@ -2903,7 +2679,7 @@
     "g": 258.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "tbsp"
  },
  {
   "id": 170554,
@@ -2913,13 +2689,8 @@
   "c": 42.12,
   "f": 30.74,
   "kcal": 486.0,
-  "portions": [
-   {
-    "label": "oz",
-    "g": 28.4
-   }
-  ],
-  "defaultPortion": 0
+  "portions": [],
+  "unit": "oz"
  },
  {
   "id": 169414,
@@ -2951,7 +2722,7 @@
     "g": 2.5
    }
   ],
-  "defaultPortion": 0
+  "unit": "tbsp, whole"
  },
  {
   "id": 170556,
@@ -2965,13 +2736,9 @@
    {
     "label": "cup",
     "g": 129.0
-   },
-   {
-    "label": "oz",
-    "g": 28.4
    }
   ],
-  "defaultPortion": 1
+  "unit": "oz"
  },
  {
   "id": 170562,
@@ -2991,7 +2758,7 @@
     "g": 140.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "cup"
  },
  {
   "id": 171413,
@@ -3015,7 +2782,7 @@
     "g": 4.5
    }
   ],
-  "defaultPortion": 0
+  "unit": "tablespoon"
  },
  {
   "id": 171412,
@@ -3039,7 +2806,7 @@
     "g": 4.5
    }
   ],
-  "defaultPortion": 0
+  "unit": "tbsp"
  },
  {
   "id": 173410,
@@ -3067,7 +2834,7 @@
     "g": 113.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "tbsp"
  },
  {
   "id": 171009,
@@ -3091,7 +2858,7 @@
     "g": 10.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "tbsp"
  },
  {
   "id": 169094,
@@ -3115,7 +2882,7 @@
     "g": 3.2
    }
   ],
-  "defaultPortion": 1
+  "unit": "large"
  },
  {
   "id": 170273,
@@ -3127,15 +2894,11 @@
   "kcal": 598.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.4
-   },
-   {
     "label": "bar",
     "g": 101.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "oz"
  },
  {
   "id": 169640,
@@ -3159,7 +2922,7 @@
     "g": 14.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "tbsp"
  },
  {
   "id": 169661,
@@ -3183,7 +2946,7 @@
     "g": 315.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "tbsp"
  },
  {
   "id": 169655,
@@ -3211,7 +2974,7 @@
     "g": 2.3
    }
   ],
-  "defaultPortion": 1
+  "unit": "tsp"
  },
  {
   "id": 169641,
@@ -3231,7 +2994,7 @@
     "g": 14.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "tbsp"
  },
  {
   "id": 167542,
@@ -3245,17 +3008,9 @@
    {
     "label": "bar",
     "g": 21.0
-   },
-   {
-    "label": "bar",
-    "g": 28.0
-   },
-   {
-    "label": "bar",
-    "g": 25.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "bar"
  },
  {
   "id": 167959,
@@ -3269,13 +3024,9 @@
    {
     "label": "cup",
     "g": 8.0
-   },
-   {
-    "label": "oz",
-    "g": 28.4
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  },
  {
   "id": 172746,
@@ -3289,10 +3040,6 @@
    {
     "label": "crackers",
     "g": 3.0
-   },
-   {
-    "label": "oz",
-    "g": 28.4
    },
    {
     "label": "cup, crushed",
@@ -3323,7 +3070,7 @@
     "g": 45.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "crackers"
  },
  {
   "id": 169677,
@@ -3335,23 +3082,15 @@
   "kcal": 532.0,
   "portions": [
    {
-    "label": "oz",
-    "g": 28.0
-   },
-   {
     "label": "chips",
     "g": 1.3
-   },
-   {
-    "label": "oz",
-    "g": 28.4
    },
    {
     "label": "bag",
     "g": 227.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "oz"
  },
  {
   "id": 172716,
@@ -3365,18 +3104,6 @@
    {
     "label": "cookie",
     "g": 12.9
-   },
-   {
-    "label": "cookie Pepperidge Farm Chocolate Chunk Pecan",
-    "g": 12.0
-   },
-   {
-    "label": "oz",
-    "g": 28.4
-   },
-   {
-    "label": "cookie",
-    "g": 12.2
    },
    {
     "label": "cookie Pepperidge Farm Chocolate Chunk Pecan",
@@ -3399,7 +3126,7 @@
     "g": 2.2
    }
   ],
-  "defaultPortion": 0
+  "unit": "cookie"
  },
  {
   "id": 174990,
@@ -3413,10 +3140,6 @@
    {
     "label": "donut",
     "g": 40.0
-   },
-   {
-    "label": "oz",
-    "g": 28.4
    },
    {
     "label": "doughnut stick",
@@ -3439,7 +3162,7 @@
     "g": 71.0
    }
   ],
-  "defaultPortion": 4
+  "unit": "donut"
  },
  {
   "id": 172765,
@@ -3450,10 +3173,6 @@
   "f": 16.07,
   "kcal": 375.0,
   "portions": [
-   {
-    "label": "oz",
-    "g": 28.4
-   },
    {
     "label": "mini",
     "g": 17.0
@@ -3479,7 +3198,7 @@
     "g": 31.0
    }
   ],
-  "defaultPortion": 6
+  "unit": "muffin"
  },
  {
   "id": 174987,
@@ -3490,10 +3209,6 @@
   "f": 21.0,
   "kcal": 406.0,
   "portions": [
-   {
-    "label": "oz",
-    "g": 28.4
-   },
    {
     "label": "croissant, mini",
     "g": 28.0
@@ -3511,7 +3226,7 @@
     "g": 67.0
    }
   ],
-  "defaultPortion": 3
+  "unit": "croissant"
  },
  {
   "id": 170693,
@@ -3527,7 +3242,7 @@
     "g": 78.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "sandwich"
  },
  {
   "id": 170698,
@@ -3551,7 +3266,7 @@
     "g": 154.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "medium serving"
  },
  {
   "id": 172039,
@@ -3567,7 +3282,7 @@
     "g": 185.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "each burrito"
  },
  {
   "id": 170317,
@@ -3611,7 +3326,7 @@
     "g": 199.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "slice"
  },
  {
   "id": 171192,
@@ -3623,11 +3338,11 @@
   "kcal": 50.0,
   "portions": [
    {
-    "label": "serving 1/2 cup",
+    "label": "\u00bd cup",
     "g": 132.0
    }
   ],
-  "defaultPortion": null
+  "unit": "\u00bd cup"
  },
  {
   "id": 168556,
@@ -3651,7 +3366,7 @@
     "g": 240.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "tbsp"
  },
  {
   "id": 174852,
@@ -3671,10 +3386,6 @@
     "g": 370.0
    },
    {
-    "label": "can or bottle",
-    "g": 492.0
-   },
-   {
     "label": "drink, small",
     "g": 492.0
    },
@@ -3691,7 +3402,7 @@
     "g": 1353.0
    }
   ],
-  "defaultPortion": 1
+  "unit": "can"
  },
  {
   "id": 173190,
@@ -3711,7 +3422,7 @@
     "g": 147.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "fl oz"
  },
  {
   "id": 174832,
@@ -3727,6 +3438,6 @@
     "g": 262.0
    }
   ],
-  "defaultPortion": 0
+  "unit": "cup"
  }
 ]

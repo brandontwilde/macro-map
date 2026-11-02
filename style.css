@@ -146,6 +146,7 @@ ol { list-style: none; margin: 0; padding: 0; }
 #combo-items .name { white-space: normal; }
 .serving { grid-column: 2 / -1; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .serving input { width: 72px; padding: 3px 6px; }
+.serving select { padding: 3px 6px; max-width: 14em; }
 .muted { color: var(--text-muted); }
 .button {
   font: inherit; font-size: 13px; color: var(--text-primary); background: var(--bg);
