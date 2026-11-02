@@ -485,7 +485,7 @@ function fitCombo() {
   render();
 }
 
-const foodTitle = (food) => `<span class="food-title"><b>${food.name}</b> <span class="muted">${food.group}</span></span>`;
+const foodTitle = (food) => `<b>${food.name}</b><span class="food-group">${food.group}</span>`;
 const pctText = (share) => `${share > 0 && share < 0.005 ? "<1" : Math.round(share * 100)}% of target`;
 
 function foodDetails({ food, grams, unit, share }) {
@@ -534,7 +534,7 @@ function drawDotCard() {
 
 function showTip(e, dot) {
   const tip = $("#tip");
-  tip.innerHTML = `${foodTitle(dot.food)}${splitBar(dot.food)}${foodDetails(dot)}`;
+  tip.innerHTML = `<div class="food-title">${foodTitle(dot.food)}</div>${splitBar(dot.food)}${foodDetails(dot)}`;
   tip.hidden = false;
   moveTip(e);
 }

@@ -208,7 +208,9 @@ ol { list-style: none; margin: 0; padding: 0; }
   border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px;
   font-size: 12px; box-shadow: 0 4px 16px rgb(0 0 0 / 0.15);
 }
-#tip .food-title { display: block; margin-bottom: 2px; }
+.food-title { display: flex; align-items: baseline; gap: 12px; }
+.food-title b, .dot-card-head b { margin-right: auto; }
+.food-group { color: var(--text-muted); font-size: 11px; white-space: nowrap; }
 #tip b { font-size: 13px; }
 #tip .split { margin: 5px 0; }
 #tip .muted { color: var(--text-muted); }
