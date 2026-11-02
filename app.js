@@ -734,8 +734,9 @@ function setupThemeToggle() {
   const btn = $("#theme-toggle");
   const label = () => {
     const next = currentTheme() === "dark" ? "light" : "dark";
-    btn.textContent = next === "light" ? "☀ Light mode" : "☾ Dark mode";
+    btn.textContent = next === "light" ? "☀" : "☾";
     btn.setAttribute("aria-label", `Switch to ${next} mode`);
+    btn.title = `Switch to ${next} mode`;
   };
   btn.addEventListener("click", () => {
     const next = currentTheme() === "dark" ? "light" : "dark";
