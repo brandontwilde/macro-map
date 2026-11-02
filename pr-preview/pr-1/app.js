@@ -3,6 +3,7 @@ const MACRO_NAMES = { p: "Protein", c: "Carbs", f: "Fat" };
 const TOP_MATCHES = 5;
 const LIST_LENGTH = 30;
 const MAX_COMBO = 3;
+const WEIGHTS = [{ label: "g", g: 1 }, { label: "oz", g: 28.35 }];
 // PR previews share the live site's origin, so each keeps its own saved state.
 const PREVIEW_PATH = location.pathname.match(/\/pr-preview\/pr-\d+\//);
 const STORE_KEY = PREVIEW_PATH ? `macro-map${PREVIEW_PATH[0]}` : "macro-map";
@@ -14,7 +15,7 @@ const state = {
   foods: [],
   remaining: { p: 150, c: 200, f: 60 },
   maxGrams: 400,
-  combo: [], // [{ id, servings }]
+  combo: [], // [{ id, grams, unit }], unit being a label from units(food)
   query: "",
   sort: "closest",
 };
@@ -32,7 +33,7 @@ function load() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
     if (saved.remaining) state.remaining = saved.remaining;
-    if (saved.combo) state.combo = saved.combo.map((c) => (typeof c === "number" ? { id: c, servings: 1 } : c));
+    if (saved.combo) state.combo = saved.combo;
     if (saved.maxGrams) state.maxGrams = saved.maxGrams;
   } catch {}
 }
@@ -68,9 +69,38 @@ function fit(food, r, maxGrams) {
   return { grams, share: left ? covered / left : 0 };
 }
 
-function serving(food) {
-  return food.portions[food.defaultPortion ?? 0] ?? { label: "100 g", g: 100 };
+const units = (food) => [...food.portions, ...WEIGHTS];
+
+function findUnit(food, label) {
+  const all = units(food);
+  return all.find((u) => u.label === label) ?? all.find((u) => u.label === food.unit) ?? WEIGHTS[0];
 }
+
+function newEntry(food) {
+  const unit = findUnit(food, food.unit);
+  const count = { g: 100, oz: 4 }[unit.label] ?? 1;
+  return { id: food.id, unit: unit.label, grams: count * unit.g };
+}
+
+// Entries saved before amounts had units were bare ids or { id, servings }.
+function upgradeCombo() {
+  state.combo = state.combo.flatMap((c) => {
+    const food = state.foods.find((f) => f.id === (c.id ?? c));
+    if (!food) return [];
+    if (c.grams != null) return [c];
+    const entry = newEntry(food);
+    if (c.servings != null) entry.grams *= c.servings;
+    return [entry];
+  });
+}
+
+const stepOf = (unit) => (unit.label === "g" ? 5 : unit.label === "oz" ? 0.5 : 0.25);
+const qtyIn = (unit, grams) => {
+  const n = grams / unit.g;
+  if (unit.label === "g") return Math.round(n);
+  return unit.label === "oz" ? Math.round(n * 10) / 10 : Math.round(n * 100) / 100;
+};
+const amountText = (unit, grams) => `${qtyIn(unit, grams)} ${unit.label}`;
 
 function comboItems() {
   return state.combo
@@ -85,8 +115,8 @@ function macrosOf(food, grams) {
 
 function comboTotal(items) {
   const total = { p: 0, c: 0, f: 0 };
-  for (const { food, servings } of items) {
-    const m = macrosOf(food, servings * serving(food).g);
+  for (const { food, grams } of items) {
+    const m = macrosOf(food, grams);
     for (const k of MACROS) total[k] += m[k];
   }
   return total;
@@ -95,11 +125,11 @@ function comboTotal(items) {
 const inCombo = (id) => state.combo.some((c) => c.id === id);
 
 function portionText(food, grams) {
-  const portion = food.portions[food.defaultPortion ?? -1];
-  if (!portion) return `${Math.round(grams)} g`;
-  const n = grams / portion.g;
+  const unit = findUnit(food, food.unit);
+  if (unit.label === "g") return `${Math.round(grams)} g`;
+  const n = grams / unit.g;
   const count = n >= 10 ? Math.round(n) : Math.round(n * 4) / 4;
-  return `${Math.round(grams)} g · ≈${count} ${portion.label}`;
+  return `${Math.round(grams)} g · ≈${count} ${unit.label}`;
 }
 
 // Least squares in grams-per-food: minimise |A x − r| with x ≥ 0, by trying every
@@ -274,17 +304,20 @@ function drawCombo() {
   $("#combo").hidden = !items.length;
   if (!items.length) return;
 
-  $("#combo-items").innerHTML = items.map(({ food, servings }, i) => {
-    const s = serving(food);
+  $("#combo-items").innerHTML = items.map(({ food, grams, unit: label }, i) => {
+    const unit = findUnit(food, label);
+    const options = units(food).map((u) =>
+      `<option value="${esc(u.label)}"${u.label === unit.label ? " selected" : ""}>${esc(u.label)}</option>`).join("");
     return `
     <li>
       <span class="rank">${i + 1}</span>
       <span class="name">${food.name}</span>
       <button type="button" class="remove" data-id="${food.id}" aria-label="Remove ${food.name}">×</button>
       <span class="serving">
-        <input type="number" class="servings" data-id="${food.id}" min="0" step="0.25" value="${servings}"
-          aria-label="Servings of ${food.name}">
-        × ${s.label}${s.label === "100 g" ? "" : ` <span class="muted">(${fmt(s.g)} g)</span>`}
+        <input type="number" class="qty" data-id="${food.id}" min="0" step="${stepOf(unit)}" value="${qtyIn(unit, grams)}"
+          aria-label="Amount of ${food.name}">
+        <select class="unit" data-id="${food.id}" aria-label="Unit for ${food.name}">${options}</select>
+        <span class="muted equiv" data-id="${food.id}"></span>
       </span>
       <span class="sub">${splitBar(food)}<span class="item-macros" data-id="${food.id}"></span></span>
     </li>`;
@@ -294,10 +327,11 @@ function drawCombo() {
 }
 
 function drawComboTotals(items) {
-  for (const { food, servings } of items) {
-    const el = document.querySelector(`.item-macros[data-id="${food.id}"]`);
-    const grams = servings * serving(food).g;
-    if (el) el.textContent = `${fmt(grams)} g: ${macroLine(macrosOf(food, grams), " g")}`;
+  for (const { food, grams, unit } of items) {
+    const others = [findUnit(food, food.unit), ...WEIGHTS].filter((u, i, all) =>
+      u.label !== unit && all.findIndex((v) => v.label === u.label) === i);
+    $(`.equiv[data-id="${food.id}"]`).textContent = `= ${others.map((u) => amountText(u, grams)).join(" · ")}`;
+    $(`.item-macros[data-id="${food.id}"]`).textContent = macroLine(macrosOf(food, grams), " g");
   }
 
   const total = comboTotal(items);
@@ -313,13 +347,15 @@ function drawComboTotals(items) {
     ).join("")}</tr>`;
 }
 
-// Serving counts (to the nearest quarter) that land closest to what's left.
+// Amounts that land closest to what's left, rounded to each food's step in its chosen unit.
 function fitCombo() {
   const items = comboItems();
   const grams = solveCombo(items.map((c) => c.food), state.remaining);
   items.forEach((c, i) => {
     const entry = state.combo.find((e) => e.id === c.id);
-    entry.servings = Math.round((grams[i] / serving(c.food).g) * 4) / 4;
+    const unit = findUnit(c.food, c.unit);
+    const step = stepOf(unit) * unit.g;
+    entry.grams = Math.round(grams[i] / step) * step;
   });
   save();
   render();
@@ -350,7 +386,7 @@ function toggleCombo(id) {
   const i = state.combo.findIndex((c) => c.id === id);
   if (i >= 0) state.combo.splice(i, 1);
   else {
-    state.combo.push({ id, servings: 1 });
+    state.combo.push(newEntry(state.foods.find((f) => f.id === id)));
     if (state.combo.length > MAX_COMBO) state.combo.shift();
   }
   save();
@@ -418,15 +454,24 @@ async function init() {
     const btn = e.target.closest(".remove");
     if (btn) toggleCombo(Number(btn.dataset.id));
   });
-  // Typing a count redraws only the totals and map, so the input keeps focus.
+  // Typing an amount redraws only the totals and map, so the input keeps focus.
   $("#combo-items").addEventListener("input", (e) => {
-    const input = e.target.closest(".servings");
+    const input = e.target.closest(".qty");
     if (!input) return;
-    const entry = state.combo.find((c) => c.id === Number(input.dataset.id));
-    entry.servings = Math.max(0, Number(input.value) || 0);
+    const item = comboItems().find((c) => c.id === Number(input.dataset.id));
+    const entry = state.combo.find((c) => c.id === item.id);
+    entry.grams = Math.max(0, Number(input.value) || 0) * findUnit(item.food, item.unit).g;
     save();
     drawPlot(ranked());
     drawComboTotals(comboItems());
+  });
+  // Switching units keeps the same amount of food and re-expresses it.
+  $("#combo-items").addEventListener("change", (e) => {
+    const select = e.target.closest(".unit");
+    if (!select) return;
+    state.combo.find((c) => c.id === Number(select.dataset.id)).unit = select.value;
+    save();
+    drawCombo();
   });
   $("#fit-combo").addEventListener("click", fitCombo);
   $("#clear-combo").addEventListener("click", () => {
@@ -436,6 +481,7 @@ async function init() {
   });
 
   state.foods = await (await fetch("foods.json")).json();
+  upgradeCombo();
   render();
 }
 
