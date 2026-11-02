@@ -10,6 +10,17 @@ the ones that fit. Pick two or three foods and it works out the
 amounts that land closest to your numbers. Any mix of two foods sits on the
 line between them, and a mix of three sits inside their triangle.
 
+## Your own foods
+
+The **My foods** button opens a panel where people can add their own foods,
+meals or recipes as JSON: an object (or array of them) with `name`, `group`,
+`diet`, `unit` (one chip, one slice, one pot), and `protein`, `carbs` and
+`fat` in one unit. `grams` (weight of one unit, which lets amounts be entered
+in g or oz) and `kcal` are optional; missing calories are estimated from the
+macros. **Copy prompt** gives a
+prompt that asks a chatbot for exactly that format. They're kept in the
+browser's local storage, so Export and Import file move them between devices.
+
 ## Run it
 
 It's a static page with no build step. Serve the folder and open it:

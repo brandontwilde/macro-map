@@ -7,6 +7,7 @@ const WEIGHTS = [{ label: "g", g: 1 }, { label: "oz", g: 28.35 }];
 // PR previews share the live site's origin, so each keeps its own saved state.
 const PREVIEW_PATH = location.pathname.match(/\/pr-preview\/pr-\d+\//);
 const STORE_KEY = PREVIEW_PATH ? `macro-map${PREVIEW_PATH[0]}` : "macro-map";
+const FOODS_KEY = `${STORE_KEY}-foods`;
 
 // Triangle corners in SVG units: protein at the top, carbs bottom-left, fat bottom-right.
 const CORNERS = { p: [300, 52], c: [40, 502], f: [560, 502] };
@@ -19,11 +20,12 @@ const LABEL_FONT = 11; // SVG units; keep in step with .dot-label in style.css
 
 const state = {
   foods: [],
+  mine: [], // the person's own foods, as entered: [{ id, name, group, diet, unit, grams, protein, carbs, fat, kcal }]
   remaining: { p: 150, c: 200, f: 60 },
   combo: [], // [{ id, grams, unit }], unit being a label from units(food)
   query: "",
   focus: null, // { id, nearby: ids of the dots around it }
-  filters: { groups: [], diet: "" }, // no groups means every group; diet "", "vegetarian" or "vegan"
+  filters: { groups: [], diet: "", mine: false }, // no groups means every group; diet "", "vegetarian" or "vegan"
   view: { x: 0, y: 0, w: PLOT_W }, // visible part of the plot, in SVG units
 };
 // Reach of a pointer, in CSS px: how far from a dot a hover or tap still picks it.
@@ -45,13 +47,113 @@ function load() {
     const saved = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
     if (saved.remaining) state.remaining = saved.remaining;
     if (saved.combo) state.combo = saved.combo;
-    if (saved.filters) state.filters = saved.filters;
+    if (saved.filters) state.filters = { ...state.filters, ...saved.filters };
+  } catch {}
+  try {
+    state.mine = JSON.parse(localStorage.getItem(FOODS_KEY) || "[]");
   } catch {}
 }
 function save() {
   try {
     localStorage.setItem(STORE_KEY, JSON.stringify({ remaining: state.remaining, combo: state.combo, filters: state.filters }));
   } catch {}
+}
+
+// Custom foods are kept per unit (one chip, one bowl), the way people enter them, and converted to per 100 g for the map.
+let builtIn = [];
+function toFood(r) {
+  // Without a known weight, the macros' own weight stands in: only ratios matter then, and g/oz aren't offered.
+  const g = r.grams ?? r.protein + r.carbs + r.fat;
+  const per100 = (v) => (v / g) * 100;
+  return {
+    id: r.id, name: r.name, group: r.group, diet: r.diet, mine: true, weightless: r.grams == null,
+    p: per100(r.protein), c: per100(r.carbs), f: per100(r.fat), kcal: r.kcal == null ? null : per100(r.kcal),
+    portions: [{ label: r.unit, g }], unit: r.unit,
+  };
+}
+function setFoods() {
+  state.foods = [...builtIn, ...state.mine.map(toFood)];
+}
+function saveMine() {
+  try {
+    localStorage.setItem(FOODS_KEY, JSON.stringify(state.mine));
+  } catch {}
+  setFoods();
+}
+
+const foodPrompt = () => `Give me nutrition data for the foods below as a JSON array, one object per food, with these keys:
+- "name": short name, e.g. "Chicken burrito bowl"
+- "group": one of ${[...new Set(builtIn.map((f) => f.group))].map((g) => `"${g}"`).join(", ")}
+- "diet": "vegan", "vegetarian" or ""
+- "unit": what it's counted in, e.g. "chip", "slice", "egg", "cup", "bar"
+- "grams" (optional): weight of one unit as eaten (cooked or prepared), in grams
+- "protein", "carbs", "fat": grams in one unit
+- "kcal" (optional): calories in one unit
+For a recipe, use one portion if I say how many it makes; otherwise use the whole batch, e.g. "pot". Reply with only the JSON.
+
+My foods:
+`;
+
+// Reads pasted or uploaded JSON (an array or a single object, code fences allowed) into food records.
+function parseFoods(text) {
+  let data;
+  try {
+    data = JSON.parse(text.trim().replace(/^```\w*\s*|\s*```$/g, ""));
+  } catch {
+    return { records: [], errors: ["That isn't valid JSON. Paste just the JSON part of the reply."] };
+  }
+  const records = [], errors = [];
+  (Array.isArray(data) ? data : [data]).forEach((item, i) => {
+    const label = `Item ${i + 1}${item?.name ? ` (${item.name})` : ""}`;
+    if (!item || typeof item !== "object") return errors.push(`${label}: not an object.`);
+    const name = String(item.name ?? "").trim();
+    const num = (k) => (item[k] === "" || item[k] == null ? NaN : Number(item[k]));
+    const [protein, carbs, fat] = ["protein", "carbs", "fat"].map(num);
+    const grams = item.grams === "" || item.grams == null ? null : Number(item.grams);
+    const kcal = num("kcal");
+    if (!name) return errors.push(`${label}: needs a name.`);
+    if (grams !== null && !(grams > 0)) return errors.push(`${label}: "grams" must be a positive number, or left out.`);
+    if (![protein, carbs, fat].every((v) => v >= 0)) return errors.push(`${label}: "protein", "carbs" and "fat" must be numbers.`);
+    if (protein + carbs + fat === 0) return errors.push(`${label}: has no protein, carbs or fat.`);
+    if (grams !== null && protein + carbs + fat > grams * 1.05) return errors.push(`${label}: its macros weigh more than one unit (${grams} g).`);
+    const unit = String(item.unit ?? "").trim();
+    if (!unit) return errors.push(`${label}: needs a "unit", e.g. "slice" or "cup".`);
+    if (WEIGHTS.some((w) => w.label === unit.toLowerCase())) return errors.push(`${label}: "unit" can't be g or oz, which are always offered; use something like "piece" or "cup".`);
+    const diet = ["vegan", "vegetarian"].includes(item.diet) ? item.diet : null;
+    records.push({
+      name, group: String(item.group ?? "").trim() || "Other", diet, unit, grams, protein, carbs, fat,
+      kcal: kcal >= 0 ? kcal : null,
+    });
+  });
+  return { records, errors };
+}
+
+// A food with the same name as one already added replaces it, keeping its place in any combo.
+function addMine(records) {
+  let next = Math.min(0, ...state.mine.map((r) => r.id)) - 1; // negative ids never clash with USDA ones
+  for (const r of records) {
+    const old = state.mine.find((m) => m.name.toLowerCase() === r.name.toLowerCase());
+    if (old) Object.assign(old, r);
+    else state.mine.push({ id: next--, ...r });
+  }
+  saveMine();
+}
+
+function removeMine(id) {
+  state.mine = state.mine.filter((r) => r.id !== id);
+  state.combo = state.combo.filter((c) => c.id !== id);
+  if (state.focus?.id === id) state.focus = null;
+  saveMine();
+  save();
+}
+
+function exportMine() {
+  const json = JSON.stringify(state.mine.map(({ id, ...r }) => r), null, 1);
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([json + "\n"], { type: "application/json" }));
+  a.download = "my-foods.json";
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
 function toXY(m) {
@@ -69,7 +171,7 @@ function perGram(food) {
   return { p: food.p / 100, c: food.c / 100, f: food.f / 100 };
 }
 
-const units = (food) => [...food.portions, ...WEIGHTS];
+const units = (food) => (food.weightless ? food.portions : [...food.portions, ...WEIGHTS]);
 
 function findUnit(food, label) {
   const all = units(food);
@@ -112,7 +214,7 @@ function serving(food) {
 
 function servingText(food, grams, unit) {
   const u = findUnit(food, unit);
-  return WEIGHTS.includes(u) ? amountText(u, grams) : `${amountText(u, grams)} (${Math.round(grams)} g)`;
+  return WEIGHTS.includes(u) || food.weightless ? amountText(u, grams) : `${amountText(u, grams)} (${Math.round(grams)} g)`;
 }
 
 function comboItems() {
@@ -183,6 +285,7 @@ function gaussSolve(M, b) {
 
 function passesFilters(food) {
   const { groups, diet } = state.filters;
+  if (state.filters.mine && state.mine.length && !food.mine) return false;
   if (groups.length && !groups.includes(food.group)) return false;
   return diet === "vegan" ? food.diet === "vegan" : diet === "vegetarian" ? !!food.diet : true;
 }
@@ -276,10 +379,11 @@ function drawPlot(rank) {
     const n = matchRank.get(food.id);
     const selected = inCombo(food.id);
     const g = n ? top : dots;
-    g.append(svgEl("circle", {
-      class: `dot${n ? " match" : ""}${selected ? " selected" : ""}`,
-      cx: xy[0], cy: xy[1], r: n ? 9 : 5,
-    }));
+    const cls = `dot${n ? " match" : ""}${selected ? " selected" : ""}`;
+    const r = n ? 9 : 5;
+    g.append(food.mine
+      ? svgEl("rect", { class: cls, x: xy[0] - r, y: xy[1] - r, width: 2 * r, height: 2 * r, transform: `rotate(45 ${xy[0]} ${xy[1]})` })
+      : svgEl("circle", { class: cls, cx: xy[0], cy: xy[1], r }));
     if (n) {
       const t = svgEl("text", { class: "dot-num", x: xy[0], y: xy[1] });
       t.textContent = n;
@@ -417,7 +521,7 @@ function drawList(rank) {
   ol.innerHTML = rows.map(({ food, grams, unit, share, n }) => `
     <li data-id="${food.id}" class="${inCombo(food.id) ? "selected" : ""}">
       <span class="rank">${n}</span>
-      <span class="name" title="${food.name}">${food.name}</span>
+      <span class="name" title="${esc(food.name)}">${esc(food.name)}</span>
       <span class="amount">${servingText(food, grams, unit)}</span>
       <span class="sub">${splitBar(food)}<span class="fill">${macroLine(macrosOf(food, grams), " g")}</span><span class="fill">${pctText(share)}</span></span>
     </li>`).join("");
@@ -435,12 +539,12 @@ function drawCombo() {
     return `
     <li>
       <span class="rank">${i + 1}</span>
-      <span class="name">${food.name}</span>
-      <button type="button" class="remove" data-id="${food.id}" aria-label="Remove ${food.name}">×</button>
+      <span class="name">${esc(food.name)}</span>
+      <button type="button" class="remove" data-id="${food.id}" aria-label="Remove ${esc(food.name)}">×</button>
       <span class="serving">
         <input type="number" class="qty" data-id="${food.id}" min="0" step="${stepOf(unit)}" value="${qtyIn(unit, grams)}"
-          aria-label="Amount of ${food.name}">
-        <select class="unit" data-id="${food.id}" aria-label="Unit for ${food.name}">${options}</select>
+          aria-label="Amount of ${esc(food.name)}">
+        <select class="unit" data-id="${food.id}" aria-label="Unit for ${esc(food.name)}">${options}</select>
         <span class="muted equiv" data-id="${food.id}"></span>
       </span>
       <span class="sub">${splitBar(food)}<span class="item-macros" data-id="${food.id}"></span></span>
@@ -452,9 +556,9 @@ function drawCombo() {
 
 function drawComboTotals(items) {
   for (const { food, grams, unit } of items) {
-    const others = [findUnit(food, food.unit), ...WEIGHTS].filter((u, i, all) =>
+    const others = [findUnit(food, food.unit), ...units(food).filter((u) => WEIGHTS.includes(u))].filter((u, i, all) =>
       u.label !== unit && all.findIndex((v) => v.label === u.label) === i);
-    $(`.equiv[data-id="${food.id}"]`).textContent = `= ${others.map((u) => amountText(u, grams)).join(" · ")}`;
+    $(`.equiv[data-id="${food.id}"]`).textContent = others.length ? `= ${others.map((u) => amountText(u, grams)).join(" · ")}` : "";
     $(`.item-macros[data-id="${food.id}"]`).textContent = macroLine(macrosOf(food, grams), " g");
   }
 
@@ -485,11 +589,13 @@ function fitCombo() {
   render();
 }
 
-const foodTitle = (food) => `<b>${food.name}</b><span class="food-group">${food.group}</span>`;
+const foodTitle = (food) =>
+  `<b>${esc(food.name)}</b><span class="food-group">${esc(food.group)}${food.mine ? " · my food" : ""}</span>`;
 const pctText = (share) => `${share > 0 && share < 0.005 ? "<1" : Math.round(share * 100)}% of target`;
 
 function foodDetails({ food, grams, unit, share }) {
-  const kcal = food.kcal ? ` · ${Math.round((food.kcal * grams) / 100)} kcal` : "";
+  const per100 = food.kcal ?? 4 * food.p + 4 * food.c + 9 * food.f; // Atwater factors when no calorie count is given
+  const kcal = per100 ? ` · ${Math.round((per100 * grams) / 100)} kcal` : "";
   return `<div>${servingText(food, grams, unit)}${kcal}</div>
     <div class="muted">${macroLine(macrosOf(food, grams), " g")} · ${pctText(share)}</div>`;
 }
@@ -529,7 +635,7 @@ function drawDotCard() {
     <div class="dot-card-body">${splitBar(food)}<div>${foodDetails(dot)}</div></div>
     <button type="button" class="button" data-action="toggle">${inCombo(food.id) ? "Remove from combo" : "Add to combo"}</button>
     ${others.length ? `<div class="nearby">Also here: ${others.map((f) =>
-      `<button type="button" class="link" data-action="show" data-id="${f.id}">${f.name}</button>`).join("")}</div>` : ""}`;
+      `<button type="button" class="link" data-action="show" data-id="${f.id}">${esc(f.name)}</button>`).join("")}</div>` : ""}`;
 }
 
 function showTip(e, dot) {
@@ -566,6 +672,7 @@ const DIETS = [["", "Any diet"], ["vegetarian", "Vegetarian"], ["vegan", "Vegan"
 
 function drawFilters() {
   const { groups, diet } = state.filters;
+  const mine = state.filters.mine && state.mine.length > 0;
   const all = [...new Set(state.foods.map((f) => f.group))];
   const chip = (attrs, label, on) => `<button type="button" class="chip" ${attrs} aria-pressed="${on}">${esc(label)}</button>`;
   $("#filters").innerHTML = `
@@ -575,7 +682,8 @@ function drawFilters() {
     </div>
     <div class="filter-row" role="group" aria-labelledby="groups-label">
       <span class="filter-label" id="groups-label">Show</span>
-      <div class="chips">${chip('data-group=""', "All foods", !groups.length)}${
+      <div class="chips">${chip('data-group=""', "All foods", !groups.length && !mine)}${
+        state.mine.length ? chip("data-mine", "My foods", mine) : ""}${
         all.map((g) => chip(`data-group="${esc(g)}"`, g, groups.includes(g))).join("")}</div>
     </div>`;
 }
@@ -587,6 +695,32 @@ function render() {
   drawList(rank);
   drawCombo();
   drawDotCard();
+  drawMine();
+}
+
+function drawMine() {
+  $("#mine-count").textContent = state.mine.length ? `(${state.mine.length})` : "";
+  $("#export-mine").hidden = !state.mine.length;
+  $("#mine-list").innerHTML = state.mine.map((r) => `
+    <li>
+      <span class="name">${esc(r.name)}</span>
+      <span class="muted">1 ${esc(r.unit)}${r.grams == null ? "" : ` (${fmt(r.grams)} g)`} · ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")}</span>
+      <button type="button" class="remove" data-id="${r.id}" aria-label="Delete ${esc(r.name)}">×</button>
+    </li>`).join("");
+}
+
+function importFoods(text) {
+  const { records, errors } = parseFoods(text);
+  if (records.length) {
+    addMine(records);
+    upgradeCombo();
+    render();
+  }
+  const added = records.length ? `Added ${records.length} food${records.length > 1 ? "s" : ""}.` : "";
+  const msg = $("#mine-msg");
+  msg.classList.toggle("over", !!errors.length);
+  msg.innerHTML = [added, ...errors].filter(Boolean).map(esc).join("<br>");
+  if (records.length && !errors.length) $("#mine-json").value = "";
 }
 
 const THEME_KEY = "macro-map-theme";
@@ -706,7 +840,8 @@ async function init() {
     if (!btn) return;
     const f = state.filters;
     if ("diet" in btn.dataset) f.diet = btn.dataset.diet;
-    else if (!btn.dataset.group) f.groups = [];
+    else if ("mine" in btn.dataset) f.mine = !f.mine;
+    else if (!btn.dataset.group) [f.groups, f.mine] = [[], false];
     else if (f.groups.includes(btn.dataset.group)) f.groups = f.groups.filter((g) => g !== btn.dataset.group);
     else f.groups = [...f.groups, btn.dataset.group];
     state.focus = null;
@@ -757,7 +892,39 @@ async function init() {
     render();
   });
 
-  state.foods = await (await fetch("foods.json")).json();
+  $("#copy-prompt").addEventListener("click", async (e) => {
+    try {
+      await navigator.clipboard.writeText(foodPrompt());
+      e.target.textContent = "Copied";
+    } catch {
+      $("#mine-json").value = foodPrompt(); // clipboard can be blocked; leave it where it can be copied by hand
+      e.target.textContent = "Copy it from the box";
+    }
+    setTimeout(() => (e.target.textContent = "Copy prompt"), 2000);
+  });
+  const showMine = (open) => {
+    $("#mine").hidden = !open;
+    $("#mine-toggle").setAttribute("aria-expanded", open);
+    $("#mine-toggle").setAttribute("aria-pressed", open);
+  };
+  $("#mine-toggle").addEventListener("click", () => showMine($("#mine").hidden));
+  $("#close-mine").addEventListener("click", () => showMine(false));
+  $("#add-mine").addEventListener("click", () => importFoods($("#mine-json").value));
+  $("#import-mine").addEventListener("change", async (e) => {
+    const [file] = e.target.files;
+    if (file) importFoods(await file.text());
+    e.target.value = "";
+  });
+  $("#export-mine").addEventListener("click", exportMine);
+  $("#mine-list").addEventListener("click", (e) => {
+    const btn = e.target.closest(".remove");
+    if (!btn) return;
+    removeMine(Number(btn.dataset.id));
+    render();
+  });
+
+  builtIn = await (await fetch("foods.json")).json();
+  setFoods();
   upgradeCombo();
   render();
 }

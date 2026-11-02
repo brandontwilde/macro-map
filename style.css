@@ -62,7 +62,9 @@ body {
 header, main, footer { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
 header { padding-top: 24px; }
 h1 { margin: 0 0 4px; font-size: 24px; }
-.title-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.title-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
+.title-row h1 { white-space: nowrap; }
+.title-row .controls { flex: none; }
 h2 { margin: 0; font-size: 15px; }
 .lede { margin: 0 0 16px; color: var(--text-secondary); }
 .target-key {
@@ -224,3 +226,22 @@ ol { list-style: none; margin: 0; padding: 0; }
   .amount { grid-column: 2; text-align: left; }
 }
 .sub span { white-space: nowrap; }
+
+#mine { margin: 0 max(16px, (100% - 1088px) / 2) 16px; } /* lines up with main's 1120px column and 16px gutters */
+#mine[hidden] { display: none; }
+#mine-toggle[aria-pressed="true"] { background: var(--select); border-color: var(--text-muted); }
+#mine-count:not(:empty) { color: var(--text-muted); }
+#mine-list { list-style: none; margin: 0 0 10px; padding: 0; }
+#mine-list li {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 10px; align-items: center;
+  padding: 6px 0; border-top: 1px solid var(--border); font-size: 13px;
+}
+#mine-list .muted { grid-column: 1; font-size: 12px; }
+#mine-list .remove { grid-row: 1 / 3; grid-column: 2; }
+#mine-json {
+  display: block; width: 100%; font: 12px/1.4 ui-monospace, monospace; color: inherit; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; resize: vertical;
+}
+#mine-msg:empty { display: none; }
+#mine-msg.over { color: var(--over); }
+.controls.wrap { flex-wrap: wrap; margin-top: 10px; }
