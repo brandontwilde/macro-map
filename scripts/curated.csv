@@ -40,19 +40,19 @@ fdc_id,name,group,diet,portion,portion_label
 173418,Cream cheese,Eggs & dairy,vegetarian,tbsp,
 171257,Sour cream,Eggs & dairy,vegetarian,tbsp,
 167575,Vanilla ice cream,Eggs & dairy,vegetarian,cup,½ cup
-173180,Whey protein powder,Plant & other protein,vegetarian,cup,
-172448,Tofu (firm),Plant & other protein,vegan,block,
-174272,Tempeh,Plant & other protein,vegan,cup,
-168147,Seitan (vital wheat gluten),Plant & other protein,vegan,oz,
-168411,Edamame,Plant & other protein,vegan,cup,
-173735,Black beans (cooked),Plant & other protein,vegan,cup,
-173740,Kidney beans (cooked),Plant & other protein,vegan,cup,
-175200,Pinto beans (cooked),Plant & other protein,vegan,cup,
-172421,Lentils (cooked),Plant & other protein,vegan,cup,
-173757,Chickpeas (cooked),Plant & other protein,vegan,cup,
-172438,Refried beans,Plant & other protein,,cup,
-174289,Hummus,Plant & other protein,vegan,tbsp,
-172446,Soy milk,Plant & other protein,vegan,cup,
+173180,Whey protein powder,Eggs & dairy,vegetarian,cup,
+172448,Tofu (firm),Plant protein,vegan,block,
+174272,Tempeh,Plant protein,vegan,cup,
+168147,Seitan (vital wheat gluten),Plant protein,vegan,oz,
+168411,Edamame,Plant protein,vegan,cup,
+173735,Black beans (cooked),Plant protein,vegan,cup,
+173740,Kidney beans (cooked),Plant protein,vegan,cup,
+175200,Pinto beans (cooked),Plant protein,vegan,cup,
+172421,Lentils (cooked),Plant protein,vegan,cup,
+173757,Chickpeas (cooked),Plant protein,vegan,cup,
+172438,Refried beans,Plant protein,,cup,
+174289,Hummus,Plant protein,vegan,tbsp,
+172446,Soy milk,Plant protein,vegan,cup,
 168878,White rice (cooked),Grains & starches,vegan,cup,
 169704,Brown rice (cooked),Grains & starches,vegan,cup,
 168897,Wild rice (cooked),Grains & starches,vegan,cup,
@@ -139,12 +139,12 @@ fdc_id,name,group,diet,portion,portion_label
 174990,Cake donut,Snacks & sweets,vegetarian,medium,donut
 172765,Blueberry muffin,Snacks & sweets,vegetarian,muffin,
 174987,Butter croissant,Snacks & sweets,vegetarian,medium,croissant
-170693,Hamburger (fast food),Prepared & drinks,,sandwich,
-170698,French fries (fast food),Prepared & drinks,vegan,serving medium,medium serving
-172039,Bean & cheese burrito,Prepared & drinks,vegetarian,burrito,
-170317,Cheese pizza (frozen),Prepared & drinks,vegetarian,9 servings,slice
-171192,Marinara sauce,Prepared & drinks,vegan,serving 1/2 cup,½ cup
-168556,Ketchup,Prepared & drinks,vegan,tbsp,
-174852,Cola,Prepared & drinks,vegan,can,can
-173190,Red wine,Prepared & drinks,vegan,fl oz,
-174832,Almond milk (unsweetened),Prepared & drinks,vegan,cup,
+170693,Hamburger (fast food),Prepared foods,,sandwich,
+170698,French fries (fast food),Prepared foods,vegan,serving medium,medium serving
+172039,Bean & cheese burrito,Prepared foods,vegetarian,burrito,
+170317,Cheese pizza (frozen),Prepared foods,vegetarian,9 servings,slice
+171192,Marinara sauce,Prepared foods,vegan,serving 1/2 cup,½ cup
+168556,Ketchup,Prepared foods,vegan,tbsp,
+174852,Cola,Drinks,vegan,can,can
+173190,Red wine,Drinks,vegan,fl oz,
+174832,Almond milk (unsweetened),Drinks,vegan,cup,

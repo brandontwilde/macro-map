@@ -572,11 +572,16 @@ function drawFilters() {
   const { groups, diet } = state.filters;
   const all = [...new Set(state.foods.map((f) => f.group))];
   const chip = (attrs, label, on) => `<button type="button" class="chip" ${attrs} aria-pressed="${on}">${esc(label)}</button>`;
-  $("#filters").innerHTML =
-    `<div class="chips" role="group" aria-label="Food groups">${chip('data-group=""', "All foods", !groups.length)}${
-      all.map((g) => chip(`data-group="${esc(g)}"`, g, groups.includes(g))).join("")}</div>` +
-    `<div class="chips" role="group" aria-label="Diet">${
-      DIETS.map(([value, label]) => chip(`data-diet="${value}"`, label, diet === value)).join("")}</div>`;
+  $("#filters").innerHTML = `
+    <div class="filter-row" role="group" aria-labelledby="groups-label">
+      <span class="filter-label" id="groups-label">Show</span>
+      <div class="chips">${chip('data-group=""', "All foods", !groups.length)}${
+        all.map((g) => chip(`data-group="${esc(g)}"`, g, groups.includes(g))).join("")}</div>
+    </div>
+    <div class="filter-row" role="group" aria-labelledby="diet-label">
+      <span class="filter-label" id="diet-label">Diet</span>
+      <div class="segmented">${DIETS.map(([value, label]) => chip(`data-diet="${value}"`, label, diet === value)).join("")}</div>
+    </div>`;
 }
 
 function render() {
