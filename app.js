@@ -3,7 +3,9 @@ const MACRO_NAMES = { p: "Protein", c: "Carbs", f: "Fat" };
 const TOP_MATCHES = 5;
 const LIST_LENGTH = 30;
 const MAX_COMBO = 3;
-const STORE_KEY = "macro-map";
+// PR previews share the live site's origin, so each keeps its own saved state.
+const PREVIEW_PATH = location.pathname.match(/\/pr-preview\/pr-\d+\//);
+const STORE_KEY = PREVIEW_PATH ? `macro-map${PREVIEW_PATH[0]}` : "macro-map";
 
 // Triangle corners in SVG units: protein at the top, carbs bottom-left, fat bottom-right.
 const CORNERS = { p: [300, 52], c: [40, 502], f: [560, 502] };

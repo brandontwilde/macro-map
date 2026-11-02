@@ -1,0 +1,23 @@
+name: Deploy site
+on:
+  push:
+    branches: [main]
+
+concurrency: gh-pages-main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Collect site files
+        run: rsync -a --exclude .git --exclude .github --exclude scripts ./ "$RUNNER_TEMP/site/"
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ${{ runner.temp }}/site
+          branch: gh-pages
+          clean-exclude: pr-preview # leave open PR previews in place
+          force: false
