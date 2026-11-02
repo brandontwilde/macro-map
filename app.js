@@ -20,17 +20,15 @@ const LABEL_FONT = 11; // SVG units; keep in step with .dot-label in style.css
 const state = {
   foods: [],
   remaining: { p: 150, c: 200, f: 60 },
-  maxGrams: 400,
   combo: [], // [{ id, grams, unit }], unit being a label from units(food)
   query: "",
-  sort: "closest",
   focus: null, // { id, nearby: ids of the dots around it }
   filters: { groups: [], diet: "" }, // no groups means every group; diet "", "vegetarian" or "vegan"
   view: { x: 0, y: 0, w: PLOT_W }, // visible part of the plot, in SVG units
 };
 // Reach of a pointer, in CSS px: how far from a dot a hover or tap still picks it.
 const REACH = { mouse: 14, touch: 24 };
-let plotDots = []; // [{ food, grams, share, x, y }] in SVG units
+let plotDots = []; // [{ food, grams, unit, share, x, y }] in SVG units
 let lastPointer = "mouse";
 
 const $ = (sel) => document.querySelector(sel);
@@ -47,13 +45,12 @@ function load() {
     const saved = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
     if (saved.remaining) state.remaining = saved.remaining;
     if (saved.combo) state.combo = saved.combo;
-    if (saved.maxGrams) state.maxGrams = saved.maxGrams;
     if (saved.filters) state.filters = saved.filters;
   } catch {}
 }
 function save() {
   try {
-    localStorage.setItem(STORE_KEY, JSON.stringify({ remaining: state.remaining, combo: state.combo, maxGrams: state.maxGrams, filters: state.filters }));
+    localStorage.setItem(STORE_KEY, JSON.stringify({ remaining: state.remaining, combo: state.combo, filters: state.filters }));
   } catch {}
 }
 
@@ -70,17 +67,6 @@ function toXY(m) {
 
 function perGram(food) {
   return { p: food.p / 100, c: food.c / 100, f: food.f / 100 };
-}
-
-// Largest amount of a food, up to maxGrams, that doesn't push any macro past what's left.
-function fit(food, r, maxGrams) {
-  const v = perGram(food);
-  let grams = Infinity;
-  for (const k of MACROS) if (v[k] > 0) grams = Math.min(grams, Math.max(r[k], 0) / v[k]);
-  grams = isFinite(grams) ? Math.min(grams, maxGrams) : 0;
-  const left = MACROS.reduce((s, k) => s + Math.max(r[k], 0), 0);
-  const covered = MACROS.reduce((s, k) => s + grams * v[k], 0);
-  return { grams, share: left ? covered / left : 0 };
 }
 
 const units = (food) => [...food.portions, ...WEIGHTS];
@@ -116,6 +102,19 @@ const qtyIn = (unit, grams) => {
 };
 const amountText = (unit, grams) => `${qtyIn(unit, grams)} ${unit.label}`;
 
+// A typical serving and the share of the target's grams (all macros together) it provides.
+function serving(food) {
+  const { grams, unit } = newEntry(food);
+  const target = MACROS.reduce((s, k) => s + state.remaining[k], 0);
+  const got = MACROS.reduce((s, k) => s + macrosOf(food, grams)[k], 0);
+  return { grams, unit, share: target ? got / target : 0 };
+}
+
+function servingText(food, grams, unit) {
+  const u = findUnit(food, unit);
+  return WEIGHTS.includes(u) ? amountText(u, grams) : `${amountText(u, grams)} (${Math.round(grams)} g)`;
+}
+
 function comboItems() {
   return state.combo
     .map((c) => ({ ...c, food: state.foods.find((f) => f.id === c.id) }))
@@ -137,14 +136,6 @@ function comboTotal(items) {
 }
 
 const inCombo = (id) => state.combo.some((c) => c.id === id);
-
-function portionText(food, grams) {
-  const unit = findUnit(food, food.unit);
-  if (unit.label === "g") return `${Math.round(grams)} g`;
-  const n = grams / unit.g;
-  const count = n >= 10 ? Math.round(n) : Math.round(n * 4) / 4;
-  return `${Math.round(grams)} g · ≈${count} ${unit.label}`;
-}
 
 // Least squares in grams-per-food: minimise |A x − r| with x ≥ 0, by trying every
 // subset of foods and keeping the best one whose unconstrained solution is non-negative.
@@ -190,13 +181,13 @@ function gaussSolve(M, b) {
   return a.map((row, i) => row[n] / row[i]);
 }
 
-// "closest": nearest on the triangle to the split of what's left. "covers": most of what's left filled.
 function passesFilters(food) {
   const { groups, diet } = state.filters;
   if (groups.length && !groups.includes(food.group)) return false;
   return diet === "vegan" ? food.diet === "vegan" : diet === "vegetarian" ? !!food.diet : true;
 }
 
+// Nearest first, on the triangle, to the target's split.
 function ranked() {
   const target = toXY(state.remaining);
   const dist = (food) => {
@@ -205,8 +196,8 @@ function ranked() {
   };
   return state.foods
     .filter(passesFilters)
-    .map((food) => ({ food, d: dist(food), ...fit(food, state.remaining, state.maxGrams) }))
-    .sort(state.sort === "covers" ? (a, b) => b.share - a.share : (a, b) => a.d - b.d);
+    .map((food) => ({ food, d: dist(food), ...serving(food) }))
+    .sort((a, b) => a.d - b.d);
 }
 
 function splitBar(m) {
@@ -278,10 +269,10 @@ function drawPlot(rank) {
   const dots = svgEl("g");
   const top = svgEl("g");
   plotDots = [];
-  for (const { food, grams, share } of rank) {
+  for (const { food, grams, unit, share } of rank) {
     const xy = plotXY(food);
     if (!xy) continue;
-    plotDots.push({ food, grams, share, x: xy[0], y: xy[1] });
+    plotDots.push({ food, grams, unit, share, x: xy[0], y: xy[1] });
     const n = matchRank.get(food.id);
     const selected = inCombo(food.id);
     const g = n ? top : dots;
@@ -423,12 +414,12 @@ function drawList(rank) {
     ol.innerHTML = `<li class="empty">${q ? `No foods match “${esc(state.query)}”` : "No foods pass the filters"}.</li>`;
     return;
   }
-  ol.innerHTML = rows.map(({ food, grams, share, n }) => `
+  ol.innerHTML = rows.map(({ food, grams, unit, share, n }) => `
     <li data-id="${food.id}" class="${inCombo(food.id) ? "selected" : ""}">
       <span class="rank">${n}</span>
       <span class="name" title="${food.name}">${food.name}</span>
-      <span class="amount">${grams > 0 ? portionText(food, grams) : "—"}</span>
-      <span class="sub">${splitBar(food)}<span class="fill">covers ${Math.round(share * 100)}%</span><span>${food.group}</span></span>
+      <span class="amount">${servingText(food, grams, unit)}</span>
+      <span class="sub">${splitBar(food)}<span class="fill">${macroLine(macrosOf(food, grams), " g")}</span><span class="fill">${pctText(share)}</span></span>
     </li>`).join("");
 }
 
@@ -474,13 +465,13 @@ function drawComboTotals(items) {
   $("#combo-totals").innerHTML =
     `<tr><th></th>${MACROS.map((k) => `<th>${MACRO_NAMES[k]}</th>`).join("")}</tr>` +
     row("Combo gives", total) +
-    row("Left to eat", state.remaining) +
+    row("Target", state.remaining) +
     `<tr><td>Still to go</td>${MACROS.map((k) =>
       `<td class="${diff[k] < -0.5 ? "over" : ""}">${diff[k] < -0.5 ? `${fmt(-diff[k])} g over` : `${fmt(Math.max(diff[k], 0))} g`}</td>`
     ).join("")}</tr>`;
 }
 
-// Amounts that land closest to what's left, rounded to each food's step in its chosen unit.
+// Amounts that land closest to the target, rounded to each food's step in its chosen unit.
 function fitCombo() {
   const items = comboItems();
   const grams = solveCombo(items.map((c) => c.food), state.remaining);
@@ -494,9 +485,11 @@ function fitCombo() {
   render();
 }
 
-function foodDetails({ food, grams, share }) {
-  return `<div class="muted">per 100 g: ${macroLine(food)}${food.kcal ? ` · ${Math.round(food.kcal)} kcal` : ""}</div>
-    <div>${grams > 0 ? `${portionText(food, grams)} covers ${Math.round(share * 100)}% of what's left` : "Nothing left it can fill"}</div>`;
+const pctText = (share) => `${share > 0 && share < 0.005 ? "<1" : Math.round(share * 100)}% of target`;
+
+function foodDetails({ food, grams, unit, share }) {
+  return `<div class="muted">${food.group} · per 100 g: ${macroLine(food)}${food.kcal ? ` · ${Math.round(food.kcal)} kcal` : ""}</div>
+    <div>${servingText(food, grams, unit)}: ${macroLine(macrosOf(food, grams), " g")} · ${pctText(share)}</div>`;
 }
 
 // Dots within reach (in CSS px) of a pointer event or an SVG point, nearest first.
@@ -625,20 +618,14 @@ async function init() {
   setupThemeToggle();
   const form = $("#remaining");
   for (const k of MACROS) form.elements[k].value = state.remaining[k];
-  form.elements.max.value = state.maxGrams;
   form.addEventListener("input", () => {
     for (const k of MACROS) state.remaining[k] = Math.max(0, Number(form.elements[k].value) || 0);
-    state.maxGrams = Math.max(1, Number(form.elements.max.value) || 400);
     save();
     render();
   });
   $("#search").addEventListener("input", (e) => {
     state.query = e.target.value;
     drawList(ranked());
-  });
-  $("#sort").addEventListener("change", (e) => {
-    state.sort = e.target.value;
-    render();
   });
   // A mouse hovers for details and clicks to add; a tap opens a details card instead,
   // since a fingertip usually covers several dots and there's no hover.
