@@ -121,7 +121,18 @@ select { width: auto; }
 .dot.match { fill: var(--dot-match); }
 .dot.selected { stroke: var(--text-primary); stroke-width: 3; }
 .dot-num { font-size: 10px; font-weight: 700; fill: var(--surface); pointer-events: none; text-anchor: middle; dominant-baseline: central; }
-.hit { fill: transparent; cursor: pointer; }
+.focus-ring { fill: none; stroke: var(--text-primary); stroke-width: 2; pointer-events: none; }
+#dot-card {
+  display: grid; gap: 8px; justify-items: start; margin: 4px 0 8px; padding: 10px 12px;
+  border: 1px solid var(--border); border-radius: 8px; font-size: 13px;
+}
+#dot-card[hidden] { display: none; }
+.dot-card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; width: 100%; }
+.dot-card-body { display: flex; align-items: center; gap: 10px; }
+.dot-card-body .muted { color: var(--text-muted); }
+.nearby { color: var(--text-muted); }
+.nearby .link { padding: 0 6px 0 0; }
+.nearby .link + .link::before { content: "· "; color: var(--text-muted); text-decoration: none; display: inline-block; padding-right: 6px; }
 .target circle { fill: none; stroke: var(--text-primary); stroke-width: 2; }
 .target line { stroke: var(--text-primary); stroke-width: 2; }
 .combo-shape { fill: var(--text-primary); fill-opacity: 0.06; stroke: var(--text-secondary); stroke-width: 1.5; stroke-dasharray: 5 4; }

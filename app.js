@@ -18,7 +18,12 @@ const state = {
   combo: [], // [{ id, grams, unit }], unit being a label from units(food)
   query: "",
   sort: "closest",
+  focus: null, // { id, group: ids of every dot under the tap }
 };
+// Reach of a pointer, in CSS px: how far from a dot a hover or tap still picks it.
+const REACH = { mouse: 14, touch: 24 };
+let plotDots = []; // [{ food, grams, share, x, y }] in SVG units
+let lastPointer = "mouse";
 
 const $ = (sel) => document.querySelector(sel);
 const svgEl = (tag, attrs = {}) => {
@@ -240,13 +245,14 @@ function drawPlot(rank) {
   const matchRank = new Map(rank.slice(0, TOP_MATCHES).map((r, i) => [r.food.id, i + 1]));
   const dots = svgEl("g");
   const top = svgEl("g");
+  plotDots = [];
   for (const { food, grams, share } of rank) {
     const xy = toXY(food);
     if (!xy) continue;
+    plotDots.push({ food, grams, share, x: xy[0], y: xy[1] });
     const n = matchRank.get(food.id);
     const selected = inCombo(food.id);
-    const g = svgEl("g");
-    g.append(svgEl("circle", { class: "hit", cx: xy[0], cy: xy[1], r: 12 }));
+    const g = n ? top : dots;
     g.append(svgEl("circle", {
       class: `dot${n ? " match" : ""}${selected ? " selected" : ""}`,
       cx: xy[0], cy: xy[1], r: n ? 9 : 5,
@@ -256,13 +262,11 @@ function drawPlot(rank) {
       t.textContent = n;
       g.append(t);
     }
-    g.addEventListener("pointerenter", (e) => showTip(e, food, grams, share));
-    g.addEventListener("pointermove", moveTip);
-    g.addEventListener("pointerleave", hideTip);
-    g.addEventListener("click", () => toggleCombo(food.id));
-    (n ? top : dots).append(g);
   }
   svg.append(dots, top);
+
+  const focused = state.focus && plotDots.find((d) => d.food.id === state.focus.id);
+  if (focused) svg.append(svgEl("circle", { class: "focus-ring", cx: focused.x, cy: focused.y, r: 13 }));
 
   const target = toXY(state.remaining);
   if (target) {
@@ -361,11 +365,45 @@ function fitCombo() {
   render();
 }
 
-function showTip(e, food, grams, share) {
-  const tip = $("#tip");
-  tip.innerHTML = `<b>${food.name}</b>
-    <div class="muted">per 100 g: ${macroLine(food)}${food.kcal ? ` · ${Math.round(food.kcal)} kcal` : ""}</div>
+function foodDetails({ food, grams, share }) {
+  return `<div class="muted">per 100 g: ${macroLine(food)}${food.kcal ? ` · ${Math.round(food.kcal)} kcal` : ""}</div>
     <div>${grams > 0 ? `${portionText(food, grams)} covers ${Math.round(share * 100)}% of what's left` : "Nothing left it can fill"}</div>`;
+}
+
+// Dots within the pointer's reach, nearest first.
+function dotsNear(e, reach) {
+  const svg = $("#tri");
+  const { x, y } = new DOMPoint(e.clientX, e.clientY).matrixTransform(svg.getScreenCTM().inverse());
+  const r = reach * (svg.viewBox.baseVal.width / svg.getBoundingClientRect().width);
+  return plotDots
+    .map((d) => ({ d, dist: Math.hypot(d.x - x, d.y - y) }))
+    .filter(({ dist }) => dist <= r)
+    .sort((a, b) => a.dist - b.dist)
+    .map(({ d }) => d);
+}
+
+function drawDotCard() {
+  const card = $("#dot-card");
+  const dot = state.focus && plotDots.find((d) => d.food.id === state.focus.id);
+  card.hidden = !dot;
+  if (!dot) return;
+  const { food } = dot;
+  const others = state.focus.group.filter((id) => id !== food.id)
+    .map((id) => state.foods.find((f) => f.id === id));
+  card.innerHTML = `
+    <div class="dot-card-head">
+      <b>${food.name}</b>
+      <button type="button" class="remove" data-action="close" aria-label="Close details">×</button>
+    </div>
+    <div class="dot-card-body">${splitBar(food)}<div>${foodDetails(dot)}</div></div>
+    <button type="button" class="button" data-action="toggle">${inCombo(food.id) ? "Remove from combo" : "Add to combo"}</button>
+    ${others.length ? `<div class="nearby">Also here: ${others.map((f) =>
+      `<button type="button" class="link" data-action="show" data-id="${f.id}">${f.name}</button>`).join("")}</div>` : ""}`;
+}
+
+function showTip(e, dot) {
+  const tip = $("#tip");
+  tip.innerHTML = `<b>${dot.food.name}</b>${foodDetails(dot)}`;
   tip.hidden = false;
   moveTip(e);
 }
@@ -398,6 +436,7 @@ function render() {
   drawPlot(rank);
   drawList(rank);
   drawCombo();
+  drawDotCard();
 }
 
 const THEME_KEY = "macro-map-theme";
@@ -445,6 +484,37 @@ async function init() {
   $("#sort").addEventListener("change", (e) => {
     state.sort = e.target.value;
     render();
+  });
+  // A mouse hovers for details and clicks to add; a tap opens a details card instead,
+  // since a fingertip usually covers several dots and there's no hover.
+  const svg = $("#tri");
+  svg.addEventListener("pointerdown", (e) => (lastPointer = e.pointerType));
+  svg.addEventListener("pointermove", (e) => {
+    if (e.pointerType !== "mouse") return;
+    const [dot] = dotsNear(e, REACH.mouse);
+    svg.style.cursor = dot ? "pointer" : "";
+    if (dot) showTip(e, dot);
+    else hideTip();
+  });
+  svg.addEventListener("pointerleave", hideTip);
+  svg.addEventListener("click", (e) => {
+    if (lastPointer === "mouse") {
+      const [dot] = dotsNear(e, REACH.mouse);
+      if (dot) toggleCombo(dot.food.id);
+      return;
+    }
+    const near = dotsNear(e, REACH.touch);
+    state.focus = near.length ? { id: near[0].food.id, group: near.slice(0, 6).map((d) => d.food.id) } : null;
+    drawPlot(ranked());
+    drawDotCard();
+  });
+  $("#dot-card").addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn) return;
+    if (btn.dataset.action === "toggle") return toggleCombo(state.focus.id);
+    state.focus = btn.dataset.action === "show" ? { ...state.focus, id: Number(btn.dataset.id) } : null;
+    drawPlot(ranked());
+    drawDotCard();
   });
   $("#ranked").addEventListener("click", (e) => {
     const li = e.target.closest("li[data-id]");
