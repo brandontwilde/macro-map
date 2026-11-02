@@ -137,7 +137,10 @@ ol { list-style: none; margin: 0; padding: 0; }
 .split .c { background: var(--carbs); }
 .split .f { background: var(--fat); }
 .fill { font-variant-numeric: tabular-nums; }
-.empty { color: var(--text-muted); padding: 12px 6px; }
+#ranked li.empty, #combo-items li.empty {
+  display: block; cursor: default; color: var(--text-muted); font-size: 13px; padding: 12px 6px 12px 38px;
+}
+#ranked li.empty:hover { background: none; }
 
 #combo-items li { cursor: default; grid-template-columns: 22px minmax(0, 1fr) auto; }
 #combo-items .name { white-space: normal; }
