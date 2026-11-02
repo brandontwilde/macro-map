@@ -12,12 +12,12 @@ line between them, and a mix of three sits inside their triangle.
 
 ## Your own foods
 
-Under **My foods**, people can add their own foods, meals or recipes as JSON:
-an object (or array of them) with `name`, `group`, `diet`, `serving`, `grams`
-(per serving), and `protein`, `carbs`, `fat` and `kcal` per serving. **Copy
-prompt** gives a prompt that asks a chatbot for exactly that format. They're
-kept in the browser's local storage, so Export and Import file move them
-between devices.
+The **My foods** button opens a panel where people can add their own foods,
+meals or recipes as JSON: an object (or array of them) with `name`, `group`,
+`diet`, `unit` (one chip, one slice, one bowl), `grams` in one unit, and
+`protein`, `carbs`, `fat` and `kcal` in one unit. **Copy prompt** gives a
+prompt that asks a chatbot for exactly that format. They're kept in the
+browser's local storage, so Export and Import file move them between devices.
 
 ## Run it
 

@@ -20,7 +20,7 @@ const LABEL_FONT = 11; // SVG units; keep in step with .dot-label in style.css
 
 const state = {
   foods: [],
-  mine: [], // the person's own foods, as entered: [{ id, name, group, diet, serving, grams, protein, carbs, fat, kcal }]
+  mine: [], // the person's own foods, as entered: [{ id, name, group, diet, unit, grams, protein, carbs, fat, kcal }]
   remaining: { p: 150, c: 200, f: 60 },
   combo: [], // [{ id, grams, unit }], unit being a label from units(food)
   query: "",
@@ -59,14 +59,14 @@ function save() {
   } catch {}
 }
 
-// Custom foods are kept per serving, the way people enter them, and converted to per 100 g for the map.
+// Custom foods are kept per unit (one chip, one bowl), the way people enter them, and converted to per 100 g for the map.
 let builtIn = [];
 function toFood(r) {
   const per100 = (v) => (v / r.grams) * 100;
   return {
     id: r.id, name: r.name, group: r.group, diet: r.diet, mine: true,
     p: per100(r.protein), c: per100(r.carbs), f: per100(r.fat), kcal: r.kcal == null ? null : per100(r.kcal),
-    portions: [{ label: r.serving, g: r.grams }], unit: r.serving,
+    portions: [{ label: r.unit, g: r.grams }], unit: r.unit,
   };
 }
 function setFoods() {
@@ -83,11 +83,11 @@ const foodPrompt = () => `Give me nutrition data for the foods below as a JSON a
 - "name": short name, e.g. "Chicken burrito bowl"
 - "group": one of ${[...new Set(builtIn.map((f) => f.group))].map((g) => `"${g}"`).join(", ")}
 - "diet": "vegan", "vegetarian" or ""
-- "serving": what one serving is, e.g. "bowl", "slice", "cup", "bar"
-- "grams": weight of one serving in grams
-- "protein", "carbs", "fat": grams per serving
-- "kcal": calories per serving
-For a recipe, give one serving of the finished dish. Use the label when there is one. Reply with only the JSON.
+- "unit": the single unit it's counted in, e.g. "chip", "slice", "egg", "cup", "bar", "bowl" (one chip, not a serving of 15 chips)
+- "grams": weight of one unit in grams
+- "protein", "carbs", "fat": grams in one unit
+- "kcal": calories in one unit
+For a recipe, make the unit one portion of the finished dish, e.g. "bowl" or "slice". Use the label when there is one. Reply with only the JSON.
 
 My foods:
 `;
@@ -112,12 +112,13 @@ function parseFoods(text) {
     if (!(grams > 0)) return errors.push(`${label}: "grams" must be a positive number.`);
     if (![protein, carbs, fat].every((v) => v >= 0)) return errors.push(`${label}: "protein", "carbs" and "fat" must be numbers.`);
     if (protein + carbs + fat === 0) return errors.push(`${label}: has no protein, carbs or fat.`);
-    if (protein + carbs + fat > grams * 1.05) return errors.push(`${label}: its macros weigh more than the serving (${grams} g).`);
-    let serving = String(item.serving ?? "").trim() || "serving";
-    if (WEIGHTS.some((w) => w.label === serving.toLowerCase())) serving = "serving"; // g and oz are always offered
+    if (protein + carbs + fat > grams * 1.05) return errors.push(`${label}: its macros weigh more than one unit (${grams} g).`);
+    const unit = String(item.unit ?? "").trim();
+    if (!unit) return errors.push(`${label}: needs a "unit", e.g. "slice" or "cup".`);
+    if (WEIGHTS.some((w) => w.label === unit.toLowerCase())) return errors.push(`${label}: "unit" can't be g or oz, which are always offered; use something like "piece" or "cup".`);
     const diet = ["vegan", "vegetarian"].includes(item.diet) ? item.diet : null;
     records.push({
-      name, group: String(item.group ?? "").trim() || "Other", diet, serving, grams, protein, carbs, fat,
+      name, group: String(item.group ?? "").trim() || "Other", diet, unit, grams, protein, carbs, fat,
       kcal: kcal >= 0 ? kcal : null,
     });
   });
@@ -699,7 +700,7 @@ function drawMine() {
   $("#mine-list").innerHTML = state.mine.map((r) => `
     <li>
       <span class="name">${esc(r.name)}</span>
-      <span class="muted">1 ${esc(r.serving)} (${fmt(r.grams)} g) · ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")}</span>
+      <span class="muted">1 ${esc(r.unit)} (${fmt(r.grams)} g) · ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")}</span>
       <button type="button" class="remove" data-id="${r.id}" aria-label="Delete ${esc(r.name)}">×</button>
     </li>`).join("");
 }
@@ -771,13 +772,15 @@ async function init() {
   let dragged = false;
   svg.addEventListener("pointerdown", (e) => {
     lastPointer = e.pointerType;
+    if (e.isPrimary) pointers.clear(); // first finger down, so any entry left over is stale
     if (!pointers.size) dragged = false;
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pointers.size === 2 || state.view.w < PLOT_W) svg.setPointerCapture(e.pointerId);
   });
+  // On window, since a lift can land outside the chart when a redraw removes the element it started on.
   const release = (e) => pointers.delete(e.pointerId);
-  svg.addEventListener("pointerup", release);
-  svg.addEventListener("pointercancel", release);
+  addEventListener("pointerup", release);
+  addEventListener("pointercancel", release);
   svg.addEventListener("pointermove", (e) => {
     const prev = pointers.get(e.pointerId);
     if (prev) {
@@ -895,6 +898,13 @@ async function init() {
     }
     setTimeout(() => (e.target.textContent = "Copy prompt"), 2000);
   });
+  const showMine = (open) => {
+    $("#mine").hidden = !open;
+    $("#mine-toggle").setAttribute("aria-expanded", open);
+    $("#mine-toggle").setAttribute("aria-pressed", open);
+  };
+  $("#mine-toggle").addEventListener("click", () => showMine($("#mine").hidden));
+  $("#close-mine").addEventListener("click", () => showMine(false));
   $("#add-mine").addEventListener("click", () => importFoods($("#mine-json").value));
   $("#import-mine").addEventListener("change", async (e) => {
     const [file] = e.target.files;
