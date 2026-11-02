@@ -923,7 +923,7 @@ async function init() {
     render();
   });
 
-  builtIn = await (await fetch("foods.json")).json();
+  builtIn = await (await fetch("foods.json?v=a197ad66")).json();
   setFoods();
   upgradeCombo();
   render();
