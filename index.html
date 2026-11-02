@@ -5,10 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Macro Map</title>
 <link rel="stylesheet" href="style.css">
+<script>
+  // Applied before first paint so a saved theme doesn't flash the other one.
+  try { const t = localStorage.getItem("macro-map-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
+</script>
 </head>
 <body>
 <header>
-  <h1>Macro Map</h1>
+  <div class="title-row">
+    <h1>Macro Map</h1>
+    <button type="button" id="theme-toggle" class="button"></button>
+  </div>
   <p class="lede">Foods placed by their protein / carbs / fat split. Foods near the
   <span class="target-key" aria-hidden="true"></span> marker match what you have left today.</p>
 </header>
