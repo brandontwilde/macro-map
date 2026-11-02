@@ -83,11 +83,11 @@ const foodPrompt = () => `Give me nutrition data for the foods below as a JSON a
 - "name": short name, e.g. "Chicken burrito bowl"
 - "group": one of ${[...new Set(builtIn.map((f) => f.group))].map((g) => `"${g}"`).join(", ")}
 - "diet": "vegan", "vegetarian" or ""
-- "unit": the single unit it's counted in, e.g. "chip", "slice", "egg", "cup", "bar", "bowl" (one chip, not a serving of 15 chips)
+- "unit": what it's counted in, e.g. "chip", "slice", "egg", "cup", "bar"
 - "grams": weight of one unit in grams
 - "protein", "carbs", "fat": grams in one unit
 - "kcal": calories in one unit
-For a recipe, make the unit one portion of the finished dish, e.g. "bowl" or "slice". Use the label when there is one. Reply with only the JSON.
+For a recipe, the unit is one portion of the finished dish, e.g. "bowl". Reply with only the JSON.
 
 My foods:
 `;
