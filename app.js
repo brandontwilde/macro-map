@@ -3,6 +3,7 @@ const MACRO_NAMES = { p: "Protein", c: "Carbs", f: "Fat" };
 const TOP_MATCHES = 5;
 const LIST_LENGTH = 30;
 const MAX_COMBO = 3;
+const WEIGHTS = [{ label: "g", g: 1 }, { label: "oz", g: 28.35 }];
 // PR previews share the live site's origin, so each keeps its own saved state.
 const PREVIEW_PATH = location.pathname.match(/\/pr-preview\/pr-\d+\//);
 const STORE_KEY = PREVIEW_PATH ? `macro-map${PREVIEW_PATH[0]}` : "macro-map";
@@ -14,7 +15,7 @@ const state = {
   foods: [],
   remaining: { p: 150, c: 200, f: 60 },
   maxGrams: 400,
-  combo: [],
+  combo: [], // [{ id, grams, unit }], unit being a label from units(food)
   query: "",
   sort: "closest",
 };
@@ -68,12 +69,67 @@ function fit(food, r, maxGrams) {
   return { grams, share: left ? covered / left : 0 };
 }
 
+const units = (food) => [...food.portions, ...WEIGHTS];
+
+function findUnit(food, label) {
+  const all = units(food);
+  return all.find((u) => u.label === label) ?? all.find((u) => u.label === food.unit) ?? WEIGHTS[0];
+}
+
+function newEntry(food) {
+  const unit = findUnit(food, food.unit);
+  const count = { g: 100, oz: 4 }[unit.label] ?? 1;
+  return { id: food.id, unit: unit.label, grams: count * unit.g };
+}
+
+// Entries saved before amounts had units were bare ids or { id, servings }.
+function upgradeCombo() {
+  state.combo = state.combo.flatMap((c) => {
+    const food = state.foods.find((f) => f.id === (c.id ?? c));
+    if (!food) return [];
+    if (c.grams != null) return [c];
+    const entry = newEntry(food);
+    if (c.servings != null) entry.grams *= c.servings;
+    return [entry];
+  });
+}
+
+const stepOf = (unit) => (unit.label === "g" ? 5 : unit.label === "oz" ? 0.5 : 0.25);
+const qtyIn = (unit, grams) => {
+  const n = grams / unit.g;
+  if (unit.label === "g") return Math.round(n);
+  return unit.label === "oz" ? Math.round(n * 10) / 10 : Math.round(n * 100) / 100;
+};
+const amountText = (unit, grams) => `${qtyIn(unit, grams)} ${unit.label}`;
+
+function comboItems() {
+  return state.combo
+    .map((c) => ({ ...c, food: state.foods.find((f) => f.id === c.id) }))
+    .filter((c) => c.food);
+}
+
+function macrosOf(food, grams) {
+  const v = perGram(food);
+  return { p: v.p * grams, c: v.c * grams, f: v.f * grams };
+}
+
+function comboTotal(items) {
+  const total = { p: 0, c: 0, f: 0 };
+  for (const { food, grams } of items) {
+    const m = macrosOf(food, grams);
+    for (const k of MACROS) total[k] += m[k];
+  }
+  return total;
+}
+
+const inCombo = (id) => state.combo.some((c) => c.id === id);
+
 function portionText(food, grams) {
-  const portion = food.portions[food.defaultPortion ?? -1];
-  if (!portion) return `${Math.round(grams)} g`;
-  const n = grams / portion.g;
+  const unit = findUnit(food, food.unit);
+  if (unit.label === "g") return `${Math.round(grams)} g`;
+  const n = grams / unit.g;
   const count = n >= 10 ? Math.round(n) : Math.round(n * 4) / 4;
-  return `${Math.round(grams)} g · ≈${count} ${portion.label}`;
+  return `${Math.round(grams)} g · ≈${count} ${unit.label}`;
 }
 
 // Least squares in grams-per-food: minimise |A x − r| with x ≥ 0, by trying every
@@ -175,10 +231,10 @@ function drawPlot(rank) {
   corner("c", 40, 528, "middle");
   corner("f", 560, 528, "middle");
 
-  const comboFoods = state.combo.map((id) => state.foods.find((f) => f.id === id)).filter(Boolean);
-  if (comboFoods.length >= 2) {
-    const pts = comboFoods.map((f) => toXY(f).join(",")).join(" ");
-    svg.append(svgEl(comboFoods.length === 2 ? "polyline" : "polygon", { class: "combo-shape", points: pts }));
+  const items = comboItems();
+  if (items.length >= 2) {
+    const pts = items.map(({ food }) => toXY(food).join(",")).join(" ");
+    svg.append(svgEl(items.length === 2 ? "polyline" : "polygon", { class: "combo-shape", points: pts }));
   }
 
   const matchRank = new Map(rank.slice(0, TOP_MATCHES).map((r, i) => [r.food.id, i + 1]));
@@ -188,7 +244,7 @@ function drawPlot(rank) {
     const xy = toXY(food);
     if (!xy) continue;
     const n = matchRank.get(food.id);
-    const selected = state.combo.includes(food.id);
+    const selected = inCombo(food.id);
     const g = svgEl("g");
     g.append(svgEl("circle", { class: "hit", cx: xy[0], cy: xy[1], r: 12 }));
     g.append(svgEl("circle", {
@@ -219,13 +275,8 @@ function drawPlot(rank) {
     svg.append(g);
   }
 
-  if (comboFoods.length >= 2) {
-    const x = solveCombo(comboFoods, state.remaining);
-    const total = { p: 0, c: 0, f: 0 };
-    comboFoods.forEach((f, i) => MACROS.forEach((k) => (total[k] += perGram(f)[k] * x[i])));
-    const xy = toXY(total);
-    if (xy) svg.append(svgEl("circle", { class: "combo-point", cx: xy[0], cy: xy[1], r: 5, "pointer-events": "none" }));
-  }
+  const mix = items.length >= 2 && toXY(comboTotal(items));
+  if (mix) svg.append(svgEl("circle", { class: "combo-point", cx: mix[0], cy: mix[1], r: 6, "pointer-events": "none" }));
 }
 
 function drawList(rank) {
@@ -240,7 +291,7 @@ function drawList(rank) {
     return;
   }
   ol.innerHTML = rows.map(({ food, grams, share, n }) => `
-    <li data-id="${food.id}" class="${state.combo.includes(food.id) ? "selected" : ""}">
+    <li data-id="${food.id}" class="${inCombo(food.id) ? "selected" : ""}">
       <span class="rank">${n}</span>
       <span class="name" title="${food.name}">${food.name}</span>
       <span class="amount">${grams > 0 ? portionText(food, grams) : "—"}</span>
@@ -249,27 +300,43 @@ function drawList(rank) {
 }
 
 function drawCombo() {
-  const card = $("#combo");
-  const foods = state.combo.map((id) => state.foods.find((f) => f.id === id)).filter(Boolean);
-  card.hidden = !foods.length;
-  if (!foods.length) return;
+  const items = comboItems();
+  $("#combo").hidden = !items.length;
+  if (!items.length) return;
 
-  const x = solveCombo(foods, state.remaining);
-  const total = { p: 0, c: 0, f: 0 };
-  foods.forEach((f, i) => MACROS.forEach((k) => (total[k] += perGram(f)[k] * x[i])));
-
-  $("#combo-items").innerHTML = foods.map((f, i) => `
+  $("#combo-items").innerHTML = items.map(({ food, grams, unit: label }, i) => {
+    const unit = findUnit(food, label);
+    const options = units(food).map((u) =>
+      `<option value="${esc(u.label)}"${u.label === unit.label ? " selected" : ""}>${esc(u.label)}</option>`).join("");
+    return `
     <li>
       <span class="rank">${i + 1}</span>
-      <span class="name" title="${f.name}">${f.name}</span>
-      <span class="amount">${x[i] > 0.5 ? portionText(f, x[i]) : "skip"}
-        <button type="button" class="remove" data-id="${f.id}" aria-label="Remove ${f.name}">×</button></span>
-      <span class="sub">${splitBar(f)}<span>per 100 g: ${macroLine(f)}</span></span>
-    </li>`).join("") +
-    (foods.length < MAX_COMBO ? `<li class="empty">Add ${foods.length === 1 ? "one or two foods" : "one more food"} from the list or map.</li>` : "");
+      <span class="name">${food.name}</span>
+      <button type="button" class="remove" data-id="${food.id}" aria-label="Remove ${food.name}">×</button>
+      <span class="serving">
+        <input type="number" class="qty" data-id="${food.id}" min="0" step="${stepOf(unit)}" value="${qtyIn(unit, grams)}"
+          aria-label="Amount of ${food.name}">
+        <select class="unit" data-id="${food.id}" aria-label="Unit for ${food.name}">${options}</select>
+        <span class="muted equiv" data-id="${food.id}"></span>
+      </span>
+      <span class="sub">${splitBar(food)}<span class="item-macros" data-id="${food.id}"></span></span>
+    </li>`;
+  }).join("") +
+    (items.length < MAX_COMBO ? `<li class="empty">Add ${items.length === 1 ? "one or two foods" : "one more food"} from the list or map.</li>` : "");
+  drawComboTotals(items);
+}
 
-  const row = (label, m, cls = () => "") =>
-    `<tr><td>${label}</td>${MACROS.map((k) => `<td class="${cls(k)}">${fmt(m[k])} g</td>`).join("")}</tr>`;
+function drawComboTotals(items) {
+  for (const { food, grams, unit } of items) {
+    const others = [findUnit(food, food.unit), ...WEIGHTS].filter((u, i, all) =>
+      u.label !== unit && all.findIndex((v) => v.label === u.label) === i);
+    $(`.equiv[data-id="${food.id}"]`).textContent = `= ${others.map((u) => amountText(u, grams)).join(" · ")}`;
+    $(`.item-macros[data-id="${food.id}"]`).textContent = macroLine(macrosOf(food, grams), " g");
+  }
+
+  const total = comboTotal(items);
+  const row = (label, m) =>
+    `<tr><td>${label}</td>${MACROS.map((k) => `<td>${fmt(m[k])} g</td>`).join("")}</tr>`;
   const diff = Object.fromEntries(MACROS.map((k) => [k, state.remaining[k] - total[k]]));
   $("#combo-totals").innerHTML =
     `<tr><th></th>${MACROS.map((k) => `<th>${MACRO_NAMES[k]}</th>`).join("")}</tr>` +
@@ -278,6 +345,20 @@ function drawCombo() {
     `<tr><td>Still to go</td>${MACROS.map((k) =>
       `<td class="${diff[k] < -0.5 ? "over" : ""}">${diff[k] < -0.5 ? `${fmt(-diff[k])} g over` : `${fmt(Math.max(diff[k], 0))} g`}</td>`
     ).join("")}</tr>`;
+}
+
+// Amounts that land closest to what's left, rounded to each food's step in its chosen unit.
+function fitCombo() {
+  const items = comboItems();
+  const grams = solveCombo(items.map((c) => c.food), state.remaining);
+  items.forEach((c, i) => {
+    const entry = state.combo.find((e) => e.id === c.id);
+    const unit = findUnit(c.food, c.unit);
+    const step = stepOf(unit) * unit.g;
+    entry.grams = Math.round(grams[i] / step) * step;
+  });
+  save();
+  render();
 }
 
 function showTip(e, food, grams, share) {
@@ -302,10 +383,10 @@ function hideTip() {
 }
 
 function toggleCombo(id) {
-  const i = state.combo.indexOf(id);
+  const i = state.combo.findIndex((c) => c.id === id);
   if (i >= 0) state.combo.splice(i, 1);
   else {
-    state.combo.push(id);
+    state.combo.push(newEntry(state.foods.find((f) => f.id === id)));
     if (state.combo.length > MAX_COMBO) state.combo.shift();
   }
   save();
@@ -373,6 +454,26 @@ async function init() {
     const btn = e.target.closest(".remove");
     if (btn) toggleCombo(Number(btn.dataset.id));
   });
+  // Typing an amount redraws only the totals and map, so the input keeps focus.
+  $("#combo-items").addEventListener("input", (e) => {
+    const input = e.target.closest(".qty");
+    if (!input) return;
+    const item = comboItems().find((c) => c.id === Number(input.dataset.id));
+    const entry = state.combo.find((c) => c.id === item.id);
+    entry.grams = Math.max(0, Number(input.value) || 0) * findUnit(item.food, item.unit).g;
+    save();
+    drawPlot(ranked());
+    drawComboTotals(comboItems());
+  });
+  // Switching units keeps the same amount of food and re-expresses it.
+  $("#combo-items").addEventListener("change", (e) => {
+    const select = e.target.closest(".unit");
+    if (!select) return;
+    state.combo.find((c) => c.id === Number(select.dataset.id)).unit = select.value;
+    save();
+    drawCombo();
+  });
+  $("#fit-combo").addEventListener("click", fitCombo);
   $("#clear-combo").addEventListener("click", () => {
     state.combo = [];
     save();
@@ -380,6 +481,7 @@ async function init() {
   });
 
   state.foods = await (await fetch("foods.json")).json();
+  upgradeCombo();
   render();
 }
 
