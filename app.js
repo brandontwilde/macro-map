@@ -391,23 +391,14 @@ function drawPlot(rank) {
     }
   }
   svg.append(dots, top);
-  const target = plotXY(state.remaining);
   const nameBoxes = [];
-  // Up and to the side of the crosshair, clear of its arms; food names then keep out of its way.
-  const targetLabel = target && (() => {
-    const w = 6 * LABEL_FONT * 0.55; // "Target"
-    const right = target[0] + 14 + w <= PLOT_W;
-    const x0 = right ? target[0] + 14 : target[0] - 14 - w;
-    const box = { x0, x1: x0 + w, y0: target[1] - 22, y1: target[1] - 8 };
-    nameBoxes.push(box);
-    return box;
-  })();
   if (zoom() >= LABEL_ZOOM) svg.append(dotLabels(matchRank, nameBoxes));
   drawRulerLabels(ticks, rulers, step, nameBoxes);
 
   const focused = state.focus && plotDots.find((d) => d.food.id === state.focus.id);
   if (focused) svg.append(svgEl("circle", { class: "focus-ring", cx: focused.x, cy: focused.y, r: 13 }));
 
+  const target = plotXY(state.remaining);
   if (target) {
     const g = svgEl("g", { class: "target", "pointer-events": "none" });
     g.append(svgEl("circle", { cx: target[0], cy: target[1], r: 11 }));
@@ -415,9 +406,6 @@ function drawPlot(rank) {
     g.append(svgEl("line", { x1: target[0] + 6, y1: target[1], x2: target[0] + 17, y2: target[1] }));
     g.append(svgEl("line", { x1: target[0], y1: target[1] - 17, x2: target[0], y2: target[1] - 6 }));
     g.append(svgEl("line", { x1: target[0], y1: target[1] + 6, x2: target[0], y2: target[1] + 17 }));
-    const t = svgEl("text", { class: "target-label", x: targetLabel.x0, y: (targetLabel.y0 + targetLabel.y1) / 2 });
-    t.textContent = "Target";
-    g.append(t);
     svg.append(g);
   }
 
