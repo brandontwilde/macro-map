@@ -488,8 +488,11 @@ function fitCombo() {
 const pctText = (share) => `${share > 0 && share < 0.005 ? "<1" : Math.round(share * 100)}% of target`;
 
 function foodDetails({ food, grams, unit, share }) {
-  return `<div class="muted">${food.group} · per 100 g: ${macroLine(food)}${food.kcal ? ` · ${Math.round(food.kcal)} kcal` : ""}</div>
-    <div>${servingText(food, grams, unit)}: ${macroLine(macrosOf(food, grams), " g")} · ${pctText(share)}</div>`;
+  const total = food.p + food.c + food.f || 1;
+  const split = MACROS.map((k) => `${Math.round((food[k] / total) * 100)}% ${MACRO_NAMES[k].toLowerCase()}`).join(" · ");
+  const kcal = food.kcal ? ` · ${Math.round((food.kcal * grams) / 100)} kcal` : "";
+  return `<div class="muted">${food.group} · ${split}</div>
+    <div>${servingText(food, grams, unit)}: ${macroLine(macrosOf(food, grams), " g")}${kcal} · ${pctText(share)}</div>`;
 }
 
 // Dots within reach (in CSS px) of a pointer event or an SVG point, nearest first.
