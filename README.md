@@ -31,9 +31,9 @@ won't work, because browsers block it from loading `foods.json`.
    https://fdc.nal.usda.gov/download-datasets and extract it.
 2. `python3 scripts/build_foods.py <extracted folder>`
 
-In `curated.csv`, `portion` picks which USDA serving size to show (exact
-match first, then a substring match), and `portion_label` optionally renames
-it.
+In `curated.csv`, `diet` is `vegan`, `vegetarian` or blank (for the diet
+filter), `portion` picks which USDA serving size to show (exact match first,
+then a substring match), and `portion_label` optionally renames it.
 
 ## Publishing
 
