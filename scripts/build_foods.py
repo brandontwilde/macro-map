@@ -49,6 +49,9 @@ def main(usda_dir):
 
     portions = {i: [] for i in ids}
     for row in read(usda / "food_portion.csv"):
+        # "Yield" portions describe what some other amount turns into, not a unit you'd measure with.
+        if "yield" in row["modifier"].lower():
+            continue
         if row["fdc_id"] in ids and not WEIGHT_ONLY.match(unit_portion(row)[0]):
             portions[row["fdc_id"]].append((int(row["seq_num"] or 0), *unit_portion(row)))
 

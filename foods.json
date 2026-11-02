@@ -13,10 +13,6 @@
     "g": 140.0
    },
    {
-    "label": "unit",
-    "g": 52.0
-   },
-   {
     "label": "breast",
     "g": 172.0
    }
@@ -140,10 +136,6 @@
   "kcal": 143.0,
   "portions": [
    {
-    "label": "piece, cooked, excluding refuse",
-    "g": 333.0
-   },
-   {
     "label": "roast",
     "g": 402.0
    }
@@ -214,12 +206,7 @@
   "c": 0.0,
   "f": 19.65,
   "kcal": 283.0,
-  "portions": [
-   {
-    "label": "unit, cooked",
-    "g": 313.0
-   }
-  ],
+  "portions": [],
   "unit": "oz"
  },
  {
@@ -1097,14 +1084,6 @@
    {
     "label": "cup, cooked",
     "g": 157.0
-   },
-   {
-    "label": "cup, dry, yields",
-    "g": 528.0
-   },
-   {
-    "label": "oz, dry, yields",
-    "g": 86.0
    }
   ],
   "unit": "cup, cooked"
@@ -1493,10 +1472,6 @@
    {
     "label": "cup",
     "g": 160.0
-   },
-   {
-    "label": "package yields",
-    "g": 253.0
    }
   ],
   "unit": "cup"
@@ -1759,10 +1734,6 @@
     "g": 12.0
    },
    {
-    "label": "pint as purchased, yields",
-    "g": 357.0
-   },
-   {
     "label": "small",
     "g": 7.0
    },
@@ -1806,10 +1777,6 @@
   "f": 0.2,
   "kcal": 63.0,
   "portions": [
-   {
-    "label": "cup, with pits, yields",
-    "g": 138.0
-   },
    {
     "label": "cup",
     "g": 154.0
@@ -1965,10 +1932,6 @@
    {
     "label": "fl oz",
     "g": 31.0
-   },
-   {
-    "label": "fruit yields",
-    "g": 86.0
    }
   ],
   "unit": "cup"
@@ -2551,10 +2514,6 @@
     "g": 80.0
    },
    {
-    "label": "cup, in shell, edible yield",
-    "g": 28.0
-   },
-   {
     "label": "cup shelled",
     "g": 100.0
    },
@@ -2749,10 +2708,6 @@
   "f": 51.46,
   "kcal": 584.0,
   "portions": [
-   {
-    "label": "cup, with hulls, edible yield",
-    "g": 46.0
-   },
    {
     "label": "cup",
     "g": 140.0
