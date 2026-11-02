@@ -18,7 +18,7 @@ const state = {
   combo: [], // [{ id, grams, unit }], unit being a label from units(food)
   query: "",
   sort: "closest",
-  focus: null, // { id, group: ids of every dot under the tap }
+  focus: null, // { id, nearby: ids of the dots around it }
 };
 // Reach of a pointer, in CSS px: how far from a dot a hover or tap still picks it.
 const REACH = { mouse: 14, touch: 24 };
@@ -370,10 +370,12 @@ function foodDetails({ food, grams, share }) {
     <div>${grams > 0 ? `${portionText(food, grams)} covers ${Math.round(share * 100)}% of what's left` : "Nothing left it can fill"}</div>`;
 }
 
-// Dots within the pointer's reach, nearest first.
-function dotsNear(e, reach) {
+// Dots within reach (in CSS px) of a pointer event or an SVG point, nearest first.
+function dotsNear(at, reach) {
   const svg = $("#tri");
-  const { x, y } = new DOMPoint(e.clientX, e.clientY).matrixTransform(svg.getScreenCTM().inverse());
+  const { x, y } = "clientX" in at
+    ? new DOMPoint(at.clientX, at.clientY).matrixTransform(svg.getScreenCTM().inverse())
+    : at;
   const r = reach * (svg.viewBox.baseVal.width / svg.getBoundingClientRect().width);
   return plotDots
     .map((d) => ({ d, dist: Math.hypot(d.x - x, d.y - y) }))
@@ -382,14 +384,19 @@ function dotsNear(e, reach) {
     .map(({ d }) => d);
 }
 
+// The card lists foods around the shown dot, not around where the finger landed.
+function focusOn(dot) {
+  const nearby = dotsNear(dot, REACH.touch).filter((d) => d !== dot).slice(0, 5);
+  state.focus = { id: dot.food.id, nearby: nearby.map((d) => d.food.id) };
+}
+
 function drawDotCard() {
   const card = $("#dot-card");
   const dot = state.focus && plotDots.find((d) => d.food.id === state.focus.id);
   card.hidden = !dot;
   if (!dot) return;
   const { food } = dot;
-  const others = state.focus.group.filter((id) => id !== food.id)
-    .map((id) => state.foods.find((f) => f.id === id));
+  const others = state.focus.nearby.map((id) => state.foods.find((f) => f.id === id));
   card.innerHTML = `
     <div class="dot-card-head">
       <b>${food.name}</b>
@@ -503,8 +510,9 @@ async function init() {
       if (dot) toggleCombo(dot.food.id);
       return;
     }
-    const near = dotsNear(e, REACH.touch);
-    state.focus = near.length ? { id: near[0].food.id, group: near.slice(0, 6).map((d) => d.food.id) } : null;
+    const [dot] = dotsNear(e, REACH.touch);
+    if (dot) focusOn(dot);
+    else state.focus = null;
     drawPlot(ranked());
     drawDotCard();
   });
@@ -512,7 +520,9 @@ async function init() {
     const btn = e.target.closest("button[data-action]");
     if (!btn) return;
     if (btn.dataset.action === "toggle") return toggleCombo(state.focus.id);
-    state.focus = btn.dataset.action === "show" ? { ...state.focus, id: Number(btn.dataset.id) } : null;
+    const dot = btn.dataset.action === "show" && plotDots.find((d) => d.food.id === Number(btn.dataset.id));
+    if (dot) focusOn(dot);
+    else state.focus = null;
     drawPlot(ranked());
     drawDotCard();
   });
