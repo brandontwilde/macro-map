@@ -485,14 +485,13 @@ function fitCombo() {
   render();
 }
 
+const foodTitle = (food) => `<span class="food-title"><b>${food.name}</b> <span class="muted">${food.group}</span></span>`;
 const pctText = (share) => `${share > 0 && share < 0.005 ? "<1" : Math.round(share * 100)}% of target`;
 
 function foodDetails({ food, grams, unit, share }) {
-  const total = food.p + food.c + food.f || 1;
-  const split = MACROS.map((k) => `${Math.round((food[k] / total) * 100)}% ${MACRO_NAMES[k].toLowerCase()}`).join(" · ");
   const kcal = food.kcal ? ` · ${Math.round((food.kcal * grams) / 100)} kcal` : "";
-  return `<div class="muted">${food.group} · ${split}</div>
-    <div>${servingText(food, grams, unit)}: ${macroLine(macrosOf(food, grams), " g")}${kcal} · ${pctText(share)}</div>`;
+  return `<div>${servingText(food, grams, unit)}${kcal}</div>
+    <div class="muted">${macroLine(macrosOf(food, grams), " g")} · ${pctText(share)}</div>`;
 }
 
 // Dots within reach (in CSS px) of a pointer event or an SVG point, nearest first.
@@ -524,7 +523,7 @@ function drawDotCard() {
   const others = state.focus.nearby.map((id) => state.foods.find((f) => f.id === id));
   card.innerHTML = `
     <div class="dot-card-head">
-      <b>${food.name}</b>
+      ${foodTitle(food)}
       <button type="button" class="remove" data-action="close" aria-label="Close details">×</button>
     </div>
     <div class="dot-card-body">${splitBar(food)}<div>${foodDetails(dot)}</div></div>
@@ -535,7 +534,7 @@ function drawDotCard() {
 
 function showTip(e, dot) {
   const tip = $("#tip");
-  tip.innerHTML = `<b>${dot.food.name}</b>${foodDetails(dot)}`;
+  tip.innerHTML = `${foodTitle(dot.food)}${splitBar(dot.food)}${foodDetails(dot)}`;
   tip.hidden = false;
   moveTip(e);
 }
