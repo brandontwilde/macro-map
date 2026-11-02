@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Macro Map</title>
+<link rel="stylesheet" href="style.css">
+<script>
+  // Applied before first paint so a saved theme doesn't flash the other one.
+  try { const t = localStorage.getItem("macro-map-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
+</script>
+</head>
+<body>
+<header>
+  <div class="title-row">
+    <h1>Macro Map</h1>
+    <button type="button" id="theme-toggle" class="button"></button>
+  </div>
+  <p class="lede">Foods placed by their protein / carbs / fat split. Foods near the
+  <span class="target-key" aria-hidden="true"></span> marker match what you have left today.</p>
+</header>
+
+<main>
+  <section class="left">
+    <form id="remaining" class="card" autocomplete="off">
+      <h2>Left to eat today</h2>
+      <div class="inputs">
+        <label class="m-p"><span>Protein</span><input name="p" type="number" min="0" step="1" inputmode="numeric"><em>g</em></label>
+        <label class="m-c"><span>Carbs</span><input name="c" type="number" min="0" step="1" inputmode="numeric"><em>g</em></label>
+        <label class="m-f"><span>Fat</span><input name="f" type="number" min="0" step="1" inputmode="numeric"><em>g</em></label>
+      </div>
+      <label class="max">Max per food
+        <input name="max" type="number" min="1" step="10" inputmode="numeric"><em>g</em></label>
+    </form>
+
+    <figure class="card plot">
+      <div id="filters" class="filters"></div>
+      <div class="plot-area">
+        <svg id="tri" viewBox="0 0 600 540" role="img" aria-label="Triangle plot of foods by macro split"></svg>
+        <div class="zoom-controls">
+          <button type="button" id="zoom-in" class="button" aria-label="Zoom in">+</button>
+          <button type="button" id="zoom-out" class="button" aria-label="Zoom out">−</button>
+          <button type="button" id="zoom-reset" class="button" aria-label="Reset zoom" disabled>Reset</button>
+        </div>
+      </div>
+      <div id="dot-card" hidden></div>
+      <figcaption>Each corner is a food that's 100% one macro, by grams. Numbered dots are the
+      top matches. Scroll or pinch to zoom in and drag to move around. Hover a dot for details
+      and click to add it to a combo; on a phone, tap a dot to see it and the foods around it.</figcaption>
+    </figure>
+  </section>
+
+  <section class="right">
+    <div class="card" id="combo" hidden>
+      <div class="card-head">
+        <h2>Combo</h2>
+        <div class="controls">
+          <button type="button" id="fit-combo" class="button">Fit to what's left</button>
+          <button type="button" id="clear-combo" class="link">Clear</button>
+        </div>
+      </div>
+      <p class="hint">Each food starts at a typical amount. Change the amount, or pick another
+      unit (g, oz, cup…) to enter it that way. The ring on the map shows where the mix lands.</p>
+      <ol id="combo-items"></ol>
+      <table class="totals" id="combo-totals"></table>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>Best fits</h2>
+        <div class="controls">
+          <select id="sort" aria-label="Sort by">
+            <option value="closest">Closest split</option>
+            <option value="covers">Covers most</option>
+          </select>
+          <input id="search" type="search" placeholder="Search foods" aria-label="Search foods">
+        </div>
+      </div>
+      <p class="hint">The amount shown is as much as you could eat, up to your limit, without
+      going over on any macro, and “covers” is how much of what's left that fills.</p>
+      <ol id="ranked"></ol>
+    </div>
+  </section>
+</main>
+
+<footer>Nutrient data: USDA FoodData Central, SR Legacy (public domain). Values are per 100 g as listed;
+check labels for packaged foods.</footer>
+
+<div id="tip" role="tooltip" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>
