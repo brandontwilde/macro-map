@@ -317,8 +317,35 @@ function render() {
   drawCombo();
 }
 
+const THEME_KEY = "macro-map-theme";
+
+function currentTheme() {
+  return document.documentElement.dataset.theme ||
+    (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+}
+
+function setupThemeToggle() {
+  const btn = $("#theme-toggle");
+  const label = () => {
+    const next = currentTheme() === "dark" ? "light" : "dark";
+    btn.textContent = next === "light" ? "☀ Light mode" : "☾ Dark mode";
+    btn.setAttribute("aria-label", `Switch to ${next} mode`);
+  };
+  btn.addEventListener("click", () => {
+    const next = currentTheme() === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    try {
+      localStorage.setItem(THEME_KEY, next);
+    } catch {}
+    label();
+  });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", label);
+  label();
+}
+
 async function init() {
   load();
+  setupThemeToggle();
   const form = $("#remaining");
   for (const k of MACROS) form.elements[k].value = state.remaining[k];
   form.elements.max.value = state.maxGrams;
