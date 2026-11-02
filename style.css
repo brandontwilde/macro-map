@@ -9,8 +9,8 @@
   --text-muted: #7a7974;
   --dot: #b9b7b0;
   --dot-match: #0b0b0b;
-  --protein: #2a78d6;
-  --carbs: #eb6834;
+  --protein: #d6304a;
+  --carbs: #2a78d6;
   --fat: #1baf7a;
   --over: #c4312f;
   --select: #f0efec;
@@ -27,9 +27,9 @@
     --text-muted: #8f8e86;
     --dot: #5a5955;
     --dot-match: #ffffff;
-    --protein: #3987e5;
-    --carbs: #d95926;
-    --fat: #199e70;
+    --protein: #e34948;
+    --carbs: #3987e5;
+    --fat: #28a888;
     --over: #e66767;
     --select: #262624;
   }
@@ -45,9 +45,9 @@
   --text-muted: #8f8e86;
   --dot: #5a5955;
   --dot-match: #ffffff;
-  --protein: #3987e5;
-  --carbs: #d95926;
-  --fat: #199e70;
+  --protein: #e34948;
+  --carbs: #3987e5;
+  --fat: #28a888;
   --over: #e66767;
   --select: #262624;
 }
