@@ -10,6 +10,10 @@ const STORE_KEY = PREVIEW_PATH ? `macro-map${PREVIEW_PATH[0]}` : "macro-map";
 
 // Triangle corners in SVG units: protein at the top, carbs bottom-left, fat bottom-right.
 const CORNERS = { p: [300, 52], c: [40, 502], f: [560, 502] };
+const PLOT_W = 600, PLOT_H = 540;
+const MAX_ZOOM = 8;
+const LABEL_ZOOM = 1.8; // names appear beside dots from this zoom on
+const LABEL_FONT = 11; // SVG units; keep in step with .dot-label in style.css
 
 const state = {
   foods: [],
@@ -19,6 +23,7 @@ const state = {
   query: "",
   sort: "closest",
   focus: null, // { id, group: ids of every dot under the tap }
+  view: { x: 0, y: 0, w: PLOT_W }, // visible part of the plot, in SVG units
 };
 // Reach of a pointer, in CSS px: how far from a dot a hover or tap still picks it.
 const REACH = { mouse: 14, touch: 24 };
@@ -204,6 +209,14 @@ function macroLine(m, unit = "") {
   return MACROS.map((k) => `${MACRO_NAMES[k][0]} ${fmt(m[k])}${unit}`).join(" · ");
 }
 
+const zoom = () => PLOT_W / state.view.w;
+// Zooming moves points apart rather than scaling the drawing, so dots and text keep their size.
+const toView = ([x, y]) => [(x - state.view.x) * zoom(), (y - state.view.y) * zoom()];
+const plotXY = (m) => {
+  const xy = toXY(m);
+  return xy && toView(xy);
+};
+
 function drawPlot(rank) {
   const svg = $("#tri");
   svg.replaceChildren();
@@ -212,33 +225,34 @@ function drawPlot(rank) {
   for (const s of [0.2, 0.4, 0.6, 0.8]) {
     for (const k of MACROS) {
       const [o1, o2] = MACROS.filter((j) => j !== k);
-      const a = toXY({ [k]: s, [o1]: 1 - s, [o2]: 0 });
-      const b = toXY({ [k]: s, [o1]: 0, [o2]: 1 - s });
+      const a = plotXY({ [k]: s, [o1]: 1 - s, [o2]: 0 });
+      const b = plotXY({ [k]: s, [o1]: 0, [o2]: 1 - s });
       grid.append(svgEl("line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1] }));
     }
   }
   svg.append(grid);
-  svg.append(svgEl("polygon", { class: "frame", points: MACROS.map((k) => CORNERS[k].join(",")).join(" ") }));
+  svg.append(svgEl("polygon", { class: "frame", points: MACROS.map((k) => toView(CORNERS[k]).join(",")).join(" ") }));
 
   // Protein-share ticks along the left edge (the line from carbs up to protein).
   for (const s of [0.2, 0.4, 0.6, 0.8]) {
-    const [x, y] = toXY({ p: s, c: 1 - s, f: 0 });
+    const [x, y] = plotXY({ p: s, c: 1 - s, f: 0 });
     const t = svgEl("text", { class: "tick", x: x - 8, y: y + 4, "text-anchor": "end" });
     t.textContent = `${s * 100}%`;
     svg.append(t);
   }
-  const corner = (k, x, y, anchor) => {
-    const t = svgEl("text", { class: "corner", x, y, "text-anchor": anchor });
+  const corner = (k, dy) => {
+    const [x, y] = toView(CORNERS[k]);
+    const t = svgEl("text", { class: "corner", x, y: y + dy, "text-anchor": "middle" });
     t.textContent = MACRO_NAMES[k];
     svg.append(t);
   };
-  corner("p", 300, 34, "middle");
-  corner("c", 40, 528, "middle");
-  corner("f", 560, 528, "middle");
+  corner("p", -18);
+  corner("c", 26);
+  corner("f", 26);
 
   const items = comboItems();
   if (items.length >= 2) {
-    const pts = items.map(({ food }) => toXY(food).join(",")).join(" ");
+    const pts = items.map(({ food }) => plotXY(food).join(",")).join(" ");
     svg.append(svgEl(items.length === 2 ? "polyline" : "polygon", { class: "combo-shape", points: pts }));
   }
 
@@ -247,7 +261,7 @@ function drawPlot(rank) {
   const top = svgEl("g");
   plotDots = [];
   for (const { food, grams, share } of rank) {
-    const xy = toXY(food);
+    const xy = plotXY(food);
     if (!xy) continue;
     plotDots.push({ food, grams, share, x: xy[0], y: xy[1] });
     const n = matchRank.get(food.id);
@@ -264,11 +278,12 @@ function drawPlot(rank) {
     }
   }
   svg.append(dots, top);
+  if (zoom() >= LABEL_ZOOM) svg.append(dotLabels(matchRank));
 
   const focused = state.focus && plotDots.find((d) => d.food.id === state.focus.id);
   if (focused) svg.append(svgEl("circle", { class: "focus-ring", cx: focused.x, cy: focused.y, r: 13 }));
 
-  const target = toXY(state.remaining);
+  const target = plotXY(state.remaining);
   if (target) {
     const g = svgEl("g", { class: "target", "pointer-events": "none" });
     g.append(svgEl("circle", { cx: target[0], cy: target[1], r: 11 }));
@@ -279,8 +294,48 @@ function drawPlot(rank) {
     svg.append(g);
   }
 
-  const mix = items.length >= 2 && toXY(comboTotal(items));
+  const mix = items.length >= 2 && plotXY(comboTotal(items));
   if (mix) svg.append(svgEl("circle", { class: "combo-point", cx: mix[0], cy: mix[1], r: 6, "pointer-events": "none" }));
+}
+
+// Names beside dots, placed greedily (top matches first) and skipped where they'd overlap.
+function dotLabels(matchRank) {
+  const g = svgEl("g", { class: "dot-labels" });
+  const placed = [];
+  const order = [...plotDots].sort((a, b) => (matchRank.get(a.food.id) ?? 99) - (matchRank.get(b.food.id) ?? 99));
+  for (const dot of order) {
+    const { food, x, y } = dot;
+    if (x < 0 || x > PLOT_W || y < 0 || y > PLOT_H) continue;
+    const name = food.name.replace(/\s*\(.*\)$/, "");
+    const w = name.length * LABEL_FONT * 0.55;
+    const box = { x0: x + 8, x1: x + 10 + w, y0: y - LABEL_FONT * 0.6, y1: y + LABEL_FONT * 0.6 };
+    if (box.x1 > PLOT_W) [box.x0, box.x1] = [x - 10 - w, x - 8];
+    const hits = (o) => o.x0 < box.x1 && box.x0 < o.x1 && o.y0 < box.y1 && box.y0 < o.y1;
+    if (placed.some(hits) || plotDots.some((d) => d !== dot && hits({ x0: d.x - 4, x1: d.x + 4, y0: d.y - 4, y1: d.y + 4 }))) continue;
+    placed.push(box);
+    const t = svgEl("text", { class: "dot-label", x: box.x0, y });
+    t.textContent = name;
+    g.append(t);
+  }
+  return g;
+}
+
+// Zoom by factor f about a point given in current view coordinates.
+function zoomAt(f, [vx, vy]) {
+  const v = state.view;
+  const w = Math.min(PLOT_W, Math.max(PLOT_W / MAX_ZOOM, v.w / f));
+  const px = v.x + vx / zoom(), py = v.y + vy / zoom();
+  setView(px - (px - v.x) * (w / v.w), py - (py - v.y) * (w / v.w), w);
+}
+function panBy(dx, dy) {
+  setView(state.view.x - dx / zoom(), state.view.y - dy / zoom(), state.view.w);
+}
+function setView(x, y, w) {
+  const h = (w * PLOT_H) / PLOT_W;
+  state.view = { x: Math.min(Math.max(x, 0), PLOT_W - w), y: Math.min(Math.max(y, 0), PLOT_H - h), w };
+  $("#tri").classList.toggle("zoomed", w < PLOT_W);
+  $("#zoom-reset").disabled = w >= PLOT_W;
+  drawPlot(ranked());
 }
 
 function drawList(rank) {
@@ -488,8 +543,42 @@ async function init() {
   // A mouse hovers for details and clicks to add; a tap opens a details card instead,
   // since a fingertip usually covers several dots and there's no hover.
   const svg = $("#tri");
-  svg.addEventListener("pointerdown", (e) => (lastPointer = e.pointerType));
+  const toPlot = (e) => {
+    const { x, y } = new DOMPoint(e.clientX, e.clientY).matrixTransform(svg.getScreenCTM().inverse());
+    return [x, y];
+  };
+  const unitsPerPx = () => PLOT_W / svg.getBoundingClientRect().width;
+  // One pointer pans once zoomed in; two pinch. A drag mustn't also count as a tap.
+  const pointers = new Map();
+  let dragged = false;
+  svg.addEventListener("pointerdown", (e) => {
+    lastPointer = e.pointerType;
+    if (!pointers.size) dragged = false;
+    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.size === 2 || state.view.w < PLOT_W) svg.setPointerCapture(e.pointerId);
+  });
+  const release = (e) => pointers.delete(e.pointerId);
+  svg.addEventListener("pointerup", release);
+  svg.addEventListener("pointercancel", release);
   svg.addEventListener("pointermove", (e) => {
+    const prev = pointers.get(e.pointerId);
+    if (prev) {
+      const cur = { x: e.clientX, y: e.clientY };
+      if (pointers.size === 2) {
+        const [other] = [...pointers].filter(([id]) => id !== e.pointerId).map(([, pt]) => pt);
+        const f = Math.hypot(cur.x - other.x, cur.y - other.y) / (Math.hypot(prev.x - other.x, prev.y - other.y) || 1);
+        const mid = toPlot({ clientX: (cur.x + other.x) / 2, clientY: (cur.y + other.y) / 2 });
+        zoomAt(f, mid);
+        panBy(((cur.x - prev.x) / 2) * unitsPerPx(), ((cur.y - prev.y) / 2) * unitsPerPx());
+        dragged = true;
+      } else if (state.view.w < PLOT_W && (dragged || Math.hypot(cur.x - prev.x, cur.y - prev.y) > 3)) {
+        panBy((cur.x - prev.x) * unitsPerPx(), (cur.y - prev.y) * unitsPerPx());
+        dragged = true;
+      } else return; // under the drag threshold: keep the start point
+      pointers.set(e.pointerId, cur);
+      hideTip();
+      return;
+    }
     if (e.pointerType !== "mouse") return;
     const [dot] = dotsNear(e, REACH.mouse);
     svg.style.cursor = dot ? "pointer" : "";
@@ -498,6 +587,7 @@ async function init() {
   });
   svg.addEventListener("pointerleave", hideTip);
   svg.addEventListener("click", (e) => {
+    if (dragged) return;
     if (lastPointer === "mouse") {
       const [dot] = dotsNear(e, REACH.mouse);
       if (dot) toggleCombo(dot.food.id);
@@ -508,6 +598,16 @@ async function init() {
     drawPlot(ranked());
     drawDotCard();
   });
+  // Scrolling out past full view is left to the page, so the chart doesn't trap scrolling.
+  svg.addEventListener("wheel", (e) => {
+    if (e.deltaY > 0 && state.view.w >= PLOT_W) return;
+    e.preventDefault();
+    zoomAt(Math.exp(-e.deltaY * 0.002), toPlot(e));
+  }, { passive: false });
+  const center = [PLOT_W / 2, PLOT_H / 2];
+  $("#zoom-in").addEventListener("click", () => zoomAt(1.6, center));
+  $("#zoom-out").addEventListener("click", () => zoomAt(1 / 1.6, center));
+  $("#zoom-reset").addEventListener("click", () => setView(0, 0, PLOT_W));
   $("#dot-card").addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-action]");
     if (!btn) return;
