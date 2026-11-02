@@ -234,7 +234,7 @@ function drawPlot(rank) {
       const [o1, o2] = MACROS.filter((j) => j !== k);
       const seg = clipToPlot(plotXY({ [k]: v, [o1]: 1 - v, [o2]: 0 }), plotXY({ [k]: v, [o1]: 0, [o2]: 1 - v }));
       if (!seg) continue;
-      grid.append(svgEl("line", { x1: seg[0][0], y1: seg[0][1], x2: seg[1][0], y2: seg[1][1] }));
+      grid.append(svgEl("line", { class: k, x1: seg[0][0], y1: seg[0][1], x2: seg[1][0], y2: seg[1][1] }));
       rulers.push({ k, v, seg });
     }
   }
@@ -245,7 +245,7 @@ function drawPlot(rank) {
   svg.append(ticks);
   const corner = (k, dy) => {
     const [x, y] = toView(CORNERS[k]);
-    const t = svgEl("text", { class: "corner", x, y: y + dy, "text-anchor": "middle" });
+    const t = svgEl("text", { class: `corner ${k}`, x, y: y + dy, "text-anchor": "middle" });
     t.textContent = MACRO_NAMES[k];
     svg.append(t);
   };
@@ -307,11 +307,12 @@ function drawPlot(rank) {
 function drawRulerLabels(g, rulers, step, placed) {
   const pct = (v) => `${(v * 100).toFixed(step < 0.01 ? 1 : 0)}%`;
   if (zoom() < 1.001) {
-    // Protein-share ticks along the left edge (the line from carbs up to protein).
+    // Each macro is read off its own edge: protein on the left, carbs along the base, fat on the right.
     for (const { k, v, seg } of rulers) {
-      if (k !== "p") continue;
-      const [x, y] = seg[0][0] < seg[1][0] ? seg[0] : seg[1];
-      const t = svgEl("text", { class: "tick", x: x - 8, y: y + 4, "text-anchor": "end" });
+      const [a, b] = seg;
+      const [x, y] = { p: a[0] < b[0] ? a : b, c: a[1] > b[1] ? a : b, f: a[0] > b[0] ? a : b }[k];
+      const [dx, dy, anchor] = { p: [-8, 4, "end"], c: [0, 17, "middle"], f: [8, 4, "start"] }[k];
+      const t = svgEl("text", { class: `tick ${k}`, x: x + dx, y: y + dy, "text-anchor": anchor });
       t.textContent = pct(v);
       g.append(t);
     }
@@ -327,7 +328,7 @@ function drawRulerLabels(g, rulers, step, placed) {
       if (box.x1 > PLOT_W) [box.x0, box.x1] = [x - 3 - (box.x1 - box.x0), x - 3];
       if (placed.some((o) => o.x0 < box.x1 && box.x0 < o.x1 && o.y0 < box.y1 && box.y0 < o.y1)) continue;
       placed.push(box);
-      const t = svgEl("text", { class: "tick", x: box.x0, y: y - 5 });
+      const t = svgEl("text", { class: `tick ${k}`, x: box.x0, y: y - 5 });
       t.textContent = text;
       g.append(t);
     }
