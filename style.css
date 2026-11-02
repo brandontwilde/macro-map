@@ -95,9 +95,7 @@ main { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); g
 .m-p { --swatch: var(--protein); }
 .m-c { --swatch: var(--carbs); }
 .m-f { --swatch: var(--fat); }
-.max { display: flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 13px; color: var(--text-secondary); }
-.max input { width: 80px; }
-.inputs em, .max em { font-style: normal; color: var(--text-muted); }
+.inputs em { font-style: normal; color: var(--text-muted); }
 .controls { display: flex; gap: 8px; min-width: 0; }
 input, select {
   font: inherit; color: inherit; background: var(--bg);
@@ -173,7 +171,7 @@ ol { list-style: none; margin: 0; padding: 0; }
 .rank { color: var(--text-muted); font-size: 12px; text-align: right; font-variant-numeric: tabular-nums; }
 .name { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .amount { text-align: right; font-variant-numeric: tabular-nums; }
-.sub { grid-column: 2 / -1; display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 12px; }
+.sub { grid-column: 2 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 10px; color: var(--text-muted); font-size: 12px; }
 .split { display: flex; gap: 2px; width: 72px; height: 8px; flex: none; }
 .split i { display: block; height: 100%; border-radius: 2px; }
 .split .p { background: var(--protein); }
@@ -210,7 +208,11 @@ ol { list-style: none; margin: 0; padding: 0; }
   border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px;
   font-size: 12px; box-shadow: 0 4px 16px rgb(0 0 0 / 0.15);
 }
-#tip b { display: block; font-size: 13px; margin-bottom: 2px; }
+.food-title { display: flex; align-items: baseline; gap: 12px; }
+.food-title b, .dot-card-head b { margin-right: auto; }
+.food-group { color: var(--text-muted); font-size: 11px; white-space: nowrap; }
+#tip b { font-size: 13px; }
+#tip .split { margin: 5px 0; }
 #tip .muted { color: var(--text-muted); }
 
 @media (max-width: 520px) {

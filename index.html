@@ -17,20 +17,18 @@
     <button type="button" id="theme-toggle" class="button"></button>
   </div>
   <p class="lede">Foods placed by their protein / carbs / fat split. Foods near the
-  <span class="target-key" aria-hidden="true"></span> marker match what you have left today.</p>
+  <span class="target-key" aria-hidden="true"></span> marker match your target.</p>
 </header>
 
 <main>
   <section class="left">
     <form id="remaining" class="card" autocomplete="off">
-      <h2>Left to eat today</h2>
+      <h2>Target macros</h2>
       <div class="inputs">
         <label class="m-p"><span>Protein</span><input name="p" type="number" min="0" step="1" inputmode="numeric"><em>g</em></label>
         <label class="m-c"><span>Carbs</span><input name="c" type="number" min="0" step="1" inputmode="numeric"><em>g</em></label>
         <label class="m-f"><span>Fat</span><input name="f" type="number" min="0" step="1" inputmode="numeric"><em>g</em></label>
       </div>
-      <label class="max">Max per food
-        <input name="max" type="number" min="1" step="10" inputmode="numeric"><em>g</em></label>
     </form>
 
     <figure class="card plot">
@@ -55,7 +53,7 @@
       <div class="card-head">
         <h2>Combo</h2>
         <div class="controls">
-          <button type="button" id="fit-combo" class="button">Fit to what's left</button>
+          <button type="button" id="fit-combo" class="button">Fit to target</button>
           <button type="button" id="clear-combo" class="link">Clear</button>
         </div>
       </div>
@@ -69,15 +67,11 @@
       <div class="card-head">
         <h2>Best fits</h2>
         <div class="controls">
-          <select id="sort" aria-label="Sort by">
-            <option value="closest">Closest split</option>
-            <option value="covers">Covers most</option>
-          </select>
           <input id="search" type="search" placeholder="Search foods" aria-label="Search foods">
         </div>
       </div>
-      <p class="hint">The amount shown is as much as you could eat, up to your limit, without
-      going over on any macro, and “covers” is how much of what's left that fills.</p>
+      <p class="hint">Foods whose split is closest to your target, each with a typical serving
+      and how much of the target (in grams) it provides.</p>
       <ol id="ranked"></ol>
     </div>
   </section>

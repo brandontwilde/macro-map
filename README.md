@@ -1,12 +1,12 @@
 # Macro Map
 
-A page for finding foods that fit the protein, carbs and fat you have left
-for the day.
+A page for finding foods that fit a protein, carbs and fat target: what's
+left for the day, or a single meal or snack.
 
 Every food is plotted on a triangle by its macro split (by grams): pure
 protein at the top corner, pure carbs bottom-left, pure fat bottom-right.
-Your remaining macros are a marker on the same triangle, so foods near the
-marker are the ones that fit. Pick two or three foods and it works out the
+Your target is a marker on the same triangle, so foods near the marker are
+the ones that fit. Pick two or three foods and it works out the
 amounts that land closest to your numbers. Any mix of two foods sits on the
 line between them, and a mix of three sits inside their triangle.
 
