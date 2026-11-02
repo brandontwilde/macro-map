@@ -12,7 +12,7 @@ const state = {
   foods: [],
   remaining: { p: 150, c: 200, f: 60 },
   maxGrams: 400,
-  combo: [],
+  combo: [], // [{ id, servings }]
   query: "",
   sort: "closest",
 };
@@ -30,7 +30,7 @@ function load() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
     if (saved.remaining) state.remaining = saved.remaining;
-    if (saved.combo) state.combo = saved.combo;
+    if (saved.combo) state.combo = saved.combo.map((c) => (typeof c === "number" ? { id: c, servings: 1 } : c));
     if (saved.maxGrams) state.maxGrams = saved.maxGrams;
   } catch {}
 }
@@ -65,6 +65,32 @@ function fit(food, r, maxGrams) {
   const covered = MACROS.reduce((s, k) => s + grams * v[k], 0);
   return { grams, share: left ? covered / left : 0 };
 }
+
+function serving(food) {
+  return food.portions[food.defaultPortion ?? 0] ?? { label: "100 g", g: 100 };
+}
+
+function comboItems() {
+  return state.combo
+    .map((c) => ({ ...c, food: state.foods.find((f) => f.id === c.id) }))
+    .filter((c) => c.food);
+}
+
+function macrosOf(food, grams) {
+  const v = perGram(food);
+  return { p: v.p * grams, c: v.c * grams, f: v.f * grams };
+}
+
+function comboTotal(items) {
+  const total = { p: 0, c: 0, f: 0 };
+  for (const { food, servings } of items) {
+    const m = macrosOf(food, servings * serving(food).g);
+    for (const k of MACROS) total[k] += m[k];
+  }
+  return total;
+}
+
+const inCombo = (id) => state.combo.some((c) => c.id === id);
 
 function portionText(food, grams) {
   const portion = food.portions[food.defaultPortion ?? -1];
@@ -173,10 +199,10 @@ function drawPlot(rank) {
   corner("c", 40, 528, "middle");
   corner("f", 560, 528, "middle");
 
-  const comboFoods = state.combo.map((id) => state.foods.find((f) => f.id === id)).filter(Boolean);
-  if (comboFoods.length >= 2) {
-    const pts = comboFoods.map((f) => toXY(f).join(",")).join(" ");
-    svg.append(svgEl(comboFoods.length === 2 ? "polyline" : "polygon", { class: "combo-shape", points: pts }));
+  const items = comboItems();
+  if (items.length >= 2) {
+    const pts = items.map(({ food }) => toXY(food).join(",")).join(" ");
+    svg.append(svgEl(items.length === 2 ? "polyline" : "polygon", { class: "combo-shape", points: pts }));
   }
 
   const matchRank = new Map(rank.slice(0, TOP_MATCHES).map((r, i) => [r.food.id, i + 1]));
@@ -186,7 +212,7 @@ function drawPlot(rank) {
     const xy = toXY(food);
     if (!xy) continue;
     const n = matchRank.get(food.id);
-    const selected = state.combo.includes(food.id);
+    const selected = inCombo(food.id);
     const g = svgEl("g");
     g.append(svgEl("circle", { class: "hit", cx: xy[0], cy: xy[1], r: 12 }));
     g.append(svgEl("circle", {
@@ -217,13 +243,8 @@ function drawPlot(rank) {
     svg.append(g);
   }
 
-  if (comboFoods.length >= 2) {
-    const x = solveCombo(comboFoods, state.remaining);
-    const total = { p: 0, c: 0, f: 0 };
-    comboFoods.forEach((f, i) => MACROS.forEach((k) => (total[k] += perGram(f)[k] * x[i])));
-    const xy = toXY(total);
-    if (xy) svg.append(svgEl("circle", { class: "combo-point", cx: xy[0], cy: xy[1], r: 5, "pointer-events": "none" }));
-  }
+  const mix = items.length >= 2 && toXY(comboTotal(items));
+  if (mix) svg.append(svgEl("circle", { class: "combo-point", cx: mix[0], cy: mix[1], r: 6, "pointer-events": "none" }));
 }
 
 function drawList(rank) {
@@ -238,7 +259,7 @@ function drawList(rank) {
     return;
   }
   ol.innerHTML = rows.map(({ food, grams, share, n }) => `
-    <li data-id="${food.id}" class="${state.combo.includes(food.id) ? "selected" : ""}">
+    <li data-id="${food.id}" class="${inCombo(food.id) ? "selected" : ""}">
       <span class="rank">${n}</span>
       <span class="name" title="${food.name}">${food.name}</span>
       <span class="amount">${grams > 0 ? portionText(food, grams) : "—"}</span>
@@ -247,27 +268,39 @@ function drawList(rank) {
 }
 
 function drawCombo() {
-  const card = $("#combo");
-  const foods = state.combo.map((id) => state.foods.find((f) => f.id === id)).filter(Boolean);
-  card.hidden = !foods.length;
-  if (!foods.length) return;
+  const items = comboItems();
+  $("#combo").hidden = !items.length;
+  if (!items.length) return;
 
-  const x = solveCombo(foods, state.remaining);
-  const total = { p: 0, c: 0, f: 0 };
-  foods.forEach((f, i) => MACROS.forEach((k) => (total[k] += perGram(f)[k] * x[i])));
-
-  $("#combo-items").innerHTML = foods.map((f, i) => `
+  $("#combo-items").innerHTML = items.map(({ food, servings }, i) => {
+    const s = serving(food);
+    return `
     <li>
       <span class="rank">${i + 1}</span>
-      <span class="name" title="${f.name}">${f.name}</span>
-      <span class="amount">${x[i] > 0.5 ? portionText(f, x[i]) : "skip"}
-        <button type="button" class="remove" data-id="${f.id}" aria-label="Remove ${f.name}">×</button></span>
-      <span class="sub">${splitBar(f)}<span>per 100 g: ${macroLine(f)}</span></span>
-    </li>`).join("") +
-    (foods.length < MAX_COMBO ? `<li class="empty">Add ${foods.length === 1 ? "one or two foods" : "one more food"} from the list or map.</li>` : "");
+      <span class="name">${food.name}</span>
+      <button type="button" class="remove" data-id="${food.id}" aria-label="Remove ${food.name}">×</button>
+      <span class="serving">
+        <input type="number" class="servings" data-id="${food.id}" min="0" step="0.25" value="${servings}"
+          aria-label="Servings of ${food.name}">
+        × ${s.label}${s.label === "100 g" ? "" : ` <span class="muted">(${fmt(s.g)} g)</span>`}
+      </span>
+      <span class="sub">${splitBar(food)}<span class="item-macros" data-id="${food.id}"></span></span>
+    </li>`;
+  }).join("") +
+    (items.length < MAX_COMBO ? `<li class="empty">Add ${items.length === 1 ? "one or two foods" : "one more food"} from the list or map.</li>` : "");
+  drawComboTotals(items);
+}
 
-  const row = (label, m, cls = () => "") =>
-    `<tr><td>${label}</td>${MACROS.map((k) => `<td class="${cls(k)}">${fmt(m[k])} g</td>`).join("")}</tr>`;
+function drawComboTotals(items) {
+  for (const { food, servings } of items) {
+    const el = document.querySelector(`.item-macros[data-id="${food.id}"]`);
+    const grams = servings * serving(food).g;
+    if (el) el.textContent = `${fmt(grams)} g: ${macroLine(macrosOf(food, grams), " g")}`;
+  }
+
+  const total = comboTotal(items);
+  const row = (label, m) =>
+    `<tr><td>${label}</td>${MACROS.map((k) => `<td>${fmt(m[k])} g</td>`).join("")}</tr>`;
   const diff = Object.fromEntries(MACROS.map((k) => [k, state.remaining[k] - total[k]]));
   $("#combo-totals").innerHTML =
     `<tr><th></th>${MACROS.map((k) => `<th>${MACRO_NAMES[k]}</th>`).join("")}</tr>` +
@@ -276,6 +309,18 @@ function drawCombo() {
     `<tr><td>Still to go</td>${MACROS.map((k) =>
       `<td class="${diff[k] < -0.5 ? "over" : ""}">${diff[k] < -0.5 ? `${fmt(-diff[k])} g over` : `${fmt(Math.max(diff[k], 0))} g`}</td>`
     ).join("")}</tr>`;
+}
+
+// Serving counts (to the nearest quarter) that land closest to what's left.
+function fitCombo() {
+  const items = comboItems();
+  const grams = solveCombo(items.map((c) => c.food), state.remaining);
+  items.forEach((c, i) => {
+    const entry = state.combo.find((e) => e.id === c.id);
+    entry.servings = Math.round((grams[i] / serving(c.food).g) * 4) / 4;
+  });
+  save();
+  render();
 }
 
 function showTip(e, food, grams, share) {
@@ -300,10 +345,10 @@ function hideTip() {
 }
 
 function toggleCombo(id) {
-  const i = state.combo.indexOf(id);
+  const i = state.combo.findIndex((c) => c.id === id);
   if (i >= 0) state.combo.splice(i, 1);
   else {
-    state.combo.push(id);
+    state.combo.push({ id, servings: 1 });
     if (state.combo.length > MAX_COMBO) state.combo.shift();
   }
   save();
@@ -344,6 +389,17 @@ async function init() {
     const btn = e.target.closest(".remove");
     if (btn) toggleCombo(Number(btn.dataset.id));
   });
+  // Typing a count redraws only the totals and map, so the input keeps focus.
+  $("#combo-items").addEventListener("input", (e) => {
+    const input = e.target.closest(".servings");
+    if (!input) return;
+    const entry = state.combo.find((c) => c.id === Number(input.dataset.id));
+    entry.servings = Math.max(0, Number(input.value) || 0);
+    save();
+    drawPlot(ranked());
+    drawComboTotals(comboItems());
+  });
+  $("#fit-combo").addEventListener("click", fitCombo);
   $("#clear-combo").addEventListener("click", () => {
     state.combo = [];
     save();

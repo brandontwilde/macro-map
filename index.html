@@ -37,10 +37,13 @@
     <div class="card" id="combo" hidden>
       <div class="card-head">
         <h2>Combo</h2>
-        <button type="button" id="clear-combo" class="link">Clear</button>
+        <div class="controls">
+          <button type="button" id="fit-combo" class="button">Fit to what's left</button>
+          <button type="button" id="clear-combo" class="link">Clear</button>
+        </div>
       </div>
-      <p class="hint">Amounts that land closest to what's left. Any mix of two foods sits on the
-      line between them on the map; a mix of three sits inside their triangle.</p>
+      <p class="hint">Starts at one serving of each. The ring on the map shows where the mix lands:
+      on the line between two foods, or inside the triangle of three.</p>
       <ol id="combo-items"></ol>
       <table class="totals" id="combo-totals"></table>
     </div>

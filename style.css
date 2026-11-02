@@ -139,7 +139,16 @@ ol { list-style: none; margin: 0; padding: 0; }
 .fill { font-variant-numeric: tabular-nums; }
 .empty { color: var(--text-muted); padding: 12px 6px; }
 
-#combo-items li { cursor: default; }
+#combo-items li { cursor: default; grid-template-columns: 22px minmax(0, 1fr) auto; }
+#combo-items .name { white-space: normal; }
+.serving { grid-column: 2 / -1; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.serving input { width: 72px; padding: 3px 6px; }
+.muted { color: var(--text-muted); }
+.button {
+  font: inherit; font-size: 13px; color: var(--text-primary); background: var(--bg);
+  border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; cursor: pointer;
+}
+.button:hover { border-color: var(--text-muted); }
 .remove { border: 0; background: none; color: var(--text-muted); font: inherit; cursor: pointer; padding: 0 4px; }
 .link { border: 0; background: none; color: var(--text-secondary); font: inherit; font-size: 13px; cursor: pointer; text-decoration: underline; }
 
@@ -161,7 +170,7 @@ ol { list-style: none; margin: 0; padding: 0; }
   .card-head { flex-wrap: wrap; }
   .controls { flex: 1 1 100%; }
   #search { max-width: none; flex: 1; }
-  #ranked li, #combo-items li { grid-template-columns: 22px minmax(0, 1fr); }
+  #ranked li { grid-template-columns: 22px minmax(0, 1fr); }
   .name { white-space: normal; }
   .amount { grid-column: 2; text-align: left; }
 }
