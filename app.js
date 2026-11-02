@@ -413,36 +413,49 @@ function drawPlot(rank) {
   if (mix) svg.append(svgEl("circle", { class: "combo-point", cx: mix[0], cy: mix[1], r: 6, "pointer-events": "none" }));
 }
 
-// Percent labels for the ruler lines, skipping any that would cover a placed box.
+// Percent labels for the ruler lines, each written along its own line so it's clear which
+// line it belongs to, and skipping any that would cover a placed box.
 function drawRulerLabels(g, rulers, step, placed) {
   const pct = (v) => `${(v * 100).toFixed(step < 0.01 ? 1 : 0)}%`;
-  if (zoom() < 1.001) {
-    // Each macro is read off its own edge: protein on the left, carbs along the base, fat on the right.
-    for (const { k, v, seg } of rulers) {
-      const [a, b] = seg;
-      const [x, y] = { p: a[0] < b[0] ? a : b, c: a[1] > b[1] ? a : b, f: a[0] > b[0] ? a : b }[k];
-      const [dx, dy, anchor] = { p: [-8, 4, "end"], c: [0, 17, "middle"], f: [8, 4, "start"] }[k];
-      const t = svgEl("text", { class: `tick ${k}`, x: x + dx, y: y + dy, "text-anchor": anchor });
-      t.textContent = pct(v);
-      g.append(t);
-    }
-  } else {
-    // Zoomed in, the triangle's edges may be out of view, so label each ruler where it
-    // leaves the view: protein lines (horizontal) on the left, carbs and fat at the bottom.
-    for (const { k, v, seg } of rulers) {
-      const [x, y] = k === "p"
-        ? (seg[0][0] < seg[1][0] ? seg[0] : seg[1])
-        : (seg[0][1] > seg[1][1] ? seg[0] : seg[1]);
-      const text = `${MACRO_NAMES[k][0]} ${pct(v)}`;
-      const box = { x0: x + 3, x1: x + 3 + text.length * 6.2, y0: y - 16, y1: y - 3 };
-      if (box.x1 > PLOT_W) [box.x0, box.x1] = [x - 3 - (box.x1 - box.x0), x - 3];
-      if (placed.some((o) => o.x0 < box.x1 && box.x0 < o.x1 && o.y0 < box.y1 && box.y0 < o.y1)) continue;
-      placed.push(box);
-      const t = svgEl("text", { class: `tick ${k}`, x: box.x0, y: y - 5 });
-      t.textContent = text;
-      g.append(t);
-    }
+  const full = zoom() < 1.001;
+  for (const { k, v, seg } of rulers) {
+    // Unzoomed, each macro is read off its own edge (protein left, carbs along the base, fat right)
+    // and the label continues the line outward. Zoomed in, the edges may be out of view, so it
+    // starts where the line leaves the view (protein left, carbs and fat at the bottom) and runs inward.
+    const [a, b] = seg;
+    const pick = full ? { p: a[0] < b[0], c: a[1] > b[1], f: a[0] > b[0] }[k] : k === "p" ? a[0] < b[0] : a[1] > b[1];
+    const [end, other] = pick ? [a, b] : [b, a];
+    const len = Math.hypot(end[0] - other[0], end[1] - other[1]) || 1;
+    const out = full ? 1 : -1;
+    const dir = [((end[0] - other[0]) / len) * out, ((end[1] - other[1]) / len) * out];
+    const text = full ? pct(v) : `${MACRO_NAMES[k][0]} ${pct(v)}`;
+    const label = alongLine(end, dir, text, full ? { gap: 6, lift: 0 } : { gap: 3, lift: -6 });
+    if (placed.some((o) => o.x0 < label.box.x1 && label.box.x0 < o.x1 && o.y0 < label.box.y1 && label.box.y0 < o.y1)) continue;
+    if (!full && (label.box.x0 < 0 || label.box.x1 > PLOT_W || label.box.y0 < 0)) continue;
+    placed.push(label.box);
+    label.el.setAttribute("class", `tick ${k}`);
+    g.append(label.el);
   }
+}
+
+// Text starting `gap` from point `at` and running in direction `dir`, turned to stay upright,
+// and `lift` units off the line. Returns the element and its bounding box.
+function alongLine([x, y], dir, text, { gap, lift }) {
+  let angle = (Math.atan2(dir[1], dir[0]) * 180) / Math.PI;
+  const flip = Math.abs(angle) > 90; // reading direction is opposite to dir, so anchor at the end
+  if (flip) angle += angle > 0 ? -180 : 180;
+  const w = text.length * 6.2, h = 12; // at the tick's 11px font
+  const x0 = flip ? x - gap - w : x + gap;
+  const el = svgEl("text", {
+    x: flip ? x - gap : x + gap, y: y + lift, "text-anchor": flip ? "end" : "start",
+    "dominant-baseline": "central", transform: `rotate(${angle.toFixed(2)} ${x} ${y})`,
+  });
+  el.textContent = text;
+  const rad = (angle * Math.PI) / 180, [cos, sin] = [Math.cos(rad), Math.sin(rad)];
+  const pts = [[x0, y + lift - h / 2], [x0 + w, y + lift - h / 2], [x0, y + lift + h / 2], [x0 + w, y + lift + h / 2]]
+    .map(([px, py]) => [x + (px - x) * cos - (py - y) * sin, y + (px - x) * sin + (py - y) * cos]);
+  const xs = pts.map((q) => q[0]), ys = pts.map((q) => q[1]);
+  return { el, box: { x0: Math.min(...xs), x1: Math.max(...xs), y0: Math.min(...ys), y1: Math.max(...ys) } };
 }
 
 // The part of segment a–b inside the plot area (Liang–Barsky), or null if none is.
