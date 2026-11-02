@@ -34,3 +34,10 @@ won't work, because browsers block it from loading `foods.json`.
 In `curated.csv`, `portion` picks which USDA serving size to show (exact
 match first, then a substring match), and `portion_label` optionally renames
 it.
+
+## Publishing
+
+Pushes to `main` publish the site to GitHub Pages (via the `gh-pages`
+branch). Each pull request also gets a preview at
+`https://brandonwilde.github.io/macro-map/pr-preview/pr-<number>/`,
+linked in a comment on the PR and removed when the PR closes.
