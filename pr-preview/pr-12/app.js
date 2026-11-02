@@ -62,11 +62,13 @@ function save() {
 // Custom foods are kept per unit (one chip, one bowl), the way people enter them, and converted to per 100 g for the map.
 let builtIn = [];
 function toFood(r) {
-  const per100 = (v) => (v / r.grams) * 100;
+  // Without a known weight, the macros' own weight stands in: only ratios matter then, and g/oz aren't offered.
+  const g = r.grams ?? r.protein + r.carbs + r.fat;
+  const per100 = (v) => (v / g) * 100;
   return {
-    id: r.id, name: r.name, group: r.group, diet: r.diet, mine: true,
+    id: r.id, name: r.name, group: r.group, diet: r.diet, mine: true, weightless: r.grams == null,
     p: per100(r.protein), c: per100(r.carbs), f: per100(r.fat), kcal: r.kcal == null ? null : per100(r.kcal),
-    portions: [{ label: r.unit, g: r.grams }], unit: r.unit,
+    portions: [{ label: r.unit, g }], unit: r.unit,
   };
 }
 function setFoods() {
@@ -84,9 +86,9 @@ const foodPrompt = () => `Give me nutrition data for the foods below as a JSON a
 - "group": one of ${[...new Set(builtIn.map((f) => f.group))].map((g) => `"${g}"`).join(", ")}
 - "diet": "vegan", "vegetarian" or ""
 - "unit": what it's counted in, e.g. "chip", "slice", "egg", "cup", "bar"
-- "grams": weight of one unit as eaten (cooked or prepared), in grams
+- "grams" (optional): weight of one unit as eaten (cooked or prepared), in grams
 - "protein", "carbs", "fat": grams in one unit
-- "kcal": calories in one unit
+- "kcal" (optional): calories in one unit
 For a recipe, use one portion if I say how many it makes; otherwise use the whole batch, e.g. "pot". Reply with only the JSON.
 
 My foods:
@@ -106,13 +108,14 @@ function parseFoods(text) {
     if (!item || typeof item !== "object") return errors.push(`${label}: not an object.`);
     const name = String(item.name ?? "").trim();
     const num = (k) => (item[k] === "" || item[k] == null ? NaN : Number(item[k]));
-    const [grams, protein, carbs, fat] = ["grams", "protein", "carbs", "fat"].map(num);
+    const [protein, carbs, fat] = ["protein", "carbs", "fat"].map(num);
+    const grams = item.grams === "" || item.grams == null ? null : Number(item.grams);
     const kcal = num("kcal");
     if (!name) return errors.push(`${label}: needs a name.`);
-    if (!(grams > 0)) return errors.push(`${label}: "grams" must be a positive number.`);
+    if (grams !== null && !(grams > 0)) return errors.push(`${label}: "grams" must be a positive number, or left out.`);
     if (![protein, carbs, fat].every((v) => v >= 0)) return errors.push(`${label}: "protein", "carbs" and "fat" must be numbers.`);
     if (protein + carbs + fat === 0) return errors.push(`${label}: has no protein, carbs or fat.`);
-    if (protein + carbs + fat > grams * 1.05) return errors.push(`${label}: its macros weigh more than one unit (${grams} g).`);
+    if (grams !== null && protein + carbs + fat > grams * 1.05) return errors.push(`${label}: its macros weigh more than one unit (${grams} g).`);
     const unit = String(item.unit ?? "").trim();
     if (!unit) return errors.push(`${label}: needs a "unit", e.g. "slice" or "cup".`);
     if (WEIGHTS.some((w) => w.label === unit.toLowerCase())) return errors.push(`${label}: "unit" can't be g or oz, which are always offered; use something like "piece" or "cup".`);
@@ -168,7 +171,7 @@ function perGram(food) {
   return { p: food.p / 100, c: food.c / 100, f: food.f / 100 };
 }
 
-const units = (food) => [...food.portions, ...WEIGHTS];
+const units = (food) => (food.weightless ? food.portions : [...food.portions, ...WEIGHTS]);
 
 function findUnit(food, label) {
   const all = units(food);
@@ -211,7 +214,7 @@ function serving(food) {
 
 function servingText(food, grams, unit) {
   const u = findUnit(food, unit);
-  return WEIGHTS.includes(u) ? amountText(u, grams) : `${amountText(u, grams)} (${Math.round(grams)} g)`;
+  return WEIGHTS.includes(u) || food.weightless ? amountText(u, grams) : `${amountText(u, grams)} (${Math.round(grams)} g)`;
 }
 
 function comboItems() {
@@ -553,9 +556,9 @@ function drawCombo() {
 
 function drawComboTotals(items) {
   for (const { food, grams, unit } of items) {
-    const others = [findUnit(food, food.unit), ...WEIGHTS].filter((u, i, all) =>
+    const others = [findUnit(food, food.unit), ...units(food).filter((u) => WEIGHTS.includes(u))].filter((u, i, all) =>
       u.label !== unit && all.findIndex((v) => v.label === u.label) === i);
-    $(`.equiv[data-id="${food.id}"]`).textContent = `= ${others.map((u) => amountText(u, grams)).join(" · ")}`;
+    $(`.equiv[data-id="${food.id}"]`).textContent = others.length ? `= ${others.map((u) => amountText(u, grams)).join(" · ")}` : "";
     $(`.item-macros[data-id="${food.id}"]`).textContent = macroLine(macrosOf(food, grams), " g");
   }
 
@@ -591,7 +594,8 @@ const foodTitle = (food) =>
 const pctText = (share) => `${share > 0 && share < 0.005 ? "<1" : Math.round(share * 100)}% of target`;
 
 function foodDetails({ food, grams, unit, share }) {
-  const kcal = food.kcal ? ` · ${Math.round((food.kcal * grams) / 100)} kcal` : "";
+  const per100 = food.kcal ?? 4 * food.p + 4 * food.c + 9 * food.f; // Atwater factors when no calorie count is given
+  const kcal = per100 ? ` · ${Math.round((per100 * grams) / 100)} kcal` : "";
   return `<div>${servingText(food, grams, unit)}${kcal}</div>
     <div class="muted">${macroLine(macrosOf(food, grams), " g")} · ${pctText(share)}</div>`;
 }
@@ -700,7 +704,7 @@ function drawMine() {
   $("#mine-list").innerHTML = state.mine.map((r) => `
     <li>
       <span class="name">${esc(r.name)}</span>
-      <span class="muted">1 ${esc(r.unit)} (${fmt(r.grams)} g) · ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")}</span>
+      <span class="muted">1 ${esc(r.unit)}${r.grams == null ? "" : ` (${fmt(r.grams)} g)`} · ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")}</span>
       <button type="button" class="remove" data-id="${r.id}" aria-label="Delete ${esc(r.name)}">×</button>
     </li>`).join("");
 }
