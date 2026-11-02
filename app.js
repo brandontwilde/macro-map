@@ -642,13 +642,15 @@ async function init() {
   let dragged = false;
   svg.addEventListener("pointerdown", (e) => {
     lastPointer = e.pointerType;
+    if (e.isPrimary) pointers.clear(); // first finger down, so any entry left over is stale
     if (!pointers.size) dragged = false;
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pointers.size === 2 || state.view.w < PLOT_W) svg.setPointerCapture(e.pointerId);
   });
+  // On window, since a lift can land outside the chart when a redraw removes the element it started on.
   const release = (e) => pointers.delete(e.pointerId);
-  svg.addEventListener("pointerup", release);
-  svg.addEventListener("pointercancel", release);
+  addEventListener("pointerup", release);
+  addEventListener("pointercancel", release);
   svg.addEventListener("pointermove", (e) => {
     const prev = pointers.get(e.pointerId);
     if (prev) {
