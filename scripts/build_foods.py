@@ -4,8 +4,9 @@ Usage: python scripts/build_foods.py <path to extracted SR Legacy CSV dir>
 
 Download the "SR Legacy" CSV zip from https://fdc.nal.usda.gov/download-datasets
 and extract it. Which foods to include, their display names, and the preferred
-portion for each are listed in scripts/curated.csv. `portion` matches part of a
-USDA portion name; `portion_label` optionally renames it for display.
+portion for each are listed in scripts/curated.csv. `diet` is "vegan",
+"vegetarian" or blank. `portion` matches part of a USDA portion name;
+`portion_label` optionally renames it for display.
 """
 
 import csv
@@ -88,6 +89,7 @@ def main(usda_dir):
                 "id": int(c["fdc_id"]),
                 "name": c["name"],
                 "group": c["group"],
+                "diet": c["diet"] or None,  # "vegan", "vegetarian", or neither
                 # macros per 100 g, energy in kcal
                 "p": n["p"],
                 "c": n["c"],
