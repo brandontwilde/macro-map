@@ -90,6 +90,7 @@ const foodPrompt = () => `Give me nutrition data for the foods below as a JSON a
 - "protein", "carbs", "fat": grams in one unit
 - "kcal" (optional): calories in one unit
 My foods may come as a list, a recipe, a screenshot or export from another app, or photos of labels or food; work out each food's values from whatever I give.
+If you can search the web, look up branded, packaged and restaurant foods instead of estimating: use the maker's published nutrition facts first, then Open Food Facts. For plain whole foods, use USDA FoodData Central values.
 For a recipe, use one portion if I say how many it makes; otherwise use the whole batch, e.g. "pot". Reply with only the JSON.
 
 My foods:
@@ -1197,7 +1198,7 @@ async function init() {
     render();
   });
 
-  builtIn = await (await fetch("foods.json?v=7a30239a")).json();
+  builtIn = await (await fetch("foods.json?v=f62605cd")).json();
   setFoods();
   upgradeCombo();
   render();
