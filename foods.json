@@ -2919,7 +2919,7 @@
  {
   "id": 171009,
   "name": "Mayonnaise",
-  "group": "Fats & nuts",
+  "group": "Sauces & condiments",
   "diet": "vegetarian",
   "p": 0.96,
   "c": 0.57,
@@ -3430,7 +3430,7 @@
  {
   "id": 171192,
   "name": "Marinara sauce",
-  "group": "Prepared foods",
+  "group": "Sauces & condiments",
   "diet": "vegan",
   "p": 1.39,
   "c": 7.43,
@@ -3447,7 +3447,7 @@
  {
   "id": 168556,
   "name": "Ketchup",
-  "group": "Prepared foods",
+  "group": "Sauces & condiments",
   "diet": "vegan",
   "p": 1.04,
   "c": 27.4,
