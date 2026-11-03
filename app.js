@@ -366,15 +366,23 @@ function drawPlot(rank) {
 
   const ticks = svgEl("g"); // filled once food names are placed, which take priority
   svg.append(ticks);
-  const corner = (k, dy) => {
+  // Zoomed in, each corner shows how far its macro reaches in view, not 100%.
+  const zoomed = span < 1 - 1e-9;
+  const corner = (k, dx, dy, anchor) => {
     const [x, y] = CORNERS[k];
-    const t = svgEl("text", { class: `corner ${k}`, x, y: y + dy, "text-anchor": "middle" });
+    const t = svgEl("text", { class: `corner ${k}`, x: x + dx, y: y + dy, "text-anchor": anchor });
     t.textContent = MACRO_NAMES[k];
+    if (zoomed) {
+      const v = svgEl("tspan", { class: "corner-pct" });
+      v.textContent = ` ${((lo[k] + span) * 100).toFixed(step < 0.01 ? 1 : 0)}%`;
+      t.append(v);
+    }
     svg.append(t);
   };
-  corner("p", -18);
-  corner("c", 26);
-  corner("f", 26);
+  corner("p", 0, -18, "middle");
+  corner("c", zoomed ? -30 : 0, 26, zoomed ? "start" : "middle");
+  corner("f", zoomed ? 30 : 0, 26, zoomed ? "end" : "middle");
+  if (zoomed) svg.append(minimap(lo, span));
 
   const items = comboItems();
   if (items.length >= 2) {
@@ -431,6 +439,34 @@ function drawPlot(rank) {
 
   const mix = items.length >= 2 && plotXY(comboTotal(items));
   if (mix && inFrame(mix)) svg.append(svgEl("circle", { class: "combo-point", cx: mix[0], cy: mix[1], r: 6, "pointer-events": "none" }));
+}
+
+const MINIMAP = { x: 8, y: 8, w: 104 }; // SVG units, in the empty top-left of the plot
+const fromMinimap = ([x, y]) => {
+  const k = PLOT_W / MINIMAP.w;
+  return [(x - MINIMAP.x) * k, (y - MINIMAP.y) * k];
+};
+
+// The whole triangle in miniature, with the part in view shaded.
+function minimap(lo, span) {
+  const k = MINIMAP.w / PLOT_W;
+  const at = ([x, y]) => [MINIMAP.x + x * k, MINIMAP.y + y * k];
+  const pts = (xys) => xys.map((xy) => at(xy).join(",")).join(" ");
+  const g = svgEl("g", { class: "minimap" });
+  g.append(svgEl("rect", { x: 0, y: 0, width: MINIMAP.x * 2 + MINIMAP.w, height: MINIMAP.y * 2 + CORNERS.c[1] * k }));
+  g.append(svgEl("polygon", { class: "minimap-frame", points: pts(MACROS.map((m) => CORNERS[m])) }));
+  const view = MACROS.map((m) => toXY({ ...lo, [m]: lo[m] + span }));
+  g.append(svgEl("polygon", { class: "minimap-view", points: pts(view) }));
+  const [cx, cy] = at(toXY({ p: lo.p + span / 3, c: lo.c + span / 3, f: lo.f + span / 3 }));
+  if (span * (CORNERS.c[1] - CORNERS.p[1]) * k < 8) g.append(svgEl("circle", { class: "minimap-spot", cx, cy, r: 4 }));
+  return g;
+}
+
+// Moves the view so its centre is at a plot point.
+function centerOn([x, y]) {
+  const s = state.view.w / PLOT_W;
+  const [cx, cy] = toXY({ p: 1, c: 1, f: 1 });
+  setView(x - cx * s, y - cy * s, state.view.w);
 }
 
 // Percent labels for the ruler lines, each macro read off its own edge: protein on the
@@ -773,18 +809,30 @@ async function init() {
   // One pointer pans once zoomed in; two pinch. A drag mustn't also count as a tap.
   const pointers = new Map();
   let dragged = false;
+  let onMinimap = false; // a press on the minimap steers the view instead of panning it
   svg.addEventListener("pointerdown", (e) => {
     lastPointer = e.pointerType;
+    onMinimap = e.isPrimary && !!e.target.closest(".minimap");
+    if (onMinimap) {
+      dragged = true;
+      svg.setPointerCapture(e.pointerId);
+      centerOn(fromMinimap(toPlot(e)));
+      return;
+    }
     if (e.isPrimary) pointers.clear(); // first finger down, so any entry left over is stale
     if (!pointers.size) dragged = false;
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pointers.size === 2 || state.view.w < PLOT_W) svg.setPointerCapture(e.pointerId);
   });
   // On window, since a lift can land outside the chart when a redraw removes the element it started on.
-  const release = (e) => pointers.delete(e.pointerId);
+  const release = (e) => {
+    pointers.delete(e.pointerId);
+    onMinimap = false;
+  };
   addEventListener("pointerup", release);
   addEventListener("pointercancel", release);
   svg.addEventListener("pointermove", (e) => {
+    if (onMinimap) return centerOn(fromMinimap(toPlot(e)));
     const prev = pointers.get(e.pointerId);
     if (prev) {
       const cur = { x: e.clientX, y: e.clientY };
