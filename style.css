@@ -250,7 +250,9 @@ ol { list-style: none; margin: 0; padding: 0; }
   display: block; width: 100%; font: 12px/1.4 ui-monospace, monospace; color: inherit; background: var(--bg);
   border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; resize: vertical;
 }
+#mine-json::placeholder { font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
 .controls.wrap { flex-wrap: wrap; margin-top: 10px; }
+.ai-step { flex-wrap: wrap; align-items: center; margin: 4px 0 8px; font-size: 13px; }
 
 #scan { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
 #scan-video {
@@ -279,6 +281,8 @@ ol { list-style: none; margin: 0; padding: 0; }
   border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; box-shadow: 0 4px 16px rgb(0 0 0 / 0.15);
 }
 .plot-info .info-text { left: auto; right: 0; }
+.info-text ul { margin: 0; padding-left: 16px; }
+.info-text li + li { margin-top: 4px; }
 .info.open .info-text { display: block; }
 /* Touch screens keep :hover after a tap, which would stop a second tap from closing it. */
 @media (hover: hover) { .info:hover .info-text { display: block; } }

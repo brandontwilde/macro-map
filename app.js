@@ -89,6 +89,7 @@ const foodPrompt = () => `Give me nutrition data for the foods below as a JSON a
 - "grams" (optional): weight of one unit as eaten (cooked or prepared), in grams
 - "protein", "carbs", "fat": grams in one unit
 - "kcal" (optional): calories in one unit
+My foods may come as a list, a recipe, a screenshot or export from another app, or photos of labels or food; work out each food's values from whatever I give.
 For a recipe, use one portion if I say how many it makes; otherwise use the whole batch, e.g. "pot". Reply with only the JSON.
 
 My foods:
@@ -303,9 +304,9 @@ async function lookUpBarcode(code) {
   } catch {
     return scanMessage("Couldn't reach Open Food Facts. Check the connection and try again.", true);
   }
-  if (!product) return scanMessage(`Barcode ${code} isn't in Open Food Facts yet. Add it with Copy prompt instead.`, true);
+  if (!product) return scanMessage(`Barcode ${code} isn't in Open Food Facts yet. Add it with Copy AI prompt instead.`, true);
   const record = fromOpenFoodFacts(product);
-  if (!record) return scanMessage(`Open Food Facts has barcode ${code} but not its protein, carbs and fat. Add it with Copy prompt instead.`, true);
+  if (!record) return scanMessage(`Open Food Facts has barcode ${code} but not its protein, carbs and fat. Add it with Copy AI prompt instead.`, true);
   scanMessage("Check the details, then add it.");
   showScanned(record);
 }
@@ -1137,7 +1138,7 @@ async function init() {
       $("#mine-json").value = foodPrompt(); // clipboard can be blocked; leave it where it can be copied by hand
       e.target.textContent = "Copy it from the box";
     }
-    setTimeout(() => (e.target.textContent = "Copy prompt"), 2000);
+    setTimeout(() => (e.target.textContent = "Copy AI prompt"), 2000);
   });
   const showMine = (open) => {
     $("#mine").hidden = !open;

@@ -27,20 +27,32 @@
   <div class="card-head">
     <div class="title">
       <h2>My foods</h2>
-      <span class="info"><button type="button" class="info-btn" aria-label="About My foods" aria-expanded="false">?</button>
-        <span class="info-text" role="tooltip">Scan a packaged food's barcode, or copy the prompt into ChatGPT (or similar), list your foods after it, and paste its answer here. Foods are saved in this browser only, so Export keeps a copy.</span></span>
+      <div class="info"><button type="button" class="info-btn" aria-label="About My foods" aria-expanded="false">?</button>
+        <div class="info-text" role="tooltip">
+          <ul>
+            <li>Packaged food? Scan barcode reads the label for you.</li>
+            <li>Anything else: copy the AI prompt into ChatGPT, Claude or another AI chat, add your foods, then paste
+            its reply below.</li>
+            <li>Your foods are saved in this browser only. Use Export to keep a copy or move them to another device.</li>
+            <li>Adding a food with a name you already have replaces it.</li>
+          </ul>
+        </div>
+      </div>
     </div>
     <button type="button" class="remove" id="close-mine" aria-label="Close My foods">×</button>
   </div>
   <ul id="mine-list"></ul>
-  <textarea id="mine-json" rows="5" placeholder='[{ "name": "Chicken burrito bowl", "group": "Prepared foods", "diet": "", "unit": "bowl", "grams": 450, "protein": 42, "carbs": 65, "fat": 18, "kcal": 590 }]' aria-label="Foods as JSON"></textarea>
+  <div class="controls ai-step">
+    <button type="button" id="copy-prompt" class="button">Copy AI prompt</button>
+    <span class="muted">Paste it into ChatGPT or another AI chat, then add your foods.</span>
+  </div>
+  <textarea id="mine-json" rows="6" placeholder="Paste the AI's reply here.&#10;&#10;The AI can work from a typed list, a recipe, a screenshot or export from another food app, or photos of labels and your pantry." aria-label="AI reply with your foods"></textarea>
   <p id="mine-msg" class="hint" aria-live="polite"></p>
   <div class="controls wrap">
     <button type="button" id="add-mine" class="button">Add foods</button>
-    <button type="button" id="copy-prompt" class="button">Copy prompt</button>
+    <button type="button" id="scan-open" class="button" aria-expanded="false" aria-controls="scan">Scan barcode</button>
     <label class="button">Import file<input type="file" id="import-mine" accept=".json,application/json" hidden></label>
     <button type="button" id="export-mine" class="button" hidden>Export</button>
-    <button type="button" id="scan-open" class="button" aria-expanded="false" aria-controls="scan">Scan barcode</button>
   </div>
   <div id="scan" hidden>
     <video id="scan-video" muted playsinline hidden></video>
@@ -73,8 +85,9 @@
     </form>
 
     <figure class="card plot">
-      <span class="info plot-info"><button type="button" class="info-btn" aria-label="About the map" aria-expanded="false">?</button>
-        <span class="info-text" role="tooltip">Each corner is a food that's all one macro. Numbered dots are the best fits for your target. <span class="on-hover">Scroll to zoom and drag to move. Hover a dot for details; click it to add it to a combo.</span><span class="on-touch">Pinch to zoom and drag to move. Tap a dot for details and to add it to a combo.</span></span></span>
+      <div class="info plot-info"><button type="button" class="info-btn" aria-label="About the map" aria-expanded="false">?</button>
+        <div class="info-text" role="tooltip">Each dot is a food. The closer a dot is to a corner, the more of that macro it has. The crosshair is your target, and the numbered dots are your best fits. <span class="on-hover">Scroll to zoom and drag to move. Hover a dot for details, and click it to add it to a combo.</span><span class="on-touch">Pinch to zoom and drag to move. Tap a dot for details and to add it to a combo.</span></div>
+      </div>
       <div id="filters" class="filters"></div>
       <div class="plot-area">
         <svg id="tri" viewBox="0 0 600 548" role="img" aria-label="Triangle plot of foods by macro split"></svg>
@@ -93,8 +106,9 @@
       <div class="card-head">
         <div class="title">
           <h2>Combo</h2>
-          <span class="info"><button type="button" class="info-btn" aria-label="About Combo" aria-expanded="false">?</button>
-            <span class="info-text" role="tooltip">Change an amount or its unit to match what you eat. Fit to target picks amounts for you. The hollow dot on the map shows where the mix lands.</span></span>
+          <div class="info"><button type="button" class="info-btn" aria-label="About Combo" aria-expanded="false">?</button>
+            <div class="info-text" role="tooltip">Build a meal from two or three foods. Set how much of each you'll have, or use Fit to target to pick the amounts that get closest to your target. The hollow dot on the map shows the meal's mix.</div>
+          </div>
         </div>
         <div class="controls">
           <button type="button" id="fit-combo" class="button">Fit to target</button>
@@ -109,8 +123,9 @@
       <div class="card-head">
         <div class="title">
           <h2>Best fits</h2>
-          <span class="info"><button type="button" class="info-btn" aria-label="About Best fits" aria-expanded="false">?</button>
-            <span class="info-text" role="tooltip">Foods whose split is closest to your target, each with a typical amount and how much of your target it covers.</span></span>
+          <div class="info"><button type="button" class="info-btn" aria-label="About Best fits" aria-expanded="false">?</button>
+            <div class="info-text" role="tooltip">Foods whose ratio of protein to carbs to fat is closest to your target's. Each shows a typical serving and how much of your target that serving covers.</div>
+          </div>
         </div>
         <div class="controls">
           <input id="search" type="search" placeholder="Search foods" aria-label="Search foods">
