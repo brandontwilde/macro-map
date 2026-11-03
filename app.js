@@ -225,7 +225,7 @@ const OFF_CATEGORY_GROUPS = [
 const OFF_FOOD_GROUPS = {
   "en:fruit-juices": "Fruit", "en:fruit-nectars": "Fruit", "en:fruits": "Fruit", "en:dried-fruits": "Fruit",
   "en:vegetables": "Vegetables", "en:soups": "Prepared foods", "en:legumes": "Plant protein", "en:nuts": "Fats & nuts",
-  "en:eggs": "Eggs & dairy", "en:dressings-and-sauces": "Prepared foods", "en:fats": "Fats & nuts",
+  "en:eggs": "Eggs & dairy", "en:dressings-and-sauces": "Sauces & condiments", "en:fats": "Fats & nuts",
   "en:beverages": "Drinks", "en:alcoholic-beverages": "Drinks", "en:fruits-and-vegetables": "Vegetables",
   "en:cereals-and-potatoes": "Grains & starches", "en:milk-and-dairy-products": "Eggs & dairy",
   "en:fish-meat-eggs": "Meat & fish", "en:fat-and-sauces": "Fats & nuts", "en:sugary-snacks": "Snacks & sweets",
