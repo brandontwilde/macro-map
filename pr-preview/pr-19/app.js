@@ -102,6 +102,10 @@ function parseFoods(text) {
   } catch {
     return { records: [], errors: ["That isn't valid JSON. Paste just the JSON part of the reply."] };
   }
+  return checkFoods(data);
+}
+
+function checkFoods(data) {
   const records = [], errors = [];
   (Array.isArray(data) ? data : [data]).forEach((item, i) => {
     const label = `Item ${i + 1}${item?.name ? ` (${item.name})` : ""}`;
@@ -186,7 +190,7 @@ async function startScan(onCode) {
   };
   try {
     stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-    if (!live) return stream.getTracks().forEach((t) => t.stop());
+    if (!live) return stopScan();
     video.srcObject = stream;
     video.hidden = false;
     await video.play();
@@ -219,7 +223,7 @@ async function startScan(onCode) {
 // Open Food Facts files products under a fixed two-level food-group list (PNNS); subgroups are checked before
 // their parent. A few of its placements differ from this app's, so some categories are checked first.
 const OFF_CATEGORY_GROUPS = [
-  [/nut-butters|peanut-butters/, "Fats & nuts"],
+  [/nut-butters/, "Fats & nuts"],
   [/tofu|tempeh|meat-analogues|hummus/, "Plant protein"],
   [/crisps|chips|popcorn|pretzels|crackers/, "Snacks & sweets"],
 ];
@@ -308,7 +312,7 @@ async function lookUpBarcode(code) {
 
 function showScanned(r) {
   const form = $("#scan-food");
-  const groups = [...new Set([...builtIn, ...state.mine].map((f) => f.group))].sort();
+  const groups = [...new Set(state.foods.map((f) => f.group))].sort();
   form.elements.group.innerHTML = groups.map((g) => `<option>${esc(g)}</option>`).join("");
   for (const k of ["name", "unit", "group", "diet"]) form.elements[k].value = r[k];
   $("#scan-macros").textContent = `One unit (${fmt(r.grams)} g): ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")}${
@@ -911,8 +915,7 @@ function drawMine() {
     </li>`).join("");
 }
 
-function importFoods(text) {
-  const { records, errors } = parseFoods(text);
+function importFoods({ records, errors }) {
   if (records.length) {
     addMine(records);
     upgradeCombo();
@@ -1152,16 +1155,16 @@ async function init() {
     e.preventDefault();
     const f = e.target.elements;
     const record = { ...scanned, name: f.name.value, unit: f.unit.value, group: f.group.value, diet: f.diet.value };
-    if (importFoods(JSON.stringify(record))) showScan(false);
+    if (importFoods(checkFoods(record))) showScan(false);
   });
   $("#mine-toggle").addEventListener("click", () => showMine($("#mine").hidden));
   $("#close-mine").addEventListener("click", () => showMine(false));
   $("#add-mine").addEventListener("click", () => {
-    if (importFoods($("#mine-json").value)) $("#mine-json").value = "";
+    if (importFoods(parseFoods($("#mine-json").value))) $("#mine-json").value = "";
   });
   $("#import-mine").addEventListener("change", async (e) => {
     const [file] = e.target.files;
-    if (file) importFoods(await file.text());
+    if (file) importFoods(parseFoods(await file.text()));
     e.target.value = "";
   });
   $("#export-mine").addEventListener("click", exportMine);
@@ -1172,7 +1175,7 @@ async function init() {
     render();
   });
 
-  builtIn = await (await fetch("foods.json?v=8cc8c477")).json();
+  builtIn = await (await fetch("foods.json?v=e7414d1f")).json();
   setFoods();
   upgradeCombo();
   render();
