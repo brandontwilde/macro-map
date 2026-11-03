@@ -131,8 +131,7 @@ select { width: auto; }
 .zoom-controls .button { min-width: 32px; padding: 4px 8px; }
 .zoom-controls .button:disabled { opacity: 0.4; cursor: default; }
 .dot-label { font-size: 11px; fill: var(--text-secondary); pointer-events: none; dominant-baseline: central; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; }
-.plot figcaption { color: var(--text-muted); font-size: 12px; margin-top: 4px; }
-/* Mouse and touch work differently on the chart (hover vs. a tap card), so each gets its own instructions. */
+/* Mouse and touch work differently on the chart (hover vs. a tap card), so each gets its own help text. */
 .on-touch { display: none; }
 @media (hover: none) { .on-hover { display: none; } .on-touch { display: inline; } }
 .grid line { stroke: var(--grid); stroke-width: 1; }
@@ -263,3 +262,22 @@ ol { list-style: none; margin: 0; padding: 0; }
 #scan-food label { display: grid; gap: 2px; font-size: 13px; color: var(--text-secondary); }
 #scan-food .wide { grid-column: 1 / -1; margin: 0; font-size: 13px; }
 @media (max-width: 520px) { #scan-food { grid-template-columns: minmax(0, 1fr); } }
+
+.title { position: relative; display: flex; align-items: center; gap: 6px; }
+.info { display: inline-flex; }
+.info-btn {
+  width: 18px; height: 18px; padding: 0; border: 1px solid var(--border); border-radius: 50%;
+  background: none; color: var(--text-muted); font: 600 11px/1 system-ui, sans-serif; cursor: pointer;
+}
+.info-btn:hover, .info.open .info-btn { color: var(--text-primary); border-color: var(--text-muted); }
+.zoom-controls .info { align-self: center; margin-right: 2px; }
+.info-text {
+  display: none; position: absolute; z-index: 10; top: calc(100% + 6px); left: 0;
+  width: max-content; max-width: min(300px, calc(100vw - 64px));
+  background: var(--surface); color: var(--text-secondary); font-size: 13px; font-weight: 400; text-align: left;
+  border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; box-shadow: 0 4px 16px rgb(0 0 0 / 0.15);
+}
+.zoom-controls .info-text { left: auto; right: 0; }
+.info.open .info-text { display: block; }
+/* Touch screens keep :hover after a tap, which would stop a second tap from closing it. */
+@media (hover: hover) { .info:hover .info-text { display: block; } }

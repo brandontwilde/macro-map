@@ -955,9 +955,28 @@ function setupThemeToggle() {
   label();
 }
 
+// Hover shows a tip on its own (see CSS); a click or tap pins it open until a click elsewhere or Escape.
+function setupInfoTips() {
+  const close = (except) => {
+    for (const info of document.querySelectorAll(".info.open")) {
+      if (info === except) continue;
+      info.classList.remove("open");
+      info.querySelector(".info-btn").setAttribute("aria-expanded", "false");
+    }
+  };
+  document.addEventListener("click", (e) => {
+    const info = e.target.closest(".info");
+    close(info);
+    if (!info || !e.target.closest(".info-btn")) return;
+    info.querySelector(".info-btn").setAttribute("aria-expanded", info.classList.toggle("open"));
+  });
+  document.addEventListener("keydown", (e) => e.key === "Escape" && close());
+}
+
 async function init() {
   load();
   setupThemeToggle();
+  setupInfoTips();
   const form = $("#remaining");
   for (const k of MACROS) form.elements[k].value = state.remaining[k];
   form.addEventListener("input", () => {

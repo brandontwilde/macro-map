@@ -25,14 +25,13 @@
 
 <section id="mine" class="card" hidden>
   <div class="card-head">
-    <h2>My foods</h2>
+    <div class="title">
+      <h2>My foods</h2>
+      <span class="info"><button type="button" class="info-btn" aria-label="About My foods" aria-expanded="false">?</button>
+        <span class="info-text" role="tooltip">Scan a packaged food's barcode, or copy the prompt into ChatGPT (or similar), list your foods after it, and paste its answer here. Foods are saved in this browser only, so Export keeps a copy.</span></span>
+    </div>
     <button type="button" class="remove" id="close-mine" aria-label="Close My foods">×</button>
   </div>
-  <p class="hint">Add your own foods, meals or recipes. Copy the prompt into ChatGPT (or similar),
-  add your foods after it, and paste the JSON it gives back here. Each food is entered per unit
-  (one chip, one slice, one bowl), and you pick how many units when you use it. They're saved in this
-  browser only, so use Export to keep a copy or move them to another device. Adding a food with the
-  same name replaces it. For packaged foods, Scan barcode looks the label up for you.</p>
   <ul id="mine-list"></ul>
   <textarea id="mine-json" rows="5" placeholder='[{ "name": "Chicken burrito bowl", "group": "Prepared foods", "diet": "", "unit": "bowl", "grams": 450, "protein": 42, "carbs": 65, "fat": 18, "kcal": 590 }]' aria-label="Foods as JSON"></textarea>
   <p id="mine-msg" class="hint" aria-live="polite"></p>
@@ -78,43 +77,45 @@
       <div class="plot-area">
         <svg id="tri" viewBox="0 0 600 548" role="img" aria-label="Triangle plot of foods by macro split"></svg>
         <div class="zoom-controls">
+          <span class="info"><button type="button" class="info-btn" aria-label="About the map" aria-expanded="false">?</button>
+            <span class="info-text" role="tooltip">Each corner is a food that's all one macro. Numbered dots are the best fits for your target. <span class="on-hover">Scroll to zoom and drag to move. Hover a dot for details; click it to add it to a combo.</span><span class="on-touch">Pinch to zoom and drag to move. Tap a dot for details and to add it to a combo.</span></span></span>
           <button type="button" id="zoom-in" class="button" aria-label="Zoom in">+</button>
           <button type="button" id="zoom-out" class="button" aria-label="Zoom out">−</button>
           <button type="button" id="zoom-reset" class="button" aria-label="Reset zoom" disabled>Reset</button>
         </div>
       </div>
       <div id="dot-card" hidden></div>
-      <figcaption>
-        <span class="on-hover">Scroll to zoom in, then drag to move around. Hover a dot for details, and click it to add it to a combo.</span>
-        <span class="on-touch">Pinch to zoom in, then drag to move around. Tap a dot for details and to add it to a combo.</span>
-      </figcaption>
     </figure>
   </section>
 
   <section class="right">
     <div class="card" id="combo" hidden>
       <div class="card-head">
-        <h2>Combo</h2>
+        <div class="title">
+          <h2>Combo</h2>
+          <span class="info"><button type="button" class="info-btn" aria-label="About Combo" aria-expanded="false">?</button>
+            <span class="info-text" role="tooltip">Change an amount or its unit to match what you eat. Fit to target picks amounts for you. The hollow dot on the map shows where the mix lands.</span></span>
+        </div>
         <div class="controls">
           <button type="button" id="fit-combo" class="button">Fit to target</button>
           <button type="button" id="clear-combo" class="link">Clear</button>
         </div>
       </div>
-      <p class="hint">Each food starts at a typical amount. Change the amount, or pick another
-      unit (g, oz, cup…) to enter it that way. The ring on the map shows where the mix lands.</p>
       <ol id="combo-items"></ol>
       <table class="totals" id="combo-totals"></table>
     </div>
 
     <div class="card">
       <div class="card-head">
-        <h2>Best fits</h2>
+        <div class="title">
+          <h2>Best fits</h2>
+          <span class="info"><button type="button" class="info-btn" aria-label="About Best fits" aria-expanded="false">?</button>
+            <span class="info-text" role="tooltip">Foods whose split is closest to your target, each with a typical amount and how much of your target it covers.</span></span>
+        </div>
         <div class="controls">
           <input id="search" type="search" placeholder="Search foods" aria-label="Search foods">
         </div>
       </div>
-      <p class="hint">Foods whose split is closest to your target, each with a typical amount
-      and how much of the target (in grams) it provides.</p>
       <ol id="ranked"></ol>
     </div>
   </section>
