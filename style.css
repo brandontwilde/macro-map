@@ -68,10 +68,6 @@ h1 { margin: 0 0 4px; font-size: 24px; }
 #theme-toggle { min-width: 32px; padding: 4px 8px; }
 h2 { margin: 0; font-size: 15px; }
 .lede { margin: 0 0 16px; color: var(--text-secondary); }
-.target-key {
-  display: inline-block; width: 12px; height: 12px; vertical-align: -1px;
-  border: 2px solid var(--text-primary); border-radius: 50%;
-}
 footer { padding-bottom: 24px; color: var(--text-muted); font-size: 12px; }
 
 main { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 16px; align-items: start; }
@@ -133,6 +129,9 @@ select { width: auto; }
 .zoom-controls .button:disabled { opacity: 0.4; cursor: default; }
 .dot-label { font-size: 11px; fill: var(--text-secondary); pointer-events: none; dominant-baseline: central; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; }
 .plot figcaption { color: var(--text-muted); font-size: 12px; margin-top: 4px; }
+/* Mouse and touch work differently on the chart (hover vs. a tap card), so each gets its own instructions. */
+.on-touch { display: none; }
+@media (hover: none) { .on-hover { display: none; } .on-touch { display: inline; } }
 .grid line { stroke: var(--grid); stroke-width: 1; }
 .frame { fill: none; stroke: var(--text-muted); stroke-width: 1; }
 .corner { font-size: 15px; font-weight: 600; fill: var(--text-primary); }
