@@ -382,7 +382,7 @@ function drawPlot(rank) {
   corner("p", 0, -18, "middle");
   corner("c", zoomed ? -30 : 0, 26, zoomed ? "start" : "middle");
   corner("f", zoomed ? 30 : 0, 26, zoomed ? "end" : "middle");
-  if (zoomed) svg.append(minimap(lo, span));
+  if (zoomed) svg.append(minimap(lo, span, rank));
 
   const items = comboItems();
   if (items.length >= 2) {
@@ -447,14 +447,21 @@ const fromMinimap = ([x, y]) => {
   return [(x - MINIMAP.x) * k, (y - MINIMAP.y) * k];
 };
 
-// The whole triangle in miniature, with the part in view shaded.
-function minimap(lo, span) {
+// The whole triangle in miniature with the foods that pass the filters, top matches
+// darker, and the part in view shaded.
+function minimap(lo, span, rank) {
   const k = MINIMAP.w / PLOT_W;
   const at = ([x, y]) => [MINIMAP.x + x * k, MINIMAP.y + y * k];
   const pts = (xys) => xys.map((xy) => at(xy).join(",")).join(" ");
   const g = svgEl("g", { class: "minimap" });
   g.append(svgEl("rect", { x: 0, y: 0, width: MINIMAP.x * 2 + MINIMAP.w, height: MINIMAP.y * 2 + CORNERS.c[1] * k }));
   g.append(svgEl("polygon", { class: "minimap-frame", points: pts(MACROS.map((m) => CORNERS[m])) }));
+  rank.forEach(({ food }, i) => {
+    const xy = toXY(food);
+    if (!xy) return;
+    const [cx, cy] = at(xy);
+    g.append(svgEl("circle", { class: i < TOP_MATCHES ? "match" : "", cx, cy, r: i < TOP_MATCHES ? 1.6 : 1.1 }));
+  });
   const view = MACROS.map((m) => toXY({ ...lo, [m]: lo[m] + span }));
   g.append(svgEl("polygon", { class: "minimap-view", points: pts(view) }));
   const [cx, cy] = at(toXY({ p: lo.p + span / 3, c: lo.c + span / 3, f: lo.f + span / 3 }));
@@ -970,7 +977,7 @@ async function init() {
     render();
   });
 
-  builtIn = await (await fetch("foods.json?v=0ade59d7")).json();
+  builtIn = await (await fetch("foods.json?v=c9063ef6")).json();
   setFoods();
   upgradeCombo();
   render();
