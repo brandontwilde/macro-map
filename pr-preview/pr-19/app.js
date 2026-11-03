@@ -158,7 +158,7 @@ function exportMine() {
 
 const ZXING_URL = "https://cdn.jsdelivr.net/npm/@zxing/browser@0.2.1/umd/zxing-browser.min.js";
 const BARCODE_FORMATS = ["ean_13", "ean_8", "upc_a", "upc_e"];
-const OFF_FIELDS = "product_name,brands,serving_quantity,nutriments,ingredients_analysis_tags";
+const OFF_FIELDS = "product_name,brands,serving_size,serving_quantity,nutriments,ingredients_analysis_tags,food_groups_tags,categories_tags";
 let stopScan = () => {};
 let scanned = null; // the looked-up record awaiting confirmation
 
@@ -215,16 +215,57 @@ async function startScan(onCode) {
   }
 }
 
-// Open Food Facts nutriments are per 100 g, and per serving when the label gives one; the serving is preferred
-// since it's the amount people count in and its label-rounded numbers are the ones on the pack.
+// Open Food Facts files products under a fixed two-level food-group list (PNNS); subgroups are checked before
+// their parent. A few of its placements differ from this app's, so some categories are checked first.
+const OFF_CATEGORY_GROUPS = [
+  [/nut-butters|peanut-butters/, "Fats & nuts"],
+  [/tofu|tempeh|meat-analogues|hummus/, "Plant protein"],
+  [/crisps|chips|popcorn|pretzels|crackers/, "Snacks & sweets"],
+];
+const OFF_FOOD_GROUPS = {
+  "en:fruit-juices": "Fruit", "en:fruit-nectars": "Fruit", "en:fruits": "Fruit", "en:dried-fruits": "Fruit",
+  "en:vegetables": "Vegetables", "en:soups": "Prepared foods", "en:legumes": "Plant protein", "en:nuts": "Fats & nuts",
+  "en:eggs": "Eggs & dairy", "en:dressings-and-sauces": "Prepared foods", "en:fats": "Fats & nuts",
+  "en:beverages": "Drinks", "en:alcoholic-beverages": "Drinks", "en:fruits-and-vegetables": "Vegetables",
+  "en:cereals-and-potatoes": "Grains & starches", "en:milk-and-dairy-products": "Eggs & dairy",
+  "en:fish-meat-eggs": "Meat & fish", "en:fat-and-sauces": "Fats & nuts", "en:sugary-snacks": "Snacks & sweets",
+  "en:salty-snacks": "Snacks & sweets", "en:composite-foods": "Prepared foods",
+};
+
+function offGroup(p) {
+  const categories = (p.categories_tags ?? []).join(" ");
+  const override = OFF_CATEGORY_GROUPS.find(([re]) => re.test(categories));
+  if (override) return override[1];
+  const tags = [...(p.food_groups_tags ?? [])].reverse(); // most specific first
+  return OFF_FOOD_GROUPS[tags.find((t) => t in OFF_FOOD_GROUPS)] ?? "Prepared foods";
+}
+
+// The label's serving size as a count of some unit: "1 bar (68 g)", "2/3 cup (55 g)", "1 1/2 cups".
+// Generic or weight-only servings ("39g") give no unit; "1 portion (1 cup)" falls back to its brackets.
+function servingUnit(text) {
+  text = String(text ?? "");
+  const m = text.match(/^\s*(?:(\d+)\s+)?(\d+(?:\.\d+)?)(?:\/(\d+))?\s*([a-z][a-z .-]*?)\s*(?:\(|$)/i);
+  if (!m) return null;
+  const count = Number(m[1] ?? 0) + Number(m[2]) / Number(m[3] ?? 1);
+  let unit = m[4].trim().toLowerCase();
+  if (/^(servings?|portions?)$/.test(unit) && count === 1) return servingUnit(text.match(/\((.*)\)/)?.[1]);
+  if (!(count > 0) || unit.length > 20 || /^(servings?|portions?|g|grams?|ml|oz|ounces?|kg|l)$/.test(unit)) return null;
+  if (count !== 1) unit = unit.replace(/(ch|sh|x|ss)es$/, "$1").replace(/([^s])s$/, "$1");
+  return { count, unit };
+}
+
+// Nutriments are per 100 g, and per serving when the label gives one; the serving is preferred since it's
+// the amount people count in and its label-rounded numbers are the ones on the pack. A serving of several
+// units ("2 tbsp") is divided down to one.
 function fromOpenFoodFacts(p) {
   const n = p.nutriments ?? {};
   const serving = Number(p.serving_quantity) > 0 ? Number(p.serving_quantity) : null;
-  const grams = serving ?? 100;
+  const label = serving ? servingUnit(p.serving_size) : null;
+  const per = label?.count ?? 1;
   const amount = (key) => {
     const v = serving && n[`${key}_serving`] != null ? Number(n[`${key}_serving`])
-      : n[`${key}_100g`] != null ? (Number(n[`${key}_100g`]) * grams) / 100 : NaN;
-    return v >= 0 ? Math.round(v * 10) / 10 : null;
+      : n[`${key}_100g`] != null ? (Number(n[`${key}_100g`]) * (serving ?? 100)) / 100 : NaN;
+    return v >= 0 ? Math.round((v / per) * 10) / 10 : null;
   };
   const [protein, carbs, fat] = ["proteins", "carbohydrates", "fat"].map(amount);
   if ([protein, carbs, fat].includes(null) || protein + carbs + fat === 0) return null;
@@ -233,8 +274,11 @@ function fromOpenFoodFacts(p) {
   const tags = p.ingredients_analysis_tags ?? [];
   return {
     name: brand && !product.toLowerCase().includes(brand.toLowerCase()) ? `${brand} ${product}`.trim() : product,
+    group: offGroup(p),
     diet: tags.includes("en:vegan") ? "vegan" : tags.includes("en:vegetarian") ? "vegetarian" : "",
-    unit: serving ? "serving" : "100 g", grams, protein, carbs, fat, kcal: amount("energy-kcal"),
+    unit: label?.unit ?? (serving ? "serving" : "100 g"), grams: Math.round(((serving ?? 100) / per) * 10) / 10,
+    protein, carbs, fat, kcal: amount("energy-kcal"),
+    labelServing: per === 1 ? null : p.serving_size,
   };
 }
 
@@ -265,10 +309,9 @@ function showScanned(r) {
   const form = $("#scan-food");
   const groups = [...new Set([...builtIn, ...state.mine].map((f) => f.group))].sort();
   form.elements.group.innerHTML = groups.map((g) => `<option>${esc(g)}</option>`).join("");
-  form.elements.group.value = "Prepared foods";
-  for (const k of ["name", "unit", "diet"]) form.elements[k].value = r[k];
+  for (const k of ["name", "unit", "group", "diet"]) form.elements[k].value = r[k];
   $("#scan-macros").textContent = `One unit (${fmt(r.grams)} g): ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")}${
-    r.kcal == null ? "" : ` · ${fmt(r.kcal)} kcal`}`;
+    r.kcal == null ? "" : ` · ${fmt(r.kcal)} kcal`}${r.labelServing ? ` · the label's serving is ${r.labelServing}` : ""}`;
   scanned = r;
   form.hidden = false;
 }
@@ -1128,7 +1171,7 @@ async function init() {
     render();
   });
 
-  builtIn = await (await fetch("foods.json?v=e81c5741")).json();
+  builtIn = await (await fetch("foods.json?v=c14cf28c")).json();
   setFoods();
   upgradeCombo();
   render();
