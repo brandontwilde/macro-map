@@ -73,12 +73,12 @@
     </form>
 
     <figure class="card plot">
+      <span class="info plot-info"><button type="button" class="info-btn" aria-label="About the map" aria-expanded="false">?</button>
+        <span class="info-text" role="tooltip">Each corner is a food that's all one macro. Numbered dots are the best fits for your target. <span class="on-hover">Scroll to zoom and drag to move. Hover a dot for details; click it to add it to a combo.</span><span class="on-touch">Pinch to zoom and drag to move. Tap a dot for details and to add it to a combo.</span></span></span>
       <div id="filters" class="filters"></div>
       <div class="plot-area">
         <svg id="tri" viewBox="0 0 600 548" role="img" aria-label="Triangle plot of foods by macro split"></svg>
         <div class="zoom-controls">
-          <span class="info"><button type="button" class="info-btn" aria-label="About the map" aria-expanded="false">?</button>
-            <span class="info-text" role="tooltip">Each corner is a food that's all one macro. Numbered dots are the best fits for your target. <span class="on-hover">Scroll to zoom and drag to move. Hover a dot for details; click it to add it to a combo.</span><span class="on-touch">Pinch to zoom and drag to move. Tap a dot for details and to add it to a combo.</span></span></span>
           <button type="button" id="zoom-in" class="button" aria-label="Zoom in">+</button>
           <button type="button" id="zoom-out" class="button" aria-label="Zoom out">−</button>
           <button type="button" id="zoom-reset" class="button" aria-label="Reset zoom" disabled>Reset</button>
