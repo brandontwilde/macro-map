@@ -388,7 +388,7 @@ function serving(food) {
 
 function servingText(food, grams, unit) {
   const u = findUnit(food, unit);
-  return WEIGHTS.includes(u) || food.weightless ? amountText(u, grams) : `${amountText(u, grams)} (${Math.round(grams)} g)`;
+  return esc(WEIGHTS.includes(u) || food.weightless ? amountText(u, grams) : `${amountText(u, grams)} (${Math.round(grams)} g)`);
 }
 
 function comboItems() {
@@ -1175,7 +1175,7 @@ async function init() {
     render();
   });
 
-  builtIn = await (await fetch("foods.json?v=836d5bad")).json();
+  builtIn = await (await fetch("foods.json?v=8bf91980")).json();
   setFoods();
   upgradeCombo();
   render();
