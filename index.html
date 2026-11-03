@@ -30,11 +30,11 @@
       <div class="info"><button type="button" class="info-btn" aria-label="About My foods" aria-expanded="false">?</button>
         <div class="info-text" role="tooltip">
           <ul>
-            <li>Packaged food? Scan barcode reads the label for you.</li>
-            <li>Anything else: copy the AI prompt into ChatGPT, Claude or another AI chat, add your foods, then paste
-            its reply below.</li>
-            <li>Your foods are saved in this browser only. Use Export to keep a copy or move them to another device.</li>
-            <li>Adding a food with a name you already have replaces it.</li>
+            <li>Packaged food? Scan its barcode.</li>
+            <li>Anything else: copy the prompt into an AI chat and add your foods. Paste what it sends back in the
+            box, then Add foods.</li>
+            <li>Saved in this browser only. Export keeps a copy.</li>
+            <li>A food with a name you already have replaces it.</li>
           </ul>
         </div>
       </div>
@@ -44,9 +44,9 @@
   <ul id="mine-list"></ul>
   <div class="controls ai-step">
     <button type="button" id="copy-prompt" class="button">Copy AI prompt</button>
-    <span class="muted">Paste it into ChatGPT or another AI chat, then add your foods.</span>
+    <span class="muted">Paste it into an AI chat, then add your foods: a list, a recipe, photos, or another app's export.</span>
   </div>
-  <textarea id="mine-json" rows="6" placeholder="Paste the AI's reply here.&#10;&#10;The AI can work from a typed list, a recipe, a screenshot or export from another food app, or photos of labels and your pantry." aria-label="AI reply with your foods"></textarea>
+  <textarea id="mine-json" rows="4" placeholder="Paste the formatted food details from the AI here." aria-label="AI reply with your foods"></textarea>
   <p id="mine-msg" class="hint" aria-live="polite"></p>
   <div class="controls wrap">
     <button type="button" id="add-mine" class="button">Add foods</button>
@@ -107,7 +107,7 @@
         <div class="title">
           <h2>Combo</h2>
           <div class="info"><button type="button" class="info-btn" aria-label="About Combo" aria-expanded="false">?</button>
-            <div class="info-text" role="tooltip">Build a meal from two or three foods. Set how much of each you'll have, or use Fit to target to pick the amounts that get closest to your target. The hollow dot on the map shows the meal's mix.</div>
+            <div class="info-text" role="tooltip">Build a meal from two or three foods. Set how much of each you'll have, or use Fit to target to pick the amounts for you. The small circle on the map shows the meal's mix: the closer it is to the crosshair, the better it matches your target.</div>
           </div>
         </div>
         <div class="controls">
@@ -124,7 +124,7 @@
         <div class="title">
           <h2>Best fits</h2>
           <div class="info"><button type="button" class="info-btn" aria-label="About Best fits" aria-expanded="false">?</button>
-            <div class="info-text" role="tooltip">Foods whose ratio of protein to carbs to fat is closest to your target's. Each shows a typical serving and how much of your target that serving covers.</div>
+            <div class="info-text" role="tooltip">Foods whose ratio of protein to carbs to fat is closest to your target's. Each shows the macros in one unit, like 1 cup or 1 slice, and how much of your target that covers.</div>
           </div>
         </div>
         <div class="controls">
