@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Macro Map</title>
-<link rel="stylesheet" href="style.css?v=1c556ee3">
+<link rel="stylesheet" href="style.css?v=c5817fca">
 <script>
   // Applied before first paint so a saved theme doesn't flash the other one.
   try { const t = localStorage.getItem("macro-map-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
@@ -19,8 +19,8 @@
       <button type="button" id="theme-toggle" class="button"></button>
     </div>
   </div>
-  <p class="lede">Foods placed by their protein / carbs / fat split. Foods near the
-  <span class="target-key" aria-hidden="true"></span> marker match your target.</p>
+  <p class="lede">Enter your target macros to find the foods that fit them, or pick two or three
+  foods to build a combo that does.</p>
 </header>
 
 <section id="mine" class="card" hidden>
@@ -66,9 +66,10 @@
         </div>
       </div>
       <div id="dot-card" hidden></div>
-      <figcaption>Each corner is a food that's 100% one macro, by grams. Numbered dots are the
-      top matches. Scroll or pinch to zoom in and drag to move around. Hover a dot for details
-      and click to add it to a combo; on a phone, tap a dot to see it and the foods around it.</figcaption>
+      <figcaption>
+        <span class="on-hover">Scroll to zoom in, then drag to move around. Hover a dot for details, and click it to add it to a combo.</span>
+        <span class="on-touch">Pinch to zoom in, then drag to move around. Tap a dot for details and to add it to a combo.</span>
+      </figcaption>
     </figure>
   </section>
 
@@ -105,6 +106,6 @@
 check labels for packaged foods. Your own foods use the numbers you give them.</footer>
 
 <div id="tip" role="tooltip" hidden></div>
-<script src="app.js?v=1c556ee3"></script>
+<script src="app.js?v=c5817fca"></script>
 </body>
 </html>
