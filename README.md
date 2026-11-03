@@ -21,6 +21,16 @@ macros. **Copy prompt** gives a
 prompt that asks a chatbot for exactly that format. They're kept in the
 browser's local storage, so Export and Import file move them between devices.
 
+**Scan barcode** reads a packaged food's barcode with the camera (or takes the
+number typed in) and looks it up on [Open Food Facts](https://world.openfoodfacts.org),
+a free, keyless API. The unit comes from the label's serving size ("1 bar",
+"2 tbsp" becomes one tbsp), or "serving" or 100 g when that isn't readable, and
+the group from Open Food Facts' food groups and categories. Everything can be
+edited before it's added.
+Decoding uses the browser's `BarcodeDetector` where there is one (Android
+Chrome) and otherwise loads ZXing from jsDelivr (iOS Safari). The camera only
+works over HTTPS or on localhost.
+
 ## Run it
 
 It's a static page with no build step. Serve the folder and open it:
