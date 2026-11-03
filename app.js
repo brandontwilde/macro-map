@@ -214,7 +214,7 @@ function serving(food) {
 
 function servingText(food, grams, unit) {
   const u = findUnit(food, unit);
-  return WEIGHTS.includes(u) || food.weightless ? amountText(u, grams) : `${amountText(u, grams)} (${Math.round(grams)} g)`;
+  return esc(WEIGHTS.includes(u) || food.weightless ? amountText(u, grams) : `${amountText(u, grams)} (${Math.round(grams)} g)`);
 }
 
 function comboItems() {
