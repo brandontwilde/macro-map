@@ -102,6 +102,10 @@ function parseFoods(text) {
   } catch {
     return { records: [], errors: ["That isn't valid JSON. Paste just the JSON part of the reply."] };
   }
+  return checkFoods(data);
+}
+
+function checkFoods(data) {
   const records = [], errors = [];
   (Array.isArray(data) ? data : [data]).forEach((item, i) => {
     const label = `Item ${i + 1}${item?.name ? ` (${item.name})` : ""}`;
@@ -154,6 +158,167 @@ function exportMine() {
   a.download = "my-foods.json";
   a.click();
   URL.revokeObjectURL(a.href);
+}
+
+const ZXING_URL = "https://cdn.jsdelivr.net/npm/@zxing/browser@0.2.1/umd/zxing-browser.min.js";
+const ZXING_SRI = "sha384-HRtzk9lZgkbSgvUyQrnfC/GxiXZgwaNyD7hC9wcXlsBpDhkS80ISl73juef2FRuf"; // update with the version
+const BARCODE_FORMATS = ["ean_13", "ean_8", "upc_a", "upc_e"];
+const OFF_FIELDS = "product_name,brands,serving_size,serving_quantity,nutriments,ingredients_analysis_tags,food_groups_tags,categories_tags";
+let stopScan = () => {};
+let scanned = null; // the looked-up record awaiting confirmation
+
+function loadScript(src, integrity) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    Object.assign(s, { src, integrity, crossOrigin: "anonymous", onload: resolve, onerror: reject });
+    document.head.append(s);
+  });
+}
+
+// Reads barcodes off the camera until stopScan(). BarcodeDetector is native in Android Chrome;
+// elsewhere, notably iOS Safari, ZXing decodes instead.
+async function startScan(onCode) {
+  stopScan();
+  const video = $("#scan-video");
+  let live = true, stream, stopDecoding = () => {};
+  stopScan = () => {
+    live = false;
+    stopDecoding();
+    stream?.getTracks().forEach((t) => t.stop());
+    video.srcObject = null;
+    video.hidden = true;
+  };
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+    if (!live) return stopScan();
+    video.srcObject = stream;
+    video.hidden = false;
+    await video.play();
+    const formats = "BarcodeDetector" in window
+      ? (await BarcodeDetector.getSupportedFormats()).filter((f) => BARCODE_FORMATS.includes(f)) : [];
+    if (formats.length) {
+      const detector = new BarcodeDetector({ formats });
+      const tick = async () => {
+        const [hit] = await detector.detect(video).catch(() => []);
+        if (!live) return;
+        if (hit) onCode(hit.rawValue);
+        else setTimeout(tick, 150);
+      };
+      tick();
+    } else {
+      if (!window.ZXingBrowser) await loadScript(ZXING_URL, ZXING_SRI);
+      if (!live) return;
+      const controls = await new ZXingBrowser.BrowserMultiFormatReader()
+        .decodeFromStream(stream, video, (result) => result && live && onCode(result.getText()));
+      if (!live) return controls.stop();
+      stopDecoding = () => controls.stop();
+    }
+  } catch (err) {
+    if (!live) return; // stopped mid-start, so the failure is moot
+    stopScan();
+    throw err;
+  }
+}
+
+// Open Food Facts files products under a fixed two-level food-group list (PNNS); subgroups are checked before
+// their parent. A few of its placements differ from this app's, so some categories are checked first.
+const OFF_CATEGORY_GROUPS = [
+  [/nut-butters/, "Fats & nuts"],
+  [/tofu|tempeh|meat-analogues|hummus/, "Plant protein"],
+  [/crisps|chips|popcorn|pretzels|crackers/, "Snacks & sweets"],
+];
+const OFF_FOOD_GROUPS = {
+  "en:fruit-juices": "Fruit", "en:fruit-nectars": "Fruit", "en:fruits": "Fruit", "en:dried-fruits": "Fruit",
+  "en:vegetables": "Vegetables", "en:soups": "Prepared foods", "en:legumes": "Plant protein", "en:nuts": "Fats & nuts",
+  "en:eggs": "Eggs & dairy", "en:dressings-and-sauces": "Sauces & condiments", "en:fats": "Fats & nuts",
+  "en:beverages": "Drinks", "en:alcoholic-beverages": "Drinks", "en:fruits-and-vegetables": "Vegetables",
+  "en:cereals-and-potatoes": "Grains & starches", "en:milk-and-dairy-products": "Eggs & dairy",
+  "en:fish-meat-eggs": "Meat & fish", "en:fat-and-sauces": "Fats & nuts", "en:sugary-snacks": "Snacks & sweets",
+  "en:salty-snacks": "Snacks & sweets", "en:composite-foods": "Prepared foods",
+};
+
+function offGroup(p) {
+  const categories = (p.categories_tags ?? []).join(" ");
+  const override = OFF_CATEGORY_GROUPS.find(([re]) => re.test(categories));
+  if (override) return override[1];
+  const tags = [...(p.food_groups_tags ?? [])].reverse(); // most specific first
+  return OFF_FOOD_GROUPS[tags.find((t) => t in OFF_FOOD_GROUPS)] ?? "Prepared foods";
+}
+
+// The label's serving size as a count of some unit: "1 bar (68 g)", "2/3 cup (55 g)", "1 1/2 cups".
+// Generic or weight-only servings ("39g") give no unit; "1 portion (1 cup)" falls back to its brackets.
+function servingUnit(text) {
+  text = String(text ?? "");
+  const m = text.match(/^\s*(?:(\d+)\s+)?(\d+(?:\.\d+)?)(?:\/(\d+))?\s*([a-z][a-z .-]*?)\s*(?:\(|$)/i);
+  if (!m) return null;
+  const count = Number(m[1] ?? 0) + Number(m[2]) / Number(m[3] ?? 1);
+  let unit = m[4].trim().toLowerCase();
+  if (/^(servings?|portions?)$/.test(unit) && count === 1) return servingUnit(text.match(/\((.*)\)/)?.[1]);
+  if (!(count > 0) || unit.length > 20 || /^(servings?|portions?|g|grams?|ml|oz|ounces?|kg|l)$/.test(unit)) return null;
+  if (count !== 1) unit = unit.replace(/(ch|sh|x|ss)es$/, "$1").replace(/([^s])s$/, "$1");
+  return { count, unit };
+}
+
+// Nutriments are per 100 g, and per serving when the label gives one; the serving is preferred since it's
+// the amount people count in and its label-rounded numbers are the ones on the pack. A serving of several
+// units ("2 tbsp") is divided down to one.
+function fromOpenFoodFacts(p) {
+  const n = p.nutriments ?? {};
+  const serving = Number(p.serving_quantity) > 0 ? Number(p.serving_quantity) : null;
+  const label = serving ? servingUnit(p.serving_size) : null;
+  const per = label?.count ?? 1;
+  const amount = (key) => {
+    const v = serving && n[`${key}_serving`] != null ? Number(n[`${key}_serving`])
+      : n[`${key}_100g`] != null ? (Number(n[`${key}_100g`]) * (serving ?? 100)) / 100 : NaN;
+    return v >= 0 ? Math.round((v / per) * 10) / 10 : null;
+  };
+  const [protein, carbs, fat] = ["proteins", "carbohydrates", "fat"].map(amount);
+  if ([protein, carbs, fat].includes(null) || protein + carbs + fat === 0) return null;
+  const brand = String(p.brands ?? "").split(",")[0].trim();
+  const product = String(p.product_name ?? "").trim();
+  const tags = p.ingredients_analysis_tags ?? [];
+  return {
+    name: brand && !product.toLowerCase().includes(brand.toLowerCase()) ? `${brand} ${product}`.trim() : product,
+    group: offGroup(p),
+    diet: tags.includes("en:vegan") ? "vegan" : tags.includes("en:vegetarian") ? "vegetarian" : "",
+    unit: label?.unit ?? (serving ? "serving" : "100 g"), grams: Math.round(((serving ?? 100) / per) * 10) / 10,
+    protein, carbs, fat, kcal: amount("energy-kcal"),
+    labelServing: per === 1 ? null : p.serving_size,
+  };
+}
+
+function scanMessage(text, error = false) {
+  const msg = $("#scan-msg");
+  msg.textContent = text;
+  msg.classList.toggle("over", error);
+}
+
+async function lookUpBarcode(code) {
+  $("#scan-food").hidden = true;
+  scanMessage(`Looking up ${code}…`);
+  let product;
+  try {
+    const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${code}.json?fields=${OFF_FIELDS}`);
+    ({ product } = await res.json());
+  } catch {
+    return scanMessage("Couldn't reach Open Food Facts. Check the connection and try again.", true);
+  }
+  if (!product) return scanMessage(`Barcode ${code} isn't in Open Food Facts yet. Add it with Copy prompt instead.`, true);
+  const record = fromOpenFoodFacts(product);
+  if (!record) return scanMessage(`Open Food Facts has barcode ${code} but not its protein, carbs and fat. Add it with Copy prompt instead.`, true);
+  scanMessage("Check the details, then add it.");
+  showScanned(record);
+}
+
+function showScanned(r) {
+  const form = $("#scan-food");
+  const groups = [...new Set(state.foods.map((f) => f.group))].sort();
+  form.elements.group.innerHTML = groups.map((g) => `<option>${esc(g)}</option>`).join("");
+  for (const k of ["name", "unit", "group", "diet"]) form.elements[k].value = r[k];
+  $("#scan-macros").textContent = `One unit (${fmt(r.grams)} g): ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")}${
+    r.kcal == null ? "" : ` · ${fmt(r.kcal)} kcal`}${r.labelServing ? ` · the label's serving is ${r.labelServing}` : ""}`;
+  scanned = r;
+  form.hidden = false;
 }
 
 function toXY(m) {
@@ -750,8 +915,7 @@ function drawMine() {
     </li>`).join("");
 }
 
-function importFoods(text) {
-  const { records, errors } = parseFoods(text);
+function importFoods({ records, errors }) {
   if (records.length) {
     addMine(records);
     upgradeCombo();
@@ -761,7 +925,7 @@ function importFoods(text) {
   const msg = $("#mine-msg");
   msg.classList.toggle("over", !!errors.length);
   msg.innerHTML = [added, ...errors].filter(Boolean).map(esc).join("<br>");
-  if (records.length && !errors.length) $("#mine-json").value = "";
+  return records.length > 0 && !errors.length;
 }
 
 const THEME_KEY = "macro-map-theme";
@@ -960,13 +1124,47 @@ async function init() {
     $("#mine").hidden = !open;
     $("#mine-toggle").setAttribute("aria-expanded", open);
     $("#mine-toggle").setAttribute("aria-pressed", open);
+    if (!open) showScan(false);
   };
+  const showScan = (open) => {
+    stopScan();
+    $("#scan").hidden = !open;
+    $("#scan-open").setAttribute("aria-expanded", open);
+    $("#scan-food").hidden = true;
+    $("#scan-code").elements.code.value = "";
+    scanMessage("");
+    if (!open) return;
+    if (!navigator.mediaDevices?.getUserMedia) return scanMessage("This browser can't use the camera here, so type the number instead.");
+    scanMessage("Point the camera at the barcode.");
+    startScan((code) => {
+      stopScan();
+      $("#scan-code").elements.code.value = code;
+      lookUpBarcode(code);
+    }).catch(() => scanMessage("Couldn't open the camera. Type the number under the barcode instead.", true));
+  };
+  $("#scan-open").addEventListener("click", () => showScan($("#scan").hidden));
+  $("#scan-close").addEventListener("click", () => showScan(false));
+  $("#scan-code").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const code = e.target.elements.code.value.replace(/\D/g, "");
+    if (code.length < 8 || code.length > 14) return scanMessage("A barcode number has 8 to 14 digits.", true);
+    stopScan();
+    lookUpBarcode(code);
+  });
+  $("#scan-food").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const f = e.target.elements;
+    const record = { ...scanned, name: f.name.value, unit: f.unit.value, group: f.group.value, diet: f.diet.value };
+    if (importFoods(checkFoods(record))) showScan(false);
+  });
   $("#mine-toggle").addEventListener("click", () => showMine($("#mine").hidden));
   $("#close-mine").addEventListener("click", () => showMine(false));
-  $("#add-mine").addEventListener("click", () => importFoods($("#mine-json").value));
+  $("#add-mine").addEventListener("click", () => {
+    if (importFoods(parseFoods($("#mine-json").value))) $("#mine-json").value = "";
+  });
   $("#import-mine").addEventListener("change", async (e) => {
     const [file] = e.target.files;
-    if (file) importFoods(await file.text());
+    if (file) importFoods(parseFoods(await file.text()));
     e.target.value = "";
   });
   $("#export-mine").addEventListener("click", exportMine);

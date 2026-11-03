@@ -53,6 +53,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; } /* the hidden attribute otherwise loses to any display rule */
 body {
   margin: 0;
   background: var(--bg);
@@ -83,6 +84,8 @@ main { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); g
 }
 .card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .hint { margin: 6px 0 10px; color: var(--text-muted); font-size: 13px; }
+.hint:empty { display: none; }
+.hint.over { color: var(--over); }
 
 .inputs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
 .inputs label { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2px 6px; }
@@ -160,7 +163,6 @@ select { width: auto; }
   display: grid; gap: 8px; justify-items: start; margin: 4px 0 8px; padding: 10px 12px;
   border: 1px solid var(--border); border-radius: 8px; font-size: 13px;
 }
-#dot-card[hidden] { display: none; }
 .dot-card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; width: 100%; }
 .dot-card-body { display: flex; align-items: center; gap: 10px; }
 .dot-card-body .muted { color: var(--text-muted); }
@@ -236,7 +238,6 @@ ol { list-style: none; margin: 0; padding: 0; }
 .sub span { white-space: nowrap; }
 
 #mine { margin: 0 max(16px, (100% - 1088px) / 2) 16px; } /* lines up with main's 1120px column and 16px gutters */
-#mine[hidden] { display: none; }
 #mine-toggle[aria-pressed="true"] { background: var(--select); border-color: var(--text-muted); }
 #mine-count:not(:empty) { color: var(--text-muted); }
 #mine-list { list-style: none; margin: 0 0 10px; padding: 0; }
@@ -250,6 +251,15 @@ ol { list-style: none; margin: 0; padding: 0; }
   display: block; width: 100%; font: 12px/1.4 ui-monospace, monospace; color: inherit; background: var(--bg);
   border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; resize: vertical;
 }
-#mine-msg:empty { display: none; }
-#mine-msg.over { color: var(--over); }
 .controls.wrap { flex-wrap: wrap; margin-top: 10px; }
+
+#scan { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+#scan-video {
+  display: block; width: 100%; max-width: 420px; max-height: 50vh; object-fit: cover;
+  margin-bottom: 8px; border-radius: 6px; background: #000;
+}
+#scan-code input { flex: 1; max-width: 280px; }
+#scan-food { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 10px; max-width: 560px; }
+#scan-food label { display: grid; gap: 2px; font-size: 13px; color: var(--text-secondary); }
+#scan-food .wide { grid-column: 1 / -1; margin: 0; font-size: 13px; }
+@media (max-width: 520px) { #scan-food { grid-template-columns: minmax(0, 1fr); } }
