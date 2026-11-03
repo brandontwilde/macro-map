@@ -141,8 +141,10 @@ select { width: auto; }
 .minimap { cursor: pointer; }
 .minimap rect { fill: transparent; }
 .minimap-frame { fill: var(--surface); stroke: var(--text-muted); stroke-width: 1; }
+.minimap circle { fill: var(--dot); }
+.minimap circle.match { fill: var(--dot-match); }
 .minimap-view { fill: color-mix(in srgb, var(--text-primary) 18%, transparent); stroke: var(--text-primary); stroke-width: 1; }
-.minimap-spot { fill: none; stroke: var(--text-primary); stroke-width: 1.5; }
+.minimap .minimap-spot { fill: none; stroke: var(--text-primary); stroke-width: 1.5; }
 /* Rulers and their labels take their macro's hue; text is mixed toward the ink colour to stay readable. */
 .grid line.p { stroke: color-mix(in srgb, var(--protein) 40%, var(--surface)); }
 .grid line.c { stroke: color-mix(in srgb, var(--carbs) 40%, var(--surface)); }
