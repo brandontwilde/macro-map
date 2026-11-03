@@ -1,0 +1,5148 @@
+[
+ {
+  "id": 171477,
+  "name": "Chicken breast (roasted)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 31.02,
+  "c": 0.0,
+  "f": 3.57,
+  "kcal": 165.0,
+  "portions": [
+   {
+    "label": "cup, chopped or diced",
+    "g": 140.0
+   },
+   {
+    "label": "breast",
+    "g": 172.0
+   }
+  ],
+  "unit": "breast"
+ },
+ {
+  "id": 172388,
+  "name": "Chicken thigh (roasted)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 24.76,
+  "c": 0.0,
+  "f": 8.15,
+  "kcal": 179.0,
+  "portions": [
+   {
+    "label": "thigh",
+    "g": 116.0
+   },
+   {
+    "label": "thigh with skin",
+    "g": 137.0
+   }
+  ],
+  "unit": "thigh"
+ },
+ {
+  "id": 173630,
+  "name": "Chicken wing with skin (roasted)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 23.79,
+  "c": 0.0,
+  "f": 16.87,
+  "kcal": 254.0,
+  "portions": [
+   {
+    "label": "piece",
+    "g": 85.0
+   }
+  ],
+  "unit": "piece"
+ },
+ {
+  "id": 171496,
+  "name": "Turkey breast (roasted)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 30.13,
+  "c": 0.0,
+  "f": 2.08,
+  "kcal": 147.0,
+  "portions": [
+   {
+    "label": "breast",
+    "g": 1413.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 172851,
+  "name": "Ground turkey 93% lean (cooked)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 27.1,
+  "c": 0.0,
+  "f": 11.6,
+  "kcal": 213.0,
+  "portions": [],
+  "unit": "oz"
+ },
+ {
+  "id": 171792,
+  "name": "Ground beef 95% lean (cooked)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 25.8,
+  "c": 0.0,
+  "f": 5.94,
+  "kcal": 164.0,
+  "portions": [],
+  "unit": "oz"
+ },
+ {
+  "id": 171793,
+  "name": "Ground beef 90% lean (cooked)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 25.21,
+  "c": 0.0,
+  "f": 10.68,
+  "kcal": 204.0,
+  "portions": [],
+  "unit": "oz"
+ },
+ {
+  "id": 171798,
+  "name": "Ground beef 80% lean (cooked)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 24.04,
+  "c": 0.0,
+  "f": 15.94,
+  "kcal": 246.0,
+  "portions": [],
+  "unit": "oz"
+ },
+ {
+  "id": 173118,
+  "name": "Top sirloin steak (broiled)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 29.51,
+  "c": 0.0,
+  "f": 6.72,
+  "kcal": 187.0,
+  "portions": [],
+  "unit": "oz"
+ },
+ {
+  "id": 168250,
+  "name": "Pork tenderloin (roasted)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 26.17,
+  "c": 0.0,
+  "f": 3.51,
+  "kcal": 143.0,
+  "portions": [
+   {
+    "label": "roast",
+    "g": 402.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 168277,
+  "name": "Bacon (raw weight)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 13.66,
+  "c": 0.0,
+  "f": 37.13,
+  "kcal": 393.0,
+  "portions": [
+   {
+    "label": "slice raw",
+    "g": 28.0
+   },
+   {
+    "label": "package",
+    "g": 442.0
+   }
+  ],
+  "unit": "slice raw"
+ },
+ {
+  "id": 173864,
+  "name": "Deli ham",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 16.6,
+  "c": 3.63,
+  "f": 8.8,
+  "kcal": 164.0,
+  "portions": [
+   {
+    "label": "slice",
+    "g": 28.0
+   }
+  ],
+  "unit": "slice"
+ },
+ {
+  "id": 173862,
+  "name": "Beef hot dog",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 11.69,
+  "c": 2.97,
+  "f": 28.1,
+  "kcal": 315.0,
+  "portions": [
+   {
+    "label": "hot dog",
+    "g": 49.0
+   },
+   {
+    "label": "package",
+    "g": 446.0
+   }
+  ],
+  "unit": "hot dog"
+ },
+ {
+  "id": 172544,
+  "name": "Ground lamb (cooked)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 24.75,
+  "c": 0.0,
+  "f": 19.65,
+  "kcal": 283.0,
+  "portions": [],
+  "unit": "oz"
+ },
+ {
+  "id": 167536,
+  "name": "Beef jerky",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 33.2,
+  "c": 11.0,
+  "f": 25.6,
+  "kcal": 410.0,
+  "portions": [
+   {
+    "label": "piece, large",
+    "g": 20.0
+   }
+  ],
+  "unit": "piece, large"
+ },
+ {
+  "id": 175168,
+  "name": "Salmon (farmed, cooked)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 22.1,
+  "c": 0.0,
+  "f": 12.35,
+  "kcal": 206.0,
+  "portions": [
+   {
+    "label": "fillet",
+    "g": 356.0
+   }
+  ],
+  "unit": "fillet"
+ },
+ {
+  "id": 173709,
+  "name": "Tuna (canned in water)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 19.44,
+  "c": 0.0,
+  "f": 0.96,
+  "kcal": 86.0,
+  "portions": [
+   {
+    "label": "can",
+    "g": 165.0
+   },
+   {
+    "label": "cup, solid or chunks",
+    "g": 154.0
+   },
+   {
+    "label": "can, drained",
+    "g": 315.0
+   }
+  ],
+  "unit": "can"
+ },
+ {
+  "id": 171956,
+  "name": "Cod (cooked)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 22.83,
+  "c": 0.0,
+  "f": 0.86,
+  "kcal": 105.0,
+  "portions": [
+   {
+    "label": "fillet",
+    "g": 180.0
+   }
+  ],
+  "unit": "fillet"
+ },
+ {
+  "id": 175177,
+  "name": "Tilapia (cooked)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 26.15,
+  "c": 0.0,
+  "f": 2.65,
+  "kcal": 128.0,
+  "portions": [
+   {
+    "label": "fillet",
+    "g": 87.0
+   }
+  ],
+  "unit": "fillet"
+ },
+ {
+  "id": 174198,
+  "name": "Haddock (cooked)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 19.99,
+  "c": 0.0,
+  "f": 0.55,
+  "kcal": 90.0,
+  "portions": [
+   {
+    "label": "fillet",
+    "g": 150.0
+   }
+  ],
+  "unit": "fillet"
+ },
+ {
+  "id": 175180,
+  "name": "Shrimp (cooked)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 23.98,
+  "c": 0.2,
+  "f": 0.28,
+  "kcal": 99.0,
+  "portions": [],
+  "unit": "oz"
+ },
+ {
+  "id": 167742,
+  "name": "Scallops (steamed)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 20.54,
+  "c": 5.41,
+  "f": 0.84,
+  "kcal": 111.0,
+  "portions": [],
+  "unit": "oz"
+ },
+ {
+  "id": 175139,
+  "name": "Sardines (canned in oil)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 24.62,
+  "c": 0.0,
+  "f": 11.45,
+  "kcal": 208.0,
+  "portions": [
+   {
+    "label": "cup, drained",
+    "g": 149.0
+   },
+   {
+    "label": "cubic inch",
+    "g": 16.0
+   },
+   {
+    "label": "can",
+    "g": 92.0
+   },
+   {
+    "label": "small",
+    "g": 12.0
+   },
+   {
+    "label": "sardines",
+    "g": 12.0
+   }
+  ],
+  "unit": "can"
+ },
+ {
+  "id": 173424,
+  "name": "Egg (hard-boiled)",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 12.58,
+  "c": 1.12,
+  "f": 10.61,
+  "kcal": 155.0,
+  "portions": [
+   {
+    "label": "cup, chopped",
+    "g": 136.0
+   },
+   {
+    "label": "tbsp",
+    "g": 8.5
+   },
+   {
+    "label": "large",
+    "g": 50.0
+   }
+  ],
+  "unit": "large"
+ },
+ {
+  "id": 172183,
+  "name": "Egg white",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 10.9,
+  "c": 0.73,
+  "f": 0.17,
+  "kcal": 52.0,
+  "portions": [
+   {
+    "label": "large",
+    "g": 33.0
+   },
+   {
+    "label": "cup",
+    "g": 243.0
+   }
+  ],
+  "unit": "large"
+ },
+ {
+  "id": 172184,
+  "name": "Egg yolk",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 15.86,
+  "c": 3.59,
+  "f": 26.54,
+  "kcal": 322.0,
+  "portions": [
+   {
+    "label": "large",
+    "g": 17.0
+   },
+   {
+    "label": "cup",
+    "g": 243.0
+   }
+  ],
+  "unit": "large"
+ },
+ {
+  "id": 170894,
+  "name": "Greek yogurt (nonfat)",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 10.19,
+  "c": 3.6,
+  "f": 0.39,
+  "kcal": 59.0,
+  "portions": [
+   {
+    "label": "container",
+    "g": 170.0
+   }
+  ],
+  "unit": "container"
+ },
+ {
+  "id": 171304,
+  "name": "Greek yogurt (whole milk)",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 9.0,
+  "c": 3.98,
+  "f": 5.0,
+  "kcal": 97.0,
+  "portions": [],
+  "unit": "oz"
+ },
+ {
+  "id": 170886,
+  "name": "Plain yogurt (low fat)",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 5.25,
+  "c": 7.04,
+  "f": 1.55,
+  "kcal": 63.0,
+  "portions": [
+   {
+    "label": "container",
+    "g": 170.0
+   },
+   {
+    "label": "cup",
+    "g": 245.0
+   }
+  ],
+  "unit": "container"
+ },
+ {
+  "id": 170904,
+  "name": "Kefir (low fat)",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 3.79,
+  "c": 4.77,
+  "f": 1.02,
+  "kcal": 43.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 243.0
+   },
+   {
+    "label": "bottle",
+    "g": 971.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 172182,
+  "name": "Cottage cheese 2%",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 10.45,
+  "c": 4.76,
+  "f": 2.27,
+  "kcal": 81.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 226.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 171269,
+  "name": "Skim milk",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 3.37,
+  "c": 4.96,
+  "f": 0.08,
+  "kcal": 34.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 245.0
+   },
+   {
+    "label": "fl oz",
+    "g": 30.6
+   },
+   {
+    "label": "quart",
+    "g": 980.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 171267,
+  "name": "2% milk",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 3.3,
+  "c": 4.8,
+  "f": 1.98,
+  "kcal": 50.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 244.0
+   },
+   {
+    "label": "fl oz",
+    "g": 30.5
+   },
+   {
+    "label": "quart",
+    "g": 976.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 171265,
+  "name": "Whole milk",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 3.15,
+  "c": 4.8,
+  "f": 3.25,
+  "kcal": 61.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 244.0
+   },
+   {
+    "label": "fl oz",
+    "g": 30.5
+   },
+   {
+    "label": "tbsp",
+    "g": 15.0
+   },
+   {
+    "label": "quart",
+    "g": 976.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 170899,
+  "name": "Cheddar cheese",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 24.25,
+  "c": 2.13,
+  "f": 33.82,
+  "kcal": 410.0,
+  "portions": [
+   {
+    "label": "slice",
+    "g": 19.0
+   }
+  ],
+  "unit": "slice"
+ },
+ {
+  "id": 170847,
+  "name": "Mozzarella (part skim)",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 24.26,
+  "c": 2.77,
+  "f": 15.92,
+  "kcal": 254.0,
+  "portions": [],
+  "unit": "oz"
+ },
+ {
+  "id": 173420,
+  "name": "Feta cheese",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 14.21,
+  "c": 3.88,
+  "f": 21.49,
+  "kcal": 265.0,
+  "portions": [
+   {
+    "label": "cup, crumbled",
+    "g": 150.0
+   },
+   {
+    "label": "cubic inch",
+    "g": 17.0
+   },
+   {
+    "label": "wedge",
+    "g": 38.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 171247,
+  "name": "Parmesan (grated)",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 28.42,
+  "c": 13.91,
+  "f": 27.84,
+  "kcal": 420.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 100.0
+   },
+   {
+    "label": "tbsp",
+    "g": 5.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 173418,
+  "name": "Cream cheese",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 6.15,
+  "c": 5.52,
+  "f": 34.44,
+  "kcal": 350.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 14.5
+   },
+   {
+    "label": "cup",
+    "g": 232.0
+   },
+   {
+    "label": "tbsp, whipped",
+    "g": 10.0
+   },
+   {
+    "label": "cubic inch",
+    "g": 16.0
+   },
+   {
+    "label": "package, small",
+    "g": 85.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 171257,
+  "name": "Sour cream",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 2.44,
+  "c": 4.63,
+  "f": 19.35,
+  "kcal": 198.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 12.0
+   },
+   {
+    "label": "cup",
+    "g": 230.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 167575,
+  "name": "Vanilla ice cream",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 3.5,
+  "c": 23.6,
+  "f": 11.0,
+  "kcal": 207.0,
+  "portions": [
+   {
+    "label": "\u00bd cup",
+    "g": 66.0
+   }
+  ],
+  "unit": "\u00bd cup"
+ },
+ {
+  "id": 173180,
+  "name": "Whey protein powder",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 78.13,
+  "c": 6.25,
+  "f": 1.56,
+  "kcal": 352.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 97.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 172448,
+  "name": "Tofu (firm)",
+  "group": "Plant protein",
+  "diet": "vegan",
+  "p": 9.04,
+  "c": 2.85,
+  "f": 4.17,
+  "kcal": 78.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 252.0
+   },
+   {
+    "label": "block",
+    "g": 324.0
+   }
+  ],
+  "unit": "block"
+ },
+ {
+  "id": 174272,
+  "name": "Tempeh",
+  "group": "Plant protein",
+  "diet": "vegan",
+  "p": 20.29,
+  "c": 7.64,
+  "f": 10.8,
+  "kcal": 192.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 166.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 168147,
+  "name": "Seitan (vital wheat gluten)",
+  "group": "Plant protein",
+  "diet": "vegan",
+  "p": 75.16,
+  "c": 13.79,
+  "f": 1.85,
+  "kcal": 370.0,
+  "portions": [],
+  "unit": "oz"
+ },
+ {
+  "id": 168411,
+  "name": "Edamame",
+  "group": "Plant protein",
+  "diet": "vegan",
+  "p": 11.91,
+  "c": 8.91,
+  "f": 5.2,
+  "kcal": 121.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 155.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 173735,
+  "name": "Black beans (cooked)",
+  "group": "Plant protein",
+  "diet": "vegan",
+  "p": 8.86,
+  "c": 23.71,
+  "f": 0.54,
+  "kcal": 132.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 172.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 173740,
+  "name": "Kidney beans (cooked)",
+  "group": "Plant protein",
+  "diet": "vegan",
+  "p": 8.67,
+  "c": 22.8,
+  "f": 0.5,
+  "kcal": 127.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 177.0
+   },
+   {
+    "label": "tbsp",
+    "g": 11.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 175200,
+  "name": "Pinto beans (cooked)",
+  "group": "Plant protein",
+  "diet": "vegan",
+  "p": 9.01,
+  "c": 26.22,
+  "f": 0.65,
+  "kcal": 143.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 171.0
+   },
+   {
+    "label": "tbsp",
+    "g": 10.6
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 172421,
+  "name": "Lentils (cooked)",
+  "group": "Plant protein",
+  "diet": "vegan",
+  "p": 9.02,
+  "c": 20.13,
+  "f": 0.38,
+  "kcal": 116.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 198.0
+   },
+   {
+    "label": "tbsp",
+    "g": 12.3
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 173757,
+  "name": "Chickpeas (cooked)",
+  "group": "Plant protein",
+  "diet": "vegan",
+  "p": 8.86,
+  "c": 27.42,
+  "f": 2.59,
+  "kcal": 164.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 164.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 172438,
+  "name": "Refried beans",
+  "group": "Plant protein",
+  "diet": null,
+  "p": 4.98,
+  "c": 13.55,
+  "f": 2.01,
+  "kcal": 90.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 238.0
+   },
+   {
+    "label": "can",
+    "g": 442.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 174289,
+  "name": "Hummus",
+  "group": "Plant protein",
+  "diet": "vegan",
+  "p": 7.78,
+  "c": 15.0,
+  "f": 17.82,
+  "kcal": 237.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 15.0
+   },
+   {
+    "label": "cup",
+    "g": 246.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 172446,
+  "name": "Soy milk",
+  "group": "Plant protein",
+  "diet": "vegan",
+  "p": 3.27,
+  "c": 6.28,
+  "f": 1.75,
+  "kcal": 54.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 243.0
+   },
+   {
+    "label": "fl oz",
+    "g": 30.6
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 168878,
+  "name": "White rice (cooked)",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 2.69,
+  "c": 28.17,
+  "f": 0.28,
+  "kcal": 130.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 158.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 169704,
+  "name": "Brown rice (cooked)",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 2.74,
+  "c": 25.58,
+  "f": 0.97,
+  "kcal": 123.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 202.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 168897,
+  "name": "Wild rice (cooked)",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 3.99,
+  "c": 21.34,
+  "f": 0.34,
+  "kcal": 101.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 164.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 168917,
+  "name": "Quinoa (cooked)",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 4.4,
+  "c": 21.3,
+  "f": 1.92,
+  "kcal": 120.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 185.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 169737,
+  "name": "Pasta (cooked)",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 5.8,
+  "c": 30.86,
+  "f": 0.93,
+  "kcal": 158.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 124.0
+   },
+   {
+    "label": "cup spaghetti packed",
+    "g": 151.0
+   },
+   {
+    "label": "cup elbows not packed",
+    "g": 120.0
+   },
+   {
+    "label": "cup elbows packed",
+    "g": 132.0
+   },
+   {
+    "label": "cup penne",
+    "g": 107.0
+   },
+   {
+    "label": "cup farfalle",
+    "g": 107.0
+   },
+   {
+    "label": "cup rotini",
+    "g": 107.0
+   },
+   {
+    "label": "cup shells",
+    "g": 105.0
+   },
+   {
+    "label": "cup lasagne",
+    "g": 116.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 169700,
+  "name": "Couscous (cooked)",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 3.79,
+  "c": 23.22,
+  "f": 0.16,
+  "kcal": 112.0,
+  "portions": [
+   {
+    "label": "cup, cooked",
+    "g": 157.0
+   }
+  ],
+  "unit": "cup, cooked"
+ },
+ {
+  "id": 170285,
+  "name": "Barley (cooked)",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 2.26,
+  "c": 28.22,
+  "f": 0.44,
+  "kcal": 123.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 157.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 170287,
+  "name": "Bulgur (cooked)",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 3.08,
+  "c": 18.58,
+  "f": 0.24,
+  "kcal": 83.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 182.0
+   },
+   {
+    "label": "tbsp",
+    "g": 8.4
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 171655,
+  "name": "Grits (cooked)",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 1.71,
+  "c": 14.76,
+  "f": 0.46,
+  "kcal": 71.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 257.0
+   },
+   {
+    "label": "tbsp",
+    "g": 16.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 173904,
+  "name": "Oats (dry)",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 13.15,
+  "c": 67.7,
+  "f": 6.52,
+  "kcal": 379.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 81.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 173884,
+  "name": "Cheerios",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 12.4,
+  "c": 73.2,
+  "f": 6.6,
+  "kcal": 372.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 28.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 171646,
+  "name": "Granola",
+  "group": "Grains & starches",
+  "diet": "vegetarian",
+  "p": 13.67,
+  "c": 53.88,
+  "f": 24.31,
+  "kcal": 489.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 122.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 172688,
+  "name": "Whole-wheat bread",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 12.45,
+  "c": 42.71,
+  "f": 3.5,
+  "kcal": 252.0,
+  "portions": [
+   {
+    "label": "slice",
+    "g": 32.0
+   }
+  ],
+  "unit": "slice"
+ },
+ {
+  "id": 174924,
+  "name": "White bread",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 8.85,
+  "c": 49.42,
+  "f": 3.33,
+  "kcal": 266.0,
+  "portions": [
+   {
+    "label": "slice",
+    "g": 29.0
+   },
+   {
+    "label": "cup, crumbs",
+    "g": 45.0
+   },
+   {
+    "label": "cup, cubes",
+    "g": 35.0
+   },
+   {
+    "label": "slice, large",
+    "g": 30.0
+   },
+   {
+    "label": "slice crust not eaten",
+    "g": 12.0
+   },
+   {
+    "label": "slice, thin",
+    "g": 20.0
+   },
+   {
+    "label": "slice thin, crust not eaten",
+    "g": 9.0
+   },
+   {
+    "label": "slice, very thin",
+    "g": 15.0
+   }
+  ],
+  "unit": "slice"
+ },
+ {
+  "id": 174899,
+  "name": "Bagel",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 10.56,
+  "c": 52.38,
+  "f": 1.32,
+  "kcal": 264.0,
+  "portions": [
+   {
+    "label": "bagel",
+    "g": 99.0
+   },
+   {
+    "label": "mini bagel",
+    "g": 26.0
+   },
+   {
+    "label": "small bagel",
+    "g": 69.0
+   },
+   {
+    "label": "medium bagel",
+    "g": 105.0
+   },
+   {
+    "label": "large bagel",
+    "g": 131.0
+   }
+  ],
+  "unit": "medium bagel"
+ },
+ {
+  "id": 175063,
+  "name": "English muffin",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 7.7,
+  "c": 46.0,
+  "f": 1.8,
+  "kcal": 235.0,
+  "portions": [
+   {
+    "label": "muffin",
+    "g": 57.0
+   }
+  ],
+  "unit": "muffin"
+ },
+ {
+  "id": 173242,
+  "name": "Flour tortilla",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 8.7,
+  "c": 55.6,
+  "f": 7.1,
+  "kcal": 325.0,
+  "portions": [
+   {
+    "label": "tortilla",
+    "g": 32.0
+   },
+   {
+    "label": "tortilla",
+    "g": 72.0
+   }
+  ],
+  "unit": "tortilla"
+ },
+ {
+  "id": 175036,
+  "name": "Corn tortilla",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 5.7,
+  "c": 44.64,
+  "f": 2.85,
+  "kcal": 218.0,
+  "portions": [
+   {
+    "label": "enchilada",
+    "g": 19.0
+   },
+   {
+    "label": "tortilla",
+    "g": 24.0
+   }
+  ],
+  "unit": "tortilla"
+ },
+ {
+  "id": 175009,
+  "name": "Pancakes",
+  "group": "Grains & starches",
+  "diet": "vegetarian",
+  "p": 6.4,
+  "c": 28.3,
+  "f": 9.7,
+  "kcal": 227.0,
+  "portions": [
+   {
+    "label": "pancake",
+    "g": 38.0
+   }
+  ],
+  "unit": "pancake"
+ },
+ {
+  "id": 170093,
+  "name": "Baked potato",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 2.5,
+  "c": 21.15,
+  "f": 0.13,
+  "kcal": 93.0,
+  "portions": [
+   {
+    "label": "label serving",
+    "g": 148.0
+   },
+   {
+    "label": "potato large",
+    "g": 299.0
+   },
+   {
+    "label": "medium potato",
+    "g": 173.0
+   },
+   {
+    "label": "potato small",
+    "g": 138.0
+   }
+  ],
+  "unit": "medium potato"
+ },
+ {
+  "id": 168483,
+  "name": "Baked sweet potato",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 2.01,
+  "c": 20.71,
+  "f": 0.15,
+  "kcal": 90.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 200.0
+   },
+   {
+    "label": "large",
+    "g": 180.0
+   },
+   {
+    "label": "medium",
+    "g": 114.0
+   },
+   {
+    "label": "small",
+    "g": 60.0
+   }
+  ],
+  "unit": "medium"
+ },
+ {
+  "id": 168555,
+  "name": "Mashed potatoes",
+  "group": "Grains & starches",
+  "diet": "vegetarian",
+  "p": 1.86,
+  "c": 16.81,
+  "f": 4.22,
+  "kcal": 113.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 210.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 169999,
+  "name": "Sweet corn (cooked)",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 3.41,
+  "c": 20.98,
+  "f": 1.5,
+  "kcal": 96.0,
+  "portions": [
+   {
+    "label": "ear small",
+    "g": 89.0
+   },
+   {
+    "label": "ear medium",
+    "g": 103.0
+   },
+   {
+    "label": "ear large",
+    "g": 118.0
+   },
+   {
+    "label": "cup cut",
+    "g": 149.0
+   },
+   {
+    "label": "baby ear",
+    "g": 8.0
+   }
+  ],
+  "unit": "cup cut"
+ },
+ {
+  "id": 170017,
+  "name": "Green peas (cooked)",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 5.15,
+  "c": 14.26,
+  "f": 0.27,
+  "kcal": 78.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 160.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 169296,
+  "name": "Butternut squash (baked)",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 0.9,
+  "c": 10.49,
+  "f": 0.09,
+  "kcal": 40.0,
+  "portions": [
+   {
+    "label": "cup, cubes",
+    "g": 205.0
+   }
+  ],
+  "unit": "cup, cubes"
+ },
+ {
+  "id": 173944,
+  "name": "Banana",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 1.09,
+  "c": 22.84,
+  "f": 0.33,
+  "kcal": 89.0,
+  "portions": [
+   {
+    "label": "cup, mashed",
+    "g": 225.0
+   },
+   {
+    "label": "cup, sliced",
+    "g": 150.0
+   },
+   {
+    "label": "extra small",
+    "g": 81.0
+   },
+   {
+    "label": "small",
+    "g": 101.0
+   },
+   {
+    "label": "medium",
+    "g": 118.0
+   },
+   {
+    "label": "large",
+    "g": 136.0
+   },
+   {
+    "label": "extra large",
+    "g": 152.0
+   },
+   {
+    "label": "label serving",
+    "g": 126.0
+   }
+  ],
+  "unit": "medium"
+ },
+ {
+  "id": 171688,
+  "name": "Apple",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 0.26,
+  "c": 13.81,
+  "f": 0.17,
+  "kcal": 52.0,
+  "portions": [
+   {
+    "label": "cup, quartered or chopped",
+    "g": 125.0
+   },
+   {
+    "label": "cup slices",
+    "g": 109.0
+   },
+   {
+    "label": "large",
+    "g": 223.0
+   },
+   {
+    "label": "medium",
+    "g": 182.0
+   },
+   {
+    "label": "small",
+    "g": 149.0
+   },
+   {
+    "label": "extra small",
+    "g": 101.0
+   },
+   {
+    "label": "label serving",
+    "g": 242.0
+   }
+  ],
+  "unit": "medium"
+ },
+ {
+  "id": 169097,
+  "name": "Orange",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 0.94,
+  "c": 11.75,
+  "f": 0.12,
+  "kcal": 47.0,
+  "portions": [
+   {
+    "label": "cup, sections",
+    "g": 180.0
+   },
+   {
+    "label": "large",
+    "g": 184.0
+   },
+   {
+    "label": "small",
+    "g": 96.0
+   },
+   {
+    "label": "fruit",
+    "g": 131.0
+   }
+  ],
+  "unit": "fruit"
+ },
+ {
+  "id": 169118,
+  "name": "Pear",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 0.36,
+  "c": 15.23,
+  "f": 0.14,
+  "kcal": 57.0,
+  "portions": [
+   {
+    "label": "cup, slices",
+    "g": 140.0
+   },
+   {
+    "label": "cup, cubes",
+    "g": 161.0
+   },
+   {
+    "label": "small",
+    "g": 148.0
+   },
+   {
+    "label": "medium",
+    "g": 178.0
+   },
+   {
+    "label": "large",
+    "g": 230.0
+   },
+   {
+    "label": "label serving",
+    "g": 166.0
+   }
+  ],
+  "unit": "medium"
+ },
+ {
+  "id": 169928,
+  "name": "Peach",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 0.91,
+  "c": 9.54,
+  "f": 0.25,
+  "kcal": 39.0,
+  "portions": [
+   {
+    "label": "cup slices",
+    "g": 154.0
+   },
+   {
+    "label": "small",
+    "g": 130.0
+   },
+   {
+    "label": "medium",
+    "g": 150.0
+   },
+   {
+    "label": "large",
+    "g": 175.0
+   },
+   {
+    "label": "extra large",
+    "g": 224.0
+   },
+   {
+    "label": "label serving",
+    "g": 147.0
+   }
+  ],
+  "unit": "medium"
+ },
+ {
+  "id": 171711,
+  "name": "Blueberries",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 0.74,
+  "c": 14.49,
+  "f": 0.33,
+  "kcal": 57.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 148.0
+   },
+   {
+    "label": "berries",
+    "g": 1.4
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 167762,
+  "name": "Strawberries",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 0.67,
+  "c": 7.68,
+  "f": 0.3,
+  "kcal": 32.0,
+  "portions": [
+   {
+    "label": "cup, halves",
+    "g": 152.0
+   },
+   {
+    "label": "cup, pureed",
+    "g": 232.0
+   },
+   {
+    "label": "cup, sliced",
+    "g": 166.0
+   },
+   {
+    "label": "cup",
+    "g": 144.0
+   },
+   {
+    "label": "extra large",
+    "g": 27.0
+   },
+   {
+    "label": "large",
+    "g": 18.0
+   },
+   {
+    "label": "medium",
+    "g": 12.0
+   },
+   {
+    "label": "small",
+    "g": 7.0
+   },
+   {
+    "label": "label serving",
+    "g": 147.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 174683,
+  "name": "Grapes",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 0.72,
+  "c": 18.1,
+  "f": 0.16,
+  "kcal": 69.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 151.0
+   },
+   {
+    "label": "grapes",
+    "g": 4.9
+   },
+   {
+    "label": "label serving",
+    "g": 126.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 171719,
+  "name": "Cherries",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 1.06,
+  "c": 16.01,
+  "f": 0.2,
+  "kcal": 63.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 154.0
+   },
+   {
+    "label": "cherry",
+    "g": 8.2
+   },
+   {
+    "label": "label serving",
+    "g": 140.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 169124,
+  "name": "Pineapple",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 0.54,
+  "c": 13.12,
+  "f": 0.12,
+  "kcal": 50.0,
+  "portions": [
+   {
+    "label": "cup, chunks",
+    "g": 165.0
+   },
+   {
+    "label": "fruit",
+    "g": 905.0
+   },
+   {
+    "label": "slice",
+    "g": 166.0
+   },
+   {
+    "label": "slice, thin",
+    "g": 56.0
+   }
+  ],
+  "unit": "cup, chunks"
+ },
+ {
+  "id": 169910,
+  "name": "Mango",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 0.82,
+  "c": 14.98,
+  "f": 0.38,
+  "kcal": 60.0,
+  "portions": [
+   {
+    "label": "cup pieces",
+    "g": 165.0
+   },
+   {
+    "label": "fruit without refuse",
+    "g": 336.0
+   }
+  ],
+  "unit": "cup pieces"
+ },
+ {
+  "id": 167765,
+  "name": "Watermelon",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 0.61,
+  "c": 7.55,
+  "f": 0.15,
+  "kcal": 30.0,
+  "portions": [
+   {
+    "label": "cup, balls",
+    "g": 154.0
+   },
+   {
+    "label": "cup, diced",
+    "g": 152.0
+   },
+   {
+    "label": "melon",
+    "g": 4518.0
+   },
+   {
+    "label": "wedge",
+    "g": 286.0
+   },
+   {
+    "label": "watermelon balls",
+    "g": 12.2
+   },
+   {
+    "label": "label serving",
+    "g": 280.0
+   }
+  ],
+  "unit": "cup, balls"
+ },
+ {
+  "id": 168153,
+  "name": "Kiwi",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 1.14,
+  "c": 14.66,
+  "f": 0.52,
+  "kcal": 61.0,
+  "portions": [
+   {
+    "label": "cup, sliced",
+    "g": 180.0
+   },
+   {
+    "label": "fruit",
+    "g": 69.0
+   },
+   {
+    "label": "label serving",
+    "g": 148.0
+   }
+  ],
+  "unit": "fruit"
+ },
+ {
+  "id": 168191,
+  "name": "Medjool dates",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 1.81,
+  "c": 74.97,
+  "f": 0.15,
+  "kcal": 277.0,
+  "portions": [
+   {
+    "label": "date, pitted",
+    "g": 24.0
+   }
+  ],
+  "unit": "date, pitted"
+ },
+ {
+  "id": 169098,
+  "name": "Orange juice",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 0.7,
+  "c": 10.4,
+  "f": 0.2,
+  "kcal": 45.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 248.0
+   },
+   {
+    "label": "fl oz",
+    "g": 31.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 169967,
+  "name": "Broccoli (cooked)",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 2.38,
+  "c": 7.18,
+  "f": 0.41,
+  "kcal": 35.0,
+  "portions": [
+   {
+    "label": "cup, chopped",
+    "g": 156.0
+   },
+   {
+    "label": "stalk, large",
+    "g": 280.0
+   },
+   {
+    "label": "stalk, medium",
+    "g": 180.0
+   },
+   {
+    "label": "stalk, small",
+    "g": 140.0
+   },
+   {
+    "label": "spear",
+    "g": 37.0
+   }
+  ],
+  "unit": "cup, chopped"
+ },
+ {
+  "id": 169971,
+  "name": "Brussels sprouts (cooked)",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 2.55,
+  "c": 7.1,
+  "f": 0.5,
+  "kcal": 36.0,
+  "portions": [
+   {
+    "label": "sprout",
+    "g": 21.0
+   },
+   {
+    "label": "cup",
+    "g": 156.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 169141,
+  "name": "Green beans (cooked)",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 1.89,
+  "c": 7.88,
+  "f": 0.28,
+  "kcal": 35.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 125.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 168390,
+  "name": "Asparagus (cooked)",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 2.4,
+  "c": 4.11,
+  "f": 0.22,
+  "kcal": 22.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 180.0
+   },
+   {
+    "label": "spears",
+    "g": 15.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 168462,
+  "name": "Spinach",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 2.86,
+  "c": 3.63,
+  "f": 0.39,
+  "kcal": 23.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 30.0
+   },
+   {
+    "label": "bunch",
+    "g": 340.0
+   },
+   {
+    "label": "leaf",
+    "g": 10.0
+   },
+   {
+    "label": "package",
+    "g": 284.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 168421,
+  "name": "Kale",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 2.92,
+  "c": 4.42,
+  "f": 1.49,
+  "kcal": 35.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 21.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 169247,
+  "name": "Romaine lettuce",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 1.23,
+  "c": 3.29,
+  "f": 0.3,
+  "kcal": 17.0,
+  "portions": [
+   {
+    "label": "cup shredded",
+    "g": 47.0
+   },
+   {
+    "label": "leaf inner",
+    "g": 6.0
+   },
+   {
+    "label": "leaf outer",
+    "g": 28.0
+   },
+   {
+    "label": "head",
+    "g": 626.0
+   },
+   {
+    "label": "label serving",
+    "g": 85.0
+   }
+  ],
+  "unit": "cup shredded"
+ },
+ {
+  "id": 170393,
+  "name": "Carrots",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 0.93,
+  "c": 9.58,
+  "f": 0.24,
+  "kcal": 41.0,
+  "portions": [
+   {
+    "label": "cup chopped",
+    "g": 128.0
+   },
+   {
+    "label": "cup grated",
+    "g": 110.0
+   },
+   {
+    "label": "cup strips or slices",
+    "g": 122.0
+   },
+   {
+    "label": "large",
+    "g": 72.0
+   },
+   {
+    "label": "medium",
+    "g": 61.0
+   },
+   {
+    "label": "small",
+    "g": 50.0
+   },
+   {
+    "label": "slice",
+    "g": 3.0
+   },
+   {
+    "label": "strip large",
+    "g": 7.0
+   },
+   {
+    "label": "strip medium",
+    "g": 4.0
+   }
+  ],
+  "unit": "medium"
+ },
+ {
+  "id": 168409,
+  "name": "Cucumber",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 0.65,
+  "c": 3.63,
+  "f": 0.11,
+  "kcal": 15.0,
+  "portions": [
+   {
+    "label": "cup slices",
+    "g": 104.0
+   },
+   {
+    "label": "cucumber",
+    "g": 301.0
+   }
+  ],
+  "unit": "cup slices"
+ },
+ {
+  "id": 170457,
+  "name": "Tomato",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 0.88,
+  "c": 3.89,
+  "f": 0.2,
+  "kcal": 18.0,
+  "portions": [
+   {
+    "label": "cup cherry tomatoes",
+    "g": 149.0
+   },
+   {
+    "label": "cup, chopped or sliced",
+    "g": 180.0
+   },
+   {
+    "label": "Italian tomato",
+    "g": 62.0
+   },
+   {
+    "label": "cherry",
+    "g": 17.0
+   },
+   {
+    "label": "large whole",
+    "g": 182.0
+   },
+   {
+    "label": "medium whole",
+    "g": 123.0
+   },
+   {
+    "label": "slice, medium",
+    "g": 20.0
+   },
+   {
+    "label": "plum tomato",
+    "g": 62.0
+   },
+   {
+    "label": "small whole",
+    "g": 91.0
+   },
+   {
+    "label": "slice, thick/large",
+    "g": 27.0
+   },
+   {
+    "label": "wedge",
+    "g": 31.0
+   },
+   {
+    "label": "slice, thin/small",
+    "g": 15.0
+   },
+   {
+    "label": "label serving",
+    "g": 148.0
+   }
+  ],
+  "unit": "medium whole"
+ },
+ {
+  "id": 170108,
+  "name": "Red bell pepper",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 0.99,
+  "c": 6.03,
+  "f": 0.3,
+  "kcal": 26.0,
+  "portions": [
+   {
+    "label": "cup, chopped",
+    "g": 149.0
+   },
+   {
+    "label": "cup, sliced",
+    "g": 92.0
+   },
+   {
+    "label": "tablespoon",
+    "g": 9.3
+   },
+   {
+    "label": "large",
+    "g": 164.0
+   },
+   {
+    "label": "medium",
+    "g": 119.0
+   },
+   {
+    "label": "small",
+    "g": 74.0
+   },
+   {
+    "label": "ring",
+    "g": 10.0
+   }
+  ],
+  "unit": "medium"
+ },
+ {
+  "id": 169251,
+  "name": "Mushrooms",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 3.09,
+  "c": 3.26,
+  "f": 0.34,
+  "kcal": 22.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 70.0
+   },
+   {
+    "label": "cup, whole",
+    "g": 96.0
+   },
+   {
+    "label": "large",
+    "g": 23.0
+   },
+   {
+    "label": "medium",
+    "g": 18.0
+   },
+   {
+    "label": "slice",
+    "g": 6.0
+   },
+   {
+    "label": "small",
+    "g": 10.0
+   },
+   {
+    "label": "cup pieces",
+    "g": 70.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 170000,
+  "name": "Onion",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 1.1,
+  "c": 9.34,
+  "f": 0.1,
+  "kcal": 40.0,
+  "portions": [
+   {
+    "label": "cup, chopped",
+    "g": 160.0
+   },
+   {
+    "label": "cup, sliced",
+    "g": 115.0
+   },
+   {
+    "label": "tbsp chopped",
+    "g": 10.0
+   },
+   {
+    "label": "large",
+    "g": 150.0
+   },
+   {
+    "label": "slice, large",
+    "g": 38.0
+   },
+   {
+    "label": "medium",
+    "g": 110.0
+   },
+   {
+    "label": "slice, medium",
+    "g": 14.0
+   },
+   {
+    "label": "small",
+    "g": 70.0
+   },
+   {
+    "label": "slice, thin",
+    "g": 9.0
+   },
+   {
+    "label": "rings",
+    "g": 6.0
+   }
+  ],
+  "unit": "medium"
+ },
+ {
+  "id": 169986,
+  "name": "Cauliflower",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 1.92,
+  "c": 4.97,
+  "f": 0.28,
+  "kcal": 25.0,
+  "portions": [
+   {
+    "label": "cup chopped",
+    "g": 107.0
+   },
+   {
+    "label": "floweret",
+    "g": 13.0
+   },
+   {
+    "label": "head large",
+    "g": 840.0
+   },
+   {
+    "label": "head medium",
+    "g": 588.0
+   },
+   {
+    "label": "head small",
+    "g": 265.0
+   }
+  ],
+  "unit": "cup chopped"
+ },
+ {
+  "id": 169291,
+  "name": "Zucchini",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 1.21,
+  "c": 3.11,
+  "f": 0.32,
+  "kcal": 17.0,
+  "portions": [
+   {
+    "label": "cup, chopped",
+    "g": 124.0
+   },
+   {
+    "label": "cup, sliced",
+    "g": 113.0
+   },
+   {
+    "label": "large",
+    "g": 323.0
+   },
+   {
+    "label": "medium",
+    "g": 196.0
+   },
+   {
+    "label": "slice",
+    "g": 9.9
+   },
+   {
+    "label": "small",
+    "g": 118.0
+   }
+  ],
+  "unit": "medium"
+ },
+ {
+  "id": 171705,
+  "name": "Avocado",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 2.0,
+  "c": 8.53,
+  "f": 14.66,
+  "kcal": 160.0,
+  "portions": [
+   {
+    "label": "cup, cubes",
+    "g": 150.0
+   },
+   {
+    "label": "cup, pureed",
+    "g": 230.0
+   },
+   {
+    "label": "cup, sliced",
+    "g": 146.0
+   },
+   {
+    "label": "avocado",
+    "g": 201.0
+   },
+   {
+    "label": "label serving",
+    "g": 50.0
+   }
+  ],
+  "unit": "avocado"
+ },
+ {
+  "id": 170567,
+  "name": "Almonds",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 21.15,
+  "c": 21.55,
+  "f": 49.93,
+  "kcal": 579.0,
+  "portions": [
+   {
+    "label": "cup, whole",
+    "g": 143.0
+   },
+   {
+    "label": "cup, sliced",
+    "g": 92.0
+   },
+   {
+    "label": "cup, slivered",
+    "g": 108.0
+   },
+   {
+    "label": "cup, ground",
+    "g": 95.0
+   },
+   {
+    "label": "almond",
+    "g": 1.2
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 170187,
+  "name": "Walnuts",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 15.23,
+  "c": 13.71,
+  "f": 65.21,
+  "kcal": 654.0,
+  "portions": [
+   {
+    "label": "cup, chopped",
+    "g": 117.0
+   },
+   {
+    "label": "cup, ground",
+    "g": 80.0
+   },
+   {
+    "label": "cup shelled",
+    "g": 100.0
+   },
+   {
+    "label": "cup pieces or chips",
+    "g": 120.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 170571,
+  "name": "Cashews (dry roasted)",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 15.31,
+  "c": 32.69,
+  "f": 46.35,
+  "kcal": 574.0,
+  "portions": [
+   {
+    "label": "cup, halves and whole",
+    "g": 137.0
+   },
+   {
+    "label": "tbsp",
+    "g": 8.6
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 170185,
+  "name": "Pistachios (dry roasted)",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 21.05,
+  "c": 28.28,
+  "f": 45.82,
+  "kcal": 572.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 123.0
+   },
+   {
+    "label": "kernel",
+    "g": 0.7
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 170182,
+  "name": "Pecans",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 9.17,
+  "c": 13.86,
+  "f": 71.97,
+  "kcal": 691.0,
+  "portions": [
+   {
+    "label": "cup, chopped",
+    "g": 109.0
+   },
+   {
+    "label": "cup, halves",
+    "g": 99.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 170178,
+  "name": "Macadamia nuts",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 7.91,
+  "c": 13.82,
+  "f": 75.77,
+  "kcal": 718.0,
+  "portions": [
+   {
+    "label": "cup, whole or halves",
+    "g": 134.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 173806,
+  "name": "Peanuts (dry roasted)",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 24.35,
+  "c": 21.26,
+  "f": 49.66,
+  "kcal": 587.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 146.0
+   },
+   {
+    "label": "peanut",
+    "g": 1.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 172470,
+  "name": "Peanut butter",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 22.21,
+  "c": 22.31,
+  "f": 51.36,
+  "kcal": 598.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 16.0
+   },
+   {
+    "label": "cup",
+    "g": 258.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 170554,
+  "name": "Chia seeds",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 16.54,
+  "c": 42.12,
+  "f": 30.74,
+  "kcal": 486.0,
+  "portions": [],
+  "unit": "oz"
+ },
+ {
+  "id": 169414,
+  "name": "Flaxseed",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 18.29,
+  "c": 28.88,
+  "f": 42.16,
+  "kcal": 534.0,
+  "portions": [
+   {
+    "label": "tbsp, whole",
+    "g": 10.3
+   },
+   {
+    "label": "cup, whole",
+    "g": 168.0
+   },
+   {
+    "label": "tbsp, ground",
+    "g": 7.0
+   },
+   {
+    "label": "tsp, whole",
+    "g": 3.4
+   },
+   {
+    "label": "tsp, ground",
+    "g": 2.5
+   }
+  ],
+  "unit": "tbsp, whole"
+ },
+ {
+  "id": 170556,
+  "name": "Pumpkin seeds",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 30.23,
+  "c": 10.71,
+  "f": 49.05,
+  "kcal": 559.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 129.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 170562,
+  "name": "Sunflower seeds",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 20.78,
+  "c": 20.0,
+  "f": 51.46,
+  "kcal": 584.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 140.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 171413,
+  "name": "Olive oil",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 0.0,
+  "c": 0.0,
+  "f": 100.0,
+  "kcal": 884.0,
+  "portions": [
+   {
+    "label": "tablespoon",
+    "g": 13.5
+   },
+   {
+    "label": "cup",
+    "g": 216.0
+   },
+   {
+    "label": "tsp",
+    "g": 4.5
+   }
+  ],
+  "unit": "tablespoon"
+ },
+ {
+  "id": 171412,
+  "name": "Coconut oil",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 0.0,
+  "c": 0.0,
+  "f": 99.06,
+  "kcal": 892.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 13.6
+   },
+   {
+    "label": "cup",
+    "g": 218.0
+   },
+   {
+    "label": "tsp",
+    "g": 4.5
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 173410,
+  "name": "Butter",
+  "group": "Fats & nuts",
+  "diet": "vegetarian",
+  "p": 0.85,
+  "c": 0.06,
+  "f": 81.11,
+  "kcal": 717.0,
+  "portions": [
+   {
+    "label": "pat",
+    "g": 5.0
+   },
+   {
+    "label": "tbsp",
+    "g": 14.2
+   },
+   {
+    "label": "cup",
+    "g": 227.0
+   },
+   {
+    "label": "stick",
+    "g": 113.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 171009,
+  "name": "Mayonnaise",
+  "group": "Sauces & condiments",
+  "diet": "vegetarian",
+  "p": 0.96,
+  "c": 0.57,
+  "f": 74.85,
+  "kcal": 680.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 13.8
+   },
+   {
+    "label": "cup",
+    "g": 220.0
+   },
+   {
+    "label": "packet",
+    "g": 10.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 169094,
+  "name": "Black olives",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 0.84,
+  "c": 6.04,
+  "f": 10.9,
+  "kcal": 116.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 8.4
+   },
+   {
+    "label": "large",
+    "g": 4.4
+   },
+   {
+    "label": "small",
+    "g": 3.2
+   }
+  ],
+  "unit": "large"
+ },
+ {
+  "id": 170273,
+  "name": "Dark chocolate 70-85%",
+  "group": "Snacks & sweets",
+  "diet": "vegetarian",
+  "p": 7.79,
+  "c": 45.9,
+  "f": 42.63,
+  "kcal": 598.0,
+  "portions": [
+   {
+    "label": "bar",
+    "g": 101.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 169640,
+  "name": "Honey",
+  "group": "Snacks & sweets",
+  "diet": "vegetarian",
+  "p": 0.3,
+  "c": 82.4,
+  "f": 0.0,
+  "kcal": 304.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 339.0
+   },
+   {
+    "label": "tbsp",
+    "g": 21.0
+   },
+   {
+    "label": "packet",
+    "g": 14.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 169661,
+  "name": "Maple syrup",
+  "group": "Snacks & sweets",
+  "diet": "vegan",
+  "p": 0.04,
+  "c": 67.04,
+  "f": 0.06,
+  "kcal": 260.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 20.0
+   },
+   {
+    "label": "serving 1/4 cup",
+    "g": 83.0
+   },
+   {
+    "label": "cup",
+    "g": 315.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 169655,
+  "name": "Sugar",
+  "group": "Snacks & sweets",
+  "diet": "vegan",
+  "p": 0.0,
+  "c": 99.98,
+  "f": 0.0,
+  "kcal": 387.0,
+  "portions": [
+   {
+    "label": "serving packet",
+    "g": 2.8
+   },
+   {
+    "label": "tsp",
+    "g": 4.2
+   },
+   {
+    "label": "cup",
+    "g": 200.0
+   },
+   {
+    "label": "serving 1 cube",
+    "g": 2.3
+   }
+  ],
+  "unit": "tsp"
+ },
+ {
+  "id": 169641,
+  "name": "Jam",
+  "group": "Snacks & sweets",
+  "diet": "vegan",
+  "p": 0.37,
+  "c": 68.86,
+  "f": 0.07,
+  "kcal": 278.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 20.0
+   },
+   {
+    "label": "packet",
+    "g": 14.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 167542,
+  "name": "Granola bar",
+  "group": "Snacks & sweets",
+  "diet": "vegetarian",
+  "p": 10.1,
+  "c": 64.4,
+  "f": 19.8,
+  "kcal": 471.0,
+  "portions": [
+   {
+    "label": "bar",
+    "g": 21.0
+   }
+  ],
+  "unit": "bar"
+ },
+ {
+  "id": 167959,
+  "name": "Popcorn (air-popped)",
+  "group": "Snacks & sweets",
+  "diet": "vegan",
+  "p": 12.94,
+  "c": 77.78,
+  "f": 4.54,
+  "kcal": 387.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 8.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 172746,
+  "name": "Saltine crackers",
+  "group": "Snacks & sweets",
+  "diet": "vegan",
+  "p": 9.46,
+  "c": 74.05,
+  "f": 8.64,
+  "kcal": 418.0,
+  "portions": [
+   {
+    "label": "crackers",
+    "g": 3.0
+   },
+   {
+    "label": "cup, crushed",
+    "g": 70.0
+   },
+   {
+    "label": "crackers square",
+    "g": 3.0
+   },
+   {
+    "label": "cracker square",
+    "g": 3.0
+   },
+   {
+    "label": "cracker, round large",
+    "g": 10.0
+   },
+   {
+    "label": "cracker, oyster",
+    "g": 1.0
+   },
+   {
+    "label": "cracker, rectangle",
+    "g": 6.0
+   },
+   {
+    "label": "cup oyster crackers",
+    "g": 45.0
+   }
+  ],
+  "unit": "crackers"
+ },
+ {
+  "id": 169677,
+  "name": "Potato chips",
+  "group": "Snacks & sweets",
+  "diet": "vegan",
+  "p": 6.39,
+  "c": 53.83,
+  "f": 33.98,
+  "kcal": 532.0,
+  "portions": [
+   {
+    "label": "chips",
+    "g": 1.3
+   },
+   {
+    "label": "bag",
+    "g": 227.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 172716,
+  "name": "Chocolate chip cookie",
+  "group": "Snacks & sweets",
+  "diet": "vegetarian",
+  "p": 5.1,
+  "c": 65.36,
+  "f": 24.72,
+  "kcal": 492.0,
+  "portions": [
+   {
+    "label": "cookie",
+    "g": 12.9
+   },
+   {
+    "label": "cookie Pepperidge Farm Chocolate Chunk Pecan",
+    "g": 12.0
+   },
+   {
+    "label": "cookie, big",
+    "g": 40.0
+   },
+   {
+    "label": "cookie, medium",
+    "g": 10.0
+   },
+   {
+    "label": "cookie, large",
+    "g": 14.0
+   },
+   {
+    "label": "cookie, bite size",
+    "g": 2.2
+   }
+  ],
+  "unit": "cookie"
+ },
+ {
+  "id": 174990,
+  "name": "Cake donut",
+  "group": "Snacks & sweets",
+  "diet": "vegetarian",
+  "p": 5.31,
+  "c": 47.06,
+  "f": 24.93,
+  "kcal": 434.0,
+  "portions": [
+   {
+    "label": "donut",
+    "g": 40.0
+   },
+   {
+    "label": "doughnut stick",
+    "g": 52.0
+   },
+   {
+    "label": "doughnut, long type",
+    "g": 52.0
+   },
+   {
+    "label": "donut",
+    "g": 54.0
+   },
+   {
+    "label": "doughnut, mini or doughnut hole",
+    "g": 14.0
+   },
+   {
+    "label": "doughnut, large",
+    "g": 71.0
+   }
+  ],
+  "unit": "donut"
+ },
+ {
+  "id": 172765,
+  "name": "Blueberry muffin",
+  "group": "Snacks & sweets",
+  "diet": "vegetarian",
+  "p": 4.49,
+  "c": 53.0,
+  "f": 16.07,
+  "kcal": 375.0,
+  "portions": [
+   {
+    "label": "mini",
+    "g": 17.0
+   },
+   {
+    "label": "small",
+    "g": 66.0
+   },
+   {
+    "label": "medium",
+    "g": 113.0
+   },
+   {
+    "label": "large",
+    "g": 139.0
+   },
+   {
+    "label": "extra large",
+    "g": 168.0
+   },
+   {
+    "label": "muffin",
+    "g": 31.0
+   }
+  ],
+  "unit": "muffin"
+ },
+ {
+  "id": 174987,
+  "name": "Butter croissant",
+  "group": "Snacks & sweets",
+  "diet": "vegetarian",
+  "p": 8.2,
+  "c": 45.8,
+  "f": 21.0,
+  "kcal": 406.0,
+  "portions": [
+   {
+    "label": "croissant, mini",
+    "g": 28.0
+   },
+   {
+    "label": "croissant, small",
+    "g": 42.0
+   },
+   {
+    "label": "croissant",
+    "g": 57.0
+   },
+   {
+    "label": "croissant, large",
+    "g": 67.0
+   }
+  ],
+  "unit": "croissant"
+ },
+ {
+  "id": 170693,
+  "name": "Hamburger (fast food)",
+  "group": "Prepared foods",
+  "diet": null,
+  "p": 16.52,
+  "c": 31.5,
+  "f": 12.01,
+  "kcal": 297.0,
+  "portions": [
+   {
+    "label": "sandwich",
+    "g": 78.0
+   }
+  ],
+  "unit": "sandwich"
+ },
+ {
+  "id": 170698,
+  "name": "French fries (fast food)",
+  "group": "Prepared foods",
+  "diet": "vegan",
+  "p": 3.43,
+  "c": 41.44,
+  "f": 14.73,
+  "kcal": 312.0,
+  "portions": [
+   {
+    "label": "serving small",
+    "g": 71.0
+   },
+   {
+    "label": "medium serving",
+    "g": 117.0
+   },
+   {
+    "label": "serving large",
+    "g": 154.0
+   }
+  ],
+  "unit": "medium serving"
+ },
+ {
+  "id": 172039,
+  "name": "Bean & cheese burrito",
+  "group": "Prepared foods",
+  "diet": "vegetarian",
+  "p": 7.35,
+  "c": 31.23,
+  "f": 6.05,
+  "kcal": 205.0,
+  "portions": [
+   {
+    "label": "each burrito",
+    "g": 185.0
+   }
+  ],
+  "unit": "each burrito"
+ },
+ {
+  "id": 170317,
+  "name": "Cheese pizza (frozen)",
+  "group": "Prepared foods",
+  "diet": "vegetarian",
+  "p": 10.36,
+  "c": 29.02,
+  "f": 12.28,
+  "kcal": 268.0,
+  "portions": [
+   {
+    "label": "slice",
+    "g": 81.0
+   },
+   {
+    "label": "serving 3 servings per 15.1 oz package",
+    "g": 151.0
+   },
+   {
+    "label": "serving 2 servings per 9.8 oz package",
+    "g": 146.0
+   },
+   {
+    "label": "serving 1 serving per 8 oz box",
+    "g": 199.0
+   },
+   {
+    "label": "package 24 oz pizza",
+    "g": 727.0
+   },
+   {
+    "label": "package 15.1 oz pizza",
+    "g": 452.0
+   },
+   {
+    "label": "package 9.8 oz pizza",
+    "g": 293.0
+   },
+   {
+    "label": "package 8 oz pizza",
+    "g": 199.0
+   }
+  ],
+  "unit": "slice"
+ },
+ {
+  "id": 171192,
+  "name": "Marinara sauce",
+  "group": "Sauces & condiments",
+  "diet": "vegan",
+  "p": 1.39,
+  "c": 7.43,
+  "f": 1.61,
+  "kcal": 50.0,
+  "portions": [
+   {
+    "label": "\u00bd cup",
+    "g": 132.0
+   }
+  ],
+  "unit": "\u00bd cup"
+ },
+ {
+  "id": 168556,
+  "name": "Ketchup",
+  "group": "Sauces & condiments",
+  "diet": "vegan",
+  "p": 1.04,
+  "c": 27.4,
+  "f": 0.1,
+  "kcal": 101.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 17.0
+   },
+   {
+    "label": "packet",
+    "g": 9.0
+   },
+   {
+    "label": "cup",
+    "g": 240.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 174852,
+  "name": "Cola",
+  "group": "Drinks",
+  "diet": "vegan",
+  "p": 0.0,
+  "c": 10.36,
+  "f": 0.25,
+  "kcal": 42.0,
+  "portions": [
+   {
+    "label": "fl oz",
+    "g": 30.7
+   },
+   {
+    "label": "can",
+    "g": 370.0
+   },
+   {
+    "label": "drink, small",
+    "g": 492.0
+   },
+   {
+    "label": "drink, medium",
+    "g": 676.0
+   },
+   {
+    "label": "drink, large",
+    "g": 984.0
+   },
+   {
+    "label": "drink, extra large",
+    "g": 1353.0
+   }
+  ],
+  "unit": "can"
+ },
+ {
+  "id": 173190,
+  "name": "Red wine",
+  "group": "Drinks",
+  "diet": "vegan",
+  "p": 0.07,
+  "c": 2.61,
+  "f": 0.0,
+  "kcal": 85.0,
+  "portions": [
+   {
+    "label": "fl oz",
+    "g": 29.4
+   },
+   {
+    "label": "serving",
+    "g": 147.0
+   }
+  ],
+  "unit": "fl oz"
+ },
+ {
+  "id": 174832,
+  "name": "Almond milk (unsweetened)",
+  "group": "Drinks",
+  "diet": "vegan",
+  "p": 0.4,
+  "c": 1.31,
+  "f": 0.96,
+  "kcal": 15.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 262.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 172376,
+  "name": "Chicken drumstick (roasted)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 24.24,
+  "c": 0.0,
+  "f": 5.7,
+  "kcal": 155.0,
+  "portions": [
+   {
+    "label": "drumstick",
+    "g": 96.0
+   },
+   {
+    "label": "drumstick with skin",
+    "g": 105.0
+   }
+  ],
+  "unit": "drumstick"
+ },
+ {
+  "id": 168240,
+  "name": "Pork chop (broiled)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 26.76,
+  "c": 0.0,
+  "f": 7.29,
+  "kcal": 180.0,
+  "portions": [],
+  "unit": "oz"
+ },
+ {
+  "id": 167844,
+  "name": "Pork shoulder (roasted)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 23.28,
+  "c": 0.0,
+  "f": 21.39,
+  "kcal": 292.0,
+  "portions": [
+   {
+    "label": "cup, diced",
+    "g": 135.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 169557,
+  "name": "Ribeye steak (broiled)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 27.27,
+  "c": 0.0,
+  "f": 14.74,
+  "kcal": 249.0,
+  "portions": [],
+  "unit": "oz"
+ },
+ {
+  "id": 168667,
+  "name": "Pot roast (braised chuck)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 30.12,
+  "c": 0.0,
+  "f": 19.22,
+  "kcal": 302.0,
+  "portions": [],
+  "unit": "oz"
+ },
+ {
+  "id": 174586,
+  "name": "Italian sausage (pan-fried)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 18.4,
+  "c": 1.86,
+  "f": 26.4,
+  "kcal": 324.0,
+  "portions": [
+   {
+    "label": "link",
+    "g": 87.0
+   }
+  ],
+  "unit": "link"
+ },
+ {
+  "id": 174575,
+  "name": "Pepperoni",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 19.25,
+  "c": 1.18,
+  "f": 46.28,
+  "kcal": 504.0,
+  "portions": [
+   {
+    "label": "slice",
+    "g": 2.0
+   }
+  ],
+  "unit": "slice"
+ },
+ {
+  "id": 172938,
+  "name": "Salami (hard)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 22.58,
+  "c": 1.6,
+  "f": 33.72,
+  "kcal": 407.0,
+  "portions": [
+   {
+    "label": "package",
+    "g": 113.0
+   },
+   {
+    "label": "slice",
+    "g": 10.0
+   }
+  ],
+  "unit": "slice"
+ },
+ {
+  "id": 173708,
+  "name": "Tuna (canned in oil)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 29.13,
+  "c": 0.0,
+  "f": 8.21,
+  "kcal": 198.0,
+  "portions": [
+   {
+    "label": "cup, solid or chunks",
+    "g": 146.0
+   },
+   {
+    "label": "can",
+    "g": 171.0
+   },
+   {
+    "label": "can, drained",
+    "g": 321.0
+   }
+  ],
+  "unit": "can"
+ },
+ {
+  "id": 175175,
+  "name": "Pink salmon (canned)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 23.1,
+  "c": 0.0,
+  "f": 5.02,
+  "kcal": 138.0,
+  "portions": [
+   {
+    "label": "can drained solids",
+    "g": 315.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 171966,
+  "name": "Crab (canned)",
+  "group": "Meat & fish",
+  "diet": null,
+  "p": 17.88,
+  "c": 0.0,
+  "f": 0.74,
+  "kcal": 83.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 135.0
+   },
+   {
+    "label": "can, drained",
+    "g": 125.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 172187,
+  "name": "Scrambled eggs",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 9.99,
+  "c": 1.61,
+  "f": 10.98,
+  "kcal": 149.0,
+  "portions": [
+   {
+    "label": "large",
+    "g": 61.0
+   },
+   {
+    "label": "tbsp",
+    "g": 13.7
+   },
+   {
+    "label": "cup",
+    "g": 220.0
+   }
+  ],
+  "unit": "large"
+ },
+ {
+  "id": 173423,
+  "name": "Fried egg",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 13.61,
+  "c": 0.83,
+  "f": 14.84,
+  "kcal": 196.0,
+  "portions": [
+   {
+    "label": "large",
+    "g": 46.0
+   }
+  ],
+  "unit": "large"
+ },
+ {
+  "id": 171251,
+  "name": "Swiss cheese",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 26.96,
+  "c": 1.44,
+  "f": 30.99,
+  "kcal": 393.0,
+  "portions": [
+   {
+    "label": "cup, diced",
+    "g": 132.0
+   },
+   {
+    "label": "cup, melted",
+    "g": 244.0
+   },
+   {
+    "label": "cup, shredded",
+    "g": 108.0
+   },
+   {
+    "label": "cubic inch",
+    "g": 15.0
+   },
+   {
+    "label": "slice",
+    "g": 28.0
+   }
+  ],
+  "unit": "slice"
+ },
+ {
+  "id": 171248,
+  "name": "Ricotta (part skim)",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 11.39,
+  "c": 5.14,
+  "f": 7.91,
+  "kcal": 138.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 248.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 170859,
+  "name": "Heavy cream",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 2.84,
+  "c": 2.84,
+  "f": 36.08,
+  "kcal": 340.0,
+  "portions": [
+   {
+    "label": "cup, whipped",
+    "g": 120.0
+   },
+   {
+    "label": "tbsp",
+    "g": 15.0
+   },
+   {
+    "label": "fl oz",
+    "g": 29.8
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 171255,
+  "name": "Half and half",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 3.13,
+  "c": 4.3,
+  "f": 11.5,
+  "kcal": 131.0,
+  "portions": [
+   {
+    "label": "fl oz",
+    "g": 30.2
+   },
+   {
+    "label": "tbsp",
+    "g": 15.0
+   },
+   {
+    "label": "cup",
+    "g": 242.0
+   },
+   {
+    "label": "container, individual",
+    "g": 15.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 170880,
+  "name": "Chocolate milk (2%)",
+  "group": "Eggs & dairy",
+  "diet": "vegetarian",
+  "p": 2.99,
+  "c": 12.13,
+  "f": 1.9,
+  "kcal": 76.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 250.0
+   },
+   {
+    "label": "fl oz",
+    "g": 31.2
+   },
+   {
+    "label": "quart",
+    "g": 1000.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 168603,
+  "name": "Almond butter",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 20.96,
+  "c": 18.82,
+  "f": 55.5,
+  "kcal": 614.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 16.0
+   },
+   {
+    "label": "cup",
+    "g": 250.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 170189,
+  "name": "Tahini",
+  "group": "Fats & nuts",
+  "diet": "vegan",
+  "p": 17.0,
+  "c": 21.19,
+  "f": 53.76,
+  "kcal": 595.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 15.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 167755,
+  "name": "Raspberries",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 1.2,
+  "c": 11.94,
+  "f": 0.65,
+  "kcal": 52.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 123.0
+   },
+   {
+    "label": "raspberries",
+    "g": 1.9
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 173946,
+  "name": "Blackberries",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 1.39,
+  "c": 9.61,
+  "f": 0.49,
+  "kcal": 43.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 144.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 169092,
+  "name": "Cantaloupe",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 0.84,
+  "c": 8.16,
+  "f": 0.19,
+  "kcal": 34.0,
+  "portions": [
+   {
+    "label": "cup, balls",
+    "g": 177.0
+   },
+   {
+    "label": "cup",
+    "g": 160.0
+   },
+   {
+    "label": "cup, diced",
+    "g": 156.0
+   },
+   {
+    "label": "melon, large",
+    "g": 814.0
+   },
+   {
+    "label": "wedge, large",
+    "g": 102.0
+   },
+   {
+    "label": "melon, medium",
+    "g": 552.0
+   },
+   {
+    "label": "wedge, medium",
+    "g": 69.0
+   },
+   {
+    "label": "melon, small",
+    "g": 441.0
+   },
+   {
+    "label": "wedge, small",
+    "g": 55.0
+   },
+   {
+    "label": "cantaloupe balls",
+    "g": 13.8
+   },
+   {
+    "label": "label serving",
+    "g": 134.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 173033,
+  "name": "Grapefruit",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 0.63,
+  "c": 8.08,
+  "f": 0.1,
+  "kcal": 32.0,
+  "portions": [
+   {
+    "label": "cup sections, with juice",
+    "g": 230.0
+   },
+   {
+    "label": "large",
+    "g": 332.0
+   },
+   {
+    "label": "medium",
+    "g": 256.0
+   },
+   {
+    "label": "small",
+    "g": 200.0
+   }
+  ],
+  "unit": "medium"
+ },
+ {
+  "id": 168165,
+  "name": "Raisins",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 3.3,
+  "c": 79.32,
+  "f": 0.25,
+  "kcal": 299.0,
+  "portions": [
+   {
+    "label": "cup, packed",
+    "g": 165.0
+   },
+   {
+    "label": "cup",
+    "g": 145.0
+   },
+   {
+    "label": "miniature box",
+    "g": 14.0
+   },
+   {
+    "label": "small box",
+    "g": 43.0
+   },
+   {
+    "label": "raisins",
+    "g": 0.5
+   }
+  ],
+  "unit": "small box"
+ },
+ {
+  "id": 167772,
+  "name": "Applesauce (unsweetened)",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 0.17,
+  "c": 11.27,
+  "f": 0.1,
+  "kcal": 42.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 244.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 173933,
+  "name": "Apple juice",
+  "group": "Fruit",
+  "diet": "vegan",
+  "p": 0.1,
+  "c": 11.3,
+  "f": 0.13,
+  "kcal": 46.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 248.0
+   },
+   {
+    "label": "fl oz",
+    "g": 31.0
+   },
+   {
+    "label": "drink box",
+    "g": 262.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 169975,
+  "name": "Cabbage",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 1.28,
+  "c": 5.8,
+  "f": 0.1,
+  "kcal": 25.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 89.0
+   },
+   {
+    "label": "cup, shredded",
+    "g": 70.0
+   },
+   {
+    "label": "head, large",
+    "g": 1248.0
+   },
+   {
+    "label": "leaf, large",
+    "g": 33.0
+   },
+   {
+    "label": "head, medium",
+    "g": 908.0
+   },
+   {
+    "label": "leaf, medium",
+    "g": 23.0
+   },
+   {
+    "label": "head, small",
+    "g": 714.0
+   },
+   {
+    "label": "leaf",
+    "g": 15.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 169988,
+  "name": "Celery",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 0.69,
+  "c": 2.97,
+  "f": 0.17,
+  "kcal": 14.0,
+  "portions": [
+   {
+    "label": "cup chopped",
+    "g": 101.0
+   },
+   {
+    "label": "label serving",
+    "g": 110.0
+   },
+   {
+    "label": "tbsp",
+    "g": 7.5
+   },
+   {
+    "label": "stalk, large",
+    "g": 64.0
+   },
+   {
+    "label": "stalk",
+    "g": 40.0
+   },
+   {
+    "label": "stalk, small",
+    "g": 17.0
+   },
+   {
+    "label": "strip",
+    "g": 4.0
+   }
+  ],
+  "unit": "stalk"
+ },
+ {
+  "id": 170427,
+  "name": "Green bell pepper",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 0.86,
+  "c": 4.64,
+  "f": 0.17,
+  "kcal": 20.0,
+  "portions": [
+   {
+    "label": "cup, chopped",
+    "g": 149.0
+   },
+   {
+    "label": "cup, sliced",
+    "g": 92.0
+   },
+   {
+    "label": "tbsp",
+    "g": 9.3
+   },
+   {
+    "label": "large",
+    "g": 164.0
+   },
+   {
+    "label": "medium",
+    "g": 119.0
+   },
+   {
+    "label": "ring",
+    "g": 10.0
+   },
+   {
+    "label": "small",
+    "g": 74.0
+   },
+   {
+    "label": "strips",
+    "g": 2.7
+   }
+  ],
+  "unit": "medium"
+ },
+ {
+  "id": 169146,
+  "name": "Beets (cooked)",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 1.68,
+  "c": 9.96,
+  "f": 0.18,
+  "kcal": 44.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 170.0
+   },
+   {
+    "label": "beets",
+    "g": 50.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 169229,
+  "name": "Eggplant (cooked)",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 0.83,
+  "c": 8.73,
+  "f": 0.23,
+  "kcal": 35.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 99.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 169279,
+  "name": "Sauerkraut",
+  "group": "Vegetables",
+  "diet": "vegan",
+  "p": 0.91,
+  "c": 4.28,
+  "f": 0.14,
+  "kcal": 19.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 142.0
+   },
+   {
+    "label": "cup, undrained",
+    "g": 236.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 174915,
+  "name": "Pita bread",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 9.1,
+  "c": 55.7,
+  "f": 1.2,
+  "kcal": 275.0,
+  "portions": [
+   {
+    "label": "pita",
+    "g": 60.0
+   },
+   {
+    "label": "pita, small",
+    "g": 28.0
+   }
+  ],
+  "unit": "pita"
+ },
+ {
+  "id": 172684,
+  "name": "Rye bread",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 8.5,
+  "c": 48.3,
+  "f": 3.3,
+  "kcal": 259.0,
+  "portions": [
+   {
+    "label": "slice",
+    "g": 32.0
+   },
+   {
+    "label": "slice, snack-size",
+    "g": 7.0
+   },
+   {
+    "label": "slice, thin",
+    "g": 25.0
+   }
+  ],
+  "unit": "slice"
+ },
+ {
+  "id": 174911,
+  "name": "Sourdough bread (toasted)",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 13.0,
+  "c": 61.93,
+  "f": 2.14,
+  "kcal": 319.0,
+  "portions": [
+   {
+    "label": "slice, small",
+    "g": 29.0
+   },
+   {
+    "label": "slice",
+    "g": 59.0
+   },
+   {
+    "label": "slice, large",
+    "g": 88.0
+   }
+  ],
+  "unit": "slice"
+ },
+ {
+  "id": 168919,
+  "name": "Egg noodles (cooked)",
+  "group": "Grains & starches",
+  "diet": "vegetarian",
+  "p": 4.54,
+  "c": 25.16,
+  "f": 2.07,
+  "kcal": 138.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 160.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 175038,
+  "name": "Waffles (frozen)",
+  "group": "Grains & starches",
+  "diet": "vegetarian",
+  "p": 6.47,
+  "c": 42.98,
+  "f": 9.7,
+  "kcal": 285.0,
+  "portions": [
+   {
+    "label": "waffle",
+    "g": 35.0
+   }
+  ],
+  "unit": "waffle"
+ },
+ {
+  "id": 170044,
+  "name": "Hash browns",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 2.65,
+  "c": 28.51,
+  "f": 11.59,
+  "kcal": 219.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 150.0
+   },
+   {
+    "label": "patty, oval",
+    "g": 29.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 171177,
+  "name": "Instant ramen (dry block)",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 10.17,
+  "c": 60.26,
+  "f": 17.59,
+  "kcal": 440.0,
+  "portions": [
+   {
+    "label": "package",
+    "g": 81.0
+   },
+   {
+    "label": "packet",
+    "g": 5.8
+   }
+  ],
+  "unit": "package"
+ },
+ {
+  "id": 174648,
+  "name": "Corn flakes",
+  "group": "Grains & starches",
+  "diet": "vegan",
+  "p": 5.9,
+  "c": 88.01,
+  "f": 0.91,
+  "kcal": 384.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 28.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 167558,
+  "name": "Tortilla chips",
+  "group": "Snacks & sweets",
+  "diet": "vegan",
+  "p": 7.1,
+  "c": 67.78,
+  "f": 20.68,
+  "kcal": 472.0,
+  "portions": [
+   {
+    "label": "bag",
+    "g": 213.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 167555,
+  "name": "Pretzels",
+  "group": "Snacks & sweets",
+  "diet": "vegan",
+  "p": 10.04,
+  "c": 80.39,
+  "f": 2.93,
+  "kcal": 384.0,
+  "portions": [
+   {
+    "label": "twists",
+    "g": 6.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 167557,
+  "name": "Rice cakes",
+  "group": "Snacks & sweets",
+  "diet": "vegan",
+  "p": 7.6,
+  "c": 81.5,
+  "f": 3.8,
+  "kcal": 392.0,
+  "portions": [
+   {
+    "label": "rice cake",
+    "g": 9.0
+   },
+   {
+    "label": "cakes",
+    "g": 9.0
+   }
+  ],
+  "unit": "rice cake"
+ },
+ {
+  "id": 167561,
+  "name": "Trail mix",
+  "group": "Snacks & sweets",
+  "diet": "vegan",
+  "p": 13.8,
+  "c": 44.9,
+  "f": 29.4,
+  "kcal": 462.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 150.0
+   }
+  ],
+  "unit": "oz"
+ },
+ {
+  "id": 172718,
+  "name": "Chocolate sandwich cookie",
+  "group": "Snacks & sweets",
+  "diet": "vegetarian",
+  "p": 5.21,
+  "c": 71.0,
+  "f": 19.14,
+  "kcal": 464.0,
+  "portions": [
+   {
+    "label": "cookie",
+    "g": 12.0
+   }
+  ],
+  "unit": "cookie"
+ },
+ {
+  "id": 167587,
+  "name": "Milk chocolate",
+  "group": "Snacks & sweets",
+  "diet": "vegetarian",
+  "p": 7.65,
+  "c": 59.4,
+  "f": 29.66,
+  "kcal": 535.0,
+  "portions": [
+   {
+    "label": "bar, miniature",
+    "g": 7.0
+   },
+   {
+    "label": "bar",
+    "g": 44.0
+   },
+   {
+    "label": "cup chips",
+    "g": 168.0
+   }
+  ],
+  "unit": "bar"
+ },
+ {
+  "id": 167989,
+  "name": "Gummy bears",
+  "group": "Snacks & sweets",
+  "diet": null,
+  "p": 0.0,
+  "c": 98.9,
+  "f": 0.0,
+  "kcal": 396.0,
+  "portions": [
+   {
+    "label": "cup gumdrops",
+    "g": 182.0
+   },
+   {
+    "label": "gumdrops",
+    "g": 3.6
+   },
+   {
+    "label": "gummy bear",
+    "g": 2.2
+   },
+   {
+    "label": "gummy dinosaurs",
+    "g": 6.3
+   },
+   {
+    "label": "gummy fish",
+    "g": 5.0
+   },
+   {
+    "label": "gummy worms",
+    "g": 7.4
+   },
+   {
+    "label": "spice stick",
+    "g": 9.5
+   },
+   {
+    "label": "spice drop",
+    "g": 24.0
+   },
+   {
+    "label": "gumdrop, small",
+    "g": 3.2
+   },
+   {
+    "label": "gumdrop, medium",
+    "g": 4.2
+   },
+   {
+    "label": "gumdrop, large",
+    "g": 11.6
+   },
+   {
+    "label": "jelly ring",
+    "g": 10.0
+   }
+  ],
+  "unit": "gummy bear"
+ },
+ {
+  "id": 172713,
+  "name": "Brownie",
+  "group": "Snacks & sweets",
+  "diet": "vegetarian",
+  "p": 4.8,
+  "c": 63.9,
+  "f": 16.3,
+  "kcal": 405.0,
+  "portions": [
+   {
+    "label": "brownie",
+    "g": 56.0
+   },
+   {
+    "label": "package, Little Debbie",
+    "g": 61.0
+   }
+  ],
+  "unit": "brownie"
+ },
+ {
+  "id": 175011,
+  "name": "Apple pie",
+  "group": "Snacks & sweets",
+  "diet": "vegetarian",
+  "p": 1.9,
+  "c": 34.0,
+  "f": 11.0,
+  "kcal": 237.0,
+  "portions": [
+   {
+    "label": "slice",
+    "g": 125.0
+   }
+  ],
+  "unit": "slice"
+ },
+ {
+  "id": 172711,
+  "name": "Cheesecake",
+  "group": "Snacks & sweets",
+  "diet": "vegetarian",
+  "p": 5.5,
+  "c": 25.5,
+  "f": 22.5,
+  "kcal": 321.0,
+  "portions": [
+   {
+    "label": "slice",
+    "g": 80.0
+   }
+  ],
+  "unit": "slice"
+ },
+ {
+  "id": 168105,
+  "name": "Frozen yogurt",
+  "group": "Snacks & sweets",
+  "diet": "vegetarian",
+  "p": 3.0,
+  "c": 21.6,
+  "f": 3.6,
+  "kcal": 127.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 174.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 174277,
+  "name": "Soy sauce",
+  "group": "Sauces & condiments",
+  "diet": "vegan",
+  "p": 8.14,
+  "c": 4.93,
+  "f": 0.57,
+  "kcal": 53.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 16.0
+   },
+   {
+    "label": "tsp",
+    "g": 5.3
+   },
+   {
+    "label": "cup",
+    "g": 255.0
+   },
+   {
+    "label": "individual packet",
+    "g": 8.9
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 174524,
+  "name": "Salsa",
+  "group": "Sauces & condiments",
+  "diet": "vegan",
+  "p": 1.52,
+  "c": 6.64,
+  "f": 0.17,
+  "kcal": 29.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 18.0
+   },
+   {
+    "label": "cup",
+    "g": 260.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 173592,
+  "name": "Ranch dressing",
+  "group": "Sauces & condiments",
+  "diet": "vegetarian",
+  "p": 1.32,
+  "c": 5.9,
+  "f": 44.54,
+  "kcal": 430.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 15.0
+   },
+   {
+    "label": "serving",
+    "g": 30.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 171019,
+  "name": "Italian dressing",
+  "group": "Sauces & condiments",
+  "diet": "vegan",
+  "p": 0.41,
+  "c": 12.12,
+  "f": 21.12,
+  "kcal": 240.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 14.7
+   },
+   {
+    "label": "cup",
+    "g": 235.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 174523,
+  "name": "BBQ sauce",
+  "group": "Sauces & condiments",
+  "diet": "vegan",
+  "p": 0.82,
+  "c": 40.77,
+  "f": 0.63,
+  "kcal": 172.0,
+  "portions": [
+   {
+    "label": "tbsp",
+    "g": 17.0
+   },
+   {
+    "label": "cup",
+    "g": 286.0
+   }
+  ],
+  "unit": "tbsp"
+ },
+ {
+  "id": 172234,
+  "name": "Yellow mustard",
+  "group": "Sauces & condiments",
+  "diet": "vegan",
+  "p": 3.74,
+  "c": 5.83,
+  "f": 3.34,
+  "kcal": 60.0,
+  "portions": [
+   {
+    "label": "tsp",
+    "g": 5.0
+   },
+   {
+    "label": "cup",
+    "g": 249.0
+   }
+  ],
+  "unit": "tsp"
+ },
+ {
+  "id": 171579,
+  "name": "Pesto",
+  "group": "Sauces & condiments",
+  "diet": "vegetarian",
+  "p": 9.83,
+  "c": 10.09,
+  "f": 37.6,
+  "kcal": 418.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 252.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 171186,
+  "name": "Sriracha",
+  "group": "Sauces & condiments",
+  "diet": "vegan",
+  "p": 1.93,
+  "c": 19.16,
+  "f": 0.93,
+  "kcal": 93.0,
+  "portions": [
+   {
+    "label": "tsp",
+    "g": 6.5
+   }
+  ],
+  "unit": "tsp"
+ },
+ {
+  "id": 168746,
+  "name": "Beer",
+  "group": "Drinks",
+  "diet": "vegan",
+  "p": 0.46,
+  "c": 3.55,
+  "f": 0.0,
+  "kcal": 43.0,
+  "portions": [
+   {
+    "label": "fl oz",
+    "g": 29.7
+   },
+   {
+    "label": "can",
+    "g": 356.0
+   }
+  ],
+  "unit": "can"
+ },
+ {
+  "id": 168749,
+  "name": "Light beer",
+  "group": "Drinks",
+  "diet": "vegan",
+  "p": 0.24,
+  "c": 1.64,
+  "f": 0.0,
+  "kcal": 29.0,
+  "portions": [
+   {
+    "label": "fl oz",
+    "g": 29.5
+   },
+   {
+    "label": "can",
+    "g": 354.0
+   }
+  ],
+  "unit": "can"
+ },
+ {
+  "id": 173201,
+  "name": "White wine",
+  "group": "Drinks",
+  "diet": "vegan",
+  "p": 0.07,
+  "c": 2.05,
+  "f": 0.0,
+  "kcal": 81.0,
+  "portions": [
+   {
+    "label": "fl oz",
+    "g": 29.3
+   },
+   {
+    "label": "serving",
+    "g": 147.0
+   }
+  ],
+  "unit": "fl oz"
+ },
+ {
+  "id": 173660,
+  "name": "Sports drink",
+  "group": "Drinks",
+  "diet": "vegan",
+  "p": 0.0,
+  "c": 6.43,
+  "f": 0.0,
+  "kcal": 26.0,
+  "portions": [
+   {
+    "label": "fl oz",
+    "g": 30.5
+   },
+   {
+    "label": "bottle",
+    "g": 609.0
+   }
+  ],
+  "unit": "bottle"
+ },
+ {
+  "id": 169770,
+  "name": "Mac and cheese (boxed)",
+  "group": "Prepared foods",
+  "diet": "vegetarian",
+  "p": 6.68,
+  "c": 23.1,
+  "f": 4.99,
+  "kcal": 164.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 189.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 169850,
+  "name": "Lasagna with meat",
+  "group": "Prepared foods",
+  "diet": null,
+  "p": 10.83,
+  "c": 11.36,
+  "f": 10.69,
+  "kcal": 185.0,
+  "portions": [
+   {
+    "label": "serving",
+    "g": 457.0
+   }
+  ],
+  "unit": "serving"
+ },
+ {
+  "id": 172112,
+  "name": "Chicken nuggets",
+  "group": "Prepared foods",
+  "diet": null,
+  "p": 14.36,
+  "c": 16.24,
+  "f": 15.42,
+  "kcal": 261.0,
+  "portions": [
+   {
+    "label": "serving",
+    "g": 82.0
+   },
+   {
+    "label": "nugget",
+    "g": 20.0
+   }
+  ],
+  "unit": "nugget"
+ },
+ {
+  "id": 170346,
+  "name": "Fried chicken thigh",
+  "group": "Prepared foods",
+  "diet": null,
+  "p": 18.9,
+  "c": 8.46,
+  "f": 17.73,
+  "kcal": 269.0,
+  "portions": [
+   {
+    "label": "thigh",
+    "g": 135.0
+   },
+   {
+    "label": "thigh, without skin",
+    "g": 86.0
+   },
+   {
+    "label": "thigh, bone and skin removed",
+    "g": 60.0
+   }
+  ],
+  "unit": "thigh"
+ },
+ {
+  "id": 170689,
+  "name": "Hard-shell beef taco",
+  "group": "Prepared foods",
+  "diet": null,
+  "p": 8.86,
+  "c": 19.85,
+  "f": 12.7,
+  "kcal": 226.0,
+  "portions": [
+   {
+    "label": "taco",
+    "g": 69.0
+   }
+  ],
+  "unit": "taco"
+ },
+ {
+  "id": 172097,
+  "name": "Chili with beans (canned)",
+  "group": "Prepared foods",
+  "diet": null,
+  "p": 5.8,
+  "c": 13.1,
+  "f": 3.47,
+  "kcal": 107.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 242.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 172909,
+  "name": "Chicken noodle soup",
+  "group": "Prepared foods",
+  "diet": null,
+  "p": 1.16,
+  "c": 2.97,
+  "f": 0.76,
+  "kcal": 24.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 248.0
+   }
+  ],
+  "unit": "cup"
+ },
+ {
+  "id": 173330,
+  "name": "Beef stew (canned)",
+  "group": "Prepared foods",
+  "diet": null,
+  "p": 4.41,
+  "c": 7.85,
+  "f": 5.53,
+  "kcal": 99.0,
+  "portions": [
+   {
+    "label": "cup",
+    "g": 196.0
+   }
+  ],
+  "unit": "cup"
+ }
+]
