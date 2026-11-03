@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Macro Map</title>
+<link rel="stylesheet" href="style.css?v=63d5d375">
+<script>
+  // Applied before first paint so a saved theme doesn't flash the other one.
+  try { const t = localStorage.getItem("macro-map-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
+</script>
+</head>
+<body>
+<header>
+  <div class="title-row">
+    <h1>Macro Map</h1>
+    <div class="controls">
+      <button type="button" id="mine-toggle" class="button" aria-expanded="false" aria-controls="mine">My foods <span id="mine-count"></span></button>
+      <button type="button" id="theme-toggle" class="button"></button>
+    </div>
+  </div>
+  <p class="lede">Enter your target macros to find the foods that fit them, or pick two or three
+  foods to build a combo that does.</p>
+</header>
+
+<section id="mine" class="card" hidden>
+  <div class="card-head">
+    <h2>My foods</h2>
+    <button type="button" class="remove" id="close-mine" aria-label="Close My foods">×</button>
+  </div>
+  <p class="hint">Add your own foods, meals or recipes. Copy the prompt into ChatGPT (or similar),
+  add your foods after it, and paste the JSON it gives back here. Each food is entered per unit
+  (one chip, one slice, one bowl), and you pick how many units when you use it. They're saved in this
+  browser only, so use Export to keep a copy or move them to another device. Adding a food with the
+  same name replaces it.</p>
+  <ul id="mine-list"></ul>
+  <textarea id="mine-json" rows="5" placeholder='[{ "name": "Chicken burrito bowl", "group": "Prepared foods", "diet": "", "unit": "bowl", "grams": 450, "protein": 42, "carbs": 65, "fat": 18, "kcal": 590 }]' aria-label="Foods as JSON"></textarea>
+  <p id="mine-msg" class="hint" aria-live="polite"></p>
+  <div class="controls wrap">
+    <button type="button" id="add-mine" class="button">Add foods</button>
+    <button type="button" id="copy-prompt" class="button">Copy prompt</button>
+    <label class="button">Import file<input type="file" id="import-mine" accept=".json,application/json" hidden></label>
+    <button type="button" id="export-mine" class="button" hidden>Export</button>
+  </div>
+</section>
+
+<main>
+  <section class="left">
+    <form id="remaining" class="card" autocomplete="off">
+      <h2>Target macros</h2>
+      <div class="inputs">
+        <label class="m-p"><span>Protein</span><input name="p" type="number" min="0" step="1" inputmode="numeric"><em>g</em></label>
+        <label class="m-c"><span>Carbs</span><input name="c" type="number" min="0" step="1" inputmode="numeric"><em>g</em></label>
+        <label class="m-f"><span>Fat</span><input name="f" type="number" min="0" step="1" inputmode="numeric"><em>g</em></label>
+      </div>
+    </form>
+
+    <figure class="card plot">
+      <div id="filters" class="filters"></div>
+      <div class="plot-area">
+        <svg id="tri" viewBox="0 0 600 548" role="img" aria-label="Triangle plot of foods by macro split"></svg>
+        <div class="zoom-controls">
+          <button type="button" id="zoom-in" class="button" aria-label="Zoom in">+</button>
+          <button type="button" id="zoom-out" class="button" aria-label="Zoom out">−</button>
+          <button type="button" id="zoom-reset" class="button" aria-label="Reset zoom" disabled>Reset</button>
+        </div>
+      </div>
+      <div id="dot-card" hidden></div>
+      <figcaption>
+        <span class="on-hover">Scroll to zoom in, then drag to move around. Hover a dot for details, and click it to add it to a combo.</span>
+        <span class="on-touch">Pinch to zoom in, then drag to move around. Tap a dot for details and to add it to a combo.</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="right">
+    <div class="card" id="combo" hidden>
+      <div class="card-head">
+        <h2>Combo</h2>
+        <div class="controls">
+          <button type="button" id="fit-combo" class="button">Fit to target</button>
+          <button type="button" id="clear-combo" class="link">Clear</button>
+        </div>
+      </div>
+      <p class="hint">Each food starts at a typical amount. Change the amount, or pick another
+      unit (g, oz, cup…) to enter it that way. The ring on the map shows where the mix lands.</p>
+      <ol id="combo-items"></ol>
+      <table class="totals" id="combo-totals"></table>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>Best fits</h2>
+        <div class="controls">
+          <input id="search" type="search" placeholder="Search foods" aria-label="Search foods">
+        </div>
+      </div>
+      <p class="hint">Foods whose split is closest to your target, each with a typical amount
+      and how much of the target (in grams) it provides.</p>
+      <ol id="ranked"></ol>
+    </div>
+  </section>
+</main>
+
+<footer>Nutrient data: USDA FoodData Central, SR Legacy (public domain). Values are per 100 g as listed;
+check labels for packaged foods. Your own foods use the numbers you give them.</footer>
+
+<div id="tip" role="tooltip" hidden></div>
+<script src="app.js?v=63d5d375"></script>
+</body>
+</html>
