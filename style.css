@@ -246,3 +246,16 @@ ol { list-style: none; margin: 0; padding: 0; }
 #mine-msg:empty { display: none; }
 #mine-msg.over { color: var(--over); }
 .controls.wrap { flex-wrap: wrap; margin-top: 10px; }
+
+#scan { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+#scan[hidden], #scan-video[hidden], #scan-food[hidden], #scan-msg:empty { display: none; }
+#scan-video {
+  display: block; width: 100%; max-width: 420px; max-height: 50vh; object-fit: cover;
+  margin-bottom: 8px; border-radius: 6px; background: #000;
+}
+#scan-code input { flex: 1; max-width: 280px; }
+#scan-msg.over { color: var(--over); }
+#scan-food { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 10px; max-width: 560px; }
+#scan-food label { display: grid; gap: 2px; font-size: 13px; color: var(--text-secondary); }
+#scan-food .wide { grid-column: 1 / -1; margin: 0; font-size: 13px; }
+@media (max-width: 520px) { #scan-food { grid-template-columns: minmax(0, 1fr); } }
