@@ -380,8 +380,8 @@ function drawPlot(rank) {
     svg.append(t);
   };
   corner("p", 0, -18, "middle");
-  corner("c", zoomed ? -30 : 0, 26, zoomed ? "start" : "middle");
-  corner("f", zoomed ? 30 : 0, 26, zoomed ? "end" : "middle");
+  corner("c", zoomed ? -30 : 0, 36, zoomed ? "start" : "middle");
+  corner("f", zoomed ? 30 : 0, 36, zoomed ? "end" : "middle");
   if (zoomed) svg.append(minimap(lo, span, rank));
 
   const items = comboItems();
@@ -441,7 +441,7 @@ function drawPlot(rank) {
   if (mix && inFrame(mix)) svg.append(svgEl("circle", { class: "combo-point", cx: mix[0], cy: mix[1], r: 6, "pointer-events": "none" }));
 }
 
-const MINIMAP = { x: 8, y: 8, w: 104 }; // SVG units, in the empty top-left of the plot
+const MINIMAP = { x: 8, y: 8, w: 140 }; // SVG units, in the empty top-left of the plot
 const fromMinimap = ([x, y]) => {
   const k = PLOT_W / MINIMAP.w;
   return [(x - MINIMAP.x) * k, (y - MINIMAP.y) * k];
@@ -977,7 +977,7 @@ async function init() {
     render();
   });
 
-  builtIn = await (await fetch("foods.json?v=c9063ef6")).json();
+  builtIn = await (await fetch("foods.json?v=397475c1")).json();
   setFoods();
   upgradeCombo();
   render();
