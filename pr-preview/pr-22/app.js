@@ -1098,7 +1098,9 @@ async function init() {
   });
   $("#ranked").addEventListener("click", (e) => {
     const li = e.target.closest("li[data-id]");
-    if (li) toggleCombo(Number(li.dataset.id));
+    if (!li) return;
+    state.query = $("#search").value = "";
+    toggleCombo(Number(li.dataset.id));
   });
   $("#combo-items").addEventListener("click", (e) => {
     const btn = e.target.closest(".remove");
@@ -1195,7 +1197,7 @@ async function init() {
     render();
   });
 
-  builtIn = await (await fetch("foods.json?v=6101a32b")).json();
+  builtIn = await (await fetch("foods.json?v=112bef95")).json();
   setFoods();
   upgradeCombo();
   render();
