@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Macro Map</title>
-<link rel="stylesheet" href="style.css?v=05d43b7a">
+<link rel="stylesheet" href="style.css?v=1ae2dce8">
 <script>
   // Applied before first paint so a saved theme doesn't flash the other one.
   try { const t = localStorage.getItem("macro-map-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
@@ -59,7 +59,7 @@
       <span class="scan-note">Video stays on this device. Only the barcode number is looked up.</span>
     </div>
     <form id="scan-code" class="controls" autocomplete="off">
-      <input name="code" inputmode="numeric" placeholder="Or type the number under the barcode" aria-label="Barcode number">
+      <input name="code" inputmode="numeric" placeholder="Or type barcode number" aria-label="Barcode number">
       <button class="button">Look up</button>
       <button type="button" id="scan-close" class="button">Cancel</button>
     </form>
@@ -142,6 +142,6 @@
 check labels for packaged foods. Your own foods use the numbers you give them.</footer>
 
 <div id="tip" role="tooltip" hidden></div>
-<script src="app.js?v=05d43b7a"></script>
+<script src="app.js?v=1ae2dce8"></script>
 </body>
 </html>
