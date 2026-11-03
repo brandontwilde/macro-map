@@ -1198,7 +1198,7 @@ async function init() {
     render();
   });
 
-  builtIn = await (await fetch("foods.json?v=96a22957")).json();
+  builtIn = await (await fetch("foods.json?v=47f976c9")).json();
   setFoods();
   upgradeCombo();
   render();
