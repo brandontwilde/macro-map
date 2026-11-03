@@ -181,20 +181,21 @@ function loadScript(src, integrity) {
 // elsewhere, notably iOS Safari, ZXing decodes instead.
 async function startScan(onCode) {
   stopScan();
-  const video = $("#scan-video");
+  const video = $("#scan-video"), view = $("#scan-view");
   let live = true, stream, stopDecoding = () => {};
   stopScan = () => {
     live = false;
     stopDecoding();
     stream?.getTracks().forEach((t) => t.stop());
     video.srcObject = null;
-    video.hidden = true;
+    view.hidden = true;
   };
   try {
     stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
     if (!live) return stopScan();
     video.srcObject = stream;
-    video.hidden = false;
+    view.hidden = false;
+    $("#scan").scrollIntoView({ behavior: "smooth", block: "nearest" });
     await video.play();
     const formats = "BarcodeDetector" in window
       ? (await BarcodeDetector.getSupportedFormats()).filter((f) => BARCODE_FORMATS.includes(f)) : [];
@@ -1158,7 +1159,6 @@ async function init() {
     scanMessage("");
     if (!open) return;
     if (!navigator.mediaDevices?.getUserMedia) return scanMessage("This browser can't use the camera here, so type the number instead.");
-    scanMessage("Point the camera at the barcode.");
     startScan((code) => {
       stopScan();
       $("#scan-code").elements.code.value = code;

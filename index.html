@@ -54,9 +54,12 @@
     <button type="button" id="export-mine" class="button" hidden>Export</button>
   </div>
   <div id="scan" hidden>
-    <video id="scan-video" muted playsinline hidden></video>
+    <div id="scan-view" hidden>
+      <video id="scan-video" muted playsinline></video>
+      <span class="scan-note">No images leave your device, just the barcode number.</span>
+    </div>
     <form id="scan-code" class="controls" autocomplete="off">
-      <input name="code" inputmode="numeric" placeholder="Or type the number under the barcode" aria-label="Barcode number">
+      <input name="code" inputmode="numeric" placeholder="Or type barcode number" aria-label="Barcode number">
       <button class="button">Look up</button>
       <button type="button" id="scan-close" class="button">Cancel</button>
     </form>
