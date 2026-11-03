@@ -124,7 +124,7 @@ fdc_id,name,group,diet,portion,portion_label
 171413,Olive oil,Fats & nuts,vegan,tablespoon,
 171412,Coconut oil,Fats & nuts,vegan,tbsp,
 173410,Butter,Fats & nuts,vegetarian,tbsp,
-171009,Mayonnaise,Fats & nuts,vegetarian,tbsp,
+171009,Mayonnaise,Sauces & condiments,vegetarian,tbsp,
 169094,Black olives,Fats & nuts,vegan,large,
 170273,Dark chocolate 70-85%,Snacks & sweets,vegetarian,oz,
 169640,Honey,Snacks & sweets,vegetarian,tbsp,
@@ -143,8 +143,8 @@ fdc_id,name,group,diet,portion,portion_label
 170698,French fries (fast food),Prepared foods,vegan,serving medium,medium serving
 172039,Bean & cheese burrito,Prepared foods,vegetarian,burrito,
 170317,Cheese pizza (frozen),Prepared foods,vegetarian,9 servings,slice
-171192,Marinara sauce,Prepared foods,vegan,serving 1/2 cup,½ cup
-168556,Ketchup,Prepared foods,vegan,tbsp,
+171192,Marinara sauce,Sauces & condiments,vegan,serving 1/2 cup,½ cup
+168556,Ketchup,Sauces & condiments,vegan,tbsp,
 174852,Cola,Drinks,vegan,can,can
 173190,Red wine,Drinks,vegan,fl oz,
 174832,Almond milk (unsweetened),Drinks,vegan,cup,
