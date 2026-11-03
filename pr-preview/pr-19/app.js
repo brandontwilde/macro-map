@@ -157,15 +157,16 @@ function exportMine() {
 }
 
 const ZXING_URL = "https://cdn.jsdelivr.net/npm/@zxing/browser@0.2.1/umd/zxing-browser.min.js";
+const ZXING_SRI = "sha384-HRtzk9lZgkbSgvUyQrnfC/GxiXZgwaNyD7hC9wcXlsBpDhkS80ISl73juef2FRuf"; // update with the version
 const BARCODE_FORMATS = ["ean_13", "ean_8", "upc_a", "upc_e"];
 const OFF_FIELDS = "product_name,brands,serving_size,serving_quantity,nutriments,ingredients_analysis_tags,food_groups_tags,categories_tags";
 let stopScan = () => {};
 let scanned = null; // the looked-up record awaiting confirmation
 
-function loadScript(src) {
+function loadScript(src, integrity) {
   return new Promise((resolve, reject) => {
     const s = document.createElement("script");
-    Object.assign(s, { src, onload: resolve, onerror: reject });
+    Object.assign(s, { src, integrity, crossOrigin: "anonymous", onload: resolve, onerror: reject });
     document.head.append(s);
   });
 }
@@ -201,7 +202,7 @@ async function startScan(onCode) {
       };
       tick();
     } else {
-      if (!window.ZXingBrowser) await loadScript(ZXING_URL);
+      if (!window.ZXingBrowser) await loadScript(ZXING_URL, ZXING_SRI);
       if (!live) return;
       const controls = await new ZXingBrowser.BrowserMultiFormatReader()
         .decodeFromStream(stream, video, (result) => result && live && onCode(result.getText()));
@@ -1171,7 +1172,7 @@ async function init() {
     render();
   });
 
-  builtIn = await (await fetch("foods.json?v=4d7984af")).json();
+  builtIn = await (await fetch("foods.json?v=8cc8c477")).json();
   setFoods();
   upgradeCombo();
   render();
