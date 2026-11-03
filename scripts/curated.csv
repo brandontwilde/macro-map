@@ -148,3 +148,75 @@ fdc_id,name,group,diet,portion,portion_label
 174852,Cola,Drinks,vegan,can,can
 173190,Red wine,Drinks,vegan,fl oz,
 174832,Almond milk (unsweetened),Drinks,vegan,cup,
+172376,Chicken drumstick (roasted),Meat & fish,,drumstick,drumstick
+168240,Pork chop (broiled),Meat & fish,,oz,
+167844,Pork shoulder (roasted),Meat & fish,,oz,
+169557,Ribeye steak (broiled),Meat & fish,,oz,
+168667,Pot roast (braised chuck),Meat & fish,,oz,
+174586,Italian sausage (pan-fried),Meat & fish,,link,
+174575,Pepperoni,Meat & fish,,piece,slice
+172938,Salami (hard),Meat & fish,,slice,
+173708,Tuna (canned in oil),Meat & fish,,can,
+175175,Pink salmon (canned),Meat & fish,,oz,
+171966,Crab (canned),Meat & fish,,oz,
+172187,Scrambled eggs,Eggs & dairy,vegetarian,large,
+173423,Fried egg,Eggs & dairy,vegetarian,large,
+171251,Swiss cheese,Eggs & dairy,vegetarian,slice,
+171248,Ricotta (part skim),Eggs & dairy,vegetarian,cup,
+170859,Heavy cream,Eggs & dairy,vegetarian,tbsp,
+171255,Half and half,Eggs & dairy,vegetarian,tbsp,
+170880,Chocolate milk (2%),Eggs & dairy,vegetarian,cup,
+168603,Almond butter,Fats & nuts,vegan,tbsp,
+170189,Tahini,Fats & nuts,vegan,tbsp,
+167755,Raspberries,Fruit,vegan,cup,
+173946,Blackberries,Fruit,vegan,cup,
+169092,Cantaloupe,Fruit,vegan,"cup, cubes",cup
+173033,Grapefruit,Fruit,vegan,medium,
+168165,Raisins,Fruit,vegan,small box,
+167772,Applesauce (unsweetened),Fruit,vegan,cup,
+173933,Apple juice,Fruit,vegan,cup,
+169975,Cabbage,Vegetables,vegan,"cup, chopped",cup
+169988,Celery,Vegetables,vegan,"stalk, medium",stalk
+170427,Green bell pepper,Vegetables,vegan,medium,
+169146,Beets (cooked),Vegetables,vegan,cup slices,cup
+169229,Eggplant (cooked),Vegetables,vegan,cup,
+169279,Sauerkraut,Vegetables,vegan,cup,
+174915,Pita bread,Grains & starches,vegan,"pita, large",pita
+172684,Rye bread,Grains & starches,vegan,"slice, regular",slice
+174911,Sourdough bread (toasted),Grains & starches,vegan,"slice, medium",slice
+168919,Egg noodles (cooked),Grains & starches,vegetarian,cup,
+175038,Waffles (frozen),Grains & starches,vegetarian,"waffle, square",waffle
+170044,Hash browns,Grains & starches,vegan,cup prepared,cup
+171177,Instant ramen (dry block),Grains & starches,vegan,package,package
+174648,Corn flakes,Grains & starches,vegan,cup,
+167558,Tortilla chips,Snacks & sweets,vegan,oz,
+167555,Pretzels,Snacks & sweets,vegan,oz,
+167557,Rice cakes,Snacks & sweets,vegan,cake,rice cake
+167561,Trail mix,Snacks & sweets,vegan,oz,
+172718,Chocolate sandwich cookie,Snacks & sweets,vegetarian,cookie,
+167587,Milk chocolate,Snacks & sweets,vegetarian,bar,
+167989,Gummy bears,Snacks & sweets,,gummy bears,gummy bear
+172713,Brownie,Snacks & sweets,vegetarian,"square, large",brownie
+175011,Apple pie,Snacks & sweets,vegetarian,piece,slice
+172711,Cheesecake,Snacks & sweets,vegetarian,piece,slice
+168105,Frozen yogurt,Snacks & sweets,vegetarian,cup,
+174277,Soy sauce,Sauces & condiments,vegan,tbsp,
+174524,Salsa,Sauces & condiments,vegan,tbsp,
+173592,Ranch dressing,Sauces & condiments,vegetarian,tablespoon,tbsp
+171019,Italian dressing,Sauces & condiments,vegan,tbsp,
+174523,BBQ sauce,Sauces & condiments,vegan,tbsp,
+172234,Yellow mustard,Sauces & condiments,vegan,tsp,tsp
+171579,Pesto,Sauces & condiments,vegetarian,cup,
+171186,Sriracha,Sauces & condiments,vegan,tsp,
+168746,Beer,Drinks,vegan,can,
+168749,Light beer,Drinks,vegan,can,can
+173201,White wine,Drinks,vegan,fl oz,
+173660,Sports drink,Drinks,vegan,bottle,
+169770,Mac and cheese (boxed),Prepared foods,vegetarian,cup,cup
+169850,Lasagna with meat,Prepared foods,,serving,
+172112,Chicken nuggets,Prepared foods,,piece,nugget
+170346,Fried chicken thigh,Prepared foods,,"thigh, with skin",thigh
+170689,Hard-shell beef taco,Prepared foods,,taco,taco
+172097,Chili with beans (canned),Prepared foods,,cup,
+172909,Chicken noodle soup,Prepared foods,,cup,cup
+173330,Beef stew (canned),Prepared foods,,cup,
