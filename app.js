@@ -1159,7 +1159,6 @@ async function init() {
     scanMessage("");
     if (!open) return;
     if (!navigator.mediaDevices?.getUserMedia) return scanMessage("This browser can't use the camera here, so type the number instead.");
-    scanMessage("Point the camera at the barcode.");
     startScan((code) => {
       stopScan();
       $("#scan-code").elements.code.value = code;
