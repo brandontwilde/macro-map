@@ -76,5 +76,5 @@ with which, to check the tags.
 
 Pushes to `main` publish the site to GitHub Pages (via the `gh-pages`
 branch). Each pull request also gets a preview at
-`https://brandonwilde.github.io/macro-map/pr-preview/pr-<number>/`,
+`https://brandontwilde.github.io/macro-map/pr-preview/pr-<number>/`,
 linked in a comment on the PR and removed when the PR closes.
