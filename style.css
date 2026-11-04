@@ -121,7 +121,7 @@ select { width: auto; }
   border: 1px solid var(--border); border-radius: 999px; padding: 2px 10px; cursor: pointer;
 }
 .chip:hover { border-color: var(--text-muted); }
-#limits-toggle { align-self: center; white-space: nowrap; }
+#caps-toggle, #floors-toggle { align-self: center; white-space: nowrap; }
 .chip[aria-pressed="true"] { color: var(--text-primary); background: var(--select); border-color: var(--text-muted); }
 .faded circle { fill: var(--dot); opacity: 0.25; pointer-events: none; }
 .plot-area { position: relative; }
