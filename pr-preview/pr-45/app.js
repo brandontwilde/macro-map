@@ -1646,7 +1646,7 @@ async function init() {
 
   setupToast();
 
-  builtIn = await (await fetch("foods.json?v=8e13e0cd")).json();
+  builtIn = await (await fetch("foods.json?v=75d4cf15")).json();
   setFoods();
   upgradeCombo();
   render();
