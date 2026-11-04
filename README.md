@@ -56,6 +56,11 @@ In `curated.csv`, `diet` is `vegan`, `vegetarian` or blank (for the diet
 filter), `portion` picks which USDA serving size to show (exact match first,
 then a substring match), and `portion_label` optionally renames it.
 
+The `meals`, `role`, `cuisines`, `dishes`, `min_g` and `max_g` columns are
+drafts for suggesting foods that go together, in amounts a person would eat
+in one meal. `python3 scripts/pairing_report.py [food name ...]` prints which
+foods pair with which, to check them.
+
 ## Publishing
 
 Pushes to `main` publish the site to GitHub Pages (via the `gh-pages`
