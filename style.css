@@ -88,12 +88,13 @@ main { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); g
 .hint.over { color: var(--over); }
 
 .inputs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
-.inputs label { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2px 6px; }
-.inputs span {
+.inputs > div { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 2px 4px; }
+.inputs select { appearance: none; padding: 6px; text-align: center; cursor: pointer; } /* no arrow, so the number keeps room on a phone */
+.inputs label {
   grid-column: 1 / -1; font-size: 13px; color: var(--text-secondary);
   display: flex; align-items: center; gap: 6px;
 }
-.inputs span::before { content: ""; width: 10px; height: 10px; border-radius: 2px; background: var(--swatch); }
+.inputs label::before { content: ""; width: 10px; height: 10px; border-radius: 2px; background: var(--swatch); }
 .m-p { --swatch: var(--protein); }
 .m-c { --swatch: var(--carbs); }
 .m-f { --swatch: var(--fat); }
@@ -231,6 +232,7 @@ ol { list-style: none; margin: 0; padding: 0; }
 .totals th, .totals td { padding: 4px 6px; text-align: right; border-top: 1px solid var(--border); }
 .totals th:first-child, .totals td:first-child { text-align: left; color: var(--text-secondary); font-weight: 400; }
 .totals .over { color: var(--over); }
+.totals .met { color: var(--text-secondary); }
 
 #tip {
   position: fixed; z-index: 10; pointer-events: none; max-width: 260px;
@@ -247,6 +249,8 @@ ol { list-style: none; margin: 0; padding: 0; }
 
 @media (max-width: 520px) {
   .card-head { flex-wrap: wrap; }
+  .inputs input { padding: 6px; -moz-appearance: textfield; }
+  .inputs input::-webkit-inner-spin-button { display: none; } /* the spinner would cover the number */
   .controls { flex: 1 1 100%; }
   #search { max-width: none; flex: 1; }
   #ranked li { grid-template-columns: 22px minmax(0, 1fr); }

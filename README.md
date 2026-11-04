@@ -11,6 +11,12 @@ amounts that land closest to your numbers, keeping each food within what a
 person would eat in one meal. Any mix of foods sits inside the outline around
 them on the map.
 
+Each target can be exact (=), a minimum (≥) or a maximum (≤). Grams past a
+minimum or under a maximum count for a quarter as much as grams on the wrong
+side, so the fit still lands near the value instead of overshooting it (and
+"at most" everything doesn't give an empty plate). The suggestions use the same
+measure.
+
 Once a combo is started, foods that don't go with it fade, and the list
 suggests the foods that would bring it closest to the target, ranked up by
 how well they pair. Pairing comes from tags on every food: the meals it's
