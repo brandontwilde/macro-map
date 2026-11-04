@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Macro Map</title>
-<link rel="stylesheet" href="style.css?v=8919e2db">
+<link rel="stylesheet" href="style.css?v=b49cc8a0">
 <script>
   // Applied before first paint so a saved theme doesn't flash the other one.
   try { const t = localStorage.getItem("macro-map-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
@@ -129,13 +129,15 @@
             <div class="info-text" role="tooltip">
               <ul>
                 <li><b>Fit to target</b> sets the amounts that come closest to your target.</li>
-                <li><b>Meal limits</b> keeps each food to a normal portion. Turn it off to see what the target would take.</li>
+                <li><b>Cap portions</b> keeps each food to what one person eats in a meal. Turn it off to see what the target would take.</li>
+                <li><b>Use all foods</b> keeps some of every food. Turn it off to let the fit leave foods out.</li>
               </ul>
             </div>
           </div>
         </div>
         <div class="controls">
-          <button type="button" id="limits-toggle" class="chip" aria-pressed="true">Meal limits</button>
+          <button type="button" id="caps-toggle" class="chip" aria-pressed="true">Cap portions</button>
+          <button type="button" id="floors-toggle" class="chip" aria-pressed="true">Use all foods</button>
           <button type="button" id="fit-combo" class="button">Fit to target</button>
           <button type="button" id="clear-combo" class="link">Clear</button>
         </div>
@@ -165,6 +167,6 @@
 check labels for packaged foods. Your own foods use the numbers you give them.</footer>
 
 <div id="tip" role="tooltip" hidden></div>
-<script src="app.js?v=8919e2db"></script>
+<script src="app.js?v=b49cc8a0"></script>
 </body>
 </html>
