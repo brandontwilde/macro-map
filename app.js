@@ -501,13 +501,15 @@ function upgradeCombo() {
   });
 }
 
-// Amounts move in steps that suit the food's meal-size range: whole chips, half eggs, 0.05 of a pot.
+// Amounts move in steps of about an eighth of the food's meal-size range, at a round number: 0.1 of a
+// chicken breast, 0.02 of a pot. Foods eaten several units at a time keep to half units or more (eggs, slices).
 function stepOf(food, unit) {
   if (unit.label === "g") return 5;
   if (unit.label === "oz") return 0.5;
-  const raw = (food.max - food.min) / unit.g / 4;
-  const k = 10 ** Math.floor(Math.log10(raw));
-  return [1, 2, 5, 10].map((m) => m * k).reduce((a, b) => (Math.abs(Math.log(b / raw)) < Math.abs(Math.log(a / raw)) ? b : a));
+  const range = (food.max - food.min) / unit.g;
+  const raw = range / 8, k = 10 ** Math.floor(Math.log10(raw));
+  const step = [1, 2, 5, 10].map((m) => m * k).reduce((a, b) => (Math.abs(Math.log(b / raw)) < Math.abs(Math.log(a / raw)) ? b : a));
+  return range >= 2 ? Math.max(0.5, step) : step;
 }
 // Rounds to the food's step in that unit, kept inside its meal-size range when a step fits there.
 function roundAmount(food, unit, grams) {
