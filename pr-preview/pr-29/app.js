@@ -347,11 +347,12 @@ function offTags(p, group) {
   const hits = OFF_CATEGORY_TAGS.filter(({ re }) => re.test(categories));
   const base = GROUP_TAGS[group] ?? GROUP_TAGS["Prepared foods"];
   const all = (k) => [...new Set(hits.flatMap((h) => h[k] ?? []))];
+  const orBase = (k) => (all(k).length ? all(k) : base[k]);
   return {
-    meals: all("meals").length ? all("meals") : base.meals,
+    meals: orBase("meals"),
     role: hits.find((h) => h.role)?.role ?? base.role,
     cuisines: all("cuisines"),
-    dishes: all("dishes").length ? all("dishes") : base.dishes,
+    dishes: orBase("dishes"),
   };
 }
 
@@ -533,12 +534,15 @@ const qtyIn = (unit, grams) => {
 };
 const amountText = (unit, grams) => `${qtyIn(unit, grams)} ${unit.label}`;
 
-// A typical serving and the share of the target's grams (all macros together) it provides.
+// The share of the target's grams (all macros together) that an amount of a food provides.
+function shareOf(food, grams) {
+  const target = MACROS.reduce((s, k) => s + state.remaining[k], 0);
+  return target ? MACROS.reduce((s, k) => s + macrosOf(food, grams)[k], 0) / target : 0;
+}
+
 function serving(food) {
   const { grams, unit } = newEntry(food);
-  const target = MACROS.reduce((s, k) => s + state.remaining[k], 0);
-  const got = MACROS.reduce((s, k) => s + macrosOf(food, grams)[k], 0);
-  return { grams, unit, share: target ? got / target : 0 };
+  return { grams, unit, share: shareOf(food, grams) };
 }
 
 function servingText(food, grams, unit) {
@@ -688,16 +692,11 @@ let rankCache = {};
 function ranked() {
   const key = JSON.stringify([state.remaining, state.combo.map((c) => c.id), state.filters, state.caps, state.floors, foodsVersion]);
   if (rankCache.key !== key) rankCache = { key, value: rank() };
-  const items = comboItems();
-  if (!items.length) return rankCache.value;
-  const total = MACROS.reduce((s, k) => s + state.remaining[k], 0);
-  const shareOf = (food, grams) => (total ? MACROS.reduce((s, k) => s + macrosOf(food, grams)[k], 0) / total : 0);
-  return [...rankCache.value, ...items.map(({ food, grams, unit }) => ({ food, grams, unit, share: shareOf(food, grams), d: Infinity }))];
+  return rankCache.value;
 }
 
 // With no combo: nearest first, on the triangle, to the target's split. With one: the foods that would
 // bring it closest to the target, with the amount the fit gives them, helped up by how well they pair.
-// ranked() adds the combo's own foods last, so they're drawn but not suggested.
 function rank() {
   const items = comboItems();
   const r = state.remaining;
@@ -708,12 +707,10 @@ function rank() {
       return target && xy ? Math.hypot(xy[0] - target[0], xy[1] - target[1]) : Infinity;
     };
     return state.foods
-      .filter((f) => shown(f, items))
+      .filter(passesFilters)
       .map((food) => ({ food, d: dist(food), ...serving(food) }))
       .sort((a, b) => a.d - b.d);
   }
-  const total = MACROS.reduce((s, k) => s + r[k], 0);
-  const shareOf = (food, grams) => (total ? MACROS.reduce((s, k) => s + macrosOf(food, grams)[k], 0) / total : 0);
   const norm = Math.hypot(...MACROS.map((k) => r[k])) || 1;
   const base = items.slice(items.length >= MAX_COMBO ? 1 : 0); // adding a food pushes out the oldest
   const picks = state.foods.filter((f) => !inCombo(f.id) && shown(f, items)).map((food) => {
@@ -760,7 +757,8 @@ const viewLow = () => {
 };
 const inFrame = (xy) => Object.values(toShares(xy)).every((v) => v > -1e-9);
 
-function drawPlot(rank) {
+function drawPlot(suggestions) {
+  const rank = [...suggestions, ...comboItems().map(({ food, grams, unit }) => ({ food, grams, unit, share: shareOf(food, grams) }))];
   const svg = $("#tri");
   svg.replaceChildren();
 
@@ -1189,7 +1187,7 @@ function drawMine() {
     <li>
       <span class="name">${esc(r.name)}</span>
       <span class="muted">1 ${esc(r.unit)}${r.grams == null ? "" : ` (${fmt(r.grams)} g)`} · ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")} · ${fmt(r.min)}–${fmt(r.max)} per meal</span>
-      <span class="muted">${esc([r.meals.join(", "), r.role, ...r.cuisines.map((c) => CUISINES[c]), ...r.dishes.map((d) => DISHES[d])].join(" · "))}</span>
+      <span class="muted">${esc([r.meals.join(", "), r.role, ...[...r.cuisines, ...r.dishes].map(tagLabel)].join(" · "))}</span>
       <button type="button" class="remove" data-id="${r.id}" aria-label="Delete ${esc(r.name)}">×</button>
     </li>`).join("");
 }
@@ -1498,7 +1496,7 @@ async function init() {
     render();
   });
 
-  builtIn = await (await fetch("foods.json?v=a1470511")).json();
+  builtIn = await (await fetch("foods.json?v=ed909c58")).json();
   setFoods();
   upgradeCombo();
   render();

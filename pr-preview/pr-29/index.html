@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Macro Map</title>
-<link rel="stylesheet" href="style.css?v=a1470511">
+<link rel="stylesheet" href="style.css?v=ed909c58">
 <script>
   // Applied before first paint so a saved theme doesn't flash the other one.
   try { const t = localStorage.getItem("macro-map-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
@@ -72,7 +72,7 @@
       <label><span>Role</span><select name="role"></select></label>
       <label><span id="scan-min-label">Least in a meal</span><input name="min" type="number" min="0" step="any" required></label>
       <label><span id="scan-max-label">Most in a meal</span><input name="max" type="number" min="0" step="any" required></label>
-      <fieldset class="wide scan-meals"><legend>Eaten at</legend>
+      <fieldset class="wide"><legend>Eaten at</legend>
         <label><input type="checkbox" name="meals" value="breakfast"> Breakfast</label>
         <label><input type="checkbox" name="meals" value="main"> Main meal</label>
         <label><input type="checkbox" name="meals" value="snack"> Snack</label>
@@ -165,6 +165,6 @@
 check labels for packaged foods. Your own foods use the numbers you give them.</footer>
 
 <div id="tip" role="tooltip" hidden></div>
-<script src="app.js?v=a1470511"></script>
+<script src="app.js?v=ed909c58"></script>
 </body>
 </html>
