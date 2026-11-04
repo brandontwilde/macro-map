@@ -209,13 +209,8 @@ ol { list-style: none; margin: 0; padding: 0; }
 .button.primary { background: var(--text-primary); color: var(--surface); border-color: var(--text-primary); font-weight: 600; }
 .button.primary:hover { opacity: 0.88; }
 
-/* Combo settings and the fit action, set apart from the card's title row. */
-.combo-bar {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px;
-  margin: 10px 0 6px; padding: 8px 8px 8px 12px; background: var(--bg); border-radius: 8px;
-}
-.switches { display: flex; flex-wrap: wrap; gap: 6px 18px; }
-.combo-bar .primary { margin-left: auto; } /* stays right when it wraps under the switches */
+.combo-actions { display: flex; align-items: center; gap: 12px; }
+.switches { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 8px 0 4px; }
 .switch {
   position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 0;
   border: 0; background: none; font: inherit; font-size: 13px; color: var(--text-secondary); cursor: pointer; white-space: nowrap;
