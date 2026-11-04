@@ -46,7 +46,7 @@ const FIT_PULL = 1; // g² of macro error that a food at the edge of its meal-si
 const state = {
   foods: [],
   mine: [], // the person's own foods, as entered: [{ id, name, group, diet, unit, grams, protein, carbs, fat, kcal }]
-  remaining: { p: 150, c: 200, f: 60 },
+  remaining: { p: 40, c: 60, f: 20 }, // about a 580 kcal meal
   combo: [], // [{ id, grams, unit }], unit being a label from units(food)
   query: "",
   focus: null, // { id, nearby: ids of the dots around it }
@@ -1454,7 +1454,7 @@ async function init() {
     render();
   });
 
-  builtIn = await (await fetch("foods.json?v=69b4861f")).json();
+  builtIn = await (await fetch("foods.json?v=da35a7e6")).json();
   setFoods();
   upgradeCombo();
   render();
