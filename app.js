@@ -198,10 +198,22 @@ function addMine(records) {
   saveMine();
 }
 
+// Returns what restoreMine needs to put the food back where it was.
 function removeMine(id) {
-  state.mine = state.mine.filter((r) => r.id !== id);
-  state.combo = state.combo.filter((c) => c.id !== id);
+  const index = state.mine.findIndex((r) => r.id === id);
+  const at = state.combo.findIndex((c) => c.id === id);
+  const removed = { record: state.mine[index], index, entry: state.combo[at], at };
+  state.mine.splice(index, 1);
+  if (at >= 0) state.combo.splice(at, 1);
   if (state.focus?.id === id) state.focus = null;
+  saveMine();
+  save();
+  return removed;
+}
+
+function restoreMine({ record, index, entry, at }) {
+  state.mine.splice(Math.min(index, state.mine.length), 0, record);
+  if (entry && state.combo.length < MAX_COMBO) state.combo.splice(Math.min(at, state.combo.length), 0, entry);
   saveMine();
   save();
 }
@@ -1157,22 +1169,29 @@ function toggleCombo(id) {
 const TOAST_MS = 6000;
 const FRESH_MS = 1600; // keep in step with the just-added animation in style.css
 let fresh = null; // { id, at }: the food that just came into the combo, briefly highlighted
-let toast = null; // { out, inId, timer, left, started }
+let toast = null; // { undo, timer, left, started }
 const foodName = (id) => state.foods.find((f) => f.id === id)?.name ?? "A food";
 function announce(text) {
   const live = $("#toast-live");
   live.textContent = ""; // cleared first so the same words are read again
   setTimeout(() => (live.textContent = text), 50);
 }
-function showPushedOut(out, inId) {
+function showToast(text, undo) {
   closeToast();
-  const text = `${foodName(out.id)} was removed to make room for ${foodName(inId)}.`;
   $("#toast-msg").textContent = text;
   $("#toast").hidden = false;
-  toast = { out, inId, timer: 0, left: TOAST_MS, started: 0 };
-  const el = $("#toast");
-  if (!el.matches(":hover, :focus-within")) runToast();
+  toast = { undo, timer: 0, left: TOAST_MS, started: 0 };
+  if (!$("#toast").matches(":hover, :focus-within")) runToast();
   announce(`${text} Undo is available.`);
+}
+function undoToast() {
+  if (!toast) return;
+  const { undo } = toast;
+  closeToast();
+  undo();
+}
+function showPushedOut(out, inId) {
+  showToast(`${foodName(out.id)} was removed to make room for ${foodName(inId)}.`, () => undoPushOut(out, inId));
 }
 function runToast() {
   if (!toast || toast.timer) return;
@@ -1191,10 +1210,7 @@ function closeToast() {
   toast = null;
   $("#toast").hidden = true;
 }
-function undoPushOut() {
-  if (!toast) return;
-  const { out, inId } = toast;
-  closeToast();
+function undoPushOut(out, inId) {
   state.combo = state.combo.filter((c) => c.id !== inId && c.id !== out.id);
   state.combo.unshift(out); // back in its old place, as the oldest
   state.combo.length = Math.min(state.combo.length, MAX_COMBO);
@@ -1210,7 +1226,7 @@ function setupToast() {
   el.addEventListener("focusin", pauseToast);
   el.addEventListener("focusout", (e) => !el.contains(e.relatedTarget) && !el.matches(":hover") && runToast());
   el.addEventListener("keydown", (e) => e.key === "Escape" && closeToast());
-  $("#toast-undo").addEventListener("click", undoPushOut);
+  $("#toast-undo").addEventListener("click", undoToast);
   $("#toast-close").addEventListener("click", closeToast);
 }
 
@@ -1262,6 +1278,7 @@ function drawMine() {
 
 function importFoods({ records, errors }) {
   if (records.length) {
+    closeToast(); // an undone delete could otherwise bring back a food with the same name
     addMine(records);
     upgradeCombo();
     render();
@@ -1561,13 +1578,18 @@ async function init() {
   $("#mine-list").addEventListener("click", (e) => {
     const btn = e.target.closest(".remove");
     if (!btn) return;
-    removeMine(Number(btn.dataset.id));
+    const removed = removeMine(Number(btn.dataset.id));
     render();
+    showToast(`${removed.record.name} was deleted from My foods.`, () => {
+      restoreMine(removed);
+      render();
+      announce(`${removed.record.name} is back in My foods.`);
+    });
   });
 
   setupToast();
 
-  builtIn = await (await fetch("foods.json?v=7c787615")).json();
+  builtIn = await (await fetch("foods.json?v=51c597e7")).json();
   setFoods();
   upgradeCombo();
   render();
