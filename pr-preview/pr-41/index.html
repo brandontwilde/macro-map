@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Macro Map</title>
+<link rel="stylesheet" href="style.css?v=3e8775e9">
+<script>
+  // Applied before first paint so a saved theme doesn't flash the other one.
+  try { const t = localStorage.getItem("macro-map-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
+</script>
+</head>
+<body>
+<header>
+  <div class="title-row">
+    <h1>Macro Map</h1>
+    <div class="controls">
+      <button type="button" id="mine-toggle" class="button" aria-expanded="false" aria-controls="mine">My foods <span id="mine-count"></span></button>
+      <button type="button" id="theme-toggle" class="button"></button>
+    </div>
+  </div>
+  <p class="lede">Enter your target macros to find the foods that fit them, or pick a few foods
+  that go together to build a combo that does.</p>
+</header>
+
+<section id="mine" class="card" hidden>
+  <div class="card-head">
+    <div class="title">
+      <h2>My foods</h2>
+      <div class="info"><button type="button" class="info-btn" aria-label="About My foods" aria-expanded="false">?</button>
+        <div class="info-text" role="tooltip">
+          <ul>
+            <li>Copy the prompt into an AI chat, add your foods, and paste its reply here. For best results, turn on web search.</li>
+            <li>For a packaged food, you can also use <b>Scan barcode</b>.</li>
+            <li>Saved in this browser only. <b>Export</b> keeps a copy.</li>
+            <li>A food with a name you already have replaces it.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="remove" id="close-mine" aria-label="Close My foods">×</button>
+  </div>
+  <ul id="mine-list"></ul>
+  <div class="controls ai-step">
+    <button type="button" id="copy-prompt" class="button">Copy AI prompt</button>
+    <span class="muted">Paste it into an AI chat, then add your foods: a list, a recipe, photos, or another app's export.</span>
+  </div>
+  <textarea id="mine-json" rows="4" placeholder="Paste JSON-formatted food details here." aria-label="AI reply with your foods"></textarea>
+  <p id="mine-msg" class="hint" aria-live="polite"></p>
+  <div class="controls wrap">
+    <button type="button" id="add-mine" class="button">Add foods</button>
+    <button type="button" id="scan-open" class="button" aria-expanded="false" aria-controls="scan">Scan barcode</button>
+    <label class="button">Import file<input type="file" id="import-mine" accept=".json,application/json" hidden></label>
+    <button type="button" id="export-mine" class="button" hidden>Export</button>
+  </div>
+  <div id="scan" hidden>
+    <div id="scan-view" hidden>
+      <video id="scan-video" muted playsinline></video>
+      <span class="scan-note">No images leave your device, just the barcode number.</span>
+    </div>
+    <form id="scan-code" class="controls" autocomplete="off">
+      <input name="code" inputmode="numeric" placeholder="Or type barcode number" aria-label="Barcode number">
+      <button class="button">Look up</button>
+      <button type="button" id="scan-close" class="button">Cancel</button>
+    </form>
+    <p id="scan-msg" class="hint" aria-live="polite"></p>
+    <form id="scan-food" autocomplete="off" hidden>
+      <label class="wide"><span>Name</span><input name="name" required></label>
+      <label><span>Unit</span><input name="unit" required></label>
+      <label><span>Group</span><select name="group"></select></label>
+      <label><span>Diet</span><select name="diet"><option value="">Neither</option><option value="vegetarian">Vegetarian</option><option value="vegan">Vegan</option></select></label>
+      <label><span>Role</span><select name="role"></select></label>
+      <label><span id="scan-min-label">Least in a meal</span><input name="min" type="number" min="0" step="any" required></label>
+      <label><span id="scan-max-label">Most in a meal</span><input name="max" type="number" min="0" step="any" required></label>
+      <fieldset class="wide"><legend>Eaten at</legend>
+        <label><input type="checkbox" name="meals" value="breakfast"> Breakfast</label>
+        <label><input type="checkbox" name="meals" value="main"> Main meal</label>
+        <label><input type="checkbox" name="meals" value="snack"> Snack</label>
+        <label><input type="checkbox" name="meals" value="dessert"> Dessert</label>
+      </fieldset>
+      <div class="wide"><span class="muted">Cuisines and dishes</span><div id="scan-tags" class="chips"></div></div>
+      <p id="scan-macros" class="wide muted"></p>
+      <div class="wide controls"><button class="button">Add to My foods</button></div>
+    </form>
+  </div>
+</section>
+
+<main>
+  <section class="left">
+    <form id="remaining" class="card" autocomplete="off">
+      <h2>Target macros</h2>
+      <div class="inputs">
+        <label class="m-p"><span>Protein</span><input name="p" type="number" min="0" step="1" inputmode="numeric"><em>g</em></label>
+        <label class="m-c"><span>Carbs</span><input name="c" type="number" min="0" step="1" inputmode="numeric"><em>g</em></label>
+        <label class="m-f"><span>Fat</span><input name="f" type="number" min="0" step="1" inputmode="numeric"><em>g</em></label>
+      </div>
+    </form>
+
+    <figure class="card plot">
+      <div class="info plot-info"><button type="button" class="info-btn" aria-label="About the map" aria-expanded="false">?</button>
+        <div class="info-text" role="tooltip">
+          <ul>
+            <li>Each dot is a food. The nearer a corner, the more of that macro it has.</li>
+            <li>The crosshair is your target, numbered dots are the top picks, and the small circle is your combo.</li>
+            <li class="on-hover">Scroll to zoom, drag to move. Hover a dot for details; click to add it.</li>
+            <li class="on-touch">Pinch to zoom, drag to move. Tap a dot for details.</li>
+          </ul>
+        </div>
+      </div>
+      <div id="filters" class="filters"></div>
+      <div class="plot-area">
+        <svg id="tri" viewBox="0 0 600 548" role="img" aria-label="Triangle plot of foods by macro split"></svg>
+        <div class="zoom-controls">
+          <button type="button" id="zoom-in" class="button" aria-label="Zoom in">+</button>
+          <button type="button" id="zoom-out" class="button" aria-label="Zoom out">−</button>
+          <button type="button" id="zoom-reset" class="button" aria-label="Reset zoom" disabled>Reset</button>
+        </div>
+      </div>
+      <div id="dot-card" hidden></div>
+    </figure>
+  </section>
+
+  <section class="right">
+    <div class="card" id="combo" hidden>
+      <div class="card-head">
+        <div class="title">
+          <h2>Combo</h2>
+          <div class="info"><button type="button" class="info-btn" aria-label="About Combo" aria-expanded="false">?</button>
+            <div class="info-text" role="tooltip">
+              Pick foods that go together in one meal. Amounts adjust so the totals land near your target.
+            </div>
+          </div>
+        </div>
+        <div class="combo-actions">
+          <button type="button" id="clear-combo" class="link">Clear</button>
+          <button type="button" id="fit-combo" class="button primary">Fit to target</button>
+        </div>
+      </div>
+      <div class="switches">
+        <button type="button" role="switch" id="caps-toggle" class="switch" aria-checked="true">Cap portions</button>
+        <button type="button" role="switch" id="floors-toggle" class="switch" aria-checked="true">Use all foods</button>
+      </div>
+      <ol id="combo-items"></ol>
+      <table class="totals" id="combo-totals"></table>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="title">
+          <h2 id="ranked-title">Best fits</h2>
+          <div class="info"><button type="button" class="info-btn" aria-label="About Best fits" aria-expanded="false">?</button>
+            <div class="info-text" role="tooltip" id="ranked-info">Foods whose mix of macros is closest to your target's.</div>
+          </div>
+        </div>
+        <div class="controls">
+          <input id="search" type="search" placeholder="Search foods" aria-label="Search foods">
+        </div>
+      </div>
+      <ol id="ranked"></ol>
+    </div>
+  </section>
+</main>
+
+<footer>Nutrient data: USDA FoodData Central, SR Legacy (public domain). Values are per 100 g as listed;
+check labels for packaged foods. Your own foods use the numbers you give them.</footer>
+
+<div id="tip" role="tooltip" hidden></div>
+<div id="toast" class="toast" hidden>
+  <span id="toast-msg"></span>
+  <button type="button" id="toast-undo" class="button">Undo</button>
+  <button type="button" id="toast-close" class="remove" aria-label="Dismiss">×</button>
+</div>
+<div id="toast-live" class="visually-hidden" role="status" aria-live="polite"></div>
+<script src="app.js?v=3e8775e9"></script>
+</body>
+</html>
