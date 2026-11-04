@@ -315,3 +315,25 @@ ol { list-style: none; margin: 0; padding: 0; }
 .info.open .info-text { display: block; }
 /* Touch screens keep :hover after a tap, which would stop a second tap from closing it. */
 @media (hover: hover) { .info:hover .info-text { display: block; } }
+
+/* Shown when a new food pushes the oldest one out of the combo. */
+.toast {
+  position: fixed; z-index: 20; left: 50%; bottom: 16px; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 10px; width: max-content; max-width: calc(100vw - 32px);
+  background: var(--text-primary); color: var(--surface);
+  border-radius: 8px; padding: 8px 8px 8px 14px; font-size: 13px; box-shadow: 0 4px 16px rgb(0 0 0 / 0.2);
+  animation: toast-in 0.18s ease-out;
+}
+.toast .button { background: var(--surface); color: var(--text-primary); border-color: var(--surface); font-weight: 600; flex: none; }
+.toast .remove { color: inherit; opacity: 0.7; font-size: 18px; line-height: 1; flex: none; }
+.toast .remove:hover { opacity: 1; }
+.toast :focus-visible { outline: 2px solid var(--surface); outline-offset: 2px; }
+@keyframes toast-in { from { opacity: 0; transform: translate(-50%, 8px); } }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+/* The food that just came into the combo; 1.6s is FRESH_MS in app.js. */
+#combo-items li.just-added { animation: just-added 1.6s ease-out; }
+@keyframes just-added { from, 30% { background: var(--select); } }
+@media (prefers-reduced-motion: reduce) { .toast, #combo-items li.just-added { animation: none; } }
