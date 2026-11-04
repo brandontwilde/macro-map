@@ -1188,16 +1188,14 @@ function pauseToast() {
 }
 function closeToast() {
   if (!toast) return;
-  const hadFocus = $("#toast").contains(document.activeElement);
   clearTimeout(toast.timer);
   toast = null;
   $("#toast").hidden = true;
-  return hadFocus;
 }
 function undoPushOut() {
   if (!toast) return;
   const { out, inId } = toast;
-  const hadFocus = closeToast();
+  closeToast();
   state.combo = state.combo.filter((c) => c.id !== inId && c.id !== out.id);
   state.combo.unshift(out); // back in its old place, as the oldest
   state.combo.length = Math.min(state.combo.length, MAX_COMBO);
@@ -1205,7 +1203,6 @@ function undoPushOut() {
   save();
   render();
   announce(`${foodName(out.id)} is back in the combo and ${foodName(inId)} was removed.`);
-  if (hadFocus) $(`#combo-items .qty[data-id="${out.id}"]`)?.focus();
 }
 function setupToast() {
   const el = $("#toast");
