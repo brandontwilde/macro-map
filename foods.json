@@ -18,7 +18,22 @@
     "g": 172.0
    }
   ],
-  "unit": "breast"
+  "unit": "breast",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "salad",
+   "sandwich",
+   "stir-fry",
+   "curry",
+   "grain-bowl",
+   "tacos"
+  ],
+  "min": 85.0,
+  "max": 250.0
  },
  {
   "id": 172388,
@@ -39,7 +54,22 @@
     "g": 137.0
    }
   ],
-  "unit": "thigh"
+  "unit": "thigh",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "grill",
+   "curry",
+   "stir-fry",
+   "tacos",
+   "grain-bowl",
+   "roast"
+  ],
+  "min": 80.0,
+  "max": 250.0
  },
  {
   "id": 173630,
@@ -56,7 +86,20 @@
     "g": 85.0
    }
   ],
-  "unit": "piece"
+  "unit": "piece",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "grill",
+   "snack-board",
+   "burger"
+  ],
+  "min": 85.0,
+  "max": 340.0
  },
  {
   "id": 171496,
@@ -73,7 +116,21 @@
     "g": 1413.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "sandwich",
+   "salad",
+   "roast",
+   "breakfast-plate",
+   "grain-bowl"
+  ],
+  "min": 56.0,
+  "max": 200.0
  },
  {
   "id": 172851,
@@ -85,7 +142,21 @@
   "f": 11.6,
   "kcal": 213.0,
   "portions": [],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "tacos",
+   "pasta",
+   "burger",
+   "grain-bowl",
+   "soup"
+  ],
+  "min": 85.0,
+  "max": 225.0
  },
  {
   "id": 171792,
@@ -97,7 +168,21 @@
   "f": 5.94,
   "kcal": 164.0,
   "portions": [],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "tacos",
+   "pasta",
+   "burger",
+   "grain-bowl",
+   "soup"
+  ],
+  "min": 85.0,
+  "max": 225.0
  },
  {
   "id": 171793,
@@ -109,7 +194,21 @@
   "f": 10.68,
   "kcal": 204.0,
   "portions": [],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "tacos",
+   "pasta",
+   "burger",
+   "grain-bowl",
+   "soup"
+  ],
+  "min": 85.0,
+  "max": 225.0
  },
  {
   "id": 171798,
@@ -121,7 +220,20 @@
   "f": 15.94,
   "kcal": 246.0,
   "portions": [],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "burger",
+   "tacos",
+   "pasta",
+   "soup"
+  ],
+  "min": 85.0,
+  "max": 225.0
  },
  {
   "id": 173118,
@@ -133,7 +245,20 @@
   "f": 6.72,
   "kcal": 187.0,
   "portions": [],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "grill",
+   "roast",
+   "salad",
+   "stir-fry"
+  ],
+  "min": 113.0,
+  "max": 340.0
  },
  {
   "id": 168250,
@@ -150,7 +275,21 @@
     "g": 402.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "roast",
+   "grill",
+   "stir-fry",
+   "grain-bowl",
+   "curry"
+  ],
+  "min": 85.0,
+  "max": 255.0
  },
  {
   "id": 168277,
@@ -171,7 +310,21 @@
     "g": 442.0
    }
   ],
-  "unit": "slice raw"
+  "unit": "slice raw",
+  "meals": [
+   "breakfast",
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "sandwich",
+   "burger",
+   "salad"
+  ],
+  "min": 14.0,
+  "max": 84.0
  },
  {
   "id": 173864,
@@ -188,7 +341,23 @@
     "g": 28.0
    }
   ],
-  "unit": "slice"
+  "unit": "slice",
+  "meals": [
+   "breakfast",
+   "main",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "sandwich",
+   "breakfast-plate",
+   "snack-board",
+   "salad",
+   "pizza"
+  ],
+  "min": 28.0,
+  "max": 112.0
  },
  {
   "id": 173862,
@@ -209,7 +378,19 @@
     "g": 446.0
    }
   ],
-  "unit": "hot dog"
+  "unit": "hot dog",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "grill",
+   "burger",
+   "sandwich"
+  ],
+  "min": 49.0,
+  "max": 147.0
  },
  {
   "id": 172544,
@@ -221,7 +402,22 @@
   "f": 19.65,
   "kcal": 283.0,
   "portions": [],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [
+   "middle-eastern",
+   "mediterranean",
+   "indian"
+  ],
+  "dishes": [
+   "curry",
+   "grill"
+  ],
+  "min": 85.0,
+  "max": 225.0
  },
  {
   "id": 167536,
@@ -238,7 +434,18 @@
     "g": 20.0
    }
   ],
-  "unit": "piece, large"
+  "unit": "piece, large",
+  "meals": [
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "protein-snack",
+   "snack-board"
+  ],
+  "min": 20.0,
+  "max": 80.0
  },
  {
   "id": 175168,
@@ -255,7 +462,21 @@
     "g": 356.0
    }
   ],
-  "unit": "fillet"
+  "unit": "fillet",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "grill",
+   "roast",
+   "salad",
+   "sushi",
+   "grain-bowl"
+  ],
+  "min": 100.0,
+  "max": 250.0
  },
  {
   "id": 173709,
@@ -280,7 +501,21 @@
     "g": 315.0
    }
   ],
-  "unit": "can"
+  "unit": "can",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "sandwich",
+   "salad",
+   "pasta",
+   "protein-snack"
+  ],
+  "min": 70.0,
+  "max": 165.0
  },
  {
   "id": 171956,
@@ -297,7 +532,21 @@
     "g": 180.0
    }
   ],
-  "unit": "fillet"
+  "unit": "fillet",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "roast",
+   "tacos",
+   "soup",
+   "curry",
+   "grain-bowl"
+  ],
+  "min": 100.0,
+  "max": 250.0
  },
  {
   "id": 175177,
@@ -314,7 +563,21 @@
     "g": 87.0
    }
   ],
-  "unit": "fillet"
+  "unit": "fillet",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "tacos",
+   "roast",
+   "grain-bowl",
+   "curry",
+   "stir-fry"
+  ],
+  "min": 87.0,
+  "max": 260.0
  },
  {
   "id": 174198,
@@ -331,7 +594,20 @@
     "g": 150.0
    }
   ],
-  "unit": "fillet"
+  "unit": "fillet",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "roast",
+   "soup",
+   "curry",
+   "tacos"
+  ],
+  "min": 100.0,
+  "max": 250.0
  },
  {
   "id": 175180,
@@ -343,7 +619,22 @@
   "f": 0.28,
   "kcal": 99.0,
   "portions": [],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "stir-fry",
+   "pasta",
+   "tacos",
+   "salad",
+   "grill",
+   "curry"
+  ],
+  "min": 85.0,
+  "max": 225.0
  },
  {
   "id": 167742,
@@ -355,7 +646,21 @@
   "f": 0.84,
   "kcal": 111.0,
   "portions": [],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "pasta",
+   "roast",
+   "salad",
+   "stir-fry",
+   "grill"
+  ],
+  "min": 60.0,
+  "max": 200.0
  },
  {
   "id": 175139,
@@ -388,7 +693,23 @@
     "g": 12.0
    }
   ],
-  "unit": "can"
+  "unit": "can",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [
+   "mediterranean"
+  ],
+  "dishes": [
+   "salad",
+   "snack-board",
+   "pasta",
+   "sandwich"
+  ],
+  "min": 46.0,
+  "max": 184.0
  },
  {
   "id": 173424,
@@ -413,7 +734,22 @@
     "g": 50.0
    }
   ],
-  "unit": "large"
+  "unit": "large",
+  "meals": [
+   "breakfast",
+   "main",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "salad",
+   "protein-snack",
+   "sandwich"
+  ],
+  "min": 50.0,
+  "max": 150.0
  },
  {
   "id": 172183,
@@ -434,7 +770,22 @@
     "g": 243.0
    }
   ],
-  "unit": "large"
+  "unit": "large",
+  "meals": [
+   "breakfast",
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "sandwich",
+   "salad",
+   "tacos",
+   "protein-snack"
+  ],
+  "min": 33.0,
+  "max": 200.0
  },
  {
   "id": 172184,
@@ -455,7 +806,19 @@
     "g": 243.0
    }
   ],
-  "unit": "large"
+  "unit": "large",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "baked",
+   "pasta"
+  ],
+  "min": 17.0,
+  "max": 51.0
  },
  {
   "id": 170894,
@@ -472,7 +835,23 @@
     "g": 170.0
    }
   ],
-  "unit": "container"
+  "unit": "container",
+  "meals": [
+   "breakfast",
+   "snack",
+   "dessert"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "yogurt-bowl",
+   "smoothie",
+   "protein-snack",
+   "cereal",
+   "dessert"
+  ],
+  "min": 100.0,
+  "max": 340.0
  },
  {
   "id": 171304,
@@ -484,7 +863,24 @@
   "f": 5.0,
   "kcal": 97.0,
   "portions": [],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "breakfast",
+   "snack",
+   "dessert"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "yogurt-bowl",
+   "smoothie",
+   "protein-snack",
+   "cereal",
+   "dessert",
+   "curry"
+  ],
+  "min": 100.0,
+  "max": 300.0
  },
  {
   "id": 170886,
@@ -505,7 +901,22 @@
     "g": 245.0
    }
   ],
-  "unit": "container"
+  "unit": "container",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "yogurt-bowl",
+   "smoothie",
+   "cereal",
+   "curry",
+   "protein-snack"
+  ],
+  "min": 100.0,
+  "max": 340.0
  },
  {
   "id": 170904,
@@ -526,7 +937,21 @@
     "g": 971.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "drink",
+  "cuisines": [],
+  "dishes": [
+   "smoothie",
+   "cereal",
+   "yogurt-bowl",
+   "protein-snack"
+  ],
+  "min": 120.0,
+  "max": 360.0
  },
  {
   "id": 172182,
@@ -543,7 +968,22 @@
     "g": 226.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "yogurt-bowl",
+   "protein-snack",
+   "smoothie",
+   "breakfast-plate",
+   "snack-board"
+  ],
+  "min": 113.0,
+  "max": 340.0
  },
  {
   "id": 171269,
@@ -568,7 +1008,23 @@
     "g": 980.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "drink",
+  "cuisines": [],
+  "dishes": [
+   "cereal",
+   "smoothie",
+   "baked",
+   "breakfast-plate",
+   "protein-snack",
+   "dessert"
+  ],
+  "min": 120.0,
+  "max": 480.0
  },
  {
   "id": 171267,
@@ -593,7 +1049,23 @@
     "g": 976.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "drink",
+  "cuisines": [],
+  "dishes": [
+   "cereal",
+   "smoothie",
+   "baked",
+   "breakfast-plate",
+   "protein-snack",
+   "dessert"
+  ],
+  "min": 120.0,
+  "max": 480.0
  },
  {
   "id": 171265,
@@ -622,7 +1094,23 @@
     "g": 976.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "drink",
+  "cuisines": [],
+  "dishes": [
+   "cereal",
+   "smoothie",
+   "baked",
+   "breakfast-plate",
+   "protein-snack",
+   "dessert"
+  ],
+  "min": 120.0,
+  "max": 480.0
  },
  {
   "id": 170899,
@@ -639,7 +1127,22 @@
     "g": 19.0
    }
   ],
-  "unit": "slice"
+  "unit": "slice",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "sandwich",
+   "burger",
+   "snack-board",
+   "tacos",
+   "breakfast-plate"
+  ],
+  "min": 19.0,
+  "max": 76.0
  },
  {
   "id": 170847,
@@ -651,7 +1154,23 @@
   "f": 15.92,
   "kcal": 254.0,
   "portions": [],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [
+   "italian"
+  ],
+  "dishes": [
+   "pizza",
+   "pasta",
+   "salad",
+   "sandwich"
+  ],
+  "min": 28.0,
+  "max": 113.0
  },
  {
   "id": 173420,
@@ -676,7 +1195,21 @@
     "g": 38.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "fat",
+  "cuisines": [
+   "mediterranean",
+   "middle-eastern"
+  ],
+  "dishes": [
+   "salad",
+   "grain-bowl"
+  ],
+  "min": 14.0,
+  "max": 56.0
  },
  {
   "id": 171247,
@@ -697,7 +1230,21 @@
     "g": 5.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "main"
+  ],
+  "role": "fat",
+  "cuisines": [
+   "italian"
+  ],
+  "dishes": [
+   "pasta",
+   "salad",
+   "pizza"
+  ],
+  "min": 5.0,
+  "max": 30.0
  },
  {
   "id": 173418,
@@ -730,7 +1277,23 @@
     "g": 85.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "baked",
+   "sushi",
+   "sandwich",
+   "snack-board",
+   "dessert"
+  ],
+  "min": 15.0,
+  "max": 45.0
  },
  {
   "id": 171257,
@@ -751,7 +1314,23 @@
     "g": 230.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "main"
+  ],
+  "role": "sauce",
+  "cuisines": [
+   "latin"
+  ],
+  "dishes": [
+   "tacos",
+   "soup",
+   "burger",
+   "grain-bowl",
+   "roast"
+  ],
+  "min": 12.0,
+  "max": 60.0
  },
  {
   "id": 167575,
@@ -768,7 +1347,19 @@
     "g": 66.0
    }
   ],
-  "unit": "\u00bd cup"
+  "unit": "\u00bd cup",
+  "meals": [
+   "dessert"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "dessert",
+   "baked",
+   "smoothie"
+  ],
+  "min": 66.0,
+  "max": 200.0
  },
  {
   "id": 173180,
@@ -785,7 +1376,21 @@
     "g": 97.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "smoothie",
+   "protein-snack",
+   "yogurt-bowl",
+   "cereal"
+  ],
+  "min": 25.0,
+  "max": 60.0
  },
  {
   "id": 172448,
@@ -806,7 +1411,23 @@
     "g": 324.0
    }
   ],
-  "unit": "block"
+  "unit": "block",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [
+   "east-asian",
+   "southeast-asian"
+  ],
+  "dishes": [
+   "stir-fry",
+   "curry",
+   "grain-bowl",
+   "soup"
+  ],
+  "min": 85.0,
+  "max": 300.0
  },
  {
   "id": 174272,
@@ -823,7 +1444,21 @@
     "g": 166.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [
+   "southeast-asian"
+  ],
+  "dishes": [
+   "stir-fry",
+   "grain-bowl",
+   "sandwich"
+  ],
+  "min": 85.0,
+  "max": 200.0
  },
  {
   "id": 168147,
@@ -835,7 +1470,23 @@
   "f": 1.85,
   "kcal": 370.0,
   "portions": [],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [
+   "east-asian"
+  ],
+  "dishes": [
+   "stir-fry",
+   "sandwich",
+   "grain-bowl",
+   "curry",
+   "tacos"
+  ],
+  "min": 30.0,
+  "max": 100.0
  },
  {
   "id": 168411,
@@ -852,7 +1503,23 @@
     "g": 155.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [
+   "east-asian"
+  ],
+  "dishes": [
+   "stir-fry",
+   "grain-bowl",
+   "sushi",
+   "protein-snack"
+  ],
+  "min": 75.0,
+  "max": 230.0
  },
  {
   "id": 173735,
@@ -869,7 +1536,22 @@
     "g": 172.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [
+   "latin"
+  ],
+  "dishes": [
+   "tacos",
+   "grain-bowl",
+   "soup",
+   "salad"
+  ],
+  "min": 86.0,
+  "max": 258.0
  },
  {
   "id": 173740,
@@ -890,7 +1572,21 @@
     "g": 11.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "soup",
+   "curry",
+   "salad",
+   "tacos",
+   "grain-bowl"
+  ],
+  "min": 86.0,
+  "max": 258.0
  },
  {
   "id": 175200,
@@ -911,7 +1607,21 @@
     "g": 10.6
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [
+   "latin"
+  ],
+  "dishes": [
+   "tacos",
+   "grain-bowl",
+   "soup"
+  ],
+  "min": 86.0,
+  "max": 258.0
  },
  {
   "id": 172421,
@@ -932,7 +1642,23 @@
     "g": 12.3
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [
+   "indian",
+   "middle-eastern"
+  ],
+  "dishes": [
+   "curry",
+   "soup",
+   "salad",
+   "grain-bowl"
+  ],
+  "min": 100.0,
+  "max": 300.0
  },
  {
   "id": 173757,
@@ -949,7 +1675,24 @@
     "g": 164.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [
+   "indian",
+   "middle-eastern",
+   "mediterranean"
+  ],
+  "dishes": [
+   "curry",
+   "salad",
+   "grain-bowl"
+  ],
+  "min": 82.0,
+  "max": 246.0
  },
  {
   "id": 172438,
@@ -970,7 +1713,21 @@
     "g": 442.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [
+   "latin"
+  ],
+  "dishes": [
+   "tacos",
+   "grain-bowl",
+   "snack-board"
+  ],
+  "min": 60.0,
+  "max": 240.0
  },
  {
   "id": 174289,
@@ -991,7 +1748,23 @@
     "g": 246.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "sauce",
+  "cuisines": [
+   "middle-eastern",
+   "mediterranean"
+  ],
+  "dishes": [
+   "snack-board",
+   "sandwich",
+   "grain-bowl"
+  ],
+  "min": 30.0,
+  "max": 120.0
  },
  {
   "id": 172446,
@@ -1012,7 +1785,22 @@
     "g": 30.6
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "drink",
+  "cuisines": [],
+  "dishes": [
+   "cereal",
+   "smoothie",
+   "yogurt-bowl",
+   "protein-snack",
+   "baked"
+  ],
+  "min": 120.0,
+  "max": 480.0
  },
  {
   "id": 168878,
@@ -1029,7 +1817,21 @@
     "g": 158.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "stir-fry",
+   "curry",
+   "grain-bowl",
+   "sushi",
+   "tacos"
+  ],
+  "min": 100.0,
+  "max": 300.0
  },
  {
   "id": 169704,
@@ -1046,7 +1848,23 @@
     "g": 202.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "stir-fry",
+   "curry",
+   "grain-bowl",
+   "tacos",
+   "sushi",
+   "salad",
+   "soup"
+  ],
+  "min": 100.0,
+  "max": 300.0
  },
  {
   "id": 168897,
@@ -1063,7 +1881,21 @@
     "g": 164.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "soup",
+   "salad",
+   "roast",
+   "grain-bowl",
+   "stir-fry"
+  ],
+  "min": 80.0,
+  "max": 250.0
  },
  {
   "id": 168917,
@@ -1080,7 +1912,23 @@
     "g": 185.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "grain-bowl",
+   "salad",
+   "curry",
+   "stir-fry",
+   "tacos",
+   "soup",
+   "roast"
+  ],
+  "min": 90.0,
+  "max": 280.0
  },
  {
   "id": 169737,
@@ -1129,7 +1977,21 @@
     "g": 116.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [
+   "italian"
+  ],
+  "dishes": [
+   "pasta",
+   "salad",
+   "soup"
+  ],
+  "min": 100.0,
+  "max": 350.0
  },
  {
   "id": 169700,
@@ -1146,7 +2008,21 @@
     "g": 157.0
    }
   ],
-  "unit": "cup, cooked"
+  "unit": "cup, cooked",
+  "meals": [
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [
+   "middle-eastern",
+   "mediterranean"
+  ],
+  "dishes": [
+   "salad",
+   "grain-bowl"
+  ],
+  "min": 80.0,
+  "max": 240.0
  },
  {
   "id": 170285,
@@ -1163,7 +2039,21 @@
     "g": 157.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "soup",
+   "salad",
+   "grain-bowl",
+   "roast",
+   "stir-fry"
+  ],
+  "min": 80.0,
+  "max": 240.0
  },
  {
   "id": 170287,
@@ -1184,7 +2074,21 @@
     "g": 8.4
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [
+   "middle-eastern",
+   "mediterranean"
+  ],
+  "dishes": [
+   "salad",
+   "grain-bowl"
+  ],
+  "min": 90.0,
+  "max": 270.0
  },
  {
   "id": 171655,
@@ -1205,7 +2109,20 @@
     "g": 16.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "grill",
+   "roast"
+  ],
+  "min": 128.0,
+  "max": 385.0
  },
  {
   "id": 173904,
@@ -1222,7 +2139,19 @@
     "g": 81.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "cereal",
+   "baked",
+   "smoothie"
+  ],
+  "min": 30.0,
+  "max": 100.0
  },
  {
   "id": 173884,
@@ -1239,7 +2168,20 @@
     "g": 28.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "cereal",
+   "yogurt-bowl",
+   "snack-board"
+  ],
+  "min": 28.0,
+  "max": 84.0
  },
  {
   "id": 171646,
@@ -1256,7 +2198,22 @@
     "g": 122.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "cereal",
+   "yogurt-bowl",
+   "smoothie",
+   "snack-board",
+   "protein-snack"
+  ],
+  "min": 30.0,
+  "max": 120.0
  },
  {
   "id": 172688,
@@ -1273,7 +2230,22 @@
     "g": 32.0
    }
   ],
-  "unit": "slice"
+  "unit": "slice",
+  "meals": [
+   "breakfast",
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "sandwich",
+   "breakfast-plate",
+   "soup",
+   "salad",
+   "burger"
+  ],
+  "min": 32.0,
+  "max": 96.0
  },
  {
   "id": 174924,
@@ -1318,7 +2290,21 @@
     "g": 15.0
    }
   ],
-  "unit": "slice"
+  "unit": "slice",
+  "meals": [
+   "breakfast",
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "sandwich",
+   "breakfast-plate",
+   "soup",
+   "burger"
+  ],
+  "min": 29.0,
+  "max": 87.0
  },
  {
   "id": 174899,
@@ -1351,7 +2337,19 @@
     "g": 131.0
    }
   ],
-  "unit": "medium bagel"
+  "unit": "medium bagel",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "sandwich",
+   "snack-board"
+  ],
+  "min": 52.0,
+  "max": 105.0
  },
  {
   "id": 175063,
@@ -1368,7 +2366,19 @@
     "g": 57.0
    }
   ],
-  "unit": "muffin"
+  "unit": "muffin",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "sandwich",
+   "baked"
+  ],
+  "min": 57.0,
+  "max": 114.0
  },
  {
   "id": 173242,
@@ -1389,7 +2399,23 @@
     "g": 72.0
    }
   ],
-  "unit": "tortilla"
+  "unit": "tortilla",
+  "meals": [
+   "breakfast",
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [
+   "latin"
+  ],
+  "dishes": [
+   "tacos",
+   "breakfast-plate",
+   "sandwich",
+   "grain-bowl"
+  ],
+  "min": 32.0,
+  "max": 128.0
  },
  {
   "id": 175036,
@@ -1410,7 +2436,21 @@
     "g": 24.0
    }
   ],
-  "unit": "tortilla"
+  "unit": "tortilla",
+  "meals": [
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [
+   "latin"
+  ],
+  "dishes": [
+   "tacos",
+   "soup",
+   "snack-board"
+  ],
+  "min": 24.0,
+  "max": 120.0
  },
  {
   "id": 175009,
@@ -1427,7 +2467,19 @@
     "g": 38.0
    }
   ],
-  "unit": "pancake"
+  "unit": "pancake",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "baked",
+   "dessert"
+  ],
+  "min": 76.0,
+  "max": 228.0
  },
  {
   "id": 170093,
@@ -1456,7 +2508,22 @@
     "g": 138.0
    }
   ],
-  "unit": "medium potato"
+  "unit": "medium potato",
+  "meals": [
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "roast",
+   "grill",
+   "breakfast-plate",
+   "soup",
+   "salad",
+   "burger"
+  ],
+  "min": 140.0,
+  "max": 350.0
  },
  {
   "id": 168483,
@@ -1485,7 +2552,22 @@
     "g": 60.0
    }
   ],
-  "unit": "medium"
+  "unit": "medium",
+  "meals": [
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "roast",
+   "grill",
+   "grain-bowl",
+   "curry",
+   "tacos",
+   "salad"
+  ],
+  "min": 114.0,
+  "max": 300.0
  },
  {
   "id": 168555,
@@ -1502,7 +2584,19 @@
     "g": 210.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "roast",
+   "grill",
+   "soup"
+  ],
+  "min": 105.0,
+  "max": 315.0
  },
  {
   "id": 169999,
@@ -1535,7 +2629,20 @@
     "g": 8.0
    }
   ],
-  "unit": "cup cut"
+  "unit": "cup cut",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "grill",
+   "tacos",
+   "salad",
+   "soup"
+  ],
+  "min": 75.0,
+  "max": 225.0
  },
  {
   "id": 170017,
@@ -1552,7 +2659,21 @@
     "g": 160.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "curry",
+   "soup",
+   "roast",
+   "stir-fry",
+   "pasta"
+  ],
+  "min": 80.0,
+  "max": 240.0
  },
  {
   "id": 169296,
@@ -1569,7 +2690,22 @@
     "g": 205.0
    }
   ],
-  "unit": "cup, cubes"
+  "unit": "cup, cubes",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "roast",
+   "soup",
+   "grain-bowl",
+   "curry",
+   "salad",
+   "pasta"
+  ],
+  "min": 100.0,
+  "max": 300.0
  },
  {
   "id": 173944,
@@ -1614,7 +2750,21 @@
     "g": 126.0
    }
   ],
-  "unit": "medium"
+  "unit": "medium",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "cereal",
+   "yogurt-bowl",
+   "smoothie",
+   "protein-snack"
+  ],
+  "min": 59.0,
+  "max": 236.0
  },
  {
   "id": 171688,
@@ -1655,7 +2805,20 @@
     "g": 242.0
    }
   ],
-  "unit": "medium"
+  "unit": "medium",
+  "meals": [
+   "snack"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "snack-board",
+   "salad",
+   "cereal",
+   "baked"
+  ],
+  "min": 91.0,
+  "max": 270.0
  },
  {
   "id": 169097,
@@ -1684,7 +2847,21 @@
     "g": 131.0
    }
   ],
-  "unit": "fruit"
+  "unit": "fruit",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "snack-board",
+   "salad",
+   "smoothie"
+  ],
+  "min": 65.0,
+  "max": 262.0
  },
  {
   "id": 169118,
@@ -1721,7 +2898,21 @@
     "g": 166.0
    }
   ],
-  "unit": "medium"
+  "unit": "medium",
+  "meals": [
+   "snack"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "snack-board",
+   "salad",
+   "yogurt-bowl",
+   "baked",
+   "dessert"
+  ],
+  "min": 89.0,
+  "max": 267.0
  },
  {
   "id": 169928,
@@ -1758,7 +2949,23 @@
     "g": 147.0
    }
   ],
-  "unit": "medium"
+  "unit": "medium",
+  "meals": [
+   "snack",
+   "dessert"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "yogurt-bowl",
+   "dessert",
+   "smoothie",
+   "baked",
+   "grill",
+   "salad"
+  ],
+  "min": 75.0,
+  "max": 300.0
  },
  {
   "id": 171711,
@@ -1779,7 +2986,21 @@
     "g": 1.4
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "cereal",
+   "yogurt-bowl",
+   "smoothie",
+   "baked"
+  ],
+  "min": 50.0,
+  "max": 220.0
  },
  {
   "id": 167762,
@@ -1828,7 +3049,22 @@
     "g": 147.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack",
+   "dessert"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "yogurt-bowl",
+   "smoothie",
+   "dessert",
+   "salad"
+  ],
+  "min": 70.0,
+  "max": 290.0
  },
  {
   "id": 174683,
@@ -1853,7 +3089,20 @@
     "g": 126.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "snack"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "snack-board",
+   "salad",
+   "yogurt-bowl",
+   "dessert"
+  ],
+  "min": 75.0,
+  "max": 230.0
  },
  {
   "id": 171719,
@@ -1878,7 +3127,22 @@
     "g": 140.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "snack",
+   "dessert"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "dessert",
+   "yogurt-bowl",
+   "smoothie",
+   "snack-board",
+   "baked"
+  ],
+  "min": 75.0,
+  "max": 230.0
  },
  {
   "id": 169124,
@@ -1907,7 +3171,24 @@
     "g": 56.0
    }
   ],
-  "unit": "cup, chunks"
+  "unit": "cup, chunks",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "smoothie",
+   "yogurt-bowl",
+   "grill",
+   "stir-fry",
+   "tacos",
+   "salad",
+   "dessert"
+  ],
+  "min": 80.0,
+  "max": 250.0
  },
  {
   "id": 169910,
@@ -1928,7 +3209,23 @@
     "g": 336.0
    }
   ],
-  "unit": "cup pieces"
+  "unit": "cup pieces",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "smoothie",
+   "yogurt-bowl",
+   "salad",
+   "tacos",
+   "dessert",
+   "grain-bowl"
+  ],
+  "min": 80.0,
+  "max": 250.0
  },
  {
   "id": 167765,
@@ -1965,7 +3262,20 @@
     "g": 280.0
    }
   ],
-  "unit": "cup, balls"
+  "unit": "cup, balls",
+  "meals": [
+   "snack",
+   "dessert"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "salad",
+   "dessert",
+   "grill"
+  ],
+  "min": 150.0,
+  "max": 460.0
  },
  {
   "id": 168153,
@@ -1990,7 +3300,21 @@
     "g": 148.0
    }
   ],
-  "unit": "fruit"
+  "unit": "fruit",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "yogurt-bowl",
+   "smoothie",
+   "salad",
+   "dessert"
+  ],
+  "min": 69.0,
+  "max": 207.0
  },
  {
   "id": 168191,
@@ -2007,7 +3331,21 @@
     "g": 24.0
    }
   ],
-  "unit": "date, pitted"
+  "unit": "date, pitted",
+  "meals": [
+   "snack"
+  ],
+  "role": "fruit",
+  "cuisines": [
+   "middle-eastern"
+  ],
+  "dishes": [
+   "snack-board",
+   "smoothie",
+   "protein-snack"
+  ],
+  "min": 24.0,
+  "max": 96.0
  },
  {
   "id": 169098,
@@ -2028,7 +3366,19 @@
     "g": 31.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "drink",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "smoothie",
+   "cereal"
+  ],
+  "min": 124.0,
+  "max": 372.0
  },
  {
   "id": 169967,
@@ -2061,7 +3411,20 @@
     "g": 37.0
    }
   ],
-  "unit": "cup, chopped"
+  "unit": "cup, chopped",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "stir-fry",
+   "roast",
+   "grain-bowl",
+   "pasta"
+  ],
+  "min": 75.0,
+  "max": 300.0
  },
  {
   "id": 169971,
@@ -2082,7 +3445,21 @@
     "g": 156.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "roast",
+   "salad",
+   "stir-fry",
+   "grill",
+   "grain-bowl"
+  ],
+  "min": 78.0,
+  "max": 312.0
  },
  {
   "id": 169141,
@@ -2099,7 +3476,21 @@
     "g": 125.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "roast",
+   "stir-fry",
+   "curry",
+   "grain-bowl",
+   "salad"
+  ],
+  "min": 62.0,
+  "max": 250.0
  },
  {
   "id": 168390,
@@ -2120,7 +3511,22 @@
     "g": 15.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "roast",
+   "grill",
+   "pasta",
+   "stir-fry",
+   "breakfast-plate",
+   "salad"
+  ],
+  "min": 60.0,
+  "max": 240.0
  },
  {
   "id": 168462,
@@ -2149,7 +3555,22 @@
     "g": 284.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "salad",
+   "smoothie",
+   "pasta",
+   "curry",
+   "breakfast-plate"
+  ],
+  "min": 30.0,
+  "max": 150.0
  },
  {
   "id": 168421,
@@ -2166,7 +3587,22 @@
     "g": 21.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "salad",
+   "smoothie",
+   "soup",
+   "pasta",
+   "grain-bowl",
+   "curry"
+  ],
+  "min": 21.0,
+  "max": 120.0
  },
  {
   "id": 169247,
@@ -2199,7 +3635,20 @@
     "g": 85.0
    }
   ],
-  "unit": "cup shredded"
+  "unit": "cup shredded",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "salad",
+   "sandwich",
+   "burger",
+   "tacos"
+  ],
+  "min": 30.0,
+  "max": 150.0
  },
  {
   "id": 170393,
@@ -2248,7 +3697,22 @@
     "g": 4.0
    }
   ],
-  "unit": "medium"
+  "unit": "medium",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "roast",
+   "soup",
+   "salad",
+   "stir-fry",
+   "snack-board"
+  ],
+  "min": 30.0,
+  "max": 180.0
  },
  {
   "id": 168409,
@@ -2269,7 +3733,21 @@
     "g": 301.0
    }
   ],
-  "unit": "cup slices"
+  "unit": "cup slices",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "salad",
+   "sushi",
+   "snack-board",
+   "sandwich"
+  ],
+  "min": 50.0,
+  "max": 200.0
  },
  {
   "id": 170457,
@@ -2334,7 +3812,21 @@
     "g": 148.0
    }
   ],
-  "unit": "medium whole"
+  "unit": "medium whole",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "salad",
+   "sandwich",
+   "burger",
+   "tacos",
+   "pasta"
+  ],
+  "min": 60.0,
+  "max": 250.0
  },
  {
   "id": 170108,
@@ -2375,7 +3867,20 @@
     "g": 10.0
    }
   ],
-  "unit": "medium"
+  "unit": "medium",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "stir-fry",
+   "salad",
+   "tacos",
+   "grill"
+  ],
+  "min": 60.0,
+  "max": 240.0
  },
  {
   "id": 169251,
@@ -2416,7 +3921,21 @@
     "g": 70.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "stir-fry",
+   "pasta",
+   "pizza",
+   "breakfast-plate"
+  ],
+  "min": 35.0,
+  "max": 210.0
  },
  {
   "id": 170000,
@@ -2469,7 +3988,21 @@
     "g": 6.0
    }
   ],
-  "unit": "medium"
+  "unit": "medium",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "tacos",
+   "soup",
+   "curry",
+   "stir-fry",
+   "burger"
+  ],
+  "min": 20.0,
+  "max": 110.0
  },
  {
   "id": 169986,
@@ -2502,7 +4035,21 @@
     "g": 265.0
    }
   ],
-  "unit": "cup chopped"
+  "unit": "cup chopped",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "curry",
+   "roast",
+   "stir-fry",
+   "grain-bowl",
+   "soup"
+  ],
+  "min": 100.0,
+  "max": 300.0
  },
  {
   "id": 169291,
@@ -2539,7 +4086,20 @@
     "g": 118.0
    }
   ],
-  "unit": "medium"
+  "unit": "medium",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "grill",
+   "pasta",
+   "stir-fry",
+   "roast"
+  ],
+  "min": 100.0,
+  "max": 300.0
  },
  {
   "id": 171705,
@@ -2572,7 +4132,22 @@
     "g": 50.0
    }
   ],
-  "unit": "avocado"
+  "unit": "avocado",
+  "meals": [
+   "breakfast",
+   "main"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "tacos",
+   "salad",
+   "sandwich",
+   "grain-bowl",
+   "sushi"
+  ],
+  "min": 50.0,
+  "max": 150.0
  },
  {
   "id": 170567,
@@ -2605,7 +4180,21 @@
     "g": 1.2
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "snack-board",
+   "yogurt-bowl",
+   "salad",
+   "cereal",
+   "baked"
+  ],
+  "min": 14.0,
+  "max": 56.0
  },
  {
   "id": 170187,
@@ -2634,7 +4223,21 @@
     "g": 120.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "yogurt-bowl",
+   "salad",
+   "baked",
+   "cereal"
+  ],
+  "min": 14.0,
+  "max": 56.0
  },
  {
   "id": 170571,
@@ -2655,7 +4258,22 @@
     "g": 8.6
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "snack-board",
+   "stir-fry",
+   "curry",
+   "salad",
+   "yogurt-bowl"
+  ],
+  "min": 14.0,
+  "max": 56.0
  },
  {
   "id": 170185,
@@ -2676,7 +4294,20 @@
     "g": 0.7
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "snack-board",
+   "salad",
+   "yogurt-bowl",
+   "dessert"
+  ],
+  "min": 14.0,
+  "max": 56.0
  },
  {
   "id": 170182,
@@ -2697,7 +4328,21 @@
     "g": 99.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "snack",
+   "dessert"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "baked",
+   "salad",
+   "yogurt-bowl",
+   "cereal"
+  ],
+  "min": 14.0,
+  "max": 56.0
  },
  {
   "id": 170178,
@@ -2714,7 +4359,20 @@
     "g": 134.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "snack-board",
+   "baked",
+   "yogurt-bowl",
+   "dessert"
+  ],
+  "min": 14.0,
+  "max": 56.0
  },
  {
   "id": 173806,
@@ -2735,7 +4393,21 @@
     "g": 1.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "snack-board",
+   "stir-fry",
+   "curry",
+   "salad",
+   "protein-snack"
+  ],
+  "min": 14.0,
+  "max": 56.0
  },
  {
   "id": 172470,
@@ -2756,7 +4428,22 @@
     "g": 258.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "sandwich",
+   "smoothie",
+   "yogurt-bowl",
+   "cereal",
+   "protein-snack"
+  ],
+  "min": 16.0,
+  "max": 48.0
  },
  {
   "id": 170554,
@@ -2768,7 +4455,21 @@
   "f": 30.74,
   "kcal": 486.0,
   "portions": [],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "yogurt-bowl",
+   "smoothie",
+   "cereal",
+   "baked",
+   "dessert"
+  ],
+  "min": 10.0,
+  "max": 30.0
  },
  {
   "id": 169414,
@@ -2801,7 +4502,20 @@
     "g": 2.5
    }
   ],
-  "unit": "tbsp, whole"
+  "unit": "tbsp, whole",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "smoothie",
+   "cereal",
+   "yogurt-bowl",
+   "baked"
+  ],
+  "min": 7.0,
+  "max": 21.0
  },
  {
   "id": 170556,
@@ -2818,7 +4532,22 @@
     "g": 129.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "salad",
+   "snack-board",
+   "yogurt-bowl",
+   "cereal",
+   "soup",
+   "grain-bowl"
+  ],
+  "min": 14.0,
+  "max": 42.0
  },
  {
   "id": 170562,
@@ -2835,7 +4564,21 @@
     "g": 140.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "salad",
+   "snack-board",
+   "cereal",
+   "yogurt-bowl",
+   "grain-bowl"
+  ],
+  "min": 14.0,
+  "max": 42.0
  },
  {
   "id": 171413,
@@ -2860,7 +4603,22 @@
     "g": 4.5
    }
   ],
-  "unit": "tablespoon"
+  "unit": "tablespoon",
+  "meals": [
+   "main"
+  ],
+  "role": "fat",
+  "cuisines": [
+   "mediterranean",
+   "italian"
+  ],
+  "dishes": [
+   "salad",
+   "pasta",
+   "roast"
+  ],
+  "min": 5.0,
+  "max": 30.0
  },
  {
   "id": 171412,
@@ -2885,7 +4643,23 @@
     "g": 4.5
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "breakfast",
+   "main"
+  ],
+  "role": "fat",
+  "cuisines": [
+   "southeast-asian",
+   "indian"
+  ],
+  "dishes": [
+   "curry",
+   "stir-fry",
+   "baked"
+  ],
+  "min": 5.0,
+  "max": 28.0
  },
  {
   "id": 173410,
@@ -2914,7 +4688,21 @@
     "g": 113.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "breakfast",
+   "main"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "baked",
+   "roast",
+   "pasta"
+  ],
+  "min": 5.0,
+  "max": 28.0
  },
  {
   "id": 171009,
@@ -2939,7 +4727,20 @@
     "g": 10.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "main"
+  ],
+  "role": "sauce",
+  "cuisines": [],
+  "dishes": [
+   "sandwich",
+   "burger",
+   "salad",
+   "snack-board"
+  ],
+  "min": 7.0,
+  "max": 42.0
  },
  {
   "id": 169094,
@@ -2964,7 +4765,22 @@
     "g": 3.2
    }
   ],
-  "unit": "large"
+  "unit": "large",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [
+   "mediterranean"
+  ],
+  "dishes": [
+   "salad",
+   "pizza",
+   "snack-board"
+  ],
+  "min": 9.0,
+  "max": 44.0
  },
  {
   "id": 170273,
@@ -2981,7 +4797,21 @@
     "g": 101.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "snack",
+   "dessert"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "dessert",
+   "snack-board",
+   "baked",
+   "yogurt-bowl"
+  ],
+  "min": 14.0,
+  "max": 56.0
  },
  {
   "id": 169640,
@@ -3006,7 +4836,23 @@
     "g": 14.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "breakfast",
+   "dessert"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "yogurt-bowl",
+   "cereal",
+   "smoothie",
+   "baked",
+   "breakfast-plate",
+   "dessert"
+  ],
+  "min": 7.0,
+  "max": 42.0
  },
  {
   "id": 169661,
@@ -3031,7 +4877,21 @@
     "g": 315.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "cereal",
+   "baked",
+   "dessert",
+   "yogurt-bowl"
+  ],
+  "min": 10.0,
+  "max": 60.0
  },
  {
   "id": 169655,
@@ -3060,7 +4920,21 @@
     "g": 2.3
    }
   ],
-  "unit": "tsp"
+  "unit": "tsp",
+  "meals": [
+   "breakfast",
+   "dessert"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "cereal",
+   "baked",
+   "dessert",
+   "smoothie"
+  ],
+  "min": 4.0,
+  "max": 25.0
  },
  {
   "id": 169641,
@@ -3081,7 +4955,21 @@
     "g": 14.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "sandwich",
+   "baked",
+   "yogurt-bowl",
+   "dessert"
+  ],
+  "min": 10.0,
+  "max": 40.0
  },
  {
   "id": 167542,
@@ -3098,7 +4986,18 @@
     "g": 21.0
    }
   ],
-  "unit": "bar"
+  "unit": "bar",
+  "meals": [
+   "snack"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "protein-snack",
+   "snack-board"
+  ],
+  "min": 21.0,
+  "max": 63.0
  },
  {
   "id": 167959,
@@ -3115,7 +5014,18 @@
     "g": 8.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "snack"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "snack-board",
+   "dessert"
+  ],
+  "min": 8.0,
+  "max": 40.0
  },
  {
   "id": 172746,
@@ -3160,7 +5070,19 @@
     "g": 45.0
    }
   ],
-  "unit": "crackers"
+  "unit": "crackers",
+  "meals": [
+   "snack"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "soup",
+   "snack-board",
+   "salad"
+  ],
+  "min": 9.0,
+  "max": 45.0
  },
  {
   "id": 169677,
@@ -3181,7 +5103,21 @@
     "g": 227.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "sandwich",
+   "burger",
+   "snack-board",
+   "grill"
+  ],
+  "min": 14.0,
+  "max": 56.0
  },
  {
   "id": 172716,
@@ -3218,7 +5154,20 @@
     "g": 2.2
    }
   ],
-  "unit": "cookie"
+  "unit": "cookie",
+  "meals": [
+   "snack",
+   "dessert"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "dessert",
+   "baked",
+   "snack-board"
+  ],
+  "min": 13.0,
+  "max": 52.0
  },
  {
   "id": 174990,
@@ -3255,7 +5204,20 @@
     "g": 71.0
    }
   ],
-  "unit": "donut"
+  "unit": "donut",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "baked",
+   "dessert",
+   "breakfast-plate"
+  ],
+  "min": 40.0,
+  "max": 120.0
  },
  {
   "id": 172765,
@@ -3292,7 +5254,20 @@
     "g": 31.0
    }
   ],
-  "unit": "muffin"
+  "unit": "muffin",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "baked",
+   "breakfast-plate",
+   "dessert"
+  ],
+  "min": 31.0,
+  "max": 124.0
  },
  {
   "id": 174987,
@@ -3321,7 +5296,20 @@
     "g": 67.0
    }
   ],
-  "unit": "croissant"
+  "unit": "croissant",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "baked",
+   "breakfast-plate",
+   "sandwich",
+   "dessert"
+  ],
+  "min": 57.0,
+  "max": 114.0
  },
  {
   "id": 170693,
@@ -3338,7 +5326,17 @@
     "g": 78.0
    }
   ],
-  "unit": "sandwich"
+  "unit": "sandwich",
+  "meals": [
+   "main"
+  ],
+  "role": "dish",
+  "cuisines": [],
+  "dishes": [
+   "burger"
+  ],
+  "min": 78.0,
+  "max": 156.0
  },
  {
   "id": 170698,
@@ -3363,7 +5361,19 @@
     "g": 154.0
    }
   ],
-  "unit": "medium serving"
+  "unit": "medium serving",
+  "meals": [
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "burger",
+   "sandwich",
+   "grill"
+  ],
+  "min": 70.0,
+  "max": 230.0
  },
  {
   "id": 172039,
@@ -3380,7 +5390,19 @@
     "g": 185.0
    }
   ],
-  "unit": "each burrito"
+  "unit": "each burrito",
+  "meals": [
+   "main"
+  ],
+  "role": "dish",
+  "cuisines": [
+   "latin"
+  ],
+  "dishes": [
+   "tacos"
+  ],
+  "min": 185.0,
+  "max": 370.0
  },
  {
   "id": 170317,
@@ -3425,7 +5447,19 @@
     "g": 199.0
    }
   ],
-  "unit": "slice"
+  "unit": "slice",
+  "meals": [
+   "main"
+  ],
+  "role": "dish",
+  "cuisines": [
+   "italian"
+  ],
+  "dishes": [
+   "pizza"
+  ],
+  "min": 81.0,
+  "max": 324.0
  },
  {
   "id": 171192,
@@ -3442,7 +5476,21 @@
     "g": 132.0
    }
   ],
-  "unit": "\u00bd cup"
+  "unit": "\u00bd cup",
+  "meals": [
+   "main"
+  ],
+  "role": "sauce",
+  "cuisines": [
+   "italian"
+  ],
+  "dishes": [
+   "pasta",
+   "pizza",
+   "sandwich"
+  ],
+  "min": 60.0,
+  "max": 250.0
  },
  {
   "id": 168556,
@@ -3467,7 +5515,20 @@
     "g": 240.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "main"
+  ],
+  "role": "sauce",
+  "cuisines": [],
+  "dishes": [
+   "burger",
+   "grill",
+   "sandwich",
+   "breakfast-plate"
+  ],
+  "min": 8.0,
+  "max": 51.0
  },
  {
   "id": 174852,
@@ -3504,7 +5565,22 @@
     "g": 1353.0
    }
   ],
-  "unit": "can"
+  "unit": "can",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "drink",
+  "cuisines": [],
+  "dishes": [
+   "burger",
+   "pizza",
+   "grill",
+   "tacos",
+   "sandwich"
+  ],
+  "min": 240.0,
+  "max": 600.0
  },
  {
   "id": 173190,
@@ -3525,7 +5601,21 @@
     "g": 147.0
    }
   ],
-  "unit": "fl oz"
+  "unit": "fl oz",
+  "meals": [
+   "main"
+  ],
+  "role": "drink",
+  "cuisines": [],
+  "dishes": [
+   "pasta",
+   "roast",
+   "grill",
+   "pizza",
+   "snack-board"
+  ],
+  "min": 150.0,
+  "max": 450.0
  },
  {
   "id": 174832,
@@ -3542,7 +5632,20 @@
     "g": 262.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "drink",
+  "cuisines": [],
+  "dishes": [
+   "cereal",
+   "smoothie",
+   "baked",
+   "protein-snack"
+  ],
+  "min": 120.0,
+  "max": 480.0
  },
  {
   "id": 172376,
@@ -3563,7 +5666,21 @@
     "g": 105.0
    }
   ],
-  "unit": "drumstick"
+  "unit": "drumstick",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "grill",
+   "roast",
+   "curry",
+   "stir-fry",
+   "soup"
+  ],
+  "min": 96.0,
+  "max": 288.0
  },
  {
   "id": 168240,
@@ -3575,7 +5692,20 @@
   "f": 7.29,
   "kcal": 180.0,
   "portions": [],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "grill",
+   "roast",
+   "stir-fry",
+   "grain-bowl"
+  ],
+  "min": 85.0,
+  "max": 255.0
  },
  {
   "id": 167844,
@@ -3592,7 +5722,20 @@
     "g": 135.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "tacos",
+   "grill",
+   "sandwich",
+   "roast"
+  ],
+  "min": 85.0,
+  "max": 255.0
  },
  {
   "id": 169557,
@@ -3604,7 +5747,20 @@
   "f": 14.74,
   "kcal": 249.0,
   "portions": [],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "grill",
+   "roast",
+   "salad",
+   "tacos"
+  ],
+  "min": 113.0,
+  "max": 400.0
  },
  {
   "id": 168667,
@@ -3616,7 +5772,20 @@
   "f": 19.22,
   "kcal": 302.0,
   "portions": [],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "roast",
+   "soup",
+   "sandwich",
+   "tacos"
+  ],
+  "min": 85.0,
+  "max": 255.0
  },
  {
   "id": 174586,
@@ -3633,7 +5802,22 @@
     "g": 87.0
    }
   ],
-  "unit": "link"
+  "unit": "link",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [
+   "italian"
+  ],
+  "dishes": [
+   "pasta",
+   "pizza",
+   "sandwich",
+   "grill"
+  ],
+  "min": 75.0,
+  "max": 230.0
  },
  {
   "id": 174575,
@@ -3650,7 +5834,22 @@
     "g": 2.0
    }
   ],
-  "unit": "slice"
+  "unit": "slice",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [
+   "italian"
+  ],
+  "dishes": [
+   "pizza",
+   "snack-board",
+   "sandwich"
+  ],
+  "min": 8.0,
+  "max": 60.0
  },
  {
   "id": 172938,
@@ -3671,7 +5870,22 @@
     "g": 10.0
    }
   ],
-  "unit": "slice"
+  "unit": "slice",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [
+   "italian"
+  ],
+  "dishes": [
+   "snack-board",
+   "sandwich",
+   "pizza"
+  ],
+  "min": 10.0,
+  "max": 60.0
  },
  {
   "id": 173708,
@@ -3696,7 +5910,22 @@
     "g": 321.0
    }
   ],
-  "unit": "can"
+  "unit": "can",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "salad",
+   "sandwich",
+   "pasta",
+   "grain-bowl",
+   "snack-board"
+  ],
+  "min": 70.0,
+  "max": 171.0
  },
  {
   "id": 175175,
@@ -3713,7 +5942,22 @@
     "g": 315.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "salad",
+   "sandwich",
+   "grain-bowl",
+   "pasta",
+   "snack-board"
+  ],
+  "min": 56.0,
+  "max": 170.0
  },
  {
   "id": 171966,
@@ -3734,7 +5978,21 @@
     "g": 125.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "salad",
+   "sushi",
+   "pasta",
+   "sandwich"
+  ],
+  "min": 56.0,
+  "max": 170.0
  },
  {
   "id": 172187,
@@ -3759,7 +6017,20 @@
     "g": 220.0
    }
   ],
-  "unit": "large"
+  "unit": "large",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "tacos",
+   "sandwich",
+   "grain-bowl"
+  ],
+  "min": 61.0,
+  "max": 244.0
  },
  {
   "id": 173423,
@@ -3776,7 +6047,21 @@
     "g": 46.0
    }
   ],
-  "unit": "large"
+  "unit": "large",
+  "meals": [
+   "breakfast",
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "sandwich",
+   "burger",
+   "grain-bowl"
+  ],
+  "min": 46.0,
+  "max": 138.0
  },
  {
   "id": 171251,
@@ -3809,7 +6094,22 @@
     "g": 28.0
    }
   ],
-  "unit": "slice"
+  "unit": "slice",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "sandwich",
+   "snack-board",
+   "burger",
+   "breakfast-plate",
+   "salad"
+  ],
+  "min": 20.0,
+  "max": 56.0
  },
  {
   "id": 171248,
@@ -3826,7 +6126,22 @@
     "g": 248.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main",
+   "dessert"
+  ],
+  "role": "protein",
+  "cuisines": [
+   "italian"
+  ],
+  "dishes": [
+   "pasta",
+   "pizza",
+   "dessert"
+  ],
+  "min": 60.0,
+  "max": 250.0
  },
  {
   "id": 170859,
@@ -3851,7 +6166,24 @@
     "g": 29.8
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "breakfast",
+   "main",
+   "dessert"
+  ],
+  "role": "sauce",
+  "cuisines": [],
+  "dishes": [
+   "pasta",
+   "soup",
+   "dessert",
+   "curry",
+   "baked",
+   "smoothie"
+  ],
+  "min": 15.0,
+  "max": 60.0
  },
  {
   "id": 171255,
@@ -3880,7 +6212,19 @@
     "g": 15.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "sauce",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "cereal",
+   "dessert"
+  ],
+  "min": 15.0,
+  "max": 45.0
  },
  {
   "id": 170880,
@@ -3905,7 +6249,21 @@
     "g": 1000.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "drink",
+  "cuisines": [],
+  "dishes": [
+   "protein-snack",
+   "baked",
+   "breakfast-plate",
+   "dessert"
+  ],
+  "min": 240.0,
+  "max": 480.0
  },
  {
   "id": 168603,
@@ -3926,7 +6284,21 @@
     "g": 250.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "sandwich",
+   "smoothie",
+   "yogurt-bowl",
+   "cereal"
+  ],
+  "min": 16.0,
+  "max": 48.0
  },
  {
   "id": 170189,
@@ -3943,7 +6315,23 @@
     "g": 15.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "main"
+  ],
+  "role": "sauce",
+  "cuisines": [
+   "middle-eastern"
+  ],
+  "dishes": [
+   "salad",
+   "grain-bowl",
+   "sandwich",
+   "snack-board",
+   "smoothie"
+  ],
+  "min": 15.0,
+  "max": 45.0
  },
  {
   "id": 167755,
@@ -3964,7 +6352,22 @@
     "g": 1.9
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack",
+   "dessert"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "yogurt-bowl",
+   "smoothie",
+   "dessert",
+   "cereal"
+  ],
+  "min": 60.0,
+  "max": 250.0
  },
  {
   "id": 173946,
@@ -3981,7 +6384,22 @@
     "g": 144.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack",
+   "dessert"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "yogurt-bowl",
+   "smoothie",
+   "dessert",
+   "cereal"
+  ],
+  "min": 70.0,
+  "max": 290.0
  },
  {
   "id": 169092,
@@ -4038,7 +6456,21 @@
     "g": 134.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "snack-board",
+   "salad",
+   "dessert"
+  ],
+  "min": 80.0,
+  "max": 320.0
  },
  {
   "id": 173033,
@@ -4067,7 +6499,18 @@
     "g": 200.0
    }
   ],
-  "unit": "medium"
+  "unit": "medium",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "salad"
+  ],
+  "min": 128.0,
+  "max": 256.0
  },
  {
   "id": 168165,
@@ -4100,7 +6543,23 @@
     "g": 0.5
    }
   ],
-  "unit": "small box"
+  "unit": "small box",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "cereal",
+   "snack-board",
+   "baked",
+   "salad",
+   "yogurt-bowl",
+   "curry"
+  ],
+  "min": 14.0,
+  "max": 60.0
  },
  {
   "id": 167772,
@@ -4117,7 +6576,19 @@
     "g": 244.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "snack",
+   "dessert"
+  ],
+  "role": "fruit",
+  "cuisines": [],
+  "dishes": [
+   "baked",
+   "breakfast-plate"
+  ],
+  "min": 122.0,
+  "max": 244.0
  },
  {
   "id": 173933,
@@ -4142,7 +6613,19 @@
     "g": 262.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast",
+   "snack"
+  ],
+  "role": "drink",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "smoothie"
+  ],
+  "min": 124.0,
+  "max": 372.0
  },
  {
   "id": 169975,
@@ -4187,7 +6670,20 @@
     "g": 15.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "salad",
+   "stir-fry",
+   "tacos",
+   "soup"
+  ],
+  "min": 45.0,
+  "max": 180.0
  },
  {
   "id": 169988,
@@ -4228,7 +6724,22 @@
     "g": 4.0
    }
   ],
-  "unit": "stalk"
+  "unit": "stalk",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "snack-board",
+   "soup",
+   "salad",
+   "stir-fry",
+   "sandwich"
+  ],
+  "min": 40.0,
+  "max": 160.0
  },
  {
   "id": 170427,
@@ -4273,7 +6784,22 @@
     "g": 2.7
    }
   ],
-  "unit": "medium"
+  "unit": "medium",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "stir-fry",
+   "tacos",
+   "pizza",
+   "salad",
+   "grill",
+   "soup"
+  ],
+  "min": 60.0,
+  "max": 240.0
  },
  {
   "id": 169146,
@@ -4294,7 +6820,20 @@
     "g": 50.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "salad",
+   "roast",
+   "grain-bowl",
+   "soup"
+  ],
+  "min": 85.0,
+  "max": 255.0
  },
  {
   "id": 169229,
@@ -4311,7 +6850,21 @@
     "g": 99.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "curry",
+   "pasta",
+   "grill",
+   "stir-fry",
+   "roast"
+  ],
+  "min": 100.0,
+  "max": 300.0
  },
  {
   "id": 169279,
@@ -4332,7 +6885,20 @@
     "g": 236.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "vegetable",
+  "cuisines": [],
+  "dishes": [
+   "sandwich",
+   "grill",
+   "salad",
+   "burger"
+  ],
+  "min": 30.0,
+  "max": 140.0
  },
  {
   "id": 174915,
@@ -4353,7 +6919,22 @@
     "g": 28.0
    }
   ],
-  "unit": "pita"
+  "unit": "pita",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "starch",
+  "cuisines": [
+   "middle-eastern",
+   "mediterranean"
+  ],
+  "dishes": [
+   "sandwich",
+   "snack-board"
+  ],
+  "min": 30.0,
+  "max": 120.0
  },
  {
   "id": 172684,
@@ -4378,7 +6959,21 @@
     "g": 25.0
    }
   ],
-  "unit": "slice"
+  "unit": "slice",
+  "meals": [
+   "breakfast",
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "sandwich",
+   "breakfast-plate",
+   "soup",
+   "snack-board"
+  ],
+  "min": 32.0,
+  "max": 96.0
  },
  {
   "id": 174911,
@@ -4403,7 +6998,22 @@
     "g": 88.0
    }
   ],
-  "unit": "slice"
+  "unit": "slice",
+  "meals": [
+   "breakfast",
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "sandwich",
+   "breakfast-plate",
+   "soup",
+   "salad",
+   "snack-board"
+  ],
+  "min": 40.0,
+  "max": 118.0
  },
  {
   "id": 168919,
@@ -4420,7 +7030,19 @@
     "g": 160.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "soup",
+   "pasta",
+   "stir-fry"
+  ],
+  "min": 80.0,
+  "max": 320.0
  },
  {
   "id": 175038,
@@ -4437,7 +7059,19 @@
     "g": 35.0
    }
   ],
-  "unit": "waffle"
+  "unit": "waffle",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "baked",
+   "dessert"
+  ],
+  "min": 35.0,
+  "max": 105.0
  },
  {
   "id": 170044,
@@ -4458,7 +7092,18 @@
     "g": 29.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "breakfast-plate",
+   "burger"
+  ],
+  "min": 75.0,
+  "max": 225.0
  },
  {
   "id": 171177,
@@ -4479,7 +7124,20 @@
     "g": 5.8
    }
   ],
-  "unit": "package"
+  "unit": "package",
+  "meals": [
+   "main"
+  ],
+  "role": "starch",
+  "cuisines": [
+   "east-asian"
+  ],
+  "dishes": [
+   "soup",
+   "stir-fry"
+  ],
+  "min": 40.0,
+  "max": 162.0
  },
  {
   "id": 174648,
@@ -4496,7 +7154,18 @@
     "g": 28.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "breakfast"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "cereal",
+   "yogurt-bowl"
+  ],
+  "min": 28.0,
+  "max": 84.0
  },
  {
   "id": 167558,
@@ -4513,7 +7182,22 @@
     "g": 213.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "snack"
+  ],
+  "role": "starch",
+  "cuisines": [
+   "latin"
+  ],
+  "dishes": [
+   "tacos",
+   "snack-board",
+   "soup",
+   "grain-bowl"
+  ],
+  "min": 28.0,
+  "max": 85.0
  },
  {
   "id": 167555,
@@ -4530,7 +7214,18 @@
     "g": 6.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "snack"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "snack-board",
+   "protein-snack"
+  ],
+  "min": 28.0,
+  "max": 85.0
  },
  {
   "id": 167557,
@@ -4551,7 +7246,19 @@
     "g": 9.0
    }
   ],
-  "unit": "rice cake"
+  "unit": "rice cake",
+  "meals": [
+   "snack"
+  ],
+  "role": "starch",
+  "cuisines": [],
+  "dishes": [
+   "protein-snack",
+   "snack-board",
+   "breakfast-plate"
+  ],
+  "min": 9.0,
+  "max": 36.0
  },
  {
   "id": 167561,
@@ -4568,7 +7275,20 @@
     "g": 150.0
    }
   ],
-  "unit": "oz"
+  "unit": "oz",
+  "meals": [
+   "snack"
+  ],
+  "role": "fat",
+  "cuisines": [],
+  "dishes": [
+   "snack-board",
+   "protein-snack",
+   "yogurt-bowl",
+   "cereal"
+  ],
+  "min": 28.0,
+  "max": 85.0
  },
  {
   "id": 172718,
@@ -4585,7 +7305,19 @@
     "g": 12.0
    }
   ],
-  "unit": "cookie"
+  "unit": "cookie",
+  "meals": [
+   "snack",
+   "dessert"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "dessert",
+   "snack-board"
+  ],
+  "min": 12.0,
+  "max": 48.0
  },
  {
   "id": 167587,
@@ -4610,7 +7342,20 @@
     "g": 168.0
    }
   ],
-  "unit": "bar"
+  "unit": "bar",
+  "meals": [
+   "snack",
+   "dessert"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "dessert",
+   "snack-board",
+   "baked"
+  ],
+  "min": 22.0,
+  "max": 88.0
  },
  {
   "id": 167989,
@@ -4671,7 +7416,19 @@
     "g": 10.0
    }
   ],
-  "unit": "gummy bear"
+  "unit": "gummy bear",
+  "meals": [
+   "snack",
+   "dessert"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "dessert",
+   "snack-board"
+  ],
+  "min": 11.0,
+  "max": 66.0
  },
  {
   "id": 172713,
@@ -4692,7 +7449,19 @@
     "g": 61.0
    }
   ],
-  "unit": "brownie"
+  "unit": "brownie",
+  "meals": [
+   "dessert"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "dessert",
+   "baked",
+   "snack-board"
+  ],
+  "min": 30.0,
+  "max": 112.0
  },
  {
   "id": 175011,
@@ -4709,7 +7478,18 @@
     "g": 125.0
    }
   ],
-  "unit": "slice"
+  "unit": "slice",
+  "meals": [
+   "dessert"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "dessert",
+   "baked"
+  ],
+  "min": 80.0,
+  "max": 160.0
  },
  {
   "id": 172711,
@@ -4726,7 +7506,18 @@
     "g": 80.0
    }
   ],
-  "unit": "slice"
+  "unit": "slice",
+  "meals": [
+   "dessert"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "dessert",
+   "baked"
+  ],
+  "min": 60.0,
+  "max": 160.0
  },
  {
   "id": 168105,
@@ -4743,7 +7534,17 @@
     "g": 174.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "dessert"
+  ],
+  "role": "sweet",
+  "cuisines": [],
+  "dishes": [
+   "dessert"
+  ],
+  "min": 87.0,
+  "max": 260.0
  },
  {
   "id": 174277,
@@ -4772,7 +7573,21 @@
     "g": 8.9
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "main"
+  ],
+  "role": "sauce",
+  "cuisines": [
+   "east-asian"
+  ],
+  "dishes": [
+   "stir-fry",
+   "sushi",
+   "grain-bowl"
+  ],
+  "min": 8.0,
+  "max": 48.0
  },
  {
   "id": 174524,
@@ -4793,7 +7608,22 @@
     "g": 260.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "sauce",
+  "cuisines": [
+   "latin"
+  ],
+  "dishes": [
+   "tacos",
+   "snack-board",
+   "grain-bowl"
+  ],
+  "min": 18.0,
+  "max": 120.0
  },
  {
   "id": 173592,
@@ -4814,7 +7644,21 @@
     "g": 30.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "sauce",
+  "cuisines": [],
+  "dishes": [
+   "salad",
+   "snack-board",
+   "burger",
+   "grain-bowl"
+  ],
+  "min": 15.0,
+  "max": 60.0
  },
  {
   "id": 171019,
@@ -4835,7 +7679,21 @@
     "g": 235.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "main"
+  ],
+  "role": "sauce",
+  "cuisines": [
+   "italian"
+  ],
+  "dishes": [
+   "salad",
+   "sandwich",
+   "grain-bowl"
+  ],
+  "min": 15.0,
+  "max": 60.0
  },
  {
   "id": 174523,
@@ -4856,7 +7714,21 @@
     "g": 286.0
    }
   ],
-  "unit": "tbsp"
+  "unit": "tbsp",
+  "meals": [
+   "main"
+  ],
+  "role": "sauce",
+  "cuisines": [],
+  "dishes": [
+   "grill",
+   "burger",
+   "sandwich",
+   "tacos",
+   "pizza"
+  ],
+  "min": 17.0,
+  "max": 68.0
  },
  {
   "id": 172234,
@@ -4877,7 +7749,21 @@
     "g": 249.0
    }
   ],
-  "unit": "tsp"
+  "unit": "tsp",
+  "meals": [
+   "main"
+  ],
+  "role": "sauce",
+  "cuisines": [],
+  "dishes": [
+   "sandwich",
+   "burger",
+   "grill",
+   "salad",
+   "snack-board"
+  ],
+  "min": 5.0,
+  "max": 20.0
  },
  {
   "id": 171579,
@@ -4894,7 +7780,21 @@
     "g": 252.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "sauce",
+  "cuisines": [
+   "italian"
+  ],
+  "dishes": [
+   "pasta",
+   "sandwich",
+   "pizza"
+  ],
+  "min": 16.0,
+  "max": 64.0
  },
  {
   "id": 171186,
@@ -4911,7 +7811,21 @@
     "g": 6.5
    }
   ],
-  "unit": "tsp"
+  "unit": "tsp",
+  "meals": [
+   "main"
+  ],
+  "role": "sauce",
+  "cuisines": [
+   "southeast-asian",
+   "east-asian"
+  ],
+  "dishes": [
+   "stir-fry",
+   "grain-bowl"
+  ],
+  "min": 3.0,
+  "max": 20.0
  },
  {
   "id": 168746,
@@ -4932,7 +7846,21 @@
     "g": 356.0
    }
   ],
-  "unit": "can"
+  "unit": "can",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "drink",
+  "cuisines": [],
+  "dishes": [
+   "burger",
+   "pizza",
+   "grill",
+   "tacos"
+  ],
+  "min": 356.0,
+  "max": 712.0
  },
  {
   "id": 168749,
@@ -4953,7 +7881,21 @@
     "g": 354.0
    }
   ],
-  "unit": "can"
+  "unit": "can",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "drink",
+  "cuisines": [],
+  "dishes": [
+   "burger",
+   "pizza",
+   "grill",
+   "tacos"
+  ],
+  "min": 354.0,
+  "max": 708.0
  },
  {
   "id": 173201,
@@ -4974,7 +7916,21 @@
     "g": 147.0
    }
   ],
-  "unit": "fl oz"
+  "unit": "fl oz",
+  "meals": [
+   "main"
+  ],
+  "role": "drink",
+  "cuisines": [],
+  "dishes": [
+   "pasta",
+   "salad",
+   "sushi",
+   "roast",
+   "snack-board"
+  ],
+  "min": 150.0,
+  "max": 450.0
  },
  {
   "id": 173660,
@@ -4995,7 +7951,17 @@
     "g": 609.0
    }
   ],
-  "unit": "bottle"
+  "unit": "bottle",
+  "meals": [
+   "snack"
+  ],
+  "role": "drink",
+  "cuisines": [],
+  "dishes": [
+   "protein-snack"
+  ],
+  "min": 300.0,
+  "max": 609.0
  },
  {
   "id": 169770,
@@ -5012,7 +7978,19 @@
     "g": 189.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "dish",
+  "cuisines": [],
+  "dishes": [
+   "pasta",
+   "grill",
+   "roast"
+  ],
+  "min": 140.0,
+  "max": 380.0
  },
  {
   "id": 169850,
@@ -5029,7 +8007,19 @@
     "g": 457.0
    }
   ],
-  "unit": "serving"
+  "unit": "serving",
+  "meals": [
+   "main"
+  ],
+  "role": "dish",
+  "cuisines": [
+   "italian"
+  ],
+  "dishes": [
+   "pasta"
+  ],
+  "min": 230.0,
+  "max": 460.0
  },
  {
   "id": 172112,
@@ -5050,7 +8040,19 @@
     "g": 20.0
    }
   ],
-  "unit": "nugget"
+  "unit": "nugget",
+  "meals": [
+   "main",
+   "snack"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "burger",
+   "snack-board"
+  ],
+  "min": 80.0,
+  "max": 200.0
  },
  {
   "id": 170346,
@@ -5075,7 +8077,20 @@
     "g": 60.0
    }
   ],
-  "unit": "thigh"
+  "unit": "thigh",
+  "meals": [
+   "main"
+  ],
+  "role": "protein",
+  "cuisines": [],
+  "dishes": [
+   "roast",
+   "grill",
+   "sandwich",
+   "burger"
+  ],
+  "min": 135.0,
+  "max": 270.0
  },
  {
   "id": 170689,
@@ -5092,7 +8107,19 @@
     "g": 69.0
    }
   ],
-  "unit": "taco"
+  "unit": "taco",
+  "meals": [
+   "main"
+  ],
+  "role": "dish",
+  "cuisines": [
+   "latin"
+  ],
+  "dishes": [
+   "tacos"
+  ],
+  "min": 69.0,
+  "max": 207.0
  },
  {
   "id": 172097,
@@ -5109,7 +8136,19 @@
     "g": 242.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "dish",
+  "cuisines": [],
+  "dishes": [
+   "soup",
+   "tacos",
+   "grain-bowl"
+  ],
+  "min": 240.0,
+  "max": 480.0
  },
  {
   "id": 172909,
@@ -5126,7 +8165,17 @@
     "g": 248.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "dish",
+  "cuisines": [],
+  "dishes": [
+   "soup"
+  ],
+  "min": 240.0,
+  "max": 480.0
  },
  {
   "id": 173330,
@@ -5143,6 +8192,17 @@
     "g": 196.0
    }
   ],
-  "unit": "cup"
+  "unit": "cup",
+  "meals": [
+   "main"
+  ],
+  "role": "dish",
+  "cuisines": [],
+  "dishes": [
+   "soup",
+   "roast"
+  ],
+  "min": 196.0,
+  "max": 490.0
  }
 ]

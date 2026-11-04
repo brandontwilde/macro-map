@@ -2,7 +2,7 @@ const MACROS = ["p", "c", "f"];
 const MACRO_NAMES = { p: "Protein", c: "Carbs", f: "Fat" };
 const TOP_MATCHES = 5;
 const LIST_LENGTH = 30;
-const MAX_COMBO = 3;
+const MAX_COMBO = 5;
 const WEIGHTS = [{ label: "g", g: 1 }, { label: "oz", g: 28.35 }];
 // PR previews share the live site's origin, so each keeps its own saved state.
 const PREVIEW_PATH = location.pathname.match(/\/pr-preview\/pr-\d+\//);
@@ -18,14 +18,41 @@ const MIN_GRID_GAP = 50; // SVG units between neighbouring ruler lines
 const LABEL_ZOOM = 1.8; // names appear beside dots from this zoom on
 const LABEL_FONT = 11; // SVG units; keep in step with .dot-label in style.css
 
+// Fixed tag lists, so foods from the AI prompt or a scan use the same words as the built-in ones.
+const MEALS = ["breakfast", "main", "snack", "dessert"];
+const ROLES = ["protein", "starch", "vegetable", "fruit", "fat", "sauce", "sweet", "drink", "dish"];
+const CUISINES = {
+  latin: "Latin", italian: "Italian", mediterranean: "Mediterranean", "middle-eastern": "Middle Eastern",
+  indian: "Indian", "east-asian": "East Asian", "southeast-asian": "Southeast Asian",
+};
+const DISHES = {
+  "breakfast-plate": "breakfast plate", cereal: "cereal & oats", "yogurt-bowl": "yogurt bowl", smoothie: "smoothie & shake",
+  salad: "salad", sandwich: "sandwich & wrap", burger: "burger", pizza: "pizza", pasta: "pasta & noodles",
+  soup: "soup & stew", curry: "curry", "stir-fry": "stir-fry", "grain-bowl": "rice & grain bowl", tacos: "tacos & burritos",
+  sushi: "sushi", grill: "grill & bbq", roast: "roast dinner", "snack-board": "snack board", baked: "baked goods",
+  dessert: "dessert", "protein-snack": "protein snack",
+};
+// Pairing scores; scripts/pairing_report.py uses the same numbers to check the tags.
+const MEAL_BONUS = 1; // a shared meal, about what one common dish type is worth
+const ROLE_BONUS = 2; // a different role fills a gap in the meal
+const DISH_PENALTY = 2; // a complete dish wants sides, not another main
+const SIDE_ROLES = ["vegetable", "fruit", "sauce", "drink"];
+const SWAP_ROLES = ["starch", "fat", "drink", "dish"]; // two of these in one meal are usually alternatives
+const SWAP_FACTOR = 0.5;
+const NO_CLASH_ROLES = ["drink", "sweet", "fruit"]; // go alongside any cuisine
+const PAIR_WEIGHT = 0.2; // how much the best pairing counts against target error (a share of the target)
+const FIT_PULL = 1; // g² of macro error that a food at the edge of its meal-size range costs; small, so the target comes first
+
 const state = {
   foods: [],
   mine: [], // the person's own foods, as entered: [{ id, name, group, diet, unit, grams, protein, carbs, fat, kcal }]
-  remaining: { p: 150, c: 200, f: 60 },
+  remaining: { p: 40, c: 60, f: 20 }, // about a 580 kcal meal
   combo: [], // [{ id, grams, unit }], unit being a label from units(food)
+  caps: true, // hold combo amounts to at most what a person eats in one meal
+  floors: true, // and to at least a small portion of each, so no food drops out
   query: "",
   focus: null, // { id, nearby: ids of the dots around it }
-  filters: { groups: [], diet: "", mine: false }, // no groups means every group; diet "", "vegetarian" or "vegan"
+  filters: { groups: [], diet: "", mine: false, anyFood: false }, // no groups means every group; diet "", "vegetarian" or "vegan"
   view: { x: 0, y: 0, w: PLOT_W }, // plot point at the view's top-left, and the plot width shown
 };
 // Reach of a pointer, in CSS px: how far from a dot a hover or tap still picks it.
@@ -48,14 +75,16 @@ function load() {
     if (saved.remaining) state.remaining = saved.remaining;
     if (saved.combo) state.combo = saved.combo;
     if (saved.filters) state.filters = { ...state.filters, ...saved.filters };
+    if (saved.caps === false) state.caps = false;
+    if (saved.floors === false) state.floors = false;
   } catch {}
   try {
-    state.mine = JSON.parse(localStorage.getItem(FOODS_KEY) || "[]");
+    state.mine = JSON.parse(localStorage.getItem(FOODS_KEY) || "[]").filter((r) => !checkFoods(r).errors.length);
   } catch {}
 }
 function save() {
   try {
-    localStorage.setItem(STORE_KEY, JSON.stringify({ remaining: state.remaining, combo: state.combo, filters: state.filters }));
+    localStorage.setItem(STORE_KEY, JSON.stringify({ remaining: state.remaining, combo: state.combo, filters: state.filters, caps: state.caps, floors: state.floors }));
   } catch {}
 }
 
@@ -69,10 +98,21 @@ function toFood(r) {
     id: r.id, name: r.name, group: r.group, diet: r.diet, mine: true, weightless: r.grams == null,
     p: per100(r.protein), c: per100(r.carbs), f: per100(r.fat), kcal: r.kcal == null ? null : per100(r.kcal),
     portions: [{ label: r.unit, g }], unit: r.unit,
+    meals: r.meals, role: r.role, cuisines: r.cuisines, dishes: r.dishes, min: r.min * g, max: r.max * g,
   };
 }
+let tagWeight = {};
+let foodsVersion = 0;
 function setFoods() {
   state.foods = [...builtIn, ...state.mine.map(toFood)];
+  // Rarer tags count for more: the log of how many foods there are per food carrying the tag.
+  const counts = {};
+  for (const f of state.foods) {
+    f.tags = new Set([...f.cuisines, ...f.dishes]);
+    for (const t of f.tags) counts[t] = (counts[t] ?? 0) + 1;
+  }
+  tagWeight = Object.fromEntries(Object.entries(counts).map(([t, n]) => [t, Math.log(state.foods.length / n)]));
+  foodsVersion++;
 }
 function saveMine() {
   try {
@@ -89,6 +129,11 @@ const foodPrompt = () => `Give me nutrition data for the foods below as a JSON a
 - "grams" (optional): weight of one unit as eaten (cooked or prepared), in grams
 - "protein", "carbs", "fat": grams in one unit
 - "kcal" (optional): calories in one unit
+- "min", "max": the least and most of the unit one person would eat in one meal, e.g. 5 and 30 for "chip", 1 and 3 for "egg"
+- "meals": when it's eaten, any of ${MEALS.map((m) => `"${m}"`).join(", ")}
+- "role": its part in a meal, one of ${ROLES.map((r) => `"${r}"`).join(", ")}; "dish" means a complete meal on its own
+- "cuisines": any of ${Object.keys(CUISINES).map((c) => `"${c}"`).join(", ")}, only where the food would seem out of place in most other cuisines; generic ingredients get []
+- "dishes": every kind of dish it goes into or alongside, from ${Object.keys(DISHES).map((d) => `"${d}"`).join(", ")}; when unsure, include it
 My foods may come as a list, a recipe, a screenshot or export from another app, or photos of labels or food; work out each food's values from whatever I give.
 If you can search the web, look up branded, packaged and restaurant foods instead of estimating: use the maker's published nutrition facts first, then Open Food Facts. For plain whole foods, use USDA FoodData Central values.
 For a recipe, use one portion if I say how many it makes; otherwise use the whole batch, e.g. "pot". Reply with only the JSON.
@@ -125,10 +170,18 @@ function checkFoods(data) {
     const unit = String(item.unit ?? "").trim();
     if (!unit) return errors.push(`${label}: needs a "unit", e.g. "slice" or "cup".`);
     if (WEIGHTS.some((w) => w.label === unit.toLowerCase())) return errors.push(`${label}: "unit" can't be g or oz, which are always offered; use something like "piece" or "cup".`);
+    const [min, max] = ["min", "max"].map(num);
+    if (!(min > 0 && max > min)) return errors.push(`${label}: "min" and "max" must be amounts of one unit for a meal, with max above min.`);
+    const list = (k) => (Array.isArray(item[k]) ? item[k] : String(item[k] ?? "").split(/[\s,]+/)).map((v) => String(v).trim());
+    const meals = list("meals").filter((m) => MEALS.includes(m));
+    if (!meals.length) return errors.push(`${label}: "meals" needs at least one of ${MEALS.join(", ")}.`);
+    const role = String(item.role ?? "").trim();
+    if (!ROLES.includes(role)) return errors.push(`${label}: "role" must be one of ${ROLES.join(", ")}.`);
     const diet = ["vegan", "vegetarian"].includes(item.diet) ? item.diet : null;
     records.push({
       name, group: String(item.group ?? "").trim() || "Other", diet, unit, grams, protein, carbs, fat,
-      kcal: kcal >= 0 ? kcal : null,
+      kcal: kcal >= 0 ? kcal : null, min, max, meals, role,
+      cuisines: list("cuisines").filter((c) => c in CUISINES), dishes: list("dishes").filter((d) => d in DISHES),
     });
   });
   return { records, errors };
@@ -248,6 +301,61 @@ function offGroup(p) {
   return OFF_FOOD_GROUPS[tags.find((t) => t in OFF_FOOD_GROUPS)] ?? "Prepared foods";
 }
 
+// A first guess at meals, role and dish types from the food group, refined by Open Food Facts categories
+// (the first matching category with a role sets it).
+const GROUP_TAGS = {
+  "Meat & fish": { meals: ["main"], role: "protein", dishes: ["grill", "sandwich", "salad"] },
+  "Eggs & dairy": { meals: ["breakfast", "snack"], role: "protein", dishes: ["breakfast-plate"] },
+  "Plant protein": { meals: ["main"], role: "protein", dishes: ["grain-bowl", "salad"] },
+  "Grains & starches": { meals: ["breakfast", "main"], role: "starch", dishes: [] },
+  Fruit: { meals: ["breakfast", "snack"], role: "fruit", dishes: ["yogurt-bowl", "smoothie", "snack-board"] },
+  Vegetables: { meals: ["main"], role: "vegetable", dishes: ["salad", "roast", "stir-fry"] },
+  "Fats & nuts": { meals: ["snack"], role: "fat", dishes: ["snack-board", "salad"] },
+  "Snacks & sweets": { meals: ["snack"], role: "sweet", dishes: ["snack-board"] },
+  "Prepared foods": { meals: ["main"], role: "dish", dishes: [] },
+  "Sauces & condiments": { meals: ["main"], role: "sauce", dishes: [] },
+  Drinks: { meals: ["main", "snack"], role: "drink", dishes: [] },
+};
+const OFF_CATEGORY_TAGS = [
+  { re: /protein/, meals: ["snack"], role: "protein", dishes: ["protein-snack", "smoothie"] },
+  { re: /breakfast-cereals|mueslis|granolas|porridge|oat-flakes/, meals: ["breakfast"], role: "starch", dishes: ["cereal", "yogurt-bowl"] },
+  { re: /yogurts/, meals: ["breakfast", "snack"], role: "protein", dishes: ["yogurt-bowl", "smoothie", "protein-snack"] },
+  { re: /cereal-bars|snack-bars|energy-bars/, meals: ["snack"], role: "starch", dishes: ["protein-snack", "snack-board"] },
+  { re: /pizzas/, meals: ["main"], role: "dish", dishes: ["pizza"], cuisines: ["italian"] },
+  { re: /pasta-sauces|pestos/, role: "sauce", dishes: ["pasta", "pizza"], cuisines: ["italian"] },
+  { re: /pastas/, role: "starch", dishes: ["pasta"], cuisines: ["italian"] },
+  { re: /soups/, meals: ["main"], dishes: ["soup"] },
+  { re: /burritos|tortillas|salsas|tacos|nachos/, dishes: ["tacos", "grain-bowl"], cuisines: ["latin"] },
+  { re: /hummus/, dishes: ["snack-board", "sandwich", "grain-bowl"], cuisines: ["middle-eastern"] },
+  { re: /curries|curry/, dishes: ["curry"], cuisines: ["indian"] },
+  { re: /noodles|ramen/, dishes: ["soup", "stir-fry"], cuisines: ["east-asian"] },
+  { re: /soy-sauces|sushi/, dishes: ["stir-fry", "sushi", "grain-bowl"], cuisines: ["east-asian"] },
+  { re: /crisps|chips|crackers|popcorn|pretzels/, meals: ["snack"], role: "starch", dishes: ["snack-board", "sandwich"] },
+  { re: /biscuits|cookies|cakes|pastries/, meals: ["snack", "dessert"], role: "sweet", dishes: ["dessert", "baked"] },
+  { re: /ice-creams|frozen-desserts|chocolates|candies|confectioneries/, meals: ["snack", "dessert"], role: "sweet", dishes: ["dessert"] },
+  { re: /breads/, meals: ["breakfast", "main"], role: "starch", dishes: ["sandwich", "breakfast-plate"] },
+  { re: /cheeses/, meals: ["main", "snack"], role: "fat", dishes: ["sandwich", "snack-board", "pizza", "salad"] },
+  { re: /dressings/, role: "sauce", dishes: ["salad"] },
+  { re: /nut-butters|peanut-butters/, meals: ["breakfast", "snack"], role: "fat", dishes: ["sandwich", "smoothie", "yogurt-bowl"] },
+  { re: /juices|smoothies/, meals: ["breakfast"], role: "drink", dishes: ["breakfast-plate", "smoothie"] },
+  { re: /milks/, meals: ["breakfast"], role: "drink", dishes: ["cereal", "smoothie"] },
+  { re: /sodas|soft-drinks|beers|wines/, meals: ["main"], role: "drink", dishes: ["burger", "pizza", "grill"] },
+];
+
+function offTags(p, group) {
+  const categories = (p.categories_tags ?? []).join(" ");
+  const hits = OFF_CATEGORY_TAGS.filter(({ re }) => re.test(categories));
+  const base = GROUP_TAGS[group] ?? GROUP_TAGS["Prepared foods"];
+  const all = (k) => [...new Set(hits.flatMap((h) => h[k] ?? []))];
+  const orBase = (k) => (all(k).length ? all(k) : base[k]);
+  return {
+    meals: orBase("meals"),
+    role: hits.find((h) => h.role)?.role ?? base.role,
+    cuisines: all("cuisines"),
+    dishes: orBase("dishes"),
+  };
+}
+
 // The label's serving size as a count of some unit: "1 bar (68 g)", "2/3 cup (55 g)", "1 1/2 cups".
 // Generic or weight-only servings ("39g") give no unit; "1 portion (1 cup)" falls back to its brackets.
 function servingUnit(text) {
@@ -280,9 +388,11 @@ function fromOpenFoodFacts(p) {
   const brand = String(p.brands ?? "").split(",")[0].trim();
   const product = String(p.product_name ?? "").trim();
   const tags = p.ingredients_analysis_tags ?? [];
+  const group = offGroup(p);
+  const units = (n) => Math.round(n * per * 100) / 100;
   return {
     name: brand && !product.toLowerCase().includes(brand.toLowerCase()) ? `${brand} ${product}`.trim() : product,
-    group: offGroup(p),
+    group, ...offTags(p, group), min: units(0.5), max: units(3), // half to three label servings
     diet: tags.includes("en:vegan") ? "vegan" : tags.includes("en:vegetarian") ? "vegetarian" : "",
     unit: label?.unit ?? (serving ? "serving" : "100 g"), grams: Math.round(((serving ?? 100) / per) * 10) / 10,
     protein, carbs, fat, kcal: amount("energy-kcal"),
@@ -313,11 +423,34 @@ async function lookUpBarcode(code) {
   showScanned(record);
 }
 
+let scanTags = [];
+const tagLabel = (t) => CUISINES[t] ?? DISHES[t];
+
+// The scanned food's cuisines and dish types, as chips that remove themselves, plus a menu to add more.
+function drawScanTags() {
+  const rest = [...Object.keys(CUISINES), ...Object.keys(DISHES)].filter((t) => !scanTags.includes(t));
+  $("#scan-tags").innerHTML = scanTags.map((t) =>
+    `<button type="button" class="chip" aria-pressed="true" data-tag="${t}" aria-label="Remove ${esc(tagLabel(t))}">${esc(tagLabel(t))} ×</button>`).join("") +
+    `<select id="scan-tag-add" class="chip" aria-label="Add a cuisine or dish"><option value="">Add…</option>${
+      rest.map((t) => `<option value="${t}">${esc(tagLabel(t))}</option>`).join("")}</select>`;
+}
+
+function labelScanLimits() {
+  const unit = $("#scan-food").elements.unit.value.trim() || "unit";
+  $("#scan-min-label").textContent = `Least in a meal (${unit})`;
+  $("#scan-max-label").textContent = `Most in a meal (${unit})`;
+}
+
 function showScanned(r) {
   const form = $("#scan-food");
   const groups = [...new Set(state.foods.map((f) => f.group))].sort();
   form.elements.group.innerHTML = groups.map((g) => `<option>${esc(g)}</option>`).join("");
-  for (const k of ["name", "unit", "group", "diet"]) form.elements[k].value = r[k];
+  form.elements.role.innerHTML = ROLES.map((role) => `<option>${role}</option>`).join("");
+  for (const k of ["name", "unit", "group", "diet", "role", "min", "max"]) form.elements[k].value = r[k];
+  for (const box of form.elements.meals) box.checked = r.meals.includes(box.value);
+  scanTags = [...r.cuisines, ...r.dishes];
+  drawScanTags();
+  labelScanLimits();
   $("#scan-macros").textContent = `One unit (${fmt(r.grams)} g): ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")}${
     r.kcal == null ? "" : ` · ${fmt(r.kcal)} kcal`}${r.labelServing ? ` · the label's serving is ${r.labelServing}` : ""}`;
   scanned = r;
@@ -358,7 +491,7 @@ function findUnit(food, label) {
 function newEntry(food) {
   const unit = findUnit(food, food.unit);
   const count = { g: 100, oz: 4 }[unit.label] ?? 1;
-  return { id: food.id, unit: unit.label, grams: count * unit.g };
+  return { id: food.id, unit: unit.label, grams: roundAmount(food, unit, count * unit.g) };
 }
 
 // Entries saved before amounts had units were bare ids or { id, servings }.
@@ -373,7 +506,27 @@ function upgradeCombo() {
   });
 }
 
-const stepOf = (unit) => (unit.label === "g" ? 5 : unit.label === "oz" ? 0.5 : 0.25);
+// Amounts move in steps of about an eighth of the food's meal-size range, at a round number: 0.1 of a
+// chicken breast, 0.02 of a pot. Foods eaten several units at a time keep to half units or more (eggs, slices).
+function stepOf(food, unit) {
+  if (unit.label === "g") return 5;
+  if (unit.label === "oz") return 0.5;
+  const range = (food.max - food.min) / unit.g;
+  const raw = range / 8, k = 10 ** Math.floor(Math.log10(raw));
+  const step = [1, 2, 5, 10].map((m) => m * k).reduce((a, b) => (Math.abs(Math.log(b / raw)) < Math.abs(Math.log(a / raw)) ? b : a));
+  return range >= 2 ? Math.max(0.5, step) : step;
+}
+// Without caps a food can grow as far as needed; without floors it can drop to none.
+const bounds = (food) => [state.floors ? food.min : 0, state.caps ? food.max : Infinity];
+
+// Rounds to the food's step in that unit, kept inside its bounds when a step fits there.
+function roundAmount(food, unit, grams) {
+  const step = stepOf(food, unit) * unit.g;
+  const [min, max] = bounds(food);
+  const lo = Math.ceil(min / step - 1e-9) * step, hi = Math.floor(max / step + 1e-9) * step;
+  const g = Math.round(grams / step) * step;
+  return lo <= hi ? Math.min(hi, Math.max(lo, g)) : g;
+}
 const qtyIn = (unit, grams) => {
   const n = grams / unit.g;
   if (unit.label === "g") return Math.round(n);
@@ -381,12 +534,15 @@ const qtyIn = (unit, grams) => {
 };
 const amountText = (unit, grams) => `${qtyIn(unit, grams)} ${unit.label}`;
 
-// A typical serving and the share of the target's grams (all macros together) it provides.
+// The share of the target's grams (all macros together) that an amount of a food provides.
+function shareOf(food, grams) {
+  const target = MACROS.reduce((s, k) => s + state.remaining[k], 0);
+  return target ? MACROS.reduce((s, k) => s + macrosOf(food, grams)[k], 0) / target : 0;
+}
+
 function serving(food) {
   const { grams, unit } = newEntry(food);
-  const target = MACROS.reduce((s, k) => s + state.remaining[k], 0);
-  const got = MACROS.reduce((s, k) => s + macrosOf(food, grams)[k], 0);
-  return { grams, unit, share: target ? got / target : 0 };
+  return { grams, unit, share: shareOf(food, grams) };
 }
 
 function servingText(food, grams, unit) {
@@ -416,31 +572,65 @@ function comboTotal(items) {
 
 const inCombo = (id) => state.combo.some((c) => c.id === id);
 
-// Least squares in grams-per-food: minimise |A x − r| with x ≥ 0, by trying every
-// subset of foods and keeping the best one whose unconstrained solution is non-negative.
+// Least squares in grams per food, each held inside its bounds: minimise |A x − r|² plus, with either limit
+// on, a small pull toward the middle of each meal-size range, which picks the realistic answer when several hit the
+// target. Every food is tried at its lower bound, at its upper bound and free (3^n cases); the problem is
+// convex, so the best feasible case is the optimum.
 function solveCombo(foods, r) {
+  const n = foods.length;
   const cols = foods.map(perGram);
-  const residual = (x) =>
-    MACROS.reduce((s, k) => {
-      const got = cols.reduce((t, v, i) => t + v[k] * x[i], 0);
-      return s + (got - r[k]) ** 2;
-    }, 0);
-
-  let best = { x: foods.map(() => 0) };
-  best.err = residual(best.x);
-  for (let mask = 1; mask < 1 << foods.length; mask++) {
-    const idx = foods.map((_, i) => i).filter((i) => mask & (1 << i));
-    const A = idx.map((i) => cols[i]);
-    const M = A.map((a) => A.map((b) => MACROS.reduce((s, k) => s + a[k] * b[k], 0)));
-    const rhs = A.map((a) => MACROS.reduce((s, k) => s + a[k] * r[k], 0));
-    const sol = gaussSolve(M, rhs);
-    if (!sol || sol.some((v) => v < 0)) continue;
-    const x = foods.map(() => 0);
-    idx.forEach((i, j) => (x[i] = sol[j]));
-    const err = residual(x);
-    if (err < best.err) best = { x, err };
+  const dot = (a, b) => MACROS.reduce((s, k) => s + a[k] * b[k], 0);
+  const G = cols.map((a) => cols.map((b) => dot(a, b)));
+  const Ar = cols.map((a) => dot(a, r));
+  const [lo, hi] = [0, 1].map((j) => foods.map((f) => bounds(f)[j]));
+  const mid = foods.map((f) => (f.min + f.max) / 2);
+  const pull = foods.map((f) => (state.caps || state.floors ? FIT_PULL / ((f.max - f.min) / 2) ** 2 : 0));
+  const cost = (x) => macroError(cols, x, r) ** 2 + x.reduce((s, v, i) => s + pull[i] * (v - mid[i]) ** 2, 0);
+  let best = null;
+  for (let code = 0; code < 3 ** n; code++) {
+    const x = [], free = [];
+    for (let i = 0, c = code; i < n; i++, c = Math.floor(c / 3)) {
+      if (c % 3 === 0) free.push(i);
+      x[i] = [null, lo[i], hi[i]][c % 3];
+    }
+    if (x.includes(Infinity)) continue;
+    if (free.length) {
+      const M = free.map((i) => free.map((j) => G[i][j] + (i === j ? pull[i] : 0)));
+      const rhs = free.map((i) => Ar[i] + pull[i] * mid[i] - x.reduce((s, v, j) => (v == null ? s : s + G[i][j] * v), 0));
+      const sol = gaussSolve(M, rhs);
+      if (!sol || sol.some((v, j) => v < lo[free[j]] - 1e-6 || v > hi[free[j]] + 1e-6)) continue;
+      free.forEach((i, j) => (x[i] = sol[j]));
+    }
+    if (code === 0) return x; // the unbounded optimum already sits inside every range
+    const c = cost(x);
+    if (!best || c < best.cost) best = { x, cost: c };
   }
   return best.x;
+}
+
+// Rounds each amount to its step, then moves amounts a step at a time, alone or traded between two foods,
+// while that brings the total closer to the target: rounding each food on its own can add up to grams off.
+function roundCombo(foods, units, x, r) {
+  const cols = foods.map(perGram);
+  const g = foods.map((f, i) => roundAmount(f, units[i], x[i]));
+  const steps = foods.map((f, i) => stepOf(f, units[i]) * units[i].g);
+  const fits = (i) => { const [min, max] = bounds(foods[i]); return g[i] >= min - 1e-9 && g[i] <= max + 1e-9; };
+  const moves = foods.flatMap((_, i) => [[[i, 1]], [[i, -1]], ...foods.flatMap((_, j) => (j === i ? [] : [[[i, 1], [j, -1]]]))]);
+  for (let pass = 0, moved = true; moved && pass < 50; pass++) {
+    moved = false;
+    for (const move of moves) {
+      const before = macroError(cols, g, r);
+      for (const [i, d] of move) g[i] += d * steps[i];
+      if (move.every(([i]) => fits(i)) && macroError(cols, g, r) < before - 1e-9) moved = true;
+      else for (const [i, d] of move) g[i] -= d * steps[i];
+    }
+  }
+  return g;
+}
+
+// Distance from the target, in grams of macros.
+function macroError(cols, x, r) {
+  return Math.sqrt(MACROS.reduce((s, k) => s + (cols.reduce((t, v, i) => t + v[k] * x[i], 0) - r[k]) ** 2, 0));
 }
 
 function gaussSolve(M, b) {
@@ -467,17 +657,77 @@ function passesFilters(food) {
   return diet === "vegan" ? food.diet === "vegan" : diet === "vegetarian" ? !!food.diet : true;
 }
 
-// Nearest first, on the triangle, to the target's split.
+const shareMeal = (a, b) => a.meals.some((m) => b.meals.includes(m));
+const sharedTags = (a, b) => [...a.tags].filter((t) => b.tags.has(t));
+// Two distinctive foods from different cuisines, like soy sauce and a tortilla.
+function clash(a, b) {
+  if (NO_CLASH_ROLES.includes(a.role) || NO_CLASH_ROLES.includes(b.role)) return false;
+  return a.cuisines.length > 0 && b.cuisines.length > 0 && !a.cuisines.some((c) => b.cuisines.includes(c));
+}
+// A shared meal is enough for a drink; anything else needs a shared cuisine or dish type.
+function goesWith(a, b) {
+  if (clash(a, b)) return false;
+  if ((a.role === "drink" || b.role === "drink") && shareMeal(a, b)) return true;
+  return sharedTags(a, b).length > 0;
+}
+function pairScore(a, b) {
+  let s = sharedTags(a, b).reduce((sum, t) => sum + tagWeight[t], 0);
+  if (a.role === b.role && SWAP_ROLES.includes(a.role)) s *= SWAP_FACTOR;
+  if (shareMeal(a, b)) s += MEAL_BONUS;
+  if (a.role !== b.role) s += ROLE_BONUS;
+  if ([a.role, b.role].includes("dish") && !SIDE_ROLES.includes(a.role) && !SIDE_ROLES.includes(b.role)) s -= DISH_PENALTY;
+  return s;
+}
+
+const pairing = () => !state.filters.anyFood && state.combo.length > 0;
+// Passes the filters and, once a combo is started, goes with it.
+function shown(food, items = comboItems()) {
+  if (inCombo(food.id)) return true;
+  if (!passesFilters(food)) return false;
+  return !pairing() || (items.every((c) => !clash(c.food, food)) && items.some((c) => goesWith(c.food, food)));
+}
+
+// Suggestions re-fit the whole combo, so they depend on which foods are in it but not on their amounts.
+let rankCache = {};
 function ranked() {
-  const target = toXY(state.remaining);
-  const dist = (food) => {
-    const xy = toXY(food);
-    return target && xy ? Math.hypot(xy[0] - target[0], xy[1] - target[1]) : Infinity;
-  };
-  return state.foods
-    .filter(passesFilters)
-    .map((food) => ({ food, d: dist(food), ...serving(food) }))
-    .sort((a, b) => a.d - b.d);
+  const key = JSON.stringify([state.remaining, state.combo.map((c) => c.id), state.filters, state.caps, state.floors, foodsVersion]);
+  if (rankCache.key !== key) rankCache = { key, value: rank() };
+  return rankCache.value;
+}
+
+// With no combo: nearest first, on the triangle, to the target's split. With one: the foods that would
+// bring it closest to the target, with the amount the fit gives them, helped up by how well they pair.
+function rank() {
+  const items = comboItems();
+  const r = state.remaining;
+  if (!items.length) {
+    const target = toXY(r);
+    const dist = (food) => {
+      const xy = toXY(food);
+      return target && xy ? Math.hypot(xy[0] - target[0], xy[1] - target[1]) : Infinity;
+    };
+    return state.foods
+      .filter(passesFilters)
+      .map((food) => ({ food, d: dist(food), ...serving(food) }))
+      .sort((a, b) => a.d - b.d);
+  }
+  const norm = Math.hypot(...MACROS.map((k) => r[k])) || 1;
+  const base = items.slice(items.length >= MAX_COMBO ? 1 : 0); // adding a food pushes out the oldest
+  const picks = state.foods.filter((f) => !inCombo(f.id) && shown(f, items)).map((food) => {
+    const foods = [...base.map((c) => c.food), food];
+    const x = solveCombo(foods, r);
+    const unit = findUnit(food, food.unit);
+    const grams = roundAmount(food, unit, x.at(-1));
+    return {
+      food, grams, unit: unit.label, share: shareOf(food, grams),
+      err: macroError(foods.map(perGram), x, r) / norm,
+      pair: pairing() ? items.reduce((s, c) => s + pairScore(c.food, food), 0) : 0,
+    };
+  });
+  const useful = picks.filter((p) => p.grams > 0); // without floors, the fit can leave a food out
+  const top = Math.max(1, ...useful.map((p) => p.pair));
+  for (const p of useful) p.d = p.err - (PAIR_WEIGHT * p.pair) / top;
+  return useful.sort((a, b) => a.d - b.d);
 }
 
 function splitBar(m) {
@@ -507,7 +757,8 @@ const viewLow = () => {
 };
 const inFrame = (xy) => Object.values(toShares(xy)).every((v) => v > -1e-9);
 
-function drawPlot(rank) {
+function drawPlot(suggestions) {
+  const rank = [...suggestions, ...comboItems().map(({ food, grams, unit }) => ({ food, grams, unit, share: shareOf(food, grams) }))];
   const svg = $("#tri");
   svg.replaceChildren();
 
@@ -554,14 +805,15 @@ function drawPlot(rank) {
 
   const items = comboItems();
   if (items.length >= 2) {
-    const pts = items.map(({ food }) => plotXY(food).join(",")).join(" ");
+    const pts = hull(items.map(({ food }) => plotXY(food))).map((p) => p.join(",")).join(" ");
     svg.append(svgEl(items.length === 2 ? "polyline" : "polygon", { class: "combo-shape", points: pts, "clip-path": "url(#frame-clip)" }));
   }
 
   const matchRank = new Map(rank.slice(0, TOP_MATCHES).map((r, i) => [r.food.id, i + 1]));
   const faded = svgEl("g", { class: "faded" });
+  const ranks = new Set(rank.map((r) => r.food.id));
   for (const food of state.foods) {
-    const xy = !passesFilters(food) && plotXY(food);
+    const xy = !ranks.has(food.id) && plotXY(food);
     if (xy && inFrame(xy)) faded.append(svgEl("circle", { cx: xy[0], cy: xy[1], r: 3 }));
   }
   svg.append(faded);
@@ -607,6 +859,18 @@ function drawPlot(rank) {
 
   const mix = items.length >= 2 && plotXY(comboTotal(items));
   if (mix && inFrame(mix)) svg.append(svgEl("circle", { class: "combo-point", cx: mix[0], cy: mix[1], r: 6, "pointer-events": "none" }));
+}
+
+// Outline around a set of points (Andrew's monotone chain).
+function hull(points) {
+  const sorted = [...points].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+  const half = (pts) => pts.reduce((h, pt) => {
+    while (h.length >= 2 && cross(h.at(-2), h.at(-1), pt) <= 0) h.pop();
+    h.push(pt);
+    return h;
+  }, []);
+  return [...half(sorted).slice(0, -1), ...half(sorted.reverse()).slice(0, -1)];
 }
 
 const MINIMAP = { x: 8, y: 8, w: 140 }; // SVG units, in the empty top-left of the plot
@@ -723,8 +987,14 @@ function drawList(rank) {
     .filter((r) => !q || r.food.name.toLowerCase().includes(q) || r.food.group.toLowerCase().includes(q))
     .slice(0, LIST_LENGTH);
   const ol = $("#ranked");
+  $("#ranked-title").textContent = state.combo.length ? "Add to your combo" : "Best fits";
+  $("#ranked-info").textContent = state.combo.length
+    ? "Foods that go with your combo and bring it closest to your target, at the amount they'd add."
+    : "Foods whose mix of macros is closest to your target's.";
   if (!rows.length) {
-    ol.innerHTML = `<li class="empty">${q ? `No foods match “${esc(state.query)}”` : "No foods pass the filters"}.</li>`;
+    ol.innerHTML = `<li class="empty">${q ? `No foods match “${esc(state.query)}”`
+      : pairing() ? "No foods that go with your combo would bring it closer to the target. Try Any food"
+      : state.combo.length ? "No foods would bring your combo closer to the target" : "No foods pass the filters"}.</li>`;
     return;
   }
   ol.innerHTML = rows.map(({ food, grams, unit, share, n }) => `
@@ -740,6 +1010,8 @@ function drawCombo() {
   const items = comboItems();
   $("#combo").hidden = !items.length;
   if (!items.length) return;
+  $("#caps-toggle").setAttribute("aria-checked", state.caps);
+  $("#floors-toggle").setAttribute("aria-checked", state.floors);
 
   $("#combo-items").innerHTML = items.map(({ food, grams, unit: label }, i) => {
     const unit = findUnit(food, label);
@@ -751,7 +1023,7 @@ function drawCombo() {
       <span class="name">${esc(food.name)}</span>
       <button type="button" class="remove" data-id="${food.id}" aria-label="Remove ${esc(food.name)}">×</button>
       <span class="serving">
-        <input type="number" class="qty" data-id="${food.id}" min="0" step="${stepOf(unit)}" value="${qtyIn(unit, grams)}"
+        <input type="number" class="qty" data-id="${food.id}" min="0" step="${stepOf(food, unit)}" value="${qtyIn(unit, grams)}"
           aria-label="Amount of ${esc(food.name)}">
         <select class="unit" data-id="${food.id}" aria-label="Unit for ${esc(food.name)}">${options}</select>
         <span class="muted equiv" data-id="${food.id}"></span>
@@ -759,7 +1031,7 @@ function drawCombo() {
       <span class="sub">${splitBar(food)}<span class="item-macros" data-id="${food.id}"></span></span>
     </li>`;
   }).join("") +
-    (items.length < MAX_COMBO ? `<li class="empty">Add ${items.length === 1 ? "one or two foods" : "one more food"} from the list or map.</li>` : "");
+    (items.length < MAX_COMBO ? `<li class="empty">Add ${MAX_COMBO - items.length === 1 ? "one more food" : `up to ${MAX_COMBO - items.length} more foods`} from the list or map.</li>` : "");
   drawComboTotals(items);
 }
 
@@ -784,16 +1056,12 @@ function drawComboTotals(items) {
     ).join("")}</tr>`;
 }
 
-// Amounts that land closest to the target, rounded to each food's step in its chosen unit.
+// Amounts that land closest to the target within each food's bounds, rounded to its step in its chosen unit.
 function fitCombo() {
   const items = comboItems();
-  const grams = solveCombo(items.map((c) => c.food), state.remaining);
-  items.forEach((c, i) => {
-    const entry = state.combo.find((e) => e.id === c.id);
-    const unit = findUnit(c.food, c.unit);
-    const step = stepOf(unit) * unit.g;
-    entry.grams = Math.round(grams[i] / step) * step;
-  });
+  const foods = items.map((c) => c.food);
+  const grams = roundCombo(foods, items.map((c) => findUnit(c.food, c.unit)), solveCombo(foods, state.remaining), state.remaining);
+  items.forEach((c, i) => (state.combo.find((e) => e.id === c.id).grams = grams[i]));
   save();
   render();
 }
@@ -870,7 +1138,8 @@ function toggleCombo(id) {
   const i = state.combo.findIndex((c) => c.id === id);
   if (i >= 0) state.combo.splice(i, 1);
   else {
-    state.combo.push(newEntry(state.foods.find((f) => f.id === id)));
+    const hit = ranked().find((r) => r.food.id === id); // a suggestion comes in at the amount it was shown with
+    state.combo.push(hit ? { id, unit: hit.unit, grams: hit.grams } : newEntry(state.foods.find((f) => f.id === id)));
     if (state.combo.length > MAX_COMBO) state.combo.shift();
   }
   save();
@@ -894,7 +1163,11 @@ function drawFilters() {
       <div class="chips">${chip('data-group=""', "All foods", !groups.length && !mine)}${
         state.mine.length ? chip("data-mine", "My foods", mine) : ""}${
         all.map((g) => chip(`data-group="${esc(g)}"`, g, groups.includes(g))).join("")}</div>
-    </div>`;
+    </div>${state.combo.length ? `
+    <div class="filter-row" role="group" aria-labelledby="pair-label">
+      <span class="filter-label" id="pair-label">Pair</span>
+      <div class="segmented">${chip('data-any=""', "Goes with combo", !state.filters.anyFood)}${chip('data-any="1"', "Any food", state.filters.anyFood)}</div>
+    </div>` : ""}`;
 }
 
 function render() {
@@ -913,7 +1186,8 @@ function drawMine() {
   $("#mine-list").innerHTML = state.mine.map((r) => `
     <li>
       <span class="name">${esc(r.name)}</span>
-      <span class="muted">1 ${esc(r.unit)}${r.grams == null ? "" : ` (${fmt(r.grams)} g)`} · ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")}</span>
+      <span class="muted">1 ${esc(r.unit)}${r.grams == null ? "" : ` (${fmt(r.grams)} g)`} · ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")} · ${fmt(r.min)}–${fmt(r.max)} per meal</span>
+      <span class="muted">${esc([r.meals.join(", "), r.role, ...[...r.cuisines, ...r.dishes].map(tagLabel)].join(" · "))}</span>
       <button type="button" class="remove" data-id="${r.id}" aria-label="Delete ${esc(r.name)}">×</button>
     </li>`).join("");
 }
@@ -1079,7 +1353,8 @@ async function init() {
     const btn = e.target.closest(".chip");
     if (!btn) return;
     const f = state.filters;
-    if ("diet" in btn.dataset) f.diet = btn.dataset.diet;
+    if ("any" in btn.dataset) f.anyFood = !!btn.dataset.any;
+    else if ("diet" in btn.dataset) f.diet = btn.dataset.diet;
     else if ("mine" in btn.dataset) f.mine = !f.mine;
     else if (!btn.dataset.group) [f.groups, f.mine] = [[], false];
     else if (f.groups.includes(btn.dataset.group)) f.groups = f.groups.filter((g) => g !== btn.dataset.group);
@@ -1128,6 +1403,13 @@ async function init() {
     drawCombo();
   });
   $("#fit-combo").addEventListener("click", fitCombo);
+  for (const k of ["caps", "floors"]) {
+    $(`#${k}-toggle`).addEventListener("click", () => {
+      state[k] = !state[k];
+      save();
+      render();
+    });
+  }
   $("#clear-combo").addEventListener("click", () => {
     state.combo = [];
     save();
@@ -1177,9 +1459,25 @@ async function init() {
   $("#scan-food").addEventListener("submit", (e) => {
     e.preventDefault();
     const f = e.target.elements;
-    const record = { ...scanned, name: f.name.value, unit: f.unit.value, group: f.group.value, diet: f.diet.value };
+    const record = {
+      ...scanned, name: f.name.value, unit: f.unit.value, group: f.group.value, diet: f.diet.value, role: f.role.value,
+      min: f.min.value, max: f.max.value, meals: [...f.meals].filter((box) => box.checked).map((box) => box.value),
+      cuisines: scanTags.filter((t) => t in CUISINES), dishes: scanTags.filter((t) => t in DISHES),
+    };
     if (importFoods(checkFoods(record))) showScan(false);
   });
+  $("#scan-tags").addEventListener("click", (e) => {
+    const chip = e.target.closest("[data-tag]");
+    if (!chip) return;
+    scanTags = scanTags.filter((t) => t !== chip.dataset.tag);
+    drawScanTags();
+  });
+  $("#scan-tags").addEventListener("change", (e) => {
+    if (!e.target.value) return;
+    scanTags.push(e.target.value);
+    drawScanTags();
+  });
+  $("#scan-food").elements.unit.addEventListener("input", labelScanLimits);
   $("#mine-toggle").addEventListener("click", () => showMine($("#mine").hidden));
   $("#close-mine").addEventListener("click", () => showMine(false));
   $("#add-mine").addEventListener("click", () => {
@@ -1198,7 +1496,7 @@ async function init() {
     render();
   });
 
-  builtIn = await (await fetch("foods.json?v=05df2318")).json();
+  builtIn = await (await fetch("foods.json?v=35821895")).json();
   setFoods();
   upgradeCombo();
   render();

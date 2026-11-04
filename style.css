@@ -133,7 +133,7 @@ select { width: auto; }
 .dot-label { font-size: 11px; fill: var(--text-secondary); pointer-events: none; dominant-baseline: central; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; }
 /* Mouse and touch work differently on the chart (hover vs. a tap card), so each gets its own help text. */
 .on-touch { display: none; }
-@media (hover: none) { .on-hover { display: none; } .on-touch { display: inline; } }
+@media (hover: none) { .on-hover { display: none; } .on-touch { display: list-item; } }
 .grid line { stroke: var(--grid); stroke-width: 1; }
 .frame { fill: none; stroke: var(--text-muted); stroke-width: 1; }
 .corner { font-size: 15px; font-weight: 600; fill: var(--text-primary); }
@@ -206,6 +206,25 @@ ol { list-style: none; margin: 0; padding: 0; }
 }
 .button:hover { border-color: var(--text-muted); }
 .remove { border: 0; background: none; color: var(--text-muted); font: inherit; cursor: pointer; padding: 0 4px; }
+.button.primary { background: var(--text-primary); color: var(--surface); border-color: var(--text-primary); font-weight: 600; }
+.button.primary:hover { opacity: 0.88; }
+
+.combo-actions { display: flex; align-items: center; gap: 12px; }
+.switches { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 8px 0 4px; }
+.switch {
+  position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 0;
+  border: 0; background: none; font: inherit; font-size: 13px; color: var(--text-secondary); cursor: pointer; white-space: nowrap;
+}
+.switch::before { content: ""; flex: none; width: 28px; height: 16px; border-radius: 999px; background: var(--border); transition: background 0.15s; }
+.switch::after {
+  content: ""; position: absolute; left: 2px; top: 50%; width: 12px; height: 12px; margin-top: -6px;
+  border-radius: 50%; background: var(--text-muted); transition: transform 0.15s, background 0.15s;
+}
+.switch[aria-checked="true"] { color: var(--text-primary); }
+.switch[aria-checked="true"]::before { background: var(--text-primary); }
+.switch[aria-checked="true"]::after { background: var(--surface); transform: translateX(12px); }
+.switch:focus-visible { outline: 2px solid var(--text-muted); outline-offset: 3px; border-radius: 4px; }
+@media (prefers-reduced-motion: reduce) { .switch::before, .switch::after { transition: none; } }
 .link { border: 0; background: none; color: var(--text-secondary); font: inherit; font-size: 13px; cursor: pointer; text-decoration: underline; }
 
 .totals { width: 100%; border-collapse: collapse; margin-top: 10px; font-variant-numeric: tabular-nums; font-size: 13px; }
@@ -245,7 +264,7 @@ ol { list-style: none; margin: 0; padding: 0; }
   padding: 6px 0; border-top: 1px solid var(--border); font-size: 13px;
 }
 #mine-list .muted { grid-column: 1; font-size: 12px; }
-#mine-list .remove { grid-row: 1 / 3; grid-column: 2; }
+#mine-list .remove { grid-row: 1 / 4; grid-column: 2; }
 #mine-json {
   display: block; width: 100%; font: 12px/1.4 ui-monospace, monospace; color: inherit; background: var(--bg);
   border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; resize: vertical;
@@ -265,6 +284,12 @@ ol { list-style: none; margin: 0; padding: 0; }
 #scan-food { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 10px; max-width: 560px; }
 #scan-food label { display: grid; gap: 2px; font-size: 13px; color: var(--text-secondary); }
 #scan-food .wide { grid-column: 1 / -1; margin: 0; font-size: 13px; }
+#scan-food fieldset { display: flex; flex-wrap: wrap; gap: 4px 14px; border: 0; padding: 0; }
+#scan-food legend { float: left; width: 100%; padding: 0; margin-bottom: 2px; font-size: 13px; color: var(--text-secondary); }
+#scan-food fieldset label { display: flex; align-items: center; gap: 4px; color: var(--text-primary); }
+#scan-food fieldset input { width: auto; }
+#scan-tags { margin-top: 4px; }
+#scan-tags select.chip { width: auto; padding: 2px 6px; }
 @media (max-width: 520px) { #scan-food { grid-template-columns: minmax(0, 1fr); } }
 
 .title { position: relative; display: flex; align-items: center; gap: 6px; }
