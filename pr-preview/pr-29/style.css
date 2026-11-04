@@ -134,7 +134,7 @@ select { width: auto; }
 .dot-label { font-size: 11px; fill: var(--text-secondary); pointer-events: none; dominant-baseline: central; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; }
 /* Mouse and touch work differently on the chart (hover vs. a tap card), so each gets its own help text. */
 .on-touch { display: none; }
-@media (hover: none) { .on-hover { display: none; } .on-touch { display: inline; } }
+@media (hover: none) { .on-hover { display: none; } .on-touch { display: list-item; } }
 .grid line { stroke: var(--grid); stroke-width: 1; }
 .frame { fill: none; stroke: var(--text-muted); stroke-width: 1; }
 .corner { font-size: 15px; font-weight: 600; fill: var(--text-primary); }
