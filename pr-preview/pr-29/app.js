@@ -1012,8 +1012,8 @@ function drawCombo() {
   const items = comboItems();
   $("#combo").hidden = !items.length;
   if (!items.length) return;
-  $("#caps-toggle").setAttribute("aria-pressed", state.caps);
-  $("#floors-toggle").setAttribute("aria-pressed", state.floors);
+  $("#caps-toggle").setAttribute("aria-checked", state.caps);
+  $("#floors-toggle").setAttribute("aria-checked", state.floors);
 
   $("#combo-items").innerHTML = items.map(({ food, grams, unit: label }, i) => {
     const unit = findUnit(food, label);
@@ -1498,7 +1498,7 @@ async function init() {
     render();
   });
 
-  builtIn = await (await fetch("foods.json?v=b49cc8a0")).json();
+  builtIn = await (await fetch("foods.json?v=422b2459")).json();
   setFoods();
   upgradeCombo();
   render();

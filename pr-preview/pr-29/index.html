@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Macro Map</title>
-<link rel="stylesheet" href="style.css?v=b49cc8a0">
+<link rel="stylesheet" href="style.css?v=422b2459">
 <script>
   // Applied before first paint so a saved theme doesn't flash the other one.
   try { const t = localStorage.getItem("macro-map-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
@@ -128,19 +128,21 @@
           <div class="info"><button type="button" class="info-btn" aria-label="About Combo" aria-expanded="false">?</button>
             <div class="info-text" role="tooltip">
               <ul>
-                <li><b>Fit to target</b> sets the amounts that come closest to your target.</li>
                 <li><b>Cap portions</b> keeps each food to what one person eats in a meal. Turn it off to see what the target would take.</li>
                 <li><b>Use all foods</b> keeps some of every food. Turn it off to let the fit leave foods out.</li>
+                <li><b>Fit to target</b> sets the amounts that come closest to your target.</li>
               </ul>
             </div>
           </div>
         </div>
-        <div class="controls">
-          <button type="button" id="caps-toggle" class="chip" aria-pressed="true">Cap portions</button>
-          <button type="button" id="floors-toggle" class="chip" aria-pressed="true">Use all foods</button>
-          <button type="button" id="fit-combo" class="button">Fit to target</button>
-          <button type="button" id="clear-combo" class="link">Clear</button>
+        <button type="button" id="clear-combo" class="link">Clear</button>
+      </div>
+      <div class="combo-bar">
+        <div class="switches">
+          <button type="button" role="switch" id="caps-toggle" class="switch" aria-checked="true">Cap portions</button>
+          <button type="button" role="switch" id="floors-toggle" class="switch" aria-checked="true">Use all foods</button>
         </div>
+        <button type="button" id="fit-combo" class="button primary">Fit to target</button>
       </div>
       <ol id="combo-items"></ol>
       <table class="totals" id="combo-totals"></table>
@@ -167,6 +169,6 @@
 check labels for packaged foods. Your own foods use the numbers you give them.</footer>
 
 <div id="tip" role="tooltip" hidden></div>
-<script src="app.js?v=b49cc8a0"></script>
+<script src="app.js?v=422b2459"></script>
 </body>
 </html>
