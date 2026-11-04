@@ -90,9 +90,15 @@
     <form id="remaining" class="card" autocomplete="off">
       <h2>Target macros</h2>
       <div class="inputs">
-        <label class="m-p"><span>Protein</span><input name="p" type="number" min="0" step="1" inputmode="numeric"><em>g</em></label>
-        <label class="m-c"><span>Carbs</span><input name="c" type="number" min="0" step="1" inputmode="numeric"><em>g</em></label>
-        <label class="m-f"><span>Fat</span><input name="f" type="number" min="0" step="1" inputmode="numeric"><em>g</em></label>
+        <div class="m-p"><label for="t-p">Protein</label>
+          <select name="p-mode" aria-label="Protein target type"><option value="eq">=</option><option value="min">≥</option><option value="max">≤</option></select>
+          <input id="t-p" name="p" type="number" min="0" step="1" inputmode="numeric"><em>g</em></div>
+        <div class="m-c"><label for="t-c">Carbs</label>
+          <select name="c-mode" aria-label="Carbs target type"><option value="eq">=</option><option value="min">≥</option><option value="max">≤</option></select>
+          <input id="t-c" name="c" type="number" min="0" step="1" inputmode="numeric"><em>g</em></div>
+        <div class="m-f"><label for="t-f">Fat</label>
+          <select name="f-mode" aria-label="Fat target type"><option value="eq">=</option><option value="min">≥</option><option value="max">≤</option></select>
+          <input id="t-f" name="f" type="number" min="0" step="1" inputmode="numeric"><em>g</em></div>
       </div>
     </form>
 
