@@ -127,22 +127,18 @@
           <h2>Combo</h2>
           <div class="info"><button type="button" class="info-btn" aria-label="About Combo" aria-expanded="false">?</button>
             <div class="info-text" role="tooltip">
-              <ul>
-                <li><b>Cap portions</b> keeps each food to what one person eats in a meal. Turn it off to see what the target would take.</li>
-                <li><b>Use all foods</b> keeps some of every food. Turn it off to let the fit leave foods out.</li>
-                <li><b>Fit to target</b> sets the amounts that come closest to your target.</li>
-              </ul>
+              Pick foods that go together in one meal. Amounts adjust so the totals land near your target.
             </div>
           </div>
         </div>
-        <button type="button" id="clear-combo" class="link">Clear</button>
-      </div>
-      <div class="combo-bar">
-        <div class="switches">
-          <button type="button" role="switch" id="caps-toggle" class="switch" aria-checked="true">Cap portions</button>
-          <button type="button" role="switch" id="floors-toggle" class="switch" aria-checked="true">Use all foods</button>
+        <div class="combo-actions">
+          <button type="button" id="clear-combo" class="link">Clear</button>
+          <button type="button" id="fit-combo" class="button primary">Fit to target</button>
         </div>
-        <button type="button" id="fit-combo" class="button primary">Fit to target</button>
+      </div>
+      <div class="switches">
+        <button type="button" role="switch" id="caps-toggle" class="switch" aria-checked="true">Cap portions</button>
+        <button type="button" role="switch" id="floors-toggle" class="switch" aria-checked="true">Use all foods</button>
       </div>
       <ol id="combo-items"></ol>
       <table class="totals" id="combo-totals"></table>
