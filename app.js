@@ -705,9 +705,10 @@ function rank() {
       pair: pairing() ? items.reduce((s, c) => s + pairScore(c.food, food), 0) : 0,
     };
   });
-  const top = Math.max(1, ...picks.map((p) => p.pair));
-  for (const p of picks) p.d = p.err - (PAIR_WEIGHT * p.pair) / top;
-  return picks.sort((a, b) => a.d - b.d);
+  const useful = picks.filter((p) => p.grams > 0); // with meal limits off, the fit can leave a food out
+  const top = Math.max(1, ...useful.map((p) => p.pair));
+  for (const p of useful) p.d = p.err - (PAIR_WEIGHT * p.pair) / top;
+  return useful.sort((a, b) => a.d - b.d);
 }
 
 function splitBar(m) {
@@ -790,8 +791,9 @@ function drawPlot(rank) {
 
   const matchRank = new Map(rank.slice(0, TOP_MATCHES).map((r, i) => [r.food.id, i + 1]));
   const faded = svgEl("g", { class: "faded" });
+  const ranks = new Set(rank.map((r) => r.food.id));
   for (const food of state.foods) {
-    const xy = !shown(food, items) && plotXY(food);
+    const xy = !ranks.has(food.id) && plotXY(food);
     if (xy && inFrame(xy)) faded.append(svgEl("circle", { cx: xy[0], cy: xy[1], r: 3 }));
   }
   svg.append(faded);
@@ -966,8 +968,13 @@ function drawList(rank) {
     .slice(0, LIST_LENGTH);
   const ol = $("#ranked");
   $("#ranked-title").textContent = state.combo.length ? "Add to your combo" : "Best fits";
+  $("#ranked-info").textContent = state.combo.length
+    ? "Foods that go with your combo and bring it closest to your target, at the amount they'd add."
+    : "Foods whose mix of macros is closest to your target's.";
   if (!rows.length) {
-    ol.innerHTML = `<li class="empty">${q ? `No foods match “${esc(state.query)}”` : pairing() ? "No foods go with your combo. Try Any food" : "No foods pass the filters"}.</li>`;
+    ol.innerHTML = `<li class="empty">${q ? `No foods match “${esc(state.query)}”`
+      : pairing() ? "No foods that go with your combo would bring it closer to the target. Try Any food"
+      : state.combo.length ? "No foods would bring your combo closer to the target" : "No foods pass the filters"}.</li>`;
     return;
   }
   ol.innerHTML = rows.map(({ food, grams, unit, share, n }) => `

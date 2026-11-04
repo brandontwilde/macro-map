@@ -98,7 +98,14 @@
 
     <figure class="card plot">
       <div class="info plot-info"><button type="button" class="info-btn" aria-label="About the map" aria-expanded="false">?</button>
-        <div class="info-text" role="tooltip">Each dot is a food. The closer a dot is to a corner, the more of that macro it has. The crosshair is your target, and the numbered dots are your best fits. <span class="on-hover">Scroll to zoom and drag to move. Hover a dot for details, and click it to add it to a combo.</span><span class="on-touch">Pinch to zoom and drag to move. Tap a dot for details and to add it to a combo.</span></div>
+        <div class="info-text" role="tooltip">
+          <ul>
+            <li>Each dot is a food. The nearer a corner, the more of that macro it has.</li>
+            <li>The crosshair is your target, numbered dots are the top picks, and the small circle is your combo.</li>
+            <li class="on-hover">Scroll to zoom, drag to move. Hover a dot for details; click to add it.</li>
+            <li class="on-touch">Pinch to zoom, drag to move. Tap a dot for details.</li>
+          </ul>
+        </div>
       </div>
       <div id="filters" class="filters"></div>
       <div class="plot-area">
@@ -119,7 +126,12 @@
         <div class="title">
           <h2>Combo</h2>
           <div class="info"><button type="button" class="info-btn" aria-label="About Combo" aria-expanded="false">?</button>
-            <div class="info-text" role="tooltip">Build a meal from up to five foods. Set how much of each you'll have, or use <b>Fit to target</b> to pick amounts for you. With <b>Meal limits</b> on, each food stays within what a person would eat in one meal; turn it off to see the amounts that would reach the target, which can leave some foods out. The small circle on the map shows the meal's mix: the closer it is to the crosshair, the better it matches your target.</div>
+            <div class="info-text" role="tooltip">
+              <ul>
+                <li><b>Fit to target</b> sets the amounts that come closest to your target.</li>
+                <li><b>Meal limits</b> keeps each food to a normal portion. Turn it off to see what the target would take.</li>
+              </ul>
+            </div>
           </div>
         </div>
         <div class="controls">
@@ -137,7 +149,7 @@
         <div class="title">
           <h2 id="ranked-title">Best fits</h2>
           <div class="info"><button type="button" class="info-btn" aria-label="About Best fits" aria-expanded="false">?</button>
-            <div class="info-text" role="tooltip">Before you start a combo: foods whose ratio of macros is closest to your target's. Once you have: foods that go with it and bring it closest to your target, each at the amount <b>Fit to target</b> would give it. Each shows its macros at that amount and the percent of your target they provide.</div>
+            <div class="info-text" role="tooltip" id="ranked-info">Foods whose mix of macros is closest to your target's.</div>
           </div>
         </div>
         <div class="controls">
