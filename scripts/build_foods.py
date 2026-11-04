@@ -7,6 +7,10 @@ and extract it. Which foods to include, their display names, and the preferred
 portion for each are listed in scripts/curated.csv. `diet` is "vegan",
 "vegetarian" or blank. `portion` matches part of a USDA portion name;
 `portion_label` optionally renames it for display.
+
+`meals`, `role`, `cuisines` and `dishes` say which foods go together (space-separated;
+the allowed values are listed in app.js), and `min_g` and `max_g` are the least and
+most a person would eat in one meal.
 """
 
 import csv
@@ -97,6 +101,12 @@ def main(usda_dir):
                 "kcal": n.get("kcal"),
                 "portions": ps,
                 "unit": unit,
+                "meals": c["meals"].split(),
+                "role": c["role"],
+                "cuisines": c["cuisines"].split(),
+                "dishes": c["dishes"].split(),
+                "min": float(c["min_g"]),
+                "max": float(c["max_g"]),
             }
         )
 

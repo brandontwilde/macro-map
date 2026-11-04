@@ -1,104 +1,104 @@
 fdc_id,name,group,diet,portion,portion_label,meals,role,cuisines,dishes,min_g,max_g
 171477,Chicken breast (roasted),Meat & fish,,breast,breast,main,protein,,salad sandwich stir-fry curry grain-bowl tacos,85,250
 172388,Chicken thigh (roasted),Meat & fish,,thigh,thigh,main,protein,,grill curry stir-fry tacos grain-bowl roast,80,250
-173630,Chicken wing with skin (roasted),Meat & fish,,piece,,main snack,protein,,grill snack-board,85,340
-171496,Turkey breast (roasted),Meat & fish,,oz,,main,protein,,sandwich salad roast,56,200
+173630,Chicken wing with skin (roasted),Meat & fish,,piece,,main snack,protein,,grill snack-board burger,85,340
+171496,Turkey breast (roasted),Meat & fish,,oz,,main,protein,,sandwich salad roast breakfast-plate grain-bowl,56,200
 172851,Ground turkey 93% lean (cooked),Meat & fish,,oz,,main,protein,,tacos pasta burger grain-bowl soup,85,225
 171792,Ground beef 95% lean (cooked),Meat & fish,,oz,,main,protein,,tacos pasta burger grain-bowl soup,85,225
 171793,Ground beef 90% lean (cooked),Meat & fish,,oz,,main,protein,,tacos pasta burger grain-bowl soup,85,225
 171798,Ground beef 80% lean (cooked),Meat & fish,,oz,,main,protein,,burger tacos pasta soup,85,225
 173118,Top sirloin steak (broiled),Meat & fish,,oz,,main,protein,,grill roast salad stir-fry,113,340
-168250,Pork tenderloin (roasted),Meat & fish,,oz,,main,protein,,roast grill stir-fry,85,255
+168250,Pork tenderloin (roasted),Meat & fish,,oz,,main,protein,,roast grill stir-fry grain-bowl curry,85,255
 168277,Bacon (raw weight),Meat & fish,,slice,,breakfast main,protein,,breakfast-plate sandwich burger salad,14,84
-173864,Deli ham,Meat & fish,,slice,,breakfast main snack,protein,,sandwich breakfast-plate snack-board,28,112
-173862,Beef hot dog,Meat & fish,,hot dog,,main,protein,,grill,49,147
+173864,Deli ham,Meat & fish,,slice,,breakfast main snack,protein,,sandwich breakfast-plate snack-board salad pizza,28,112
+173862,Beef hot dog,Meat & fish,,hot dog,,main,protein,,grill burger sandwich,49,147
 172544,Ground lamb (cooked),Meat & fish,,oz,,main,protein,middle-eastern mediterranean indian,curry grill,85,225
 167536,Beef jerky,Meat & fish,,piece,,snack,protein,,protein-snack snack-board,20,80
 175168,"Salmon (farmed, cooked)",Meat & fish,,fillet,,main,protein,,grill roast salad sushi grain-bowl,100,250
 173709,Tuna (canned in water),Meat & fish,,can,,main snack,protein,,sandwich salad pasta protein-snack,70,165
-171956,Cod (cooked),Meat & fish,,fillet,,main,protein,,roast tacos soup,100,250
-175177,Tilapia (cooked),Meat & fish,,fillet,,main,protein,,tacos roast grain-bowl,87,260
-174198,Haddock (cooked),Meat & fish,,fillet,,main,protein,,roast soup,100,250
+171956,Cod (cooked),Meat & fish,,fillet,,main,protein,,roast tacos soup curry grain-bowl,100,250
+175177,Tilapia (cooked),Meat & fish,,fillet,,main,protein,,tacos roast grain-bowl curry stir-fry,87,260
+174198,Haddock (cooked),Meat & fish,,fillet,,main,protein,,roast soup curry tacos,100,250
 175180,Shrimp (cooked),Meat & fish,,oz,,main,protein,,stir-fry pasta tacos salad grill curry,85,225
-167742,Scallops (steamed),Meat & fish,,oz,,main,protein,,pasta roast,60,200
-175139,Sardines (canned in oil),Meat & fish,,can,,main snack,protein,mediterranean,salad snack-board,46,184
+167742,Scallops (steamed),Meat & fish,,oz,,main,protein,,pasta roast salad stir-fry grill,60,200
+175139,Sardines (canned in oil),Meat & fish,,can,,main snack,protein,mediterranean,salad snack-board pasta sandwich,46,184
 173424,Egg (hard-boiled),Eggs & dairy,vegetarian,large,,breakfast main snack,protein,,breakfast-plate salad protein-snack sandwich,50,150
-172183,Egg white,Eggs & dairy,vegetarian,large,,breakfast main,protein,,breakfast-plate,33,200
-172184,Egg yolk,Eggs & dairy,vegetarian,large,,breakfast,protein,,breakfast-plate baked,17,51
-170894,Greek yogurt (nonfat),Eggs & dairy,vegetarian,container,,breakfast snack dessert,protein,,yogurt-bowl smoothie protein-snack,100,340
-171304,Greek yogurt (whole milk),Eggs & dairy,vegetarian,oz,,breakfast snack dessert,protein,,yogurt-bowl smoothie protein-snack,100,300
-170886,Plain yogurt (low fat),Eggs & dairy,vegetarian,container,,breakfast snack,protein,,yogurt-bowl smoothie,100,340
-170904,Kefir (low fat),Eggs & dairy,vegetarian,cup,,breakfast snack,drink,,smoothie,120,360
-172182,Cottage cheese 2%,Eggs & dairy,vegetarian,cup,,breakfast snack,protein,,yogurt-bowl protein-snack,113,340
-171269,Skim milk,Eggs & dairy,vegetarian,cup,,breakfast snack,drink,,cereal smoothie baked,120,480
-171267,2% milk,Eggs & dairy,vegetarian,cup,,breakfast snack,drink,,cereal smoothie baked,120,480
-171265,Whole milk,Eggs & dairy,vegetarian,cup,,breakfast snack,drink,,cereal smoothie baked,120,480
+172183,Egg white,Eggs & dairy,vegetarian,large,,breakfast main,protein,,breakfast-plate sandwich salad tacos protein-snack,33,200
+172184,Egg yolk,Eggs & dairy,vegetarian,large,,breakfast,protein,,breakfast-plate baked pasta,17,51
+170894,Greek yogurt (nonfat),Eggs & dairy,vegetarian,container,,breakfast snack dessert,protein,,yogurt-bowl smoothie protein-snack cereal dessert,100,340
+171304,Greek yogurt (whole milk),Eggs & dairy,vegetarian,oz,,breakfast snack dessert,protein,,yogurt-bowl smoothie protein-snack cereal dessert curry,100,300
+170886,Plain yogurt (low fat),Eggs & dairy,vegetarian,container,,breakfast snack,protein,,yogurt-bowl smoothie cereal curry protein-snack,100,340
+170904,Kefir (low fat),Eggs & dairy,vegetarian,cup,,breakfast snack,drink,,smoothie cereal yogurt-bowl protein-snack,120,360
+172182,Cottage cheese 2%,Eggs & dairy,vegetarian,cup,,breakfast snack,protein,,yogurt-bowl protein-snack smoothie breakfast-plate snack-board,113,340
+171269,Skim milk,Eggs & dairy,vegetarian,cup,,breakfast snack,drink,,cereal smoothie baked breakfast-plate protein-snack dessert,120,480
+171267,2% milk,Eggs & dairy,vegetarian,cup,,breakfast snack,drink,,cereal smoothie baked breakfast-plate protein-snack dessert,120,480
+171265,Whole milk,Eggs & dairy,vegetarian,cup,,breakfast snack,drink,,cereal smoothie baked breakfast-plate protein-snack dessert,120,480
 170899,Cheddar cheese,Eggs & dairy,vegetarian,slice,,main snack,fat,,sandwich burger snack-board tacos breakfast-plate,19,76
 170847,Mozzarella (part skim),Eggs & dairy,vegetarian,oz,,main snack,fat,italian,pizza pasta salad sandwich,28,113
 173420,Feta cheese,Eggs & dairy,vegetarian,oz,,main,fat,mediterranean middle-eastern,salad grain-bowl,14,56
 171247,Parmesan (grated),Eggs & dairy,vegetarian,tbsp,,main,fat,italian,pasta salad pizza,5,30
-173418,Cream cheese,Eggs & dairy,vegetarian,tbsp,,breakfast snack,fat,,breakfast-plate baked sushi,15,45
-171257,Sour cream,Eggs & dairy,vegetarian,tbsp,,main,sauce,latin,tacos soup,12,60
-167575,Vanilla ice cream,Eggs & dairy,vegetarian,cup,½ cup,dessert,sweet,,dessert,66,200
+173418,Cream cheese,Eggs & dairy,vegetarian,tbsp,,breakfast snack,fat,,breakfast-plate baked sushi sandwich snack-board dessert,15,45
+171257,Sour cream,Eggs & dairy,vegetarian,tbsp,,main,sauce,latin,tacos soup burger grain-bowl roast,12,60
+167575,Vanilla ice cream,Eggs & dairy,vegetarian,cup,½ cup,dessert,sweet,,dessert baked smoothie,66,200
 173180,Whey protein powder,Eggs & dairy,vegetarian,cup,,breakfast snack,protein,,smoothie protein-snack yogurt-bowl cereal,25,60
 172448,Tofu (firm),Plant protein,vegan,block,,main,protein,east-asian southeast-asian,stir-fry curry grain-bowl soup,85,300
 174272,Tempeh,Plant protein,vegan,cup,,main,protein,southeast-asian,stir-fry grain-bowl sandwich,85,200
-168147,Seitan (vital wheat gluten),Plant protein,vegan,oz,,main,protein,east-asian,stir-fry sandwich,30,100
+168147,Seitan (vital wheat gluten),Plant protein,vegan,oz,,main,protein,east-asian,stir-fry sandwich grain-bowl curry tacos,30,100
 168411,Edamame,Plant protein,vegan,cup,,main snack,protein,east-asian,stir-fry grain-bowl sushi protein-snack,75,230
 173735,Black beans (cooked),Plant protein,vegan,cup,,main,protein,latin,tacos grain-bowl soup salad,86,258
-173740,Kidney beans (cooked),Plant protein,vegan,cup,,main,protein,,soup curry salad,86,258
+173740,Kidney beans (cooked),Plant protein,vegan,cup,,main,protein,,soup curry salad tacos grain-bowl,86,258
 175200,Pinto beans (cooked),Plant protein,vegan,cup,,main,protein,latin,tacos grain-bowl soup,86,258
 172421,Lentils (cooked),Plant protein,vegan,cup,,main,protein,indian middle-eastern,curry soup salad grain-bowl,100,300
 173757,Chickpeas (cooked),Plant protein,vegan,cup,,main snack,protein,indian middle-eastern mediterranean,curry salad grain-bowl,82,246
-172438,Refried beans,Plant protein,,cup,,main,protein,latin,tacos,60,240
+172438,Refried beans,Plant protein,,cup,,main,protein,latin,tacos grain-bowl snack-board,60,240
 174289,Hummus,Plant protein,vegan,tbsp,,main snack,sauce,middle-eastern mediterranean,snack-board sandwich grain-bowl,30,120
-172446,Soy milk,Plant protein,vegan,cup,,breakfast snack,drink,,cereal smoothie,120,480
+172446,Soy milk,Plant protein,vegan,cup,,breakfast snack,drink,,cereal smoothie yogurt-bowl protein-snack baked,120,480
 168878,White rice (cooked),Grains & starches,vegan,cup,,main,starch,,stir-fry curry grain-bowl sushi tacos,100,300
-169704,Brown rice (cooked),Grains & starches,vegan,cup,,main,starch,,stir-fry curry grain-bowl,100,300
-168897,Wild rice (cooked),Grains & starches,vegan,cup,,main,starch,,soup salad roast,80,250
-168917,Quinoa (cooked),Grains & starches,vegan,cup,,main,starch,,grain-bowl salad,90,280
-169737,Pasta (cooked),Grains & starches,vegan,spaghetti not packed,cup,main,starch,italian,pasta salad,100,350
+169704,Brown rice (cooked),Grains & starches,vegan,cup,,main,starch,,stir-fry curry grain-bowl tacos sushi salad soup,100,300
+168897,Wild rice (cooked),Grains & starches,vegan,cup,,main,starch,,soup salad roast grain-bowl stir-fry,80,250
+168917,Quinoa (cooked),Grains & starches,vegan,cup,,main,starch,,grain-bowl salad curry stir-fry tacos soup roast,90,280
+169737,Pasta (cooked),Grains & starches,vegan,spaghetti not packed,cup,main,starch,italian,pasta salad soup,100,350
 169700,Couscous (cooked),Grains & starches,vegan,cup,,main,starch,middle-eastern mediterranean,salad grain-bowl,80,240
-170285,Barley (cooked),Grains & starches,vegan,cup,,main,starch,,soup salad grain-bowl,80,240
+170285,Barley (cooked),Grains & starches,vegan,cup,,main,starch,,soup salad grain-bowl roast stir-fry,80,240
 170287,Bulgur (cooked),Grains & starches,vegan,cup,,main,starch,middle-eastern mediterranean,salad grain-bowl,90,270
-171655,Grits (cooked),Grains & starches,vegan,cup,,breakfast main,starch,,breakfast-plate,128,385
+171655,Grits (cooked),Grains & starches,vegan,cup,,breakfast main,starch,,breakfast-plate grill roast,128,385
 173904,Oats (dry),Grains & starches,vegan,cup,,breakfast,starch,,cereal baked smoothie,30,100
-173884,Cheerios,Grains & starches,vegan,cup,,breakfast snack,starch,,cereal,28,84
-171646,Granola,Grains & starches,vegetarian,cup,,breakfast snack,starch,,cereal yogurt-bowl,30,120
-172688,Whole-wheat bread,Grains & starches,vegan,slice,,breakfast main,starch,,sandwich breakfast-plate,32,96
-174924,White bread,Grains & starches,vegan,slice,,breakfast main,starch,,sandwich breakfast-plate,29,87
-174899,Bagel,Grains & starches,vegan,medium,,breakfast,starch,,breakfast-plate sandwich,52,105
-175063,English muffin,Grains & starches,vegan,muffin,,breakfast,starch,,breakfast-plate sandwich,57,114
-173242,Flour tortilla,Grains & starches,vegan,"tortilla, medium",tortilla,breakfast main,starch,latin,tacos,32,128
-175036,Corn tortilla,Grains & starches,vegan,tortilla,,main,starch,latin,tacos,24,120
-175009,Pancakes,Grains & starches,vegetarian,pancake,,breakfast,starch,,breakfast-plate,76,228
-170093,Baked potato,Grains & starches,vegan,medium,medium potato,main,starch,,roast grill,140,350
-168483,Baked sweet potato,Grains & starches,vegan,medium,,main,starch,,roast grill grain-bowl,114,300
-168555,Mashed potatoes,Grains & starches,vegetarian,cup,,main,starch,,roast,105,315
+173884,Cheerios,Grains & starches,vegan,cup,,breakfast snack,starch,,cereal yogurt-bowl snack-board,28,84
+171646,Granola,Grains & starches,vegetarian,cup,,breakfast snack,starch,,cereal yogurt-bowl smoothie snack-board protein-snack,30,120
+172688,Whole-wheat bread,Grains & starches,vegan,slice,,breakfast main,starch,,sandwich breakfast-plate soup salad burger,32,96
+174924,White bread,Grains & starches,vegan,slice,,breakfast main,starch,,sandwich breakfast-plate soup burger,29,87
+174899,Bagel,Grains & starches,vegan,medium,,breakfast,starch,,breakfast-plate sandwich snack-board,52,105
+175063,English muffin,Grains & starches,vegan,muffin,,breakfast,starch,,breakfast-plate sandwich baked,57,114
+173242,Flour tortilla,Grains & starches,vegan,"tortilla, medium",tortilla,breakfast main,starch,latin,tacos breakfast-plate sandwich grain-bowl,32,128
+175036,Corn tortilla,Grains & starches,vegan,tortilla,,main,starch,latin,tacos soup snack-board,24,120
+175009,Pancakes,Grains & starches,vegetarian,pancake,,breakfast,starch,,breakfast-plate baked dessert,76,228
+170093,Baked potato,Grains & starches,vegan,medium,medium potato,main,starch,,roast grill breakfast-plate soup salad burger,140,350
+168483,Baked sweet potato,Grains & starches,vegan,medium,,main,starch,,roast grill grain-bowl curry tacos salad,114,300
+168555,Mashed potatoes,Grains & starches,vegetarian,cup,,main,starch,,roast grill soup,105,315
 169999,Sweet corn (cooked),Grains & starches,vegan,cup,,main,vegetable,,grill tacos salad soup,75,225
 170017,Green peas (cooked),Grains & starches,vegan,cup,,main,vegetable,,curry soup roast stir-fry pasta,80,240
-169296,Butternut squash (baked),Grains & starches,vegan,cup,,main,vegetable,,roast soup grain-bowl,100,300
+169296,Butternut squash (baked),Grains & starches,vegan,cup,,main,vegetable,,roast soup grain-bowl curry salad pasta,100,300
 173944,Banana,Fruit,vegan,medium,,breakfast snack,fruit,,cereal yogurt-bowl smoothie protein-snack,59,236
 171688,Apple,Fruit,vegan,medium,,snack,fruit,,snack-board salad cereal baked,91,270
-169097,Orange,Fruit,vegan,fruit,,breakfast snack,fruit,,breakfast-plate,65,262
-169118,Pear,Fruit,vegan,medium,,snack,fruit,,snack-board salad,89,267
-169928,Peach,Fruit,vegan,medium,,snack dessert,fruit,,yogurt-bowl dessert smoothie,75,300
+169097,Orange,Fruit,vegan,fruit,,breakfast snack,fruit,,breakfast-plate snack-board salad smoothie,65,262
+169118,Pear,Fruit,vegan,medium,,snack,fruit,,snack-board salad yogurt-bowl baked dessert,89,267
+169928,Peach,Fruit,vegan,medium,,snack dessert,fruit,,yogurt-bowl dessert smoothie baked grill salad,75,300
 171711,Blueberries,Fruit,vegan,cup,,breakfast snack,fruit,,cereal yogurt-bowl smoothie baked,50,220
 167762,Strawberries,Fruit,vegan,"cup, whole",cup,breakfast snack dessert,fruit,,yogurt-bowl smoothie dessert salad,70,290
-174683,Grapes,Fruit,vegan,cup,,snack,fruit,,snack-board,75,230
-171719,Cherries,Fruit,vegan,without pits,cup,snack dessert,fruit,,dessert,75,230
-169124,Pineapple,Fruit,vegan,cup,,breakfast snack,fruit,,smoothie yogurt-bowl grill,80,250
-169910,Mango,Fruit,vegan,cup,,breakfast snack,fruit,,smoothie yogurt-bowl,80,250
-167765,Watermelon,Fruit,vegan,cup,,snack dessert,fruit,,,150,460
-168153,Kiwi,Fruit,vegan,fruit,,breakfast snack,fruit,,yogurt-bowl smoothie,69,207
+174683,Grapes,Fruit,vegan,cup,,snack,fruit,,snack-board salad yogurt-bowl dessert,75,230
+171719,Cherries,Fruit,vegan,without pits,cup,snack dessert,fruit,,dessert yogurt-bowl smoothie snack-board baked,75,230
+169124,Pineapple,Fruit,vegan,cup,,breakfast snack,fruit,,smoothie yogurt-bowl grill stir-fry tacos salad dessert,80,250
+169910,Mango,Fruit,vegan,cup,,breakfast snack,fruit,,smoothie yogurt-bowl salad tacos dessert grain-bowl,80,250
+167765,Watermelon,Fruit,vegan,cup,,snack dessert,fruit,,salad dessert grill,150,460
+168153,Kiwi,Fruit,vegan,fruit,,breakfast snack,fruit,,yogurt-bowl smoothie salad dessert,69,207
 168191,Medjool dates,Fruit,vegan,date,,snack,fruit,middle-eastern,snack-board smoothie protein-snack,24,96
-169098,Orange juice,Fruit,vegan,cup,,breakfast,drink,,breakfast-plate,124,372
+169098,Orange juice,Fruit,vegan,cup,,breakfast,drink,,breakfast-plate smoothie cereal,124,372
 169967,Broccoli (cooked),Vegetables,vegan,cup,,main,vegetable,,stir-fry roast grain-bowl pasta,75,300
-169971,Brussels sprouts (cooked),Vegetables,vegan,cup,,main,vegetable,,roast,78,312
-169141,Green beans (cooked),Vegetables,vegan,cup,,main,vegetable,,roast stir-fry,62,250
-168390,Asparagus (cooked),Vegetables,vegan,cup,,main,vegetable,,roast grill,60,240
+169971,Brussels sprouts (cooked),Vegetables,vegan,cup,,main,vegetable,,roast salad stir-fry grill grain-bowl,78,312
+169141,Green beans (cooked),Vegetables,vegan,cup,,main,vegetable,,roast stir-fry curry grain-bowl salad,62,250
+168390,Asparagus (cooked),Vegetables,vegan,cup,,main,vegetable,,roast grill pasta stir-fry breakfast-plate salad,60,240
 168462,Spinach,Vegetables,vegan,cup,,breakfast main,vegetable,,salad smoothie pasta curry breakfast-plate,30,150
-168421,Kale,Vegetables,vegan,cup,,main,vegetable,,salad smoothie soup,21,120
+168421,Kale,Vegetables,vegan,cup,,main,vegetable,,salad smoothie soup pasta grain-bowl curry,21,120
 169247,Romaine lettuce,Vegetables,vegan,cup,,main,vegetable,,salad sandwich burger tacos,30,150
 170393,Carrots,Vegetables,vegan,medium,,main snack,vegetable,,roast soup salad stir-fry snack-board,30,180
 168409,Cucumber,Vegetables,vegan,cup,,main snack,vegetable,,salad sushi snack-board sandwich,50,200
@@ -106,117 +106,117 @@ fdc_id,name,group,diet,portion,portion_label,meals,role,cuisines,dishes,min_g,ma
 170108,Red bell pepper,Vegetables,vegan,medium,,main,vegetable,,stir-fry salad tacos grill,60,240
 169251,Mushrooms,Vegetables,vegan,cup,cup,breakfast main,vegetable,,stir-fry pasta pizza breakfast-plate,35,210
 170000,Onion,Vegetables,vegan,medium,,main,vegetable,,tacos soup curry stir-fry burger,20,110
-169986,Cauliflower,Vegetables,vegan,cup,,main,vegetable,,curry roast stir-fry,100,300
+169986,Cauliflower,Vegetables,vegan,cup,,main,vegetable,,curry roast stir-fry grain-bowl soup,100,300
 169291,Zucchini,Vegetables,vegan,medium,,main,vegetable,,grill pasta stir-fry roast,100,300
 171705,Avocado,Fats & nuts,vegan,avocado,avocado,breakfast main,fat,,tacos salad sandwich grain-bowl sushi,50,150
 170567,Almonds,Fats & nuts,vegan,oz,,snack,fat,,snack-board yogurt-bowl salad cereal baked,14,56
 170187,Walnuts,Fats & nuts,vegan,oz,,breakfast snack,fat,,yogurt-bowl salad baked cereal,14,56
-170571,Cashews (dry roasted),Fats & nuts,vegan,oz,,main snack,fat,,snack-board stir-fry curry,14,56
-170185,Pistachios (dry roasted),Fats & nuts,vegan,oz,,snack,fat,,snack-board,14,56
+170571,Cashews (dry roasted),Fats & nuts,vegan,oz,,main snack,fat,,snack-board stir-fry curry salad yogurt-bowl,14,56
+170185,Pistachios (dry roasted),Fats & nuts,vegan,oz,,snack,fat,,snack-board salad yogurt-bowl dessert,14,56
 170182,Pecans,Fats & nuts,vegan,oz,,snack dessert,fat,,baked salad yogurt-bowl cereal,14,56
-170178,Macadamia nuts,Fats & nuts,vegan,oz,,snack,fat,,snack-board baked,14,56
-173806,Peanuts (dry roasted),Fats & nuts,vegan,oz,,snack,fat,,snack-board stir-fry,14,56
+170178,Macadamia nuts,Fats & nuts,vegan,oz,,snack,fat,,snack-board baked yogurt-bowl dessert,14,56
+173806,Peanuts (dry roasted),Fats & nuts,vegan,oz,,snack,fat,,snack-board stir-fry curry salad protein-snack,14,56
 172470,Peanut butter,Fats & nuts,vegan,tbsp,,breakfast snack,fat,,sandwich smoothie yogurt-bowl cereal protein-snack,16,48
-170554,Chia seeds,Fats & nuts,vegan,oz,,breakfast,fat,,yogurt-bowl smoothie cereal,10,30
+170554,Chia seeds,Fats & nuts,vegan,oz,,breakfast,fat,,yogurt-bowl smoothie cereal baked dessert,10,30
 169414,Flaxseed,Fats & nuts,vegan,tbsp,,breakfast,fat,,smoothie cereal yogurt-bowl baked,7,21
-170556,Pumpkin seeds,Fats & nuts,vegan,oz,,snack,fat,,salad snack-board yogurt-bowl,14,42
-170562,Sunflower seeds,Fats & nuts,vegan,cup,cup,snack,fat,,salad snack-board,14,42
+170556,Pumpkin seeds,Fats & nuts,vegan,oz,,snack,fat,,salad snack-board yogurt-bowl cereal soup grain-bowl,14,42
+170562,Sunflower seeds,Fats & nuts,vegan,cup,cup,snack,fat,,salad snack-board cereal yogurt-bowl grain-bowl,14,42
 171413,Olive oil,Fats & nuts,vegan,tablespoon,,main,fat,mediterranean italian,salad pasta roast,5,30
 171412,Coconut oil,Fats & nuts,vegan,tbsp,,breakfast main,fat,southeast-asian indian,curry stir-fry baked,5,28
 173410,Butter,Fats & nuts,vegetarian,tbsp,,breakfast main,fat,,breakfast-plate baked roast pasta,5,28
-171009,Mayonnaise,Sauces & condiments,vegetarian,tbsp,,main,sauce,,sandwich burger salad,7,42
+171009,Mayonnaise,Sauces & condiments,vegetarian,tbsp,,main,sauce,,sandwich burger salad snack-board,7,42
 169094,Black olives,Fats & nuts,vegan,large,,main snack,fat,mediterranean,salad pizza snack-board,9,44
-170273,Dark chocolate 70-85%,Snacks & sweets,vegetarian,oz,,snack dessert,sweet,,dessert snack-board,14,56
-169640,Honey,Snacks & sweets,vegetarian,tbsp,,breakfast dessert,sweet,,yogurt-bowl cereal smoothie,7,42
-169661,Maple syrup,Snacks & sweets,vegan,tbsp,,breakfast,sweet,,breakfast-plate cereal,10,60
-169655,Sugar,Snacks & sweets,vegan,tsp,,breakfast dessert,sweet,,cereal baked,4,25
-169641,Jam,Snacks & sweets,vegan,tbsp,,breakfast,sweet,,breakfast-plate sandwich,10,40
-167542,Granola bar,Snacks & sweets,vegetarian,bar,,snack,starch,,protein-snack,21,63
-167959,Popcorn (air-popped),Snacks & sweets,vegan,cup,,snack,starch,,snack-board,8,40
-172746,Saltine crackers,Snacks & sweets,vegan,cracker,,snack,starch,,soup snack-board,9,45
-169677,Potato chips,Snacks & sweets,vegan,oz,,main snack,starch,,sandwich burger snack-board,14,56
-172716,Chocolate chip cookie,Snacks & sweets,vegetarian,cookie,,snack dessert,sweet,,dessert baked,13,52
-174990,Cake donut,Snacks & sweets,vegetarian,medium,donut,breakfast snack,sweet,,baked dessert,40,120
-172765,Blueberry muffin,Snacks & sweets,vegetarian,muffin,,breakfast snack,sweet,,baked,31,124
-174987,Butter croissant,Snacks & sweets,vegetarian,medium,croissant,breakfast,starch,,baked breakfast-plate sandwich,57,114
+170273,Dark chocolate 70-85%,Snacks & sweets,vegetarian,oz,,snack dessert,sweet,,dessert snack-board baked yogurt-bowl,14,56
+169640,Honey,Snacks & sweets,vegetarian,tbsp,,breakfast dessert,sweet,,yogurt-bowl cereal smoothie baked breakfast-plate dessert,7,42
+169661,Maple syrup,Snacks & sweets,vegan,tbsp,,breakfast,sweet,,breakfast-plate cereal baked dessert yogurt-bowl,10,60
+169655,Sugar,Snacks & sweets,vegan,tsp,,breakfast dessert,sweet,,cereal baked dessert smoothie,4,25
+169641,Jam,Snacks & sweets,vegan,tbsp,,breakfast,sweet,,breakfast-plate sandwich baked yogurt-bowl dessert,10,40
+167542,Granola bar,Snacks & sweets,vegetarian,bar,,snack,starch,,protein-snack snack-board,21,63
+167959,Popcorn (air-popped),Snacks & sweets,vegan,cup,,snack,starch,,snack-board dessert,8,40
+172746,Saltine crackers,Snacks & sweets,vegan,cracker,,snack,starch,,soup snack-board salad,9,45
+169677,Potato chips,Snacks & sweets,vegan,oz,,main snack,starch,,sandwich burger snack-board grill,14,56
+172716,Chocolate chip cookie,Snacks & sweets,vegetarian,cookie,,snack dessert,sweet,,dessert baked snack-board,13,52
+174990,Cake donut,Snacks & sweets,vegetarian,medium,donut,breakfast snack,sweet,,baked dessert breakfast-plate,40,120
+172765,Blueberry muffin,Snacks & sweets,vegetarian,muffin,,breakfast snack,sweet,,baked breakfast-plate dessert,31,124
+174987,Butter croissant,Snacks & sweets,vegetarian,medium,croissant,breakfast,starch,,baked breakfast-plate sandwich dessert,57,114
 170693,Hamburger (fast food),Prepared foods,,sandwich,,main,dish,,burger,78,156
-170698,French fries (fast food),Prepared foods,vegan,serving medium,medium serving,main,starch,,burger,70,230
+170698,French fries (fast food),Prepared foods,vegan,serving medium,medium serving,main,starch,,burger sandwich grill,70,230
 172039,Bean & cheese burrito,Prepared foods,vegetarian,burrito,,main,dish,latin,tacos,185,370
 170317,Cheese pizza (frozen),Prepared foods,vegetarian,9 servings,slice,main,dish,italian,pizza,81,324
-171192,Marinara sauce,Sauces & condiments,vegan,serving 1/2 cup,½ cup,main,sauce,italian,pasta pizza,60,250
-168556,Ketchup,Sauces & condiments,vegan,tbsp,,main,sauce,,burger grill,8,51
-174852,Cola,Drinks,vegan,can,can,main snack,drink,,burger pizza grill,240,600
-173190,Red wine,Drinks,vegan,fl oz,,main,drink,,pasta roast grill,150,450
-174832,Almond milk (unsweetened),Drinks,vegan,cup,,breakfast,drink,,cereal smoothie,120,480
-172376,Chicken drumstick (roasted),Meat & fish,,drumstick,drumstick,main,protein,,grill roast curry,96,288
-168240,Pork chop (broiled),Meat & fish,,oz,,main,protein,,grill roast,85,255
+171192,Marinara sauce,Sauces & condiments,vegan,serving 1/2 cup,½ cup,main,sauce,italian,pasta pizza sandwich,60,250
+168556,Ketchup,Sauces & condiments,vegan,tbsp,,main,sauce,,burger grill sandwich breakfast-plate,8,51
+174852,Cola,Drinks,vegan,can,can,main snack,drink,,burger pizza grill tacos sandwich,240,600
+173190,Red wine,Drinks,vegan,fl oz,,main,drink,,pasta roast grill pizza snack-board,150,450
+174832,Almond milk (unsweetened),Drinks,vegan,cup,,breakfast,drink,,cereal smoothie baked protein-snack,120,480
+172376,Chicken drumstick (roasted),Meat & fish,,drumstick,drumstick,main,protein,,grill roast curry stir-fry soup,96,288
+168240,Pork chop (broiled),Meat & fish,,oz,,main,protein,,grill roast stir-fry grain-bowl,85,255
 167844,Pork shoulder (roasted),Meat & fish,,oz,,main,protein,,tacos grill sandwich roast,85,255
-169557,Ribeye steak (broiled),Meat & fish,,oz,,main,protein,,grill roast,113,400
-168667,Pot roast (braised chuck),Meat & fish,,oz,,main,protein,,roast soup,85,255
+169557,Ribeye steak (broiled),Meat & fish,,oz,,main,protein,,grill roast salad tacos,113,400
+168667,Pot roast (braised chuck),Meat & fish,,oz,,main,protein,,roast soup sandwich tacos,85,255
 174586,Italian sausage (pan-fried),Meat & fish,,link,,main,protein,italian,pasta pizza sandwich grill,75,230
 174575,Pepperoni,Meat & fish,,piece,slice,main snack,protein,italian,pizza snack-board sandwich,8,60
 172938,Salami (hard),Meat & fish,,slice,,main snack,protein,italian,snack-board sandwich pizza,10,60
-173708,Tuna (canned in oil),Meat & fish,,can,,main snack,protein,,salad sandwich pasta,70,171
-175175,Pink salmon (canned),Meat & fish,,oz,,main snack,protein,,salad sandwich grain-bowl,56,170
+173708,Tuna (canned in oil),Meat & fish,,can,,main snack,protein,,salad sandwich pasta grain-bowl snack-board,70,171
+175175,Pink salmon (canned),Meat & fish,,oz,,main snack,protein,,salad sandwich grain-bowl pasta snack-board,56,170
 171966,Crab (canned),Meat & fish,,oz,,main snack,protein,,salad sushi pasta sandwich,56,170
-172187,Scrambled eggs,Eggs & dairy,vegetarian,large,,breakfast,protein,,breakfast-plate tacos sandwich,61,244
+172187,Scrambled eggs,Eggs & dairy,vegetarian,large,,breakfast,protein,,breakfast-plate tacos sandwich grain-bowl,61,244
 173423,Fried egg,Eggs & dairy,vegetarian,large,,breakfast main,protein,,breakfast-plate sandwich burger grain-bowl,46,138
-171251,Swiss cheese,Eggs & dairy,vegetarian,slice,,main snack,fat,,sandwich snack-board burger,20,56
+171251,Swiss cheese,Eggs & dairy,vegetarian,slice,,main snack,fat,,sandwich snack-board burger breakfast-plate salad,20,56
 171248,Ricotta (part skim),Eggs & dairy,vegetarian,cup,,main dessert,protein,italian,pasta pizza dessert,60,250
-170859,Heavy cream,Eggs & dairy,vegetarian,tbsp,,breakfast main dessert,sauce,,pasta soup dessert,15,60
-171255,Half and half,Eggs & dairy,vegetarian,tbsp,,breakfast,sauce,,breakfast-plate,15,45
-170880,Chocolate milk (2%),Eggs & dairy,vegetarian,cup,,breakfast snack,drink,,protein-snack baked,240,480
+170859,Heavy cream,Eggs & dairy,vegetarian,tbsp,,breakfast main dessert,sauce,,pasta soup dessert curry baked smoothie,15,60
+171255,Half and half,Eggs & dairy,vegetarian,tbsp,,breakfast,sauce,,breakfast-plate cereal dessert,15,45
+170880,Chocolate milk (2%),Eggs & dairy,vegetarian,cup,,breakfast snack,drink,,protein-snack baked breakfast-plate dessert,240,480
 168603,Almond butter,Fats & nuts,vegan,tbsp,,breakfast snack,fat,,sandwich smoothie yogurt-bowl cereal,16,48
-170189,Tahini,Fats & nuts,vegan,tbsp,,main,sauce,middle-eastern,salad grain-bowl,15,45
+170189,Tahini,Fats & nuts,vegan,tbsp,,main,sauce,middle-eastern,salad grain-bowl sandwich snack-board smoothie,15,45
 167755,Raspberries,Fruit,vegan,cup,,breakfast snack dessert,fruit,,yogurt-bowl smoothie dessert cereal,60,250
 173946,Blackberries,Fruit,vegan,cup,,breakfast snack dessert,fruit,,yogurt-bowl smoothie dessert cereal,70,290
-169092,Cantaloupe,Fruit,vegan,"cup, cubes",cup,breakfast snack,fruit,,breakfast-plate,80,320
-173033,Grapefruit,Fruit,vegan,medium,,breakfast,fruit,,breakfast-plate,128,256
-168165,Raisins,Fruit,vegan,small box,,breakfast snack,fruit,,cereal snack-board baked,14,60
-167772,Applesauce (unsweetened),Fruit,vegan,cup,,snack dessert,fruit,,,122,244
-173933,Apple juice,Fruit,vegan,cup,,breakfast snack,drink,,breakfast-plate,124,372
+169092,Cantaloupe,Fruit,vegan,"cup, cubes",cup,breakfast snack,fruit,,breakfast-plate snack-board salad dessert,80,320
+173033,Grapefruit,Fruit,vegan,medium,,breakfast,fruit,,breakfast-plate salad,128,256
+168165,Raisins,Fruit,vegan,small box,,breakfast snack,fruit,,cereal snack-board baked salad yogurt-bowl curry,14,60
+167772,Applesauce (unsweetened),Fruit,vegan,cup,,snack dessert,fruit,,baked breakfast-plate,122,244
+173933,Apple juice,Fruit,vegan,cup,,breakfast snack,drink,,breakfast-plate smoothie,124,372
 169975,Cabbage,Vegetables,vegan,"cup, chopped",cup,main,vegetable,,salad stir-fry tacos soup,45,180
-169988,Celery,Vegetables,vegan,"stalk, medium",stalk,main snack,vegetable,,snack-board soup salad,40,160
-170427,Green bell pepper,Vegetables,vegan,medium,,main,vegetable,,stir-fry tacos pizza,60,240
-169146,Beets (cooked),Vegetables,vegan,cup slices,cup,main,vegetable,,salad roast,85,255
-169229,Eggplant (cooked),Vegetables,vegan,cup,,main,vegetable,,curry pasta grill,100,300
-169279,Sauerkraut,Vegetables,vegan,cup,,main,vegetable,,sandwich grill,30,140
+169988,Celery,Vegetables,vegan,"stalk, medium",stalk,main snack,vegetable,,snack-board soup salad stir-fry sandwich,40,160
+170427,Green bell pepper,Vegetables,vegan,medium,,main,vegetable,,stir-fry tacos pizza salad grill soup,60,240
+169146,Beets (cooked),Vegetables,vegan,cup slices,cup,main,vegetable,,salad roast grain-bowl soup,85,255
+169229,Eggplant (cooked),Vegetables,vegan,cup,,main,vegetable,,curry pasta grill stir-fry roast,100,300
+169279,Sauerkraut,Vegetables,vegan,cup,,main,vegetable,,sandwich grill salad burger,30,140
 174915,Pita bread,Grains & starches,vegan,"pita, large",pita,main snack,starch,middle-eastern mediterranean,sandwich snack-board,30,120
-172684,Rye bread,Grains & starches,vegan,"slice, regular",slice,breakfast main,starch,,sandwich breakfast-plate,32,96
-174911,Sourdough bread (toasted),Grains & starches,vegan,"slice, medium",slice,breakfast main,starch,,sandwich breakfast-plate soup,40,118
+172684,Rye bread,Grains & starches,vegan,"slice, regular",slice,breakfast main,starch,,sandwich breakfast-plate soup snack-board,32,96
+174911,Sourdough bread (toasted),Grains & starches,vegan,"slice, medium",slice,breakfast main,starch,,sandwich breakfast-plate soup salad snack-board,40,118
 168919,Egg noodles (cooked),Grains & starches,vegetarian,cup,,main,starch,,soup pasta stir-fry,80,320
-175038,Waffles (frozen),Grains & starches,vegetarian,"waffle, square",waffle,breakfast,starch,,breakfast-plate,35,105
-170044,Hash browns,Grains & starches,vegan,cup prepared,cup,breakfast,starch,,breakfast-plate,75,225
-171177,Instant ramen (dry block),Grains & starches,vegan,package,package,main,starch,east-asian,soup,40,162
-174648,Corn flakes,Grains & starches,vegan,cup,,breakfast,starch,,cereal,28,84
-167558,Tortilla chips,Snacks & sweets,vegan,oz,,snack,starch,latin,tacos snack-board,28,85
-167555,Pretzels,Snacks & sweets,vegan,oz,,snack,starch,,snack-board,28,85
-167557,Rice cakes,Snacks & sweets,vegan,cake,rice cake,snack,starch,,protein-snack snack-board,9,36
-167561,Trail mix,Snacks & sweets,vegan,oz,,snack,fat,,snack-board protein-snack,28,85
-172718,Chocolate sandwich cookie,Snacks & sweets,vegetarian,cookie,,snack dessert,sweet,,dessert,12,48
-167587,Milk chocolate,Snacks & sweets,vegetarian,bar,,snack dessert,sweet,,dessert,22,88
-167989,Gummy bears,Snacks & sweets,,gummy bears,gummy bear,snack dessert,sweet,,dessert,11,66
-172713,Brownie,Snacks & sweets,vegetarian,"square, large",brownie,dessert,sweet,,dessert baked,30,112
+175038,Waffles (frozen),Grains & starches,vegetarian,"waffle, square",waffle,breakfast,starch,,breakfast-plate baked dessert,35,105
+170044,Hash browns,Grains & starches,vegan,cup prepared,cup,breakfast,starch,,breakfast-plate burger,75,225
+171177,Instant ramen (dry block),Grains & starches,vegan,package,package,main,starch,east-asian,soup stir-fry,40,162
+174648,Corn flakes,Grains & starches,vegan,cup,,breakfast,starch,,cereal yogurt-bowl,28,84
+167558,Tortilla chips,Snacks & sweets,vegan,oz,,snack,starch,latin,tacos snack-board soup grain-bowl,28,85
+167555,Pretzels,Snacks & sweets,vegan,oz,,snack,starch,,snack-board protein-snack,28,85
+167557,Rice cakes,Snacks & sweets,vegan,cake,rice cake,snack,starch,,protein-snack snack-board breakfast-plate,9,36
+167561,Trail mix,Snacks & sweets,vegan,oz,,snack,fat,,snack-board protein-snack yogurt-bowl cereal,28,85
+172718,Chocolate sandwich cookie,Snacks & sweets,vegetarian,cookie,,snack dessert,sweet,,dessert snack-board,12,48
+167587,Milk chocolate,Snacks & sweets,vegetarian,bar,,snack dessert,sweet,,dessert snack-board baked,22,88
+167989,Gummy bears,Snacks & sweets,,gummy bears,gummy bear,snack dessert,sweet,,dessert snack-board,11,66
+172713,Brownie,Snacks & sweets,vegetarian,"square, large",brownie,dessert,sweet,,dessert baked snack-board,30,112
 175011,Apple pie,Snacks & sweets,vegetarian,piece,slice,dessert,sweet,,dessert baked,80,160
-172711,Cheesecake,Snacks & sweets,vegetarian,piece,slice,dessert,sweet,,dessert,60,160
+172711,Cheesecake,Snacks & sweets,vegetarian,piece,slice,dessert,sweet,,dessert baked,60,160
 168105,Frozen yogurt,Snacks & sweets,vegetarian,cup,,dessert,sweet,,dessert,87,260
 174277,Soy sauce,Sauces & condiments,vegan,tbsp,,main,sauce,east-asian,stir-fry sushi grain-bowl,8,48
 174524,Salsa,Sauces & condiments,vegan,tbsp,,main snack,sauce,latin,tacos snack-board grain-bowl,18,120
-173592,Ranch dressing,Sauces & condiments,vegetarian,tablespoon,tbsp,main snack,sauce,,salad snack-board,15,60
-171019,Italian dressing,Sauces & condiments,vegan,tbsp,,main,sauce,italian,salad,15,60
-174523,BBQ sauce,Sauces & condiments,vegan,tbsp,,main,sauce,,grill burger,17,68
-172234,Yellow mustard,Sauces & condiments,vegan,tsp,tsp,main,sauce,,sandwich burger grill,5,20
+173592,Ranch dressing,Sauces & condiments,vegetarian,tablespoon,tbsp,main snack,sauce,,salad snack-board burger grain-bowl,15,60
+171019,Italian dressing,Sauces & condiments,vegan,tbsp,,main,sauce,italian,salad sandwich grain-bowl,15,60
+174523,BBQ sauce,Sauces & condiments,vegan,tbsp,,main,sauce,,grill burger sandwich tacos pizza,17,68
+172234,Yellow mustard,Sauces & condiments,vegan,tsp,tsp,main,sauce,,sandwich burger grill salad snack-board,5,20
 171579,Pesto,Sauces & condiments,vegetarian,cup,,main,sauce,italian,pasta sandwich pizza,16,64
 171186,Sriracha,Sauces & condiments,vegan,tsp,,main,sauce,southeast-asian east-asian,stir-fry grain-bowl,3,20
 168746,Beer,Drinks,vegan,can,,main snack,drink,,burger pizza grill tacos,356,712
 168749,Light beer,Drinks,vegan,can,can,main snack,drink,,burger pizza grill tacos,354,708
-173201,White wine,Drinks,vegan,fl oz,,main,drink,,pasta salad sushi,150,450
+173201,White wine,Drinks,vegan,fl oz,,main,drink,,pasta salad sushi roast snack-board,150,450
 173660,Sports drink,Drinks,vegan,bottle,,snack,drink,,protein-snack,300,609
-169770,Mac and cheese (boxed),Prepared foods,vegetarian,cup,cup,main,dish,,pasta,140,380
+169770,Mac and cheese (boxed),Prepared foods,vegetarian,cup,cup,main,dish,,pasta grill roast,140,380
 169850,Lasagna with meat,Prepared foods,,serving,,main,dish,italian,pasta,230,460
-172112,Chicken nuggets,Prepared foods,,piece,nugget,main snack,protein,,burger,80,200
-170346,Fried chicken thigh,Prepared foods,,"thigh, with skin",thigh,main,protein,,roast,135,270
+172112,Chicken nuggets,Prepared foods,,piece,nugget,main snack,protein,,burger snack-board,80,200
+170346,Fried chicken thigh,Prepared foods,,"thigh, with skin",thigh,main,protein,,roast grill sandwich burger,135,270
 170689,Hard-shell beef taco,Prepared foods,,taco,taco,main,dish,latin,tacos,69,207
-172097,Chili with beans (canned),Prepared foods,,cup,,main,dish,,soup,240,480
+172097,Chili with beans (canned),Prepared foods,,cup,,main,dish,,soup tacos grain-bowl,240,480
 172909,Chicken noodle soup,Prepared foods,,cup,cup,main,dish,,soup,240,480
-173330,Beef stew (canned),Prepared foods,,cup,,main,dish,,soup,196,490
+173330,Beef stew (canned),Prepared foods,,cup,,main,dish,,soup roast,196,490

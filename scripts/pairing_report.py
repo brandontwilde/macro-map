@@ -29,6 +29,8 @@ MEAL_BONUS = 1.0  # a shared meal, about what one common dish type is worth
 ROLE_BONUS = 2.0  # a different role fills a gap; the same role is usually a swap, not a partner
 DISH_PENALTY = 2.0  # a complete dish wants sides, not another main
 SIDE_ROLES = {"vegetable", "fruit", "sauce", "drink"}
+SWAP_ROLES = {"starch", "fat", "drink", "dish"}  # two of these in one meal are usually alternatives
+SWAP_FACTOR = 0.5
 NO_CLASH_ROLES = {"drink", "sweet", "fruit"}  # go alongside any cuisine
 
 
@@ -68,6 +70,8 @@ def faded(a, b):
 
 def score(a, b, w):
     s = sum(w[t] for t in a["tags"] & b["tags"])
+    if a["role"] == b["role"] in SWAP_ROLES:
+        s *= SWAP_FACTOR
     if a["meals"] & b["meals"]:
         s += MEAL_BONUS
     if a["role"] != b["role"]:

@@ -19,8 +19,8 @@
       <button type="button" id="theme-toggle" class="button"></button>
     </div>
   </div>
-  <p class="lede">Enter your target macros to find the foods that fit them, or pick two or three
-  foods to build a combo that does.</p>
+  <p class="lede">Enter your target macros to find the foods that fit them, or pick a few foods
+  that go together to build a combo that does.</p>
 </header>
 
 <section id="mine" class="card" hidden>
@@ -69,6 +69,16 @@
       <label><span>Unit</span><input name="unit" required></label>
       <label><span>Group</span><select name="group"></select></label>
       <label><span>Diet</span><select name="diet"><option value="">Neither</option><option value="vegetarian">Vegetarian</option><option value="vegan">Vegan</option></select></label>
+      <label><span>Role</span><select name="role"></select></label>
+      <label><span id="scan-min-label">Least in a meal</span><input name="min" type="number" min="0" step="any" required></label>
+      <label><span id="scan-max-label">Most in a meal</span><input name="max" type="number" min="0" step="any" required></label>
+      <fieldset class="wide scan-meals"><legend>Eaten at</legend>
+        <label><input type="checkbox" name="meals" value="breakfast"> Breakfast</label>
+        <label><input type="checkbox" name="meals" value="main"> Main meal</label>
+        <label><input type="checkbox" name="meals" value="snack"> Snack</label>
+        <label><input type="checkbox" name="meals" value="dessert"> Dessert</label>
+      </fieldset>
+      <div class="wide"><span class="muted">Cuisines and dishes</span><div id="scan-tags" class="chips"></div></div>
       <p id="scan-macros" class="wide muted"></p>
       <div class="wide controls"><button class="button">Add to My foods</button></div>
     </form>
@@ -109,7 +119,7 @@
         <div class="title">
           <h2>Combo</h2>
           <div class="info"><button type="button" class="info-btn" aria-label="About Combo" aria-expanded="false">?</button>
-            <div class="info-text" role="tooltip">Build a meal from two or three foods. Set how much of each you'll have, or use <b>Fit to target</b> to pick the amounts for you. The small circle on the map shows the meal's mix: the closer it is to the crosshair, the better it matches your target.</div>
+            <div class="info-text" role="tooltip">Build a meal from up to five foods. Set how much of each you'll have, or use <b>Fit to target</b> to pick amounts for you, each within what a person would eat in one meal. The small circle on the map shows the meal's mix: the closer it is to the crosshair, the better it matches your target.</div>
           </div>
         </div>
         <div class="controls">
@@ -124,9 +134,9 @@
     <div class="card">
       <div class="card-head">
         <div class="title">
-          <h2>Best fits</h2>
+          <h2 id="ranked-title">Best fits</h2>
           <div class="info"><button type="button" class="info-btn" aria-label="About Best fits" aria-expanded="false">?</button>
-            <div class="info-text" role="tooltip">Foods whose ratio of macros is closest to your target's. Each shows the macros per unit and the percent of your target that unit provides.</div>
+            <div class="info-text" role="tooltip">Before you start a combo: foods whose ratio of macros is closest to your target's. Once you have: foods that go with it and bring it closest to your target, each at the amount <b>Fit to target</b> would give it. Each shows its macros at that amount and the percent of your target they provide.</div>
           </div>
         </div>
         <div class="controls">
