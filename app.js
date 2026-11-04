@@ -1012,8 +1012,8 @@ function drawCombo() {
   const items = comboItems();
   $("#combo").hidden = !items.length;
   if (!items.length) return;
-  $("#caps-toggle").setAttribute("aria-pressed", state.caps);
-  $("#floors-toggle").setAttribute("aria-pressed", state.floors);
+  $("#caps-toggle").setAttribute("aria-checked", state.caps);
+  $("#floors-toggle").setAttribute("aria-checked", state.floors);
 
   $("#combo-items").innerHTML = items.map(({ food, grams, unit: label }, i) => {
     const unit = findUnit(food, label);
