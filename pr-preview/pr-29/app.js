@@ -48,6 +48,7 @@ const state = {
   mine: [], // the person's own foods, as entered: [{ id, name, group, diet, unit, grams, protein, carbs, fat, kcal }]
   remaining: { p: 40, c: 60, f: 20 }, // about a 580 kcal meal
   combo: [], // [{ id, grams, unit }], unit being a label from units(food)
+  limits: true, // hold combo amounts to what a person eats in one meal
   query: "",
   focus: null, // { id, nearby: ids of the dots around it }
   filters: { groups: [], diet: "", mine: false, anyFood: false }, // no groups means every group; diet "", "vegetarian" or "vegan"
@@ -73,6 +74,7 @@ function load() {
     if (saved.remaining) state.remaining = saved.remaining;
     if (saved.combo) state.combo = saved.combo;
     if (saved.filters) state.filters = { ...state.filters, ...saved.filters };
+    if (saved.limits === false) state.limits = false;
   } catch {}
   try {
     state.mine = JSON.parse(localStorage.getItem(FOODS_KEY) || "[]").filter((r) => !checkFoods(r).errors.length);
@@ -80,7 +82,7 @@ function load() {
 }
 function save() {
   try {
-    localStorage.setItem(STORE_KEY, JSON.stringify({ remaining: state.remaining, combo: state.combo, filters: state.filters }));
+    localStorage.setItem(STORE_KEY, JSON.stringify({ remaining: state.remaining, combo: state.combo, filters: state.filters, limits: state.limits }));
   } catch {}
 }
 
@@ -511,9 +513,13 @@ function stepOf(food, unit) {
   const step = [1, 2, 5, 10].map((m) => m * k).reduce((a, b) => (Math.abs(Math.log(b / raw)) < Math.abs(Math.log(a / raw)) ? b : a));
   return range >= 2 ? Math.max(0.5, step) : step;
 }
-// Rounds to the food's step in that unit, kept inside its meal-size range when a step fits there.
+// With meal limits off, a food can take any amount from none up.
+const bounds = (food) => (state.limits ? [food.min, food.max] : [0, Infinity]);
+
+// Rounds to the food's step in that unit, kept inside its bounds when a step fits there.
 function roundAmount(food, unit, grams) {
   const step = stepOf(food, unit) * unit.g;
+  if (!state.limits) return Math.max(0, Math.round(grams / step) * step);
   const lo = Math.ceil(food.min / step - 1e-9) * step, hi = Math.floor(food.max / step + 1e-9) * step;
   const g = Math.round(grams / step) * step;
   return lo <= hi ? Math.min(hi, Math.max(lo, g)) : g;
@@ -560,31 +566,33 @@ function comboTotal(items) {
 
 const inCombo = (id) => state.combo.some((c) => c.id === id);
 
-// Least squares in grams per food, each held inside its meal-size range: minimise |A x − r|² plus a small
-// pull toward the middle of each range, which picks the realistic answer when several hit the target.
-// Every food is tried at its min, at its max and free (3^n cases); the problem is convex, so the best
-// feasible case is the optimum.
+// Least squares in grams per food, each held inside its bounds: minimise |A x − r|² plus, with meal limits
+// on, a small pull toward the middle of each range, which picks the realistic answer when several hit the
+// target. Every food is tried at its lower bound, at its upper bound and free (3^n cases); the problem is
+// convex, so the best feasible case is the optimum.
 function solveCombo(foods, r) {
   const n = foods.length;
   const cols = foods.map(perGram);
   const dot = (a, b) => MACROS.reduce((s, k) => s + a[k] * b[k], 0);
   const G = cols.map((a) => cols.map((b) => dot(a, b)));
   const Ar = cols.map((a) => dot(a, r));
+  const [lo, hi] = [0, 1].map((j) => foods.map((f) => bounds(f)[j]));
   const mid = foods.map((f) => (f.min + f.max) / 2);
-  const pull = foods.map((f) => FIT_PULL / ((f.max - f.min) / 2) ** 2);
+  const pull = foods.map((f) => (state.limits ? FIT_PULL / ((f.max - f.min) / 2) ** 2 : 0));
   const cost = (x) => macroError(cols, x, r) ** 2 + x.reduce((s, v, i) => s + pull[i] * (v - mid[i]) ** 2, 0);
   let best = null;
   for (let code = 0; code < 3 ** n; code++) {
     const x = [], free = [];
     for (let i = 0, c = code; i < n; i++, c = Math.floor(c / 3)) {
       if (c % 3 === 0) free.push(i);
-      x[i] = [null, foods[i].min, foods[i].max][c % 3];
+      x[i] = [null, lo[i], hi[i]][c % 3];
     }
+    if (x.includes(Infinity)) continue;
     if (free.length) {
       const M = free.map((i) => free.map((j) => G[i][j] + (i === j ? pull[i] : 0)));
       const rhs = free.map((i) => Ar[i] + pull[i] * mid[i] - x.reduce((s, v, j) => (v == null ? s : s + G[i][j] * v), 0));
       const sol = gaussSolve(M, rhs);
-      if (!sol || sol.some((v, j) => v < foods[free[j]].min - 1e-6 || v > foods[free[j]].max + 1e-6)) continue;
+      if (!sol || sol.some((v, j) => v < lo[free[j]] - 1e-6 || v > hi[free[j]] + 1e-6)) continue;
       free.forEach((i, j) => (x[i] = sol[j]));
     }
     if (code === 0) return x; // the unbounded optimum already sits inside every range
@@ -656,7 +664,7 @@ function shown(food, items = comboItems()) {
 // Suggestions re-fit the whole combo, so they depend on which foods are in it but not on their amounts.
 let rankCache = {};
 function ranked() {
-  const key = JSON.stringify([state.remaining, state.combo.map((c) => c.id), state.filters, foodsVersion]);
+  const key = JSON.stringify([state.remaining, state.combo.map((c) => c.id), state.filters, state.limits, foodsVersion]);
   if (rankCache.key !== key) rankCache = { key, value: rank() };
   const items = comboItems();
   if (!items.length) return rankCache.value;
@@ -975,6 +983,7 @@ function drawCombo() {
   const items = comboItems();
   $("#combo").hidden = !items.length;
   if (!items.length) return;
+  $("#limits-toggle").setAttribute("aria-pressed", state.limits);
 
   $("#combo-items").innerHTML = items.map(({ food, grams, unit: label }, i) => {
     const unit = findUnit(food, label);
@@ -1019,7 +1028,7 @@ function drawComboTotals(items) {
     ).join("")}</tr>`;
 }
 
-// Amounts that land closest to the target within each food's meal-size range, rounded to its step in its chosen unit.
+// Amounts that land closest to the target within each food's bounds, rounded to its step in its chosen unit.
 function fitCombo() {
   const items = comboItems();
   const grams = solveCombo(items.map((c) => c.food), state.remaining);
@@ -1368,6 +1377,11 @@ async function init() {
     drawCombo();
   });
   $("#fit-combo").addEventListener("click", fitCombo);
+  $("#limits-toggle").addEventListener("click", () => {
+    state.limits = !state.limits;
+    save();
+    render();
+  });
   $("#clear-combo").addEventListener("click", () => {
     state.combo = [];
     save();
@@ -1454,7 +1468,7 @@ async function init() {
     render();
   });
 
-  builtIn = await (await fetch("foods.json?v=da35a7e6")).json();
+  builtIn = await (await fetch("foods.json?v=3a399bea")).json();
   setFoods();
   upgradeCombo();
   render();
