@@ -86,7 +86,9 @@ function load() {
     if (saved.filtersOpen) state.filtersOpen = true;
   } catch {}
   try {
-    state.mine = JSON.parse(localStorage.getItem(FOODS_KEY) || "[]").filter((r) => !checkFoods(r).errors.length);
+    state.mine = JSON.parse(localStorage.getItem(FOODS_KEY) || "[]")
+      .map((r) => ({ ...r, cuisines: (r.cuisines ?? []).filter((c) => c in CUISINES), dishes: (r.dishes ?? []).filter((d) => d in DISHES) })) // a retired tag drops off a saved food, not the food
+      .filter((r) => !checkFoods(r).errors.length);
   } catch {}
 }
 function save() {
@@ -158,14 +160,19 @@ function parseFoods(text) {
   } catch {
     return { records: [], errors: ["That isn't valid JSON. Paste just the JSON part of the reply."] };
   }
-  return checkFoods(data);
+  return checkFoods(data, true);
 }
 
-function checkFoods(data) {
+const FOOD_KEYS = ["name", "group", "diet", "unit", "grams", "protein", "carbs", "fat", "kcal", "min", "max", "meals", "role", "cuisines", "dishes"];
+
+// strictKeys rejects misspelled keys, which would otherwise be ignored; saved foods skip it since they carry an id.
+function checkFoods(data, strictKeys = false) {
   const records = [], errors = [];
   (Array.isArray(data) ? data : [data]).forEach((item, i) => {
     const label = `Item ${i + 1}${item?.name ? ` (${item.name})` : ""}`;
     if (!item || typeof item !== "object") return errors.push(`${label}: not an object.`);
+    const unknownKeys = strictKeys ? Object.keys(item).filter((k) => !FOOD_KEYS.includes(k)) : [];
+    if (unknownKeys.length) return errors.push(`${label}: unknown key ${unknownKeys.map((k) => `"${k}"`).join(", ")}; use only ${FOOD_KEYS.join(", ")}.`);
     const name = String(item.name ?? "").trim();
     const num = (k) => (item[k] === "" || item[k] == null ? NaN : Number(item[k]));
     const [protein, carbs, fat] = ["protein", "carbs", "fat"].map(num);
@@ -181,16 +188,21 @@ function checkFoods(data) {
     if (WEIGHTS.some((w) => w.label === unit.toLowerCase())) return errors.push(`${label}: "unit" can't be g or oz, which are always offered; use something like "piece" or "cup".`);
     const [min, max] = ["min", "max"].map(num);
     if (!(min > 0 && max > min)) return errors.push(`${label}: "min" and "max" must be amounts of one unit for a meal, with max above min.`);
-    const list = (k) => (Array.isArray(item[k]) ? item[k] : String(item[k] ?? "").split(/[\s,]+/)).map((v) => String(v).trim());
-    const meals = list("meals").filter((m) => MEALS.includes(m));
+    const list = (k) => (Array.isArray(item[k]) ? item[k] : String(item[k] ?? "").split(/[\s,]+/)).map((v) => String(v).trim()).filter(Boolean);
+    const [meals, cuisines, dishes] = ["meals", "cuisines", "dishes"].map(list);
+    for (const [k, values, allowed] of [["meals", meals, MEALS], ["cuisines", cuisines, Object.keys(CUISINES)], ["dishes", dishes, Object.keys(DISHES)]]) {
+      const unknown = values.filter((v) => !allowed.includes(v));
+      if (unknown.length) return errors.push(`${label}: "${k}" has ${unknown.map((v) => `"${v}"`).join(", ")}; use only ${allowed.join(", ")}.`);
+    }
     if (!meals.length) return errors.push(`${label}: "meals" needs at least one of ${MEALS.join(", ")}.`);
     const role = String(item.role ?? "").trim();
     if (!ROLES.includes(role)) return errors.push(`${label}: "role" must be one of ${ROLES.join(", ")}.`);
-    const diet = ["vegan", "vegetarian"].includes(item.diet) ? item.diet : null;
+    const diet = String(item.diet ?? "").trim() || null;
+    if (diet && !["vegan", "vegetarian"].includes(diet)) return errors.push(`${label}: "diet" must be vegan, vegetarian or "".`);
     records.push({
       name, group: String(item.group ?? "").trim() || "Other", diet, unit, grams, protein, carbs, fat,
       kcal: kcal >= 0 ? kcal : null, min, max, meals, role,
-      cuisines: list("cuisines").filter((c) => c in CUISINES), dishes: list("dishes").filter((d) => d in DISHES),
+      cuisines, dishes,
     });
   });
   return { records, errors };
@@ -1718,7 +1730,7 @@ async function init() {
 
   setupToast();
 
-  builtIn = await (await fetch("foods.json?v=e0a56fe3")).json();
+  builtIn = await (await fetch("foods.json?v=5bd715f4")).json();
   setFoods();
   upgradeCombo();
   render();
