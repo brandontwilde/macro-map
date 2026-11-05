@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Macro Map</title>
-<link rel="stylesheet" href="style.css?v=0c533c23">
+<link rel="stylesheet" href="style.css?v=06a1ed0a">
 <script>
   // Applied before first paint so a saved theme doesn't flash the other one.
   try { const t = localStorage.getItem("macro-map-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
@@ -33,7 +33,7 @@
             <li>Copy the prompt into an AI chat, add your foods, and paste its reply here. For best results, turn on web search.</li>
             <li>For a packaged food, you can also use <b>Scan barcode</b>.</li>
             <li>Saved in this browser only. <b>Export</b> keeps a copy.</li>
-            <li>A new food replaces any food with the same name.</li>
+            <li>A new food replaces any existing food with the same name.</li>
           </ul>
         </div>
       </div>
@@ -182,6 +182,6 @@ check labels for packaged foods. Your own foods use the numbers you give them.</
   <button type="button" id="toast-close" class="remove" aria-label="Dismiss">×</button>
 </div>
 <div id="toast-live" class="visually-hidden" role="status" aria-live="polite"></div>
-<script src="app.js?v=0c533c23"></script>
+<script src="app.js?v=06a1ed0a"></script>
 </body>
 </html>

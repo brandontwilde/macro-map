@@ -1052,7 +1052,7 @@ function drawList(rank) {
   const q = state.query.trim().toLowerCase();
   const rows = rank
     .map((r, i) => ({ ...r, n: i + 1 }))
-    .filter((r) => !q || r.food.name.toLowerCase().includes(q) || r.food.group.toLowerCase().includes(q))
+    .filter((r) => !q || r.food.name.toLowerCase().includes(q))
     .slice(0, LIST_LENGTH);
   const ol = $("#ranked");
   if (!rows.length) {
@@ -1685,7 +1685,7 @@ async function init() {
 
   setupToast();
 
-  builtIn = await (await fetch("foods.json?v=0c533c23")).json();
+  builtIn = await (await fetch("foods.json?v=06a1ed0a")).json();
   setFoods();
   upgradeCombo();
   render();
