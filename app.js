@@ -1,6 +1,6 @@
 const MACROS = ["p", "c", "f"];
 const MACRO_NAMES = { p: "Protein", c: "Carbs", f: "Fat" };
-const GOALS = [...MACROS, "kcal"]; // what a target can set; calories are optional
+const GOALS = [...MACROS, "kcal"]; // what a target can set; any of them can be left empty
 const GOAL_NAMES = { ...MACRO_NAMES, kcal: "Calories" };
 const KCAL_PER_G = 4; // kcal off a calorie target that weigh as much in the fit as 1 g off a macro target
 const TOP_MATCHES = 5;
@@ -52,7 +52,7 @@ const FIT_PULL = 1; // g² of macro error that a food at the edge of its meal-si
 const state = {
   foods: [],
   mine: [], // the person's own foods, as entered: [{ id, name, group, diet, unit, grams, protein, carbs, fat, kcal }]
-  remaining: { p: 40, c: 60, f: 20, kcal: null }, // about a 580 kcal meal; kcal null means no calorie target
+  remaining: { p: 40, c: 60, f: 20, kcal: null }, // about a 580 kcal meal; null leaves that goal out of the fit
   modes: { p: "eq", c: "eq", f: "eq", kcal: "max" }, // per goal, a key of MODES
   combo: [], // [{ id, grams, unit }], unit being a label from units(food)
   caps: true, // hold combo amounts to at most what a person eats in one meal
@@ -517,8 +517,9 @@ function perGram(food) {
   return { p: food.p / 100, c: food.c / 100, f: food.f / 100, kcal: kcalOf(food) / 100 };
 }
 
-// What the fit measures: the macros, plus calories when the target has them, each scaled to grams of macro.
-const goalsOf = (r) => (r.kcal == null ? MACROS : GOALS);
+// What the fit measures: the goals the target sets, each scaled to grams of macro.
+const goalsOf = (r) => GOALS.filter((k) => r[k] != null);
+const hasSplit = (r) => MACROS.every((k) => r[k] != null); // the target is a point on the map only with all three macros
 const scaleOf = (k) => (k === "kcal" ? 1 / KCAL_PER_G : 1);
 
 const units = (food) => (food.weightless ? food.portions : [...food.portions, ...WEIGHTS]);
@@ -574,10 +575,14 @@ const qtyIn = (unit, grams) => {
 };
 const amountText = (unit, grams) => `${qtyIn(unit, grams)} ${unit.label}`;
 
-// The share of the target's grams (all macros together) that an amount of a food provides.
+// The share of the target's grams (the macros it sets, together) that an amount of a food provides,
+// or of its calories when it sets no macros.
 function shareOf(food, grams) {
-  const target = MACROS.reduce((s, k) => s + state.remaining[k], 0);
-  return target ? MACROS.reduce((s, k) => s + macrosOf(food, grams)[k], 0) / target : 0;
+  const r = state.remaining, m = macrosOf(food, grams);
+  const set = MACROS.filter((k) => r[k] != null);
+  const keys = set.length ? set : r.kcal != null ? ["kcal"] : [];
+  const target = keys.reduce((s, k) => s + r[k], 0);
+  return target ? keys.reduce((s, k) => s + m[k], 0) / target : 0;
 }
 
 function serving(food) {
@@ -778,12 +783,13 @@ function ranked() {
   return rankCache.value;
 }
 
-// With no combo: nearest first, on the triangle, to the target's split. With one: the foods that would
-// bring it closest to the target, with the amount the fit gives them, helped up by how well they pair.
+// With no combo and all three macros set: nearest first, on the triangle, to the target's split. Otherwise the
+// foods that would bring the combo (or an empty plate) closest to the target, with the amount the fit gives
+// them, helped up by how well they pair.
 function rank() {
   const items = comboItems();
   const r = state.remaining;
-  if (!items.length) {
+  if (!items.length && hasSplit(r)) {
     const target = toXY(r);
     const dist = (food) => {
       const xy = toXY(food);
@@ -930,7 +936,7 @@ function drawPlot(suggestions) {
   const focused = state.focus && plotDots.find((d) => d.food.id === state.focus.id);
   if (focused) svg.append(svgEl("circle", { class: "focus-ring", cx: focused.x, cy: focused.y, r: 13 }));
 
-  const target = plotXY(state.remaining);
+  const target = hasSplit(state.remaining) && plotXY(state.remaining);
   if (target && inFrame(target)) {
     const g = svgEl("g", { class: "target", "pointer-events": "none" });
     g.append(svgEl("circle", { cx: target[0], cy: target[1], r: 11 }));
@@ -1447,7 +1453,7 @@ async function init() {
   form.addEventListener("input", () => {
     for (const k of GOALS) {
       const v = form.elements[k].value;
-      state.remaining[k] = k === "kcal" && v === "" ? null : Math.max(0, Number(v) || 0);
+      state.remaining[k] = v === "" ? null : Math.max(0, Number(v) || 0);
       state.modes[k] = form.elements[`${k}-mode`].value;
       labelMode(k);
     }

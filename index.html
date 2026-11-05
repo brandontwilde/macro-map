@@ -19,8 +19,8 @@
       <button type="button" id="theme-toggle" class="button"></button>
     </div>
   </div>
-  <p class="lede">Enter your target macros, and calories if you count them, to find the foods that fit,
-  or pick a few foods that go together to build a combo that does.</p>
+  <p class="lede">Enter your target macros and calories, leaving empty any you don't count, to find the
+  foods that fit, or pick a few foods that go together to build a combo that does.</p>
 </header>
 
 <section id="mine" class="card" hidden>
@@ -92,16 +92,16 @@
       <div class="inputs">
         <div class="m-p"><label for="t-p">Protein</label>
           <select name="p-mode" aria-label="Protein target type"><option value="eq">=</option><option value="min">≥</option><option value="max">≤</option></select>
-          <input id="t-p" name="p" type="number" min="0" step="1" inputmode="numeric"><em>g</em></div>
+          <input id="t-p" name="p" type="number" min="0" step="1" inputmode="numeric" placeholder="Any"><em>g</em></div>
         <div class="m-c"><label for="t-c">Carbs</label>
           <select name="c-mode" aria-label="Carbs target type"><option value="eq">=</option><option value="min">≥</option><option value="max">≤</option></select>
-          <input id="t-c" name="c" type="number" min="0" step="1" inputmode="numeric"><em>g</em></div>
+          <input id="t-c" name="c" type="number" min="0" step="1" inputmode="numeric" placeholder="Any"><em>g</em></div>
         <div class="m-f"><label for="t-f">Fat</label>
           <select name="f-mode" aria-label="Fat target type"><option value="eq">=</option><option value="min">≥</option><option value="max">≤</option></select>
-          <input id="t-f" name="f" type="number" min="0" step="1" inputmode="numeric"><em>g</em></div>
+          <input id="t-f" name="f" type="number" min="0" step="1" inputmode="numeric" placeholder="Any"><em>g</em></div>
         <div class="m-kcal"><label for="t-kcal">Calories</label>
           <select name="kcal-mode" aria-label="Calories target type"><option value="eq">=</option><option value="min">≥</option><option value="max">≤</option></select>
-          <input id="t-kcal" name="kcal" type="number" min="0" step="10" inputmode="numeric" placeholder="Any" title="Leave empty to fit macros only"><em>kcal</em></div>
+          <input id="t-kcal" name="kcal" type="number" min="0" step="10" inputmode="numeric" placeholder="Any"><em>kcal</em></div>
       </div>
     </form>
 
@@ -110,7 +110,7 @@
         <div class="info-text" role="tooltip">
           <ul>
             <li>Each dot is a food. The nearer a corner, the more of that macro it has.</li>
-            <li>The crosshair is your target, numbered dots are the top picks, and the small circle is your combo.</li>
+            <li>The crosshair is your target, once all three macros are set. Numbered dots are the top picks and the small circle is your combo.</li>
             <li class="on-hover">Scroll to zoom, drag to move. Hover a dot for details; click to add it.</li>
             <li class="on-touch">Pinch to zoom, drag to move. Tap a dot for details.</li>
           </ul>
