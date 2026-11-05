@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Macro Map</title>
-<link rel="stylesheet" href="style.css?v=892a516e">
+<link rel="stylesheet" href="style.css?v=651376b2">
 <script>
   // Applied before first paint so a saved theme doesn't flash the other one.
   try { const t = localStorage.getItem("macro-map-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
@@ -115,7 +115,7 @@
       </div>
       <div class="filters">
         <button type="button" id="filters-toggle" class="filters-toggle" aria-expanded="false" aria-controls="filters">
-          <span class="filter-label">Filters</span><span id="filters-summary"></span><span class="chevron" aria-hidden="true">▾</span>
+          <span class="filter-label">Filters</span><span id="filters-summary"></span><svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6l4.5 4.5L12.5 6"/></svg>
         </button>
         <div id="filters" class="filter-rows" hidden></div>
       </div>
@@ -182,6 +182,6 @@ check labels for packaged foods. Your own foods use the numbers you give them.</
   <button type="button" id="toast-close" class="remove" aria-label="Dismiss">×</button>
 </div>
 <div id="toast-live" class="visually-hidden" role="status" aria-live="polite"></div>
-<script src="app.js?v=892a516e"></script>
+<script src="app.js?v=651376b2"></script>
 </body>
 </html>
