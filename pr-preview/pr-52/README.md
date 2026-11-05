@@ -17,7 +17,11 @@ side, so the fit still lands near the value instead of overshooting it (and
 "at most" everything doesn't give an empty plate). The suggestions use the same
 measure.
 
-The calorie target is optional and takes the same three modes; it's most
+Any target left empty is left out of the fit and the suggestions. With a
+macro empty the target has no split, so the map hides its crosshair and the
+suggestions are ranked by fit alone.
+
+The calorie target takes the same three modes; it's most
 useful as a cap ("at least 40 g protein, at most 500 kcal"), since exact
 macros already fix the calories. In the fit, 4 kcal off counts as much as 1 g
 of macro off. A food's calories are its listed count where there is one,

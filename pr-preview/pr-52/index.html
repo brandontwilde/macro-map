@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Macro Map</title>
-<link rel="stylesheet" href="style.css?v=9bf70206">
+<link rel="stylesheet" href="style.css?v=034feeb4">
 <script>
   // Applied before first paint so a saved theme doesn't flash the other one.
   try { const t = localStorage.getItem("macro-map-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
@@ -19,8 +19,8 @@
       <button type="button" id="theme-toggle" class="button"></button>
     </div>
   </div>
-  <p class="lede">Enter your target macros, and calories if you count them, to find the foods that fit,
-  or pick a few foods that go together to build a combo that does.</p>
+  <p class="lede">Enter your target macros and calories, leaving empty any you don't count, to find the
+  foods that fit, or pick a few foods that go together to build a combo that does.</p>
 </header>
 
 <section id="mine" class="card" hidden>
@@ -45,8 +45,14 @@
     <button type="button" id="copy-prompt" class="button">Copy AI prompt</button>
     <span class="muted">Paste it into an AI chat, then add your foods: a list, a recipe, photos, or another app's export.</span>
   </div>
-  <textarea id="mine-json" rows="4" placeholder="Paste JSON-formatted food details here." aria-label="AI reply with your foods"></textarea>
-  <p id="mine-msg" class="hint" aria-live="polite"></p>
+  <div class="paste-box">
+    <textarea id="mine-json" rows="4" placeholder="Paste JSON-formatted food details here." aria-label="AI reply with your foods"></textarea>
+    <button type="button" id="clear-json" class="button" hidden>Clear</button>
+  </div>
+  <div class="mine-msg-row">
+    <p id="mine-msg" class="hint" aria-live="polite"></p>
+    <button type="button" id="copy-errors" class="button" hidden>Copy error</button>
+  </div>
   <div class="controls wrap">
     <button type="button" id="add-mine" class="button">Add foods</button>
     <button type="button" id="scan-open" class="button" aria-expanded="false" aria-controls="scan">Scan barcode</button>
@@ -92,16 +98,16 @@
       <div class="inputs">
         <div class="m-p"><label for="t-p">Protein</label>
           <select name="p-mode" aria-label="Protein target type"><option value="eq">=</option><option value="min">≥</option><option value="max">≤</option></select>
-          <input id="t-p" name="p" type="number" min="0" step="1" inputmode="numeric"><em>g</em></div>
+          <input id="t-p" name="p" type="number" min="0" step="1" inputmode="numeric" placeholder="Any"><em>g</em></div>
         <div class="m-c"><label for="t-c">Carbs</label>
           <select name="c-mode" aria-label="Carbs target type"><option value="eq">=</option><option value="min">≥</option><option value="max">≤</option></select>
-          <input id="t-c" name="c" type="number" min="0" step="1" inputmode="numeric"><em>g</em></div>
+          <input id="t-c" name="c" type="number" min="0" step="1" inputmode="numeric" placeholder="Any"><em>g</em></div>
         <div class="m-f"><label for="t-f">Fat</label>
           <select name="f-mode" aria-label="Fat target type"><option value="eq">=</option><option value="min">≥</option><option value="max">≤</option></select>
-          <input id="t-f" name="f" type="number" min="0" step="1" inputmode="numeric"><em>g</em></div>
+          <input id="t-f" name="f" type="number" min="0" step="1" inputmode="numeric" placeholder="Any"><em>g</em></div>
         <div class="m-kcal"><label for="t-kcal">Calories</label>
           <select name="kcal-mode" aria-label="Calories target type"><option value="eq">=</option><option value="min">≥</option><option value="max">≤</option></select>
-          <input id="t-kcal" name="kcal" type="number" min="0" step="10" inputmode="numeric" placeholder="Any" title="Leave empty to fit macros only"><em>kcal</em></div>
+          <input id="t-kcal" name="kcal" type="number" min="0" step="10" inputmode="numeric" placeholder="Any"><em>kcal</em></div>
       </div>
     </form>
 
@@ -110,7 +116,7 @@
         <div class="info-text" role="tooltip">
           <ul>
             <li>Each dot is a food. The nearer a corner, the more of that macro it has.</li>
-            <li>The crosshair is your target, numbered dots are the top picks, and the small circle is your combo.</li>
+            <li>The crosshair is your target, once all three macros are set. Numbered dots are the top picks and the small circle is your combo.</li>
             <li class="on-hover">Scroll to zoom, drag to move. Hover a dot for details; click to add it.</li>
             <li class="on-touch">Pinch to zoom, drag to move. Tap a dot for details.</li>
           </ul>
@@ -185,6 +191,6 @@ check labels for packaged foods. Your own foods use the numbers you give them.</
   <button type="button" id="toast-close" class="remove" aria-label="Dismiss">×</button>
 </div>
 <div id="toast-live" class="visually-hidden" role="status" aria-live="polite"></div>
-<script src="app.js?v=9bf70206"></script>
+<script src="app.js?v=034feeb4"></script>
 </body>
 </html>

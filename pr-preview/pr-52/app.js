@@ -1,6 +1,6 @@
 const MACROS = ["p", "c", "f"];
 const MACRO_NAMES = { p: "Protein", c: "Carbs", f: "Fat" };
-const GOALS = [...MACROS, "kcal"]; // what a target can set; calories are optional
+const GOALS = [...MACROS, "kcal"]; // what a target can set; any of them can be left empty
 const GOAL_NAMES = { ...MACRO_NAMES, kcal: "Calories" };
 const KCAL_PER_G = 4; // kcal off a calorie target that weigh as much in the fit as 1 g off a macro target
 const TOP_MATCHES = 5;
@@ -52,7 +52,7 @@ const FIT_PULL = 1; // g² of macro error that a food at the edge of its meal-si
 const state = {
   foods: [],
   mine: [], // the person's own foods, as entered: [{ id, name, group, diet, unit, grams, protein, carbs, fat, kcal }]
-  remaining: { p: 40, c: 60, f: 20, kcal: null }, // about a 580 kcal meal; kcal null means no calorie target
+  remaining: { p: 40, c: 60, f: 20, kcal: null }, // about a 580 kcal meal; null leaves that goal out of the fit
   modes: { p: "eq", c: "eq", f: "eq", kcal: "max" }, // per goal, a key of MODES
   combo: [], // [{ id, grams, unit }], unit being a label from units(food)
   caps: true, // hold combo amounts to at most what a person eats in one meal
@@ -89,7 +89,9 @@ function load() {
     if (saved.filtersOpen) state.filtersOpen = true;
   } catch {}
   try {
-    state.mine = JSON.parse(localStorage.getItem(FOODS_KEY) || "[]").filter((r) => !checkFoods(r).errors.length);
+    state.mine = JSON.parse(localStorage.getItem(FOODS_KEY) || "[]")
+      .map((r) => ({ ...r, cuisines: (r.cuisines ?? []).filter((c) => c in CUISINES), dishes: (r.dishes ?? []).filter((d) => d in DISHES) })) // a retired tag drops off a saved food, not the food
+      .filter((r) => !checkFoods(r).errors.length);
   } catch {}
 }
 function save() {
@@ -161,14 +163,19 @@ function parseFoods(text) {
   } catch {
     return { records: [], errors: ["That isn't valid JSON. Paste just the JSON part of the reply."] };
   }
-  return checkFoods(data);
+  return checkFoods(data, true);
 }
 
-function checkFoods(data) {
+const FOOD_KEYS = ["name", "group", "diet", "unit", "grams", "protein", "carbs", "fat", "kcal", "min", "max", "meals", "role", "cuisines", "dishes"];
+
+// strictKeys rejects misspelled keys, which would otherwise be ignored; saved foods skip it since they carry an id.
+function checkFoods(data, strictKeys = false) {
   const records = [], errors = [];
   (Array.isArray(data) ? data : [data]).forEach((item, i) => {
     const label = `Item ${i + 1}${item?.name ? ` (${item.name})` : ""}`;
     if (!item || typeof item !== "object") return errors.push(`${label}: not an object.`);
+    const unknownKeys = strictKeys ? Object.keys(item).filter((k) => !FOOD_KEYS.includes(k)) : [];
+    if (unknownKeys.length) return errors.push(`${label}: unknown key ${unknownKeys.map((k) => `"${k}"`).join(", ")}; use only ${FOOD_KEYS.join(", ")}.`);
     const name = String(item.name ?? "").trim();
     const num = (k) => (item[k] === "" || item[k] == null ? NaN : Number(item[k]));
     const [protein, carbs, fat] = ["protein", "carbs", "fat"].map(num);
@@ -184,16 +191,21 @@ function checkFoods(data) {
     if (WEIGHTS.some((w) => w.label === unit.toLowerCase())) return errors.push(`${label}: "unit" can't be g or oz, which are always offered; use something like "piece" or "cup".`);
     const [min, max] = ["min", "max"].map(num);
     if (!(min > 0 && max > min)) return errors.push(`${label}: "min" and "max" must be amounts of one unit for a meal, with max above min.`);
-    const list = (k) => (Array.isArray(item[k]) ? item[k] : String(item[k] ?? "").split(/[\s,]+/)).map((v) => String(v).trim());
-    const meals = list("meals").filter((m) => MEALS.includes(m));
+    const list = (k) => (Array.isArray(item[k]) ? item[k] : String(item[k] ?? "").split(/[\s,]+/)).map((v) => String(v).trim()).filter(Boolean);
+    const [meals, cuisines, dishes] = ["meals", "cuisines", "dishes"].map(list);
+    for (const [k, values, allowed] of [["meals", meals, MEALS], ["cuisines", cuisines, Object.keys(CUISINES)], ["dishes", dishes, Object.keys(DISHES)]]) {
+      const unknown = values.filter((v) => !allowed.includes(v));
+      if (unknown.length) return errors.push(`${label}: "${k}" has ${unknown.map((v) => `"${v}"`).join(", ")}; use only ${allowed.join(", ")}.`);
+    }
     if (!meals.length) return errors.push(`${label}: "meals" needs at least one of ${MEALS.join(", ")}.`);
     const role = String(item.role ?? "").trim();
     if (!ROLES.includes(role)) return errors.push(`${label}: "role" must be one of ${ROLES.join(", ")}.`);
-    const diet = ["vegan", "vegetarian"].includes(item.diet) ? item.diet : null;
+    const diet = String(item.diet ?? "").trim() || null;
+    if (diet && !["vegan", "vegetarian"].includes(diet)) return errors.push(`${label}: "diet" must be vegan, vegetarian or "".`);
     records.push({
       name, group: String(item.group ?? "").trim() || "Other", diet, unit, grams, protein, carbs, fat,
       kcal: kcal >= 0 ? kcal : null, min, max, meals, role,
-      cuisines: list("cuisines").filter((c) => c in CUISINES), dishes: list("dishes").filter((d) => d in DISHES),
+      cuisines, dishes,
     });
   });
   return { records, errors };
@@ -517,8 +529,9 @@ function perGram(food) {
   return { p: food.p / 100, c: food.c / 100, f: food.f / 100, kcal: kcalOf(food) / 100 };
 }
 
-// What the fit measures: the macros, plus calories when the target has them, each scaled to grams of macro.
-const goalsOf = (r) => (r.kcal == null ? MACROS : GOALS);
+// What the fit measures: the goals the target sets, each scaled to grams of macro.
+const goalsOf = (r) => GOALS.filter((k) => r[k] != null);
+const hasSplit = (r) => MACROS.every((k) => r[k] != null); // the target is a point on the map only with all three macros
 const scaleOf = (k) => (k === "kcal" ? 1 / KCAL_PER_G : 1);
 
 const units = (food) => (food.weightless ? food.portions : [...food.portions, ...WEIGHTS]);
@@ -574,10 +587,14 @@ const qtyIn = (unit, grams) => {
 };
 const amountText = (unit, grams) => `${qtyIn(unit, grams)} ${unit.label}`;
 
-// The share of the target's grams (all macros together) that an amount of a food provides.
+// The share of the target's grams (the macros it sets, together) that an amount of a food provides,
+// or of its calories when it sets no macros.
 function shareOf(food, grams) {
-  const target = MACROS.reduce((s, k) => s + state.remaining[k], 0);
-  return target ? MACROS.reduce((s, k) => s + macrosOf(food, grams)[k], 0) / target : 0;
+  const r = state.remaining, m = macrosOf(food, grams);
+  const set = MACROS.filter((k) => r[k] != null);
+  const keys = set.length ? set : r.kcal != null ? ["kcal"] : [];
+  const target = keys.reduce((s, k) => s + r[k], 0);
+  return target ? keys.reduce((s, k) => s + m[k], 0) / target : 0;
 }
 
 function serving(food) {
@@ -778,12 +795,13 @@ function ranked() {
   return rankCache.value;
 }
 
-// With no combo: nearest first, on the triangle, to the target's split. With one: the foods that would
-// bring it closest to the target, with the amount the fit gives them, helped up by how well they pair.
+// With no combo and all three macros set: nearest first, on the triangle, to the target's split. Otherwise the
+// foods that would bring the combo (or an empty plate) closest to the target, with the amount the fit gives
+// them, helped up by how well they pair.
 function rank() {
   const items = comboItems();
   const r = state.remaining;
-  if (!items.length) {
+  if (!items.length && hasSplit(r)) {
     const target = toXY(r);
     const dist = (food) => {
       const xy = toXY(food);
@@ -930,7 +948,7 @@ function drawPlot(suggestions) {
   const focused = state.focus && plotDots.find((d) => d.food.id === state.focus.id);
   if (focused) svg.append(svgEl("circle", { class: "focus-ring", cx: focused.x, cy: focused.y, r: 13 }));
 
-  const target = plotXY(state.remaining);
+  const target = hasSplit(state.remaining) && plotXY(state.remaining);
   if (target && inFrame(target)) {
     const g = svgEl("g", { class: "target", "pointer-events": "none" });
     g.append(svgEl("circle", { cx: target[0], cy: target[1], r: 11 }));
@@ -1374,6 +1392,8 @@ function drawMine() {
     </li>`).join("");
 }
 
+let foodErrors = [];
+
 function importFoods({ records, errors }) {
   if (records.length) {
     closeToast(); // an undone delete could otherwise bring back a food with the same name
@@ -1385,7 +1405,22 @@ function importFoods({ records, errors }) {
   const msg = $("#mine-msg");
   msg.classList.toggle("over", !!errors.length);
   msg.innerHTML = [added, ...errors].filter(Boolean).map(esc).join("<br>");
+  foodErrors = errors;
+  $("#copy-errors").hidden = !errors.length;
   return records.length > 0 && !errors.length;
+}
+
+function setPasteText(text) {
+  $("#mine-json").value = text;
+  syncClear();
+}
+
+// Keeps Clear inside the box but left of its scrollbar, whose width depends on the platform.
+function syncClear() {
+  const box = $("#mine-json");
+  $("#clear-json").hidden = !box.value;
+  const scrollbar = box.offsetWidth - box.clientWidth - 2; // 2 = left and right borders
+  box.parentElement.style.setProperty("--scrollbar", `${scrollbar}px`);
 }
 
 const THEME_KEY = "macro-map-theme";
@@ -1447,7 +1482,7 @@ async function init() {
   form.addEventListener("input", () => {
     for (const k of GOALS) {
       const v = form.elements[k].value;
-      state.remaining[k] = k === "kcal" && v === "" ? null : Math.max(0, Number(v) || 0);
+      state.remaining[k] = v === "" ? null : Math.max(0, Number(v) || 0);
       state.modes[k] = form.elements[`${k}-mode`].value;
       labelMode(k);
     }
@@ -1621,10 +1656,26 @@ async function init() {
       await navigator.clipboard.writeText(foodPrompt());
       e.target.textContent = "Copied";
     } catch {
-      $("#mine-json").value = foodPrompt(); // clipboard can be blocked; leave it where it can be copied by hand
+      setPasteText(foodPrompt()); // clipboard can be blocked; leave it where it can be copied by hand
       e.target.textContent = "Copy it from the box";
     }
     setTimeout(() => (e.target.textContent = "Copy AI prompt"), 2000);
+  });
+  $("#copy-errors").addEventListener("click", async (e) => {
+    try {
+      await navigator.clipboard.writeText(foodErrors.join("\n"));
+      e.target.textContent = "Copied";
+    } catch {
+      getSelection().selectAllChildren($("#mine-msg"));
+      e.target.textContent = "Copy the selection";
+    }
+    setTimeout(() => (e.target.textContent = "Copy error"), 2000);
+  });
+  $("#mine-json").addEventListener("input", syncClear);
+  new ResizeObserver(syncClear).observe($("#mine-json"));
+  $("#clear-json").addEventListener("click", () => {
+    setPasteText("");
+    $("#mine-json").focus();
   });
   const showMine = (open) => {
     $("#mine").hidden = !open;
@@ -1681,7 +1732,7 @@ async function init() {
   $("#mine-toggle").addEventListener("click", () => showMine($("#mine").hidden));
   $("#close-mine").addEventListener("click", () => showMine(false));
   $("#add-mine").addEventListener("click", () => {
-    if (importFoods(parseFoods($("#mine-json").value))) $("#mine-json").value = "";
+    if (importFoods(parseFoods($("#mine-json").value))) setPasteText("");
   });
   $("#import-mine").addEventListener("change", async (e) => {
     const [file] = e.target.files;
@@ -1703,7 +1754,7 @@ async function init() {
 
   setupToast();
 
-  builtIn = await (await fetch("foods.json?v=9bf70206")).json();
+  builtIn = await (await fetch("foods.json?v=034feeb4")).json();
   setFoods();
   upgradeCombo();
   render();
