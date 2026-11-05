@@ -110,8 +110,10 @@ function toFood(r) {
 }
 let tagWeight = {};
 let foodsVersion = 0;
+// A food of mine hides the built-in food with the same name.
 function setFoods() {
-  state.foods = [...builtIn, ...state.mine.map(toFood)];
+  const names = new Set(state.mine.map((r) => r.name.toLowerCase()));
+  state.foods = [...builtIn.filter((f) => !names.has(f.name.toLowerCase())), ...state.mine.map(toFood)];
   // Rarer tags count for more: the log of how many foods there are per food carrying the tag.
   const counts = {};
   for (const f of state.foods) {
@@ -194,7 +196,7 @@ function checkFoods(data) {
   return { records, errors };
 }
 
-// A food with the same name as one already added replaces it, keeping its place in any combo.
+// A food with the same name as one already added, or as a built-in food, replaces it, keeping its place in any combo.
 function addMine(records) {
   let next = Math.min(0, ...state.mine.map((r) => r.id)) - 1; // negative ids never clash with USDA ones
   for (const r of records) {
@@ -203,6 +205,12 @@ function addMine(records) {
     else state.mine.push({ id: next--, ...r });
   }
   saveMine();
+  state.combo = state.combo.map((c) => {
+    const built = builtIn.find((f) => f.id === c.id);
+    const mine = built && state.foods.find((f) => f.mine && f.name.toLowerCase() === built.name.toLowerCase());
+    return mine ? newEntry(mine) : c;
+  });
+  save();
 }
 
 // Returns what restoreMine needs to put the food back where it was.
@@ -1677,7 +1685,7 @@ async function init() {
 
   setupToast();
 
-  builtIn = await (await fetch("foods.json?v=aa76eef5")).json();
+  builtIn = await (await fetch("foods.json?v=fe75a988")).json();
   setFoods();
   upgradeCombo();
   render();
