@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Macro Map</title>
-<link rel="stylesheet" href="style.css?v=9792657a">
+<link rel="stylesheet" href="style.css?v=ee9bb5f9">
 <script>
   // Applied before first paint so a saved theme doesn't flash the other one.
   try { const t = localStorage.getItem("macro-map-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
@@ -158,9 +158,9 @@
     <div class="card">
       <div class="card-head">
         <div class="title">
-          <h2 id="ranked-title">Best fits</h2>
+          <h2>Best fits</h2>
           <div class="info"><button type="button" class="info-btn" aria-label="About Best fits" aria-expanded="false">?</button>
-            <div class="info-text" role="tooltip" id="ranked-info">Foods whose mix of macros is closest to your target's.</div>
+            <div class="info-text" role="tooltip" >Foods that bring you closest to your target, each with a suggested amount to get you there.</div>
           </div>
         </div>
         <div class="controls">
@@ -182,6 +182,6 @@ check labels for packaged foods. Your own foods use the numbers you give them.</
   <button type="button" id="toast-close" class="remove" aria-label="Dismiss">×</button>
 </div>
 <div id="toast-live" class="visually-hidden" role="status" aria-live="polite"></div>
-<script src="app.js?v=9792657a"></script>
+<script src="app.js?v=ee9bb5f9"></script>
 </body>
 </html>
