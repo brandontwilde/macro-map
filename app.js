@@ -1,5 +1,8 @@
 const MACROS = ["p", "c", "f"];
 const MACRO_NAMES = { p: "Protein", c: "Carbs", f: "Fat" };
+const GOALS = [...MACROS, "kcal"]; // what a target can set; any of them can be left empty
+const GOAL_NAMES = { ...MACRO_NAMES, kcal: "Calories" };
+const KCAL_PER_G = 4; // kcal off a calorie target that weigh as much in the fit as 1 g off a macro target
 const TOP_MATCHES = 5;
 const LIST_LENGTH = 30;
 const MAX_COMBO = 5;
@@ -49,8 +52,8 @@ const FIT_PULL = 1; // g² of macro error that a food at the edge of its meal-si
 const state = {
   foods: [],
   mine: [], // the person's own foods, as entered: [{ id, name, group, diet, unit, grams, protein, carbs, fat, kcal }]
-  remaining: { p: 40, c: 60, f: 20 }, // about a 580 kcal meal
-  modes: { p: "eq", c: "eq", f: "eq" }, // per macro, a key of MODES
+  remaining: { p: 40, c: 60, f: 20, kcal: null }, // about a 580 kcal meal; null leaves that goal out of the fit
+  modes: { p: "eq", c: "eq", f: "eq", kcal: "max" }, // per goal, a key of MODES
   combo: [], // [{ id, grams, unit }], unit being a label from units(food)
   caps: true, // hold combo amounts to at most what a person eats in one meal
   floors: true, // and to at least a small portion of each, so no food drops out
@@ -77,8 +80,8 @@ const fmt = (n) => (n >= 10 ? Math.round(n) : Math.round(n * 10) / 10).toString(
 function load() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
-    if (saved.remaining) state.remaining = saved.remaining;
-    if (saved.modes) for (const k of MACROS) if (saved.modes[k] in MODES) state.modes[k] = saved.modes[k];
+    if (saved.remaining) state.remaining = { ...state.remaining, ...saved.remaining };
+    if (saved.modes) for (const k of GOALS) if (saved.modes[k] in MODES) state.modes[k] = saved.modes[k];
     if (saved.combo) state.combo = saved.combo;
     if (saved.filters) state.filters = { ...state.filters, ...saved.filters };
     if (saved.caps === false) state.caps = false;
@@ -139,7 +142,7 @@ const foodPrompt = () => `Give me nutrition data for the foods below as a JSON a
 - "unit": what it's counted in, e.g. "chip", "slice", "egg", "cup", "bar"
 - "grams" (optional): weight of one unit as eaten (cooked or prepared), in grams
 - "protein", "carbs", "fat": grams in one unit
-- "kcal" (optional): calories in one unit
+- "kcal": calories in one unit, as the source lists them (optional; left out, they're estimated from the macros)
 - "min", "max": the least and most of the unit one person would eat in one meal, e.g. 5 and 30 for "chip", 1 and 3 for "egg"
 - "meals": when it's eaten, any of ${MEALS.map((m) => `"${m}"`).join(", ")}
 - "role": its part in a meal, one of ${ROLES.map((r) => `"${r}"`).join(", ")}; "dish" means a complete meal on its own
@@ -490,8 +493,8 @@ function showScanned(r) {
   scanTags = [...r.cuisines, ...r.dishes];
   drawScanTags();
   labelScanLimits();
-  $("#scan-macros").textContent = `One unit (${fmt(r.grams)} g): ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")}${
-    r.kcal == null ? "" : ` · ${fmt(r.kcal)} kcal`}${r.labelServing ? ` · the label's serving is ${r.labelServing}` : ""}`;
+  $("#scan-macros").textContent = `One unit (${fmt(r.grams)} g): ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")} · ${
+    kcalText(recordKcal(r))}${r.labelServing ? ` · the label's serving is ${r.labelServing}` : ""}`;
   scanned = r;
   form.hidden = false;
 }
@@ -516,9 +519,20 @@ function toShares([x, y]) {
   return { p, c, f: 1 - p - c };
 }
 
+// The one rule for a food's calories, per whatever amount its macros are given for: the listed count,
+// else Atwater factors. The fit, totals and details all go through it so they agree.
+const kcalOf = (m) => m.kcal ?? 4 * m.p + 4 * m.c + 9 * m.f;
+const recordKcal = (r) => kcalOf({ p: r.protein, c: r.carbs, f: r.fat, kcal: r.kcal });
+const kcalText = (n) => `${Math.round(n)} kcal`;
+
 function perGram(food) {
-  return { p: food.p / 100, c: food.c / 100, f: food.f / 100 };
+  return { p: food.p / 100, c: food.c / 100, f: food.f / 100, kcal: kcalOf(food) / 100 };
 }
+
+// What the fit measures: the goals the target sets, each scaled to grams of macro.
+const goalsOf = (r) => GOALS.filter((k) => r[k] != null);
+const hasSplit = (r) => MACROS.every((k) => r[k] != null); // the target is a point on the map only with all three macros
+const scaleOf = (k) => (k === "kcal" ? 1 / KCAL_PER_G : 1);
 
 const units = (food) => (food.weightless ? food.portions : [...food.portions, ...WEIGHTS]);
 
@@ -573,10 +587,14 @@ const qtyIn = (unit, grams) => {
 };
 const amountText = (unit, grams) => `${qtyIn(unit, grams)} ${unit.label}`;
 
-// The share of the target's grams (all macros together) that an amount of a food provides.
+// The share of the target's grams (the macros it sets, together) that an amount of a food provides,
+// or of its calories when it sets no macros.
 function shareOf(food, grams) {
-  const target = MACROS.reduce((s, k) => s + state.remaining[k], 0);
-  return target ? MACROS.reduce((s, k) => s + macrosOf(food, grams)[k], 0) / target : 0;
+  const r = state.remaining, m = macrosOf(food, grams);
+  const set = MACROS.filter((k) => r[k] != null);
+  const keys = set.length ? set : r.kcal != null ? ["kcal"] : [];
+  const target = keys.reduce((s, k) => s + r[k], 0);
+  return target ? keys.reduce((s, k) => s + m[k], 0) / target : 0;
 }
 
 function serving(food) {
@@ -597,14 +615,14 @@ function comboItems() {
 
 function macrosOf(food, grams) {
   const v = perGram(food);
-  return { p: v.p * grams, c: v.c * grams, f: v.f * grams };
+  return Object.fromEntries(GOALS.map((k) => [k, v[k] * grams]));
 }
 
 function comboTotal(items) {
-  const total = { p: 0, c: 0, f: 0 };
+  const total = Object.fromEntries(GOALS.map((k) => [k, 0]));
   for (const { food, grams } of items) {
     const m = macrosOf(food, grams);
-    for (const k of MACROS) total[k] += m[k];
+    for (const k of GOALS) total[k] += m[k];
   }
   return total;
 }
@@ -620,22 +638,23 @@ function solveCombo(foods, r, modes = state.modes) {
   const [lo, hi] = [0, 1].map((j) => foods.map((f) => bounds(f)[j]));
   const mid = foods.map((f) => (f.min + f.max) / 2);
   const pull = foods.map((f) => (state.caps || state.floors ? FIT_PULL / ((f.max - f.min) / 2) ** 2 : 0));
-  const solve = (sides) => solveBoxed(cols, r, Object.fromEntries(MACROS.map((k) => [k, sides[k] ? SLACK ** 2 : 1])), lo, hi, mid, pull);
+  const goals = goalsOf(r);
+  const solve = (sides) => solveBoxed(cols, r, Object.fromEntries(goals.map((k) => [k, ((sides[k] ? SLACK : 1) * scaleOf(k)) ** 2])), lo, hi, mid, pull);
   const sidesOf = (x) => allowedSides(cols, x, r, modes);
   const tried = new Map();
   for (let sides = sidesOf(null); !tried.has(JSON.stringify(sides)); ) {
     const x = solve(sides);
     tried.set(JSON.stringify(sides), x);
     const next = sidesOf(x);
-    if (MACROS.every((k) => next[k] === sides[k])) return x;
+    if (goals.every((k) => next[k] === sides[k])) return x;
     sides = next;
   }
   // The guesses went round in a loop, so try every one.
-  const sided = MACROS.filter((k) => modes[k] !== "eq");
+  const sided = goals.filter((k) => modes[k] !== "eq");
   const cost = (x) => macroError(cols, x, r, modes) ** 2 + x.reduce((s, v, i) => s + pull[i] * (v - mid[i]) ** 2, 0);
   let best = null;
   for (let code = 0; code < 2 ** sided.length; code++) {
-    const sides = Object.fromEntries(MACROS.map((k) => [k, false]));
+    const sides = Object.fromEntries(goals.map((k) => [k, false]));
     sided.forEach((k, i) => (sides[k] = !!((code >> i) & 1)));
     const x = tried.get(JSON.stringify(sides)) ?? solve(sides);
     const c = cost(x);
@@ -644,14 +663,15 @@ function solveCombo(foods, r, modes = state.modes) {
   return best.x;
 }
 
-// Minimises Σ w_k (A x − r)_k² + Σ pull_i (x_i − mid_i)² with each x_i in [lo_i, hi_i]. Every food is tried at its
+// Minimises Σ w_k (A x − r)_k² over the goals k in w + Σ pull_i (x_i − mid_i)² with each x_i in [lo_i, hi_i]. Every food is tried at its
 // lower bound, at its upper bound and free (3^n cases); the problem is convex, so the best feasible case is the optimum.
 function solveBoxed(cols, r, w, lo, hi, mid, pull) {
   const n = cols.length;
-  const dot = (a, b) => MACROS.reduce((s, k) => s + w[k] * a[k] * b[k], 0);
+  const goals = Object.keys(w);
+  const dot = (a, b) => goals.reduce((s, k) => s + w[k] * a[k] * b[k], 0);
   const G = cols.map((a) => cols.map((b) => dot(a, b)));
   const Ar = cols.map((a) => dot(a, r));
-  const cost = (x) => MACROS.reduce((s, k) => s + w[k] * (cols.reduce((t, v, i) => t + v[k] * x[i], 0) - r[k]) ** 2, 0) +
+  const cost = (x) => goals.reduce((s, k) => s + w[k] * (cols.reduce((t, v, i) => t + v[k] * x[i], 0) - r[k]) ** 2, 0) +
     x.reduce((s, v, i) => s + pull[i] * (v - mid[i]) ** 2, 0);
   let best = null;
   for (let code = 0; code < 3 ** n; code++) {
@@ -695,19 +715,19 @@ function roundCombo(foods, units, x, r) {
   return g;
 }
 
-// Per macro, whether the total sits on the allowed side of an "at least" or "at most" value. No amounts yet means none do.
+// Per goal, whether the total sits on the allowed side of an "at least" or "at most" value. No amounts yet means none do.
 function allowedSides(cols, x, r, modes) {
-  return Object.fromEntries(MACROS.map((k) => {
+  return Object.fromEntries(goalsOf(r).map((k) => {
     const d = x ? cols.reduce((t, v, i) => t + v[k] * x[i], 0) - r[k] : 0;
     return [k, (modes[k] === "min" && d > 0) || (modes[k] === "max" && d < 0)];
   }));
 }
 
-// Distance from the target, in grams of macros, with grams on the allowed side of an "at least" or "at most" value scaled by SLACK.
+// Distance from the target, in grams of macros (calories scaled by KCAL_PER_G), with amounts on the allowed side of an "at least" or "at most" value scaled by SLACK.
 function macroError(cols, x, r, modes = state.modes) {
   const sides = allowedSides(cols, x, r, modes);
-  return Math.sqrt(MACROS.reduce((s, k) => {
-    const d = cols.reduce((t, v, i) => t + v[k] * x[i], 0) - r[k];
+  return Math.sqrt(goalsOf(r).reduce((s, k) => {
+    const d = (cols.reduce((t, v, i) => t + v[k] * x[i], 0) - r[k]) * scaleOf(k);
     return s + (sides[k] ? SLACK * d : d) ** 2;
   }, 0));
 }
@@ -775,12 +795,13 @@ function ranked() {
   return rankCache.value;
 }
 
-// With no combo: nearest first, on the triangle, to the target's split. With one: the foods that would
-// bring it closest to the target, with the amount the fit gives them, helped up by how well they pair.
+// With no combo and all three macros set: nearest first, on the triangle, to the target's split. Otherwise the
+// foods that would bring the combo (or an empty plate) closest to the target, with the amount the fit gives
+// them, helped up by how well they pair.
 function rank() {
   const items = comboItems();
   const r = state.remaining;
-  if (!items.length) {
+  if (!items.length && hasSplit(r)) {
     const target = toXY(r);
     const dist = (food) => {
       const xy = toXY(food);
@@ -791,7 +812,7 @@ function rank() {
       .map((food) => ({ food, d: dist(food), ...serving(food) }))
       .sort((a, b) => a.d - b.d);
   }
-  const norm = Math.hypot(...MACROS.map((k) => r[k])) || 1;
+  const norm = Math.hypot(...goalsOf(r).map((k) => r[k] * scaleOf(k))) || 1;
   const base = items.slice(items.length >= MAX_COMBO ? 1 : 0); // adding a food pushes out the oldest
   const picks = state.foods.filter((f) => !inCombo(f.id) && shown(f, items)).map((food) => {
     const foods = [...base.map((c) => c.food), food];
@@ -820,6 +841,7 @@ function splitBar(m) {
 function macroLine(m, unit = "") {
   return MACROS.map((k) => `${MACRO_NAMES[k][0]} ${fmt(m[k])}${unit}`).join(" · ");
 }
+const amountsLine = (m) => `${macroLine(m, " g")} · ${kcalText(m.kcal)}`;
 
 const zoom = () => PLOT_W / state.view.w;
 // Zooming moves points apart rather than scaling the drawing, so dots and text keep their size.
@@ -926,7 +948,7 @@ function drawPlot(suggestions) {
   const focused = state.focus && plotDots.find((d) => d.food.id === state.focus.id);
   if (focused) svg.append(svgEl("circle", { class: "focus-ring", cx: focused.x, cy: focused.y, r: 13 }));
 
-  const target = plotXY(state.remaining);
+  const target = hasSplit(state.remaining) && plotXY(state.remaining);
   if (target && inFrame(target)) {
     const g = svgEl("g", { class: "target", "pointer-events": "none" });
     g.append(svgEl("circle", { cx: target[0], cy: target[1], r: 11 }));
@@ -1078,7 +1100,7 @@ function drawList(rank) {
       <span class="rank">${n}</span>
       <span class="name" title="${esc(food.name)}">${esc(food.name)}</span>
       <span class="amount">${servingText(food, grams, unit)}</span>
-      <span class="sub">${splitBar(food)}<span class="fill">${macroLine(macrosOf(food, grams), " g")}</span><span class="fill">${pctText(share)}</span></span>
+      <span class="sub">${splitBar(food)}<span class="fill">${amountsLine(macrosOf(food, grams))}</span><span class="fill">${pctText(share)}</span></span>
     </li>`).join("");
 }
 
@@ -1117,23 +1139,25 @@ function drawComboTotals(items) {
     const others = [findUnit(food, food.unit), ...units(food).filter((u) => WEIGHTS.includes(u))].filter((u, i, all) =>
       u.label !== unit && all.findIndex((v) => v.label === u.label) === i);
     $(`.equiv[data-id="${food.id}"]`).textContent = others.length ? `= ${others.map((u) => amountText(u, grams)).join(" · ")}` : "";
-    $(`.item-macros[data-id="${food.id}"]`).textContent = macroLine(macrosOf(food, grams), " g");
+    $(`.item-macros[data-id="${food.id}"]`).textContent = amountsLine(macrosOf(food, grams));
   }
 
   const total = comboTotal(items);
-  const row = (label, m) =>
-    `<tr><td>${label}</td>${MACROS.map((k) => `<td>${fmt(m[k])} g</td>`).join("")}</tr>`;
+  const unit = (k) => (k === "kcal" ? " kcal" : " g");
+  const unset = (k) => state.remaining[k] == null;
   const togo = (k) => {
+    if (unset(k)) return "<td></td>";
     const d = state.remaining[k] - total[k];
     const mode = state.modes[k];
     if ((mode === "min" && d <= 0.5) || (mode === "max" && d >= -0.5)) return `<td class="met">✓ Met</td>`;
-    return d < -0.5 ? `<td class="over">${fmt(-d)} g over</td>` : `<td>${fmt(Math.max(d, 0))} g</td>`;
+    return d < -0.5 ? `<td class="over">${fmt(-d)}${unit(k)} over</td>` : `<td>${fmt(Math.max(d, 0))}${unit(k)}</td>`;
   };
+  const target = (k) => (unset(k) ? "Any" : `${MODE_SIGNS[state.modes[k]]}${fmt(state.remaining[k])}${unit(k)}`);
   $("#combo-totals").innerHTML =
-    `<tr><th></th>${MACROS.map((k) => `<th>${MACRO_NAMES[k]}</th>`).join("")}</tr>` +
-    row("Combo gives", total) +
-    `<tr><td>Target</td>${MACROS.map((k) => `<td>${MODE_SIGNS[state.modes[k]]}${fmt(state.remaining[k])} g</td>`).join("")}</tr>` +
-    `<tr><td>Still to go</td>${MACROS.map(togo).join("")}</tr>`;
+    `<tr><th></th>${GOALS.map((k) => `<th>${GOAL_NAMES[k]}</th>`).join("")}</tr>` +
+    `<tr><td>Combo gives</td>${GOALS.map((k) => `<td>${fmt(total[k])}${unit(k)}</td>`).join("")}</tr>` +
+    `<tr><td>Target</td>${GOALS.map((k) => `<td${unset(k) ? ' class="met"' : ""}>${target(k)}</td>`).join("")}</tr>` +
+    `<tr><td>Still to go</td>${GOALS.map(togo).join("")}</tr>`;
 }
 
 // Amounts that land closest to the target within each food's bounds, rounded to its step in its chosen unit.
@@ -1151,10 +1175,9 @@ const foodTitle = (food) =>
 const pctText = (share) => `${share > 0 && share < 0.005 ? "<1" : Math.round(share * 100)}% of target`;
 
 function foodDetails({ food, grams, unit, share }) {
-  const per100 = food.kcal ?? 4 * food.p + 4 * food.c + 9 * food.f; // Atwater factors when no calorie count is given
-  const kcal = per100 ? ` · ${Math.round((per100 * grams) / 100)} kcal` : "";
-  return `<div>${servingText(food, grams, unit)}${kcal}</div>
-    <div class="muted">${macroLine(macrosOf(food, grams), " g")} · ${pctText(share)}</div>`;
+  const m = macrosOf(food, grams);
+  return `<div>${servingText(food, grams, unit)} · ${kcalText(m.kcal)}</div>
+    <div class="muted">${macroLine(m, " g")} · ${pctText(share)}</div>`;
 }
 
 // Dots within reach (in CSS px) of a pointer event or an SVG point, nearest first.
@@ -1363,7 +1386,7 @@ function drawMine() {
   $("#mine-list").innerHTML = state.mine.map((r) => `
     <li>
       <span class="name">${esc(r.name)}</span>
-      <span class="muted">1 ${esc(r.unit)}${r.grams == null ? "" : ` (${fmt(r.grams)} g)`} · ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")} · ${fmt(r.min)}–${fmt(r.max)} per meal</span>
+      <span class="muted">1 ${esc(r.unit)}${r.grams == null ? "" : ` (${fmt(r.grams)} g)`} · ${macroLine({ p: r.protein, c: r.carbs, f: r.fat }, " g")} · ${kcalText(recordKcal(r))} · ${fmt(r.min)}–${fmt(r.max)} per meal</span>
       <span class="muted">${esc([r.meals.join(", "), r.role, ...[...r.cuisines, ...r.dishes].map(tagLabel)].join(" · "))}</span>
       <button type="button" class="remove" data-id="${r.id}" aria-label="Delete ${esc(r.name)}">×</button>
     </li>`).join("");
@@ -1450,15 +1473,16 @@ async function init() {
   setupThemeToggle();
   setupInfoTips();
   const form = $("#remaining");
-  const labelMode = (k) => (form.elements[`${k}-mode`].title = `${MACRO_NAMES[k]}: ${MODES[state.modes[k]]}`);
-  for (const k of MACROS) {
-    form.elements[k].value = state.remaining[k];
+  const labelMode = (k) => (form.elements[`${k}-mode`].title = `${GOAL_NAMES[k]}: ${MODES[state.modes[k]]}`);
+  for (const k of GOALS) {
+    form.elements[k].value = state.remaining[k] ?? "";
     form.elements[`${k}-mode`].value = state.modes[k];
     labelMode(k);
   }
   form.addEventListener("input", () => {
-    for (const k of MACROS) {
-      state.remaining[k] = Math.max(0, Number(form.elements[k].value) || 0);
+    for (const k of GOALS) {
+      const v = form.elements[k].value;
+      state.remaining[k] = v === "" ? null : Math.max(0, Number(v) || 0);
       state.modes[k] = form.elements[`${k}-mode`].value;
       labelMode(k);
     }
