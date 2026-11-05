@@ -1044,10 +1044,6 @@ function drawList(rank) {
     .filter((r) => !q || r.food.name.toLowerCase().includes(q) || r.food.group.toLowerCase().includes(q))
     .slice(0, LIST_LENGTH);
   const ol = $("#ranked");
-  $("#ranked-info").textContent = pairing()
-    ? "Foods that go with your combo and bring it closest to your target, each with a suggested amount to add."
-    : state.combo.length ? "Foods that bring your combo closest to your target, each with a suggested amount to add."
-    : "Foods whose mix of macros is closest to your target's.";
   if (!rows.length) {
     ol.innerHTML = `<li class="empty">${q ? `No foods match “${esc(state.query)}”`
       : pairing() ? "No foods that go with your combo would bring it closer to the target. Try Any food"
