@@ -293,7 +293,7 @@ ol { list-style: none; margin: 0; padding: 0; }
 }
 .paste-box { position: relative; }
 .paste-box:has(#clear-json:not([hidden])) #mine-json { padding-right: 60px; } /* keeps text clear of the button */
-#clear-json { position: absolute; top: 5px; right: 5px; padding: 1px 8px; font-size: 12px; color: var(--text-muted); background: var(--surface); }
+#clear-json { position: absolute; top: 5px; right: calc(5px + var(--scrollbar, 0px)); padding: 1px 8px; font-size: 12px; color: var(--text-muted); background: var(--surface); }
 #clear-json:hover { color: var(--text-primary); }
 .mine-msg-row { display: flex; align-items: flex-start; gap: 10px; }
 .mine-msg-row .hint { flex: 1; min-width: 0; }
