@@ -86,7 +86,9 @@ function load() {
     if (saved.filtersOpen) state.filtersOpen = true;
   } catch {}
   try {
-    state.mine = JSON.parse(localStorage.getItem(FOODS_KEY) || "[]").filter((r) => !checkFoods(r).errors.length);
+    state.mine = JSON.parse(localStorage.getItem(FOODS_KEY) || "[]")
+      .map((r) => ({ ...r, cuisines: (r.cuisines ?? []).filter((c) => c in CUISINES), dishes: (r.dishes ?? []).filter((d) => d in DISHES) })) // a retired tag drops off a saved food, not the food
+      .filter((r) => !checkFoods(r).errors.length);
   } catch {}
 }
 function save() {
@@ -181,16 +183,21 @@ function checkFoods(data) {
     if (WEIGHTS.some((w) => w.label === unit.toLowerCase())) return errors.push(`${label}: "unit" can't be g or oz, which are always offered; use something like "piece" or "cup".`);
     const [min, max] = ["min", "max"].map(num);
     if (!(min > 0 && max > min)) return errors.push(`${label}: "min" and "max" must be amounts of one unit for a meal, with max above min.`);
-    const list = (k) => (Array.isArray(item[k]) ? item[k] : String(item[k] ?? "").split(/[\s,]+/)).map((v) => String(v).trim());
-    const meals = list("meals").filter((m) => MEALS.includes(m));
+    const list = (k) => (Array.isArray(item[k]) ? item[k] : String(item[k] ?? "").split(/[\s,]+/)).map((v) => String(v).trim()).filter(Boolean);
+    const [meals, cuisines, dishes] = ["meals", "cuisines", "dishes"].map(list);
+    for (const [k, values, allowed] of [["meals", meals, MEALS], ["cuisines", cuisines, Object.keys(CUISINES)], ["dishes", dishes, Object.keys(DISHES)]]) {
+      const unknown = values.filter((v) => !allowed.includes(v));
+      if (unknown.length) return errors.push(`${label}: "${k}" has ${unknown.map((v) => `"${v}"`).join(", ")}; use only ${allowed.join(", ")}.`);
+    }
     if (!meals.length) return errors.push(`${label}: "meals" needs at least one of ${MEALS.join(", ")}.`);
     const role = String(item.role ?? "").trim();
     if (!ROLES.includes(role)) return errors.push(`${label}: "role" must be one of ${ROLES.join(", ")}.`);
-    const diet = ["vegan", "vegetarian"].includes(item.diet) ? item.diet : null;
+    const diet = String(item.diet ?? "").trim() || null;
+    if (diet && !["vegan", "vegetarian"].includes(diet)) return errors.push(`${label}: "diet" must be vegan, vegetarian or "".`);
     records.push({
       name, group: String(item.group ?? "").trim() || "Other", diet, unit, grams, protein, carbs, fat,
       kcal: kcal >= 0 ? kcal : null, min, max, meals, role,
-      cuisines: list("cuisines").filter((c) => c in CUISINES), dishes: list("dishes").filter((d) => d in DISHES),
+      cuisines, dishes,
     });
   });
   return { records, errors };
