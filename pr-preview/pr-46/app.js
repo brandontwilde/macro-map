@@ -1326,7 +1326,7 @@ function drawFilters() {
     </div>${state.combo.length ? `
     <div class="filter-row" role="group" aria-labelledby="pair-label">
       <span class="filter-label" id="pair-label">Pair</span>
-      <div class="segmented">${chip('data-any=""', "Goes with combo", !state.filters.anyFood)}${chip('data-any="1"', "Any food", state.filters.anyFood)}</div>
+      <div class="segmented">${chip('data-any="1"', "Any food", state.filters.anyFood)}${chip('data-any=""', "Goes with combo", !state.filters.anyFood)}</div>
     </div>` : ""}`;
 }
 
@@ -1680,7 +1680,7 @@ async function init() {
 
   setupToast();
 
-  builtIn = await (await fetch("foods.json?v=651376b2")).json();
+  builtIn = await (await fetch("foods.json?v=fce3d6ee")).json();
   setFoods();
   upgradeCombo();
   render();
