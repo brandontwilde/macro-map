@@ -1306,7 +1306,11 @@ function drawFilters() {
   $("#filters-summary").textContent = filterSummary();
   $("#filters-toggle").setAttribute("aria-expanded", state.filtersOpen);
   $("#filters").hidden = !state.filtersOpen;
-  $("#filters").innerHTML = `
+  $("#filters").innerHTML = `${state.mine.length ? `
+    <div class="filter-row" role="group" aria-labelledby="source-label">
+      <span class="filter-label" id="source-label">Source</span>
+      <div class="segmented">${chip('data-mine=""', "All foods", !mine)}${chip('data-mine="1"', "My foods", mine)}</div>
+    </div>` : ""}
     <div class="filter-row" role="group" aria-labelledby="diet-label">
       <span class="filter-label" id="diet-label">Diet</span>
       <div class="segmented">${DIETS.map(([value, label]) => chip(`data-diet="${value}"`, label, diet === value)).join("")}</div>
@@ -1315,11 +1319,6 @@ function drawFilters() {
       <span class="filter-label" id="meal-label">Meal</span>
       <div class="chips">${MEALS.map((m) => chip(`data-meal="${m}"`, MEAL_LABELS[m], meals.includes(m))).join("")}</div>
     </div>
-    </div>${state.mine.length ? `
-    <div class="filter-row" role="group" aria-labelledby="source-label">
-      <span class="filter-label" id="source-label">Source</span>
-      <div class="segmented">${chip('data-mine=""', "All foods", !mine)}${chip('data-mine="1"', "My foods", mine)}</div>
-    </div>` : ""}
     <div class="filter-row" role="group" aria-labelledby="groups-label">
       <span class="filter-label" id="groups-label">Group</span>
       <div class="chips">${all.map((g) => chip(`data-group="${esc(g)}"`, g, groups.includes(g))).join("")}${
