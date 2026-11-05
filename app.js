@@ -1289,9 +1289,10 @@ function filterSummary() {
   const { groups, meals, diet } = state.filters;
   const mine = state.filters.mine && state.mine.length > 0;
   const parts = [
+    mine && "My foods",
     diet && DIETS.find(([value]) => value === diet)[1],
     meals.length && MEALS.filter((m) => meals.includes(m)).map((m) => MEAL_LABELS[m]).join(", "),
-    (mine || groups.length) && [mine && "My foods", ...groups].filter(Boolean).join(", "),
+    groups.join(", "),
     pairing() && "Goes with combo",
   ].filter(Boolean);
   return parts.length ? parts.join(" · ") : "All foods";
@@ -1314,11 +1315,15 @@ function drawFilters() {
       <span class="filter-label" id="meal-label">Meal</span>
       <div class="chips">${MEALS.map((m) => chip(`data-meal="${m}"`, MEAL_LABELS[m], meals.includes(m))).join("")}</div>
     </div>
+    </div>${state.mine.length ? `
+    <div class="filter-row" role="group" aria-labelledby="source-label">
+      <span class="filter-label" id="source-label">Source</span>
+      <div class="segmented">${chip('data-mine=""', "All foods", !mine)}${chip('data-mine="1"', "My foods", mine)}</div>
+    </div>` : ""}
     <div class="filter-row" role="group" aria-labelledby="groups-label">
-      <span class="filter-label" id="groups-label">Show</span>
-      <div class="chips">${chip('data-group=""', "All foods", !groups.length && !mine)}${
-        state.mine.length ? chip("data-mine", "My foods", mine) : ""}${
-        all.map((g) => chip(`data-group="${esc(g)}"`, g, groups.includes(g))).join("")}</div>
+      <span class="filter-label" id="groups-label">Group</span>
+      <div class="chips">${all.map((g) => chip(`data-group="${esc(g)}"`, g, groups.includes(g))).join("")}${
+        groups.length ? '<button type="button" class="link" data-clear-groups>Clear</button>' : ""}</div>
     </div>${state.combo.length ? `
     <div class="filter-row" role="group" aria-labelledby="pair-label">
       <span class="filter-label" id="pair-label">Pair</span>
@@ -1519,16 +1524,16 @@ async function init() {
     save();
     drawFilters();
   });
-  // Group and meal chips combine (any of the picked ones); "All foods" clears the groups.
+  // Group and meal chips combine (any of the picked ones).
   $("#filters").addEventListener("click", (e) => {
-    const btn = e.target.closest(".chip");
+    const btn = e.target.closest(".chip, [data-clear-groups]");
     if (!btn) return;
     const f = state.filters;
-    if ("any" in btn.dataset) f.anyFood = !!btn.dataset.any;
+    if ("clearGroups" in btn.dataset) f.groups = [];
+    else if ("any" in btn.dataset) f.anyFood = !!btn.dataset.any;
     else if ("diet" in btn.dataset) f.diet = btn.dataset.diet;
-    else if ("mine" in btn.dataset) f.mine = !f.mine;
+    else if ("mine" in btn.dataset) f.mine = !!btn.dataset.mine;
     else if ("meal" in btn.dataset) f.meals = f.meals.includes(btn.dataset.meal) ? f.meals.filter((m) => m !== btn.dataset.meal) : [...f.meals, btn.dataset.meal];
-    else if (!btn.dataset.group) [f.groups, f.mine] = [[], false];
     else if (f.groups.includes(btn.dataset.group)) f.groups = f.groups.filter((g) => g !== btn.dataset.group);
     else f.groups = [...f.groups, btn.dataset.group];
     state.focus = null;
