@@ -19,8 +19,8 @@
       <button type="button" id="theme-toggle" class="button"></button>
     </div>
   </div>
-  <p class="lede">Enter your target macros to find the foods that fit them, or pick a few foods
-  that go together to build a combo that does.</p>
+  <p class="lede">Enter your target macros, and calories if you count them, to find the foods that fit,
+  or pick a few foods that go together to build a combo that does.</p>
 </header>
 
 <section id="mine" class="card" hidden>
@@ -88,7 +88,7 @@
 <main>
   <section class="left">
     <form id="remaining" class="card" autocomplete="off">
-      <h2>Target macros</h2>
+      <h2>Target</h2>
       <div class="inputs">
         <div class="m-p"><label for="t-p">Protein</label>
           <select name="p-mode" aria-label="Protein target type"><option value="eq">=</option><option value="min">≥</option><option value="max">≤</option></select>
@@ -99,6 +99,9 @@
         <div class="m-f"><label for="t-f">Fat</label>
           <select name="f-mode" aria-label="Fat target type"><option value="eq">=</option><option value="min">≥</option><option value="max">≤</option></select>
           <input id="t-f" name="f" type="number" min="0" step="1" inputmode="numeric"><em>g</em></div>
+        <div class="m-kcal"><label for="t-kcal">Calories</label>
+          <select name="kcal-mode" aria-label="Calories target type"><option value="eq">=</option><option value="min">≥</option><option value="max">≤</option></select>
+          <input id="t-kcal" name="kcal" type="number" min="0" step="10" inputmode="numeric" placeholder="Any" title="Leave empty to fit macros only"><em>kcal</em></div>
       </div>
     </form>
 

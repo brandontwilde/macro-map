@@ -1,7 +1,7 @@
 # Macro Map
 
-A page for finding foods that fit a protein, carbs and fat target: what's
-left for the day, or a single meal or snack.
+A page for finding foods that fit a protein, carbs and fat target, and
+optionally calories: what's left for the day, or a single meal or snack.
 
 Every food is plotted on a triangle by its macro split (by grams): pure
 protein at the top corner, pure carbs bottom-left, pure fat bottom-right.
@@ -16,6 +16,14 @@ minimum or under a maximum count for a quarter as much as grams on the wrong
 side, so the fit still lands near the value instead of overshooting it (and
 "at most" everything doesn't give an empty plate). The suggestions use the same
 measure.
+
+The calorie target is optional and takes the same three modes; it's most
+useful as a cap ("at least 40 g protein, at most 500 kcal"), since exact
+macros already fix the calories. In the fit, 4 kcal off counts as much as 1 g
+of macro off. A food's calories are its listed count where there is one,
+otherwise 4 kcal per gram of protein and carbs and 9 per gram of fat, and the
+fit, combo totals and food details all use that same number. The map shows
+only the macro split, so calories don't move the crosshair.
 
 Once a combo is started, foods that don't go with it fade, and the list
 suggests the foods that would bring it closest to the target, ranked up by
