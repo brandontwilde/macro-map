@@ -107,8 +107,26 @@ input, select {
 #search { max-width: 170px; }
 select { width: auto; }
 
-.filters { display: grid; gap: 8px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
-.filter-row { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 8px; align-items: start; }
+.filters { --label-w: 54px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); } /* label column fits "Filters" and its arrow */
+/* Right padding keeps the summary clear of the map's ? button. */
+.filters-toggle {
+  display: grid; grid-template-columns: var(--label-w) minmax(0, 1fr); gap: 8px; align-items: center; width: 100%;
+  font: inherit; font-size: 12px; color: var(--text-secondary); background: none; border: 0; padding: 0 32px 0 0;
+  text-align: left; cursor: pointer;
+}
+.filters-toggle .filter-label { padding-top: 0; display: inline-flex; align-items: center; gap: 4px; }
+#filters-summary { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.filters-toggle:hover #filters-summary, .filters-toggle:hover .filter-label { color: var(--text-primary); }
+.filters-toggle .chevron {
+  width: 14px; height: 14px; fill: none; stroke: var(--text-secondary); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  transition: transform 0.15s;
+}
+.filters-toggle:hover .chevron { stroke: var(--text-primary); }
+.filters-toggle[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+.filter-rows { display: grid; gap: 8px; margin-top: 10px; }
+.filter-rows[hidden] { display: none; }
+.chips .link { font-size: 12px; padding: 2px 4px; }
+.filter-row { display: grid; grid-template-columns: var(--label-w) minmax(0, 1fr); gap: 8px; align-items: start; }
 .filter-label { font-size: 12px; color: var(--text-muted); padding-top: 3px; }
 .chips { display: flex; flex-wrap: wrap; gap: 4px; }
 /* Diet is one choice, so its options join into a single control. */

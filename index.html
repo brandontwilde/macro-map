@@ -113,7 +113,12 @@
           </ul>
         </div>
       </div>
-      <div id="filters" class="filters"></div>
+      <div class="filters">
+        <button type="button" id="filters-toggle" class="filters-toggle" aria-expanded="false" aria-controls="filters">
+          <span class="filter-label">Filters<svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6l4.5 4.5L12.5 6"/></svg></span><span id="filters-summary"></span>
+        </button>
+        <div id="filters" class="filter-rows" hidden></div>
+      </div>
       <div class="plot-area">
         <svg id="tri" viewBox="0 0 600 548" role="img" aria-label="Triangle plot of foods by macro split"></svg>
         <div class="zoom-controls">
