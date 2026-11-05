@@ -1044,7 +1044,7 @@ function drawList(rank) {
   const q = state.query.trim().toLowerCase();
   const rows = rank
     .map((r, i) => ({ ...r, n: i + 1 }))
-    .filter((r) => !q || r.food.name.toLowerCase().includes(q) || r.food.group.toLowerCase().includes(q))
+    .filter((r) => !q || r.food.name.toLowerCase().includes(q))
     .slice(0, LIST_LENGTH);
   const ol = $("#ranked");
   if (!rows.length) {
