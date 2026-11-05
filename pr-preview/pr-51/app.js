@@ -1377,7 +1377,15 @@ function importFoods({ records, errors }) {
 
 function setPasteText(text) {
   $("#mine-json").value = text;
-  $("#clear-json").hidden = !text;
+  syncClear();
+}
+
+// Keeps Clear inside the box but left of its scrollbar, whose width depends on the platform.
+function syncClear() {
+  const box = $("#mine-json");
+  $("#clear-json").hidden = !box.value;
+  const scrollbar = box.offsetWidth - box.clientWidth - 2; // 2 = left and right borders
+  box.parentElement.style.setProperty("--scrollbar", `${scrollbar}px`);
 }
 
 const THEME_KEY = "macro-map-theme";
@@ -1627,7 +1635,8 @@ async function init() {
     }
     setTimeout(() => (e.target.textContent = "Copy errors"), 2000);
   });
-  $("#mine-json").addEventListener("input", (e) => ($("#clear-json").hidden = !e.target.value));
+  $("#mine-json").addEventListener("input", syncClear);
+  new ResizeObserver(syncClear).observe($("#mine-json"));
   $("#clear-json").addEventListener("click", () => {
     setPasteText("");
     $("#mine-json").focus();
@@ -1709,7 +1718,7 @@ async function init() {
 
   setupToast();
 
-  builtIn = await (await fetch("foods.json?v=28e9f252")).json();
+  builtIn = await (await fetch("foods.json?v=17dde266")).json();
   setFoods();
   upgradeCombo();
   render();
