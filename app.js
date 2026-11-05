@@ -45,6 +45,7 @@ const SWAP_FACTOR = 0.5;
 const NO_CLASH_ROLES = ["drink", "sweet", "fruit"]; // go alongside any cuisine
 const PAIR_WEIGHT = 0.2; // how much the best pairing counts against target error (a share of the target)
 const SLACK = 0.25; // weight of grams on the allowed side of an "at least" or "at most" target; above 0 so the fit still prefers the value
+const MISS = 5; // weight of grams on the wrong side of one, against 1 for an exact target, so limits come before closeness
 const MODES = { eq: "exactly", min: "at least", max: "at most" };
 const MODE_SIGNS = { eq: "", min: "≥ ", max: "≤ " };
 const FIT_PULL = 1; // g² of macro error that a food at the edge of its meal-size range costs; small, so the target comes first
@@ -639,7 +640,7 @@ function solveCombo(foods, r, modes = state.modes) {
   const mid = foods.map((f) => (f.min + f.max) / 2);
   const pull = foods.map((f) => (state.caps || state.floors ? FIT_PULL / ((f.max - f.min) / 2) ** 2 : 0));
   const goals = goalsOf(r);
-  const solve = (sides) => solveBoxed(cols, r, Object.fromEntries(goals.map((k) => [k, ((sides[k] ? SLACK : 1) * scaleOf(k)) ** 2])), lo, hi, mid, pull);
+  const solve = (sides) => solveBoxed(cols, r, Object.fromEntries(goals.map((k) => [k, (sideWeight(modes[k], sides[k]) * scaleOf(k)) ** 2])), lo, hi, mid, pull);
   const sidesOf = (x) => allowedSides(cols, x, r, modes);
   const tried = new Map();
   for (let sides = sidesOf(null); !tried.has(JSON.stringify(sides)); ) {
@@ -696,7 +697,8 @@ function solveBoxed(cols, r, w, lo, hi, mid, pull) {
 }
 
 // Rounds each amount to its step, then moves amounts a step at a time, alone or traded between two foods,
-// while that lowers macroError: rounding each food on its own can add up to grams off.
+// while that lowers limitMiss, or macroError without raising limitMiss: rounding each food on its own can add up
+// to grams off, and can leave a limit the unrounded amounts all but met.
 function roundCombo(foods, units, x, r) {
   const cols = foods.map(perGram);
   const g = foods.map((f, i) => roundAmount(f, units[i], x[i]));
@@ -706,9 +708,10 @@ function roundCombo(foods, units, x, r) {
   for (let pass = 0, moved = true; moved && pass < 50; pass++) {
     moved = false;
     for (const move of moves) {
-      const before = macroError(cols, g, r);
+      const [miss, err] = [limitMiss(cols, g, r), macroError(cols, g, r)];
       for (const [i, d] of move) g[i] += d * steps[i];
-      if (move.every(([i]) => fits(i)) && macroError(cols, g, r) < before - 1e-9) moved = true;
+      const [newMiss, newErr] = [limitMiss(cols, g, r), macroError(cols, g, r)];
+      if (move.every(([i]) => fits(i)) && (newMiss < miss - 1e-9 || (newMiss < miss + 1e-9 && newErr < err - 1e-9))) moved = true;
       else for (const [i, d] of move) g[i] -= d * steps[i];
     }
   }
@@ -723,12 +726,23 @@ function allowedSides(cols, x, r, modes) {
   }));
 }
 
-// Distance from the target, in grams of macros (calories scaled by KCAL_PER_G), with amounts on the allowed side of an "at least" or "at most" value scaled by SLACK.
+const sideWeight = (mode, allowed) => (allowed ? SLACK : mode === "eq" ? 1 : MISS);
+
+// Distance from the target, in grams of macros (calories scaled by KCAL_PER_G), each goal's miss weighted by sideWeight.
 function macroError(cols, x, r, modes = state.modes) {
   const sides = allowedSides(cols, x, r, modes);
   return Math.sqrt(goalsOf(r).reduce((s, k) => {
     const d = (cols.reduce((t, v, i) => t + v[k] * x[i], 0) - r[k]) * scaleOf(k);
-    return s + (sides[k] ? SLACK * d : d) ** 2;
+    return s + (sideWeight(modes[k], sides[k]) * d) ** 2;
+  }, 0));
+}
+
+// How far the totals sit on the wrong side of "at least" and "at most" values, in the same units.
+function limitMiss(cols, x, r, modes = state.modes) {
+  const sides = allowedSides(cols, x, r, modes);
+  return Math.sqrt(goalsOf(r).reduce((s, k) => {
+    if (modes[k] === "eq" || sides[k]) return s;
+    return s + ((cols.reduce((t, v, i) => t + v[k] * x[i], 0) - r[k]) * scaleOf(k)) ** 2;
   }, 0));
 }
 

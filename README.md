@@ -11,10 +11,13 @@ amounts that land closest to your numbers, keeping each food within what a
 person would eat in one meal. Any mix of foods sits inside the outline around
 them on the map.
 
-Each target can be exact (=), a minimum (≥) or a maximum (≤). Grams past a
-minimum or under a maximum count for a quarter as much as grams on the wrong
-side, so the fit still lands near the value instead of overshooting it (and
-"at most" everything doesn't give an empty plate). The suggestions use the same
+Each target can be exact (=), a minimum (≥) or a maximum (≤). Grams on the
+wrong side of a minimum or maximum count five times as much as grams off an
+exact value, so limits are met before closeness counts. Grams past a minimum or
+under a maximum still count for a quarter as much as grams off an exact value,
+so the fit lands near the value instead of overshooting it (and "at most"
+everything doesn't give an empty plate). When amounts are rounded to each
+food's step, rounding first keeps every limit it can, then gets close. The suggestions use the same
 measure.
 
 Any target left empty is left out of the fit and the suggestions. With a
