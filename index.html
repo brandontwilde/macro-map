@@ -45,8 +45,14 @@
     <button type="button" id="copy-prompt" class="button">Copy AI prompt</button>
     <span class="muted">Paste it into an AI chat, then add your foods: a list, a recipe, photos, or another app's export.</span>
   </div>
-  <textarea id="mine-json" rows="4" placeholder="Paste JSON-formatted food details here." aria-label="AI reply with your foods"></textarea>
-  <p id="mine-msg" class="hint" aria-live="polite"></p>
+  <div class="paste-box">
+    <textarea id="mine-json" rows="4" placeholder="Paste JSON-formatted food details here." aria-label="AI reply with your foods"></textarea>
+    <button type="button" id="clear-json" class="button" hidden>Clear</button>
+  </div>
+  <div class="mine-msg-row">
+    <p id="mine-msg" class="hint" aria-live="polite"></p>
+    <button type="button" id="copy-errors" class="button" hidden>Copy errors</button>
+  </div>
   <div class="controls wrap">
     <button type="button" id="add-mine" class="button">Add foods</button>
     <button type="button" id="scan-open" class="button" aria-expanded="false" aria-controls="scan">Scan barcode</button>
