@@ -56,7 +56,8 @@ const state = {
   floors: true, // and to at least a small portion of each, so no food drops out
   query: "",
   focus: null, // { id, nearby: ids of the dots around it }
-  filters: { groups: [], diet: "", mine: false, anyFood: false }, // no groups means every group; diet "", "vegetarian" or "vegan"
+  filters: { groups: [], meals: [], diet: "", mine: false, anyFood: false }, // no groups or meals means all of them; diet "", "vegetarian" or "vegan"
+  filtersOpen: false,
   view: { x: 0, y: 0, w: PLOT_W }, // plot point at the view's top-left, and the plot width shown
 };
 // Reach of a pointer, in CSS px: how far from a dot a hover or tap still picks it.
@@ -82,6 +83,7 @@ function load() {
     if (saved.filters) state.filters = { ...state.filters, ...saved.filters };
     if (saved.caps === false) state.caps = false;
     if (saved.floors === false) state.floors = false;
+    if (saved.filtersOpen) state.filtersOpen = true;
   } catch {}
   try {
     state.mine = JSON.parse(localStorage.getItem(FOODS_KEY) || "[]").filter((r) => !checkFoods(r).errors.length);
@@ -89,7 +91,7 @@ function load() {
 }
 function save() {
   try {
-    localStorage.setItem(STORE_KEY, JSON.stringify({ remaining: state.remaining, modes: state.modes, combo: state.combo, filters: state.filters, caps: state.caps, floors: state.floors }));
+    localStorage.setItem(STORE_KEY, JSON.stringify({ remaining: state.remaining, modes: state.modes, combo: state.combo, filters: state.filters, filtersOpen: state.filtersOpen, caps: state.caps, floors: state.floors }));
   } catch {}
 }
 
@@ -708,9 +710,10 @@ function gaussSolve(M, b) {
 }
 
 function passesFilters(food) {
-  const { groups, diet } = state.filters;
+  const { groups, meals, diet } = state.filters;
   if (state.filters.mine && state.mine.length && !food.mine) return false;
   if (groups.length && !groups.includes(food.group)) return false;
+  if (meals.length && !food.meals.some((m) => meals.includes(m))) return false;
   return diet === "vegan" ? food.diet === "vegan" : diet === "vegetarian" ? !!food.diet : true;
 }
 
@@ -1279,16 +1282,37 @@ function setupToast() {
 }
 
 const DIETS = [["", "Any diet"], ["vegetarian", "Vegetarian"], ["vegan", "Vegan"]];
+const MEAL_LABELS = { breakfast: "Breakfast", main: "Lunch & dinner", snack: "Snack", dessert: "Dessert" };
+
+// What the filters hold back, so the collapsed control still explains why foods are missing or faded.
+function filterSummary() {
+  const { groups, meals, diet } = state.filters;
+  const mine = state.filters.mine && state.mine.length > 0;
+  const parts = [
+    diet && DIETS.find(([value]) => value === diet)[1],
+    meals.length && MEALS.filter((m) => meals.includes(m)).map((m) => MEAL_LABELS[m]).join(", "),
+    (mine || groups.length) && [mine && "My foods", ...groups].filter(Boolean).join(", "),
+    pairing() && "Goes with combo",
+  ].filter(Boolean);
+  return parts.length ? parts.join(" · ") : "All foods";
+}
 
 function drawFilters() {
-  const { groups, diet } = state.filters;
+  const { groups, meals, diet } = state.filters;
   const mine = state.filters.mine && state.mine.length > 0;
   const all = [...new Set(state.foods.map((f) => f.group))];
   const chip = (attrs, label, on) => `<button type="button" class="chip" ${attrs} aria-pressed="${on}">${esc(label)}</button>`;
+  $("#filters-summary").textContent = filterSummary();
+  $("#filters-toggle").setAttribute("aria-expanded", state.filtersOpen);
+  $("#filters").hidden = !state.filtersOpen;
   $("#filters").innerHTML = `
     <div class="filter-row" role="group" aria-labelledby="diet-label">
       <span class="filter-label" id="diet-label">Diet</span>
       <div class="segmented">${DIETS.map(([value, label]) => chip(`data-diet="${value}"`, label, diet === value)).join("")}</div>
+    </div>
+    <div class="filter-row" role="group" aria-labelledby="meal-label">
+      <span class="filter-label" id="meal-label">Meal</span>
+      <div class="chips">${MEALS.map((m) => chip(`data-meal="${m}"`, MEAL_LABELS[m], meals.includes(m))).join("")}</div>
     </div>
     <div class="filter-row" role="group" aria-labelledby="groups-label">
       <span class="filter-label" id="groups-label">Show</span>
@@ -1490,7 +1514,12 @@ async function init() {
   $("#zoom-in").addEventListener("click", () => zoomAt(2, center));
   $("#zoom-out").addEventListener("click", () => zoomAt(1 / 2, center));
   $("#zoom-reset").addEventListener("click", () => setView(0, 0, PLOT_W));
-  // Group chips combine (any of the picked groups); "All foods" clears them.
+  $("#filters-toggle").addEventListener("click", () => {
+    state.filtersOpen = !state.filtersOpen;
+    save();
+    drawFilters();
+  });
+  // Group and meal chips combine (any of the picked ones); "All foods" clears the groups.
   $("#filters").addEventListener("click", (e) => {
     const btn = e.target.closest(".chip");
     if (!btn) return;
@@ -1498,6 +1527,7 @@ async function init() {
     if ("any" in btn.dataset) f.anyFood = !!btn.dataset.any;
     else if ("diet" in btn.dataset) f.diet = btn.dataset.diet;
     else if ("mine" in btn.dataset) f.mine = !f.mine;
+    else if ("meal" in btn.dataset) f.meals = f.meals.includes(btn.dataset.meal) ? f.meals.filter((m) => m !== btn.dataset.meal) : [...f.meals, btn.dataset.meal];
     else if (!btn.dataset.group) [f.groups, f.mine] = [[], false];
     else if (f.groups.includes(btn.dataset.group)) f.groups = f.groups.filter((g) => g !== btn.dataset.group);
     else f.groups = [...f.groups, btn.dataset.group];
