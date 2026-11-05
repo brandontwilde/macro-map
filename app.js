@@ -1331,6 +1331,7 @@ function drawFilters() {
 }
 
 function render() {
+  if (!state.combo.length) state.filters.anyFood = false; // Pair is hidden without a combo, so each new combo starts on Goes with combo
   const rank = ranked();
   drawFilters();
   drawPlot(rank);
