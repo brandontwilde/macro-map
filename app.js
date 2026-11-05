@@ -160,14 +160,19 @@ function parseFoods(text) {
   } catch {
     return { records: [], errors: ["That isn't valid JSON. Paste just the JSON part of the reply."] };
   }
-  return checkFoods(data);
+  return checkFoods(data, true);
 }
 
-function checkFoods(data) {
+const FOOD_KEYS = ["name", "group", "diet", "unit", "grams", "protein", "carbs", "fat", "kcal", "min", "max", "meals", "role", "cuisines", "dishes"];
+
+// strictKeys rejects misspelled keys, which would otherwise be ignored; saved foods skip it since they carry an id.
+function checkFoods(data, strictKeys = false) {
   const records = [], errors = [];
   (Array.isArray(data) ? data : [data]).forEach((item, i) => {
     const label = `Item ${i + 1}${item?.name ? ` (${item.name})` : ""}`;
     if (!item || typeof item !== "object") return errors.push(`${label}: not an object.`);
+    const unknownKeys = strictKeys ? Object.keys(item).filter((k) => !FOOD_KEYS.includes(k)) : [];
+    if (unknownKeys.length) return errors.push(`${label}: unknown key ${unknownKeys.map((k) => `"${k}"`).join(", ")}; use only ${FOOD_KEYS.join(", ")}.`);
     const name = String(item.name ?? "").trim();
     const num = (k) => (item[k] === "" || item[k] == null ? NaN : Number(item[k]));
     const [protein, carbs, fat] = ["protein", "carbs", "fat"].map(num);
