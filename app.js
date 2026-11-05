@@ -150,7 +150,7 @@ const foodPrompt = () => `Give me nutrition data for the foods below as a JSON a
 - "cuisines": any of ${Object.keys(CUISINES).map((c) => `"${c}"`).join(", ")}, only where the food would seem out of place in most other cuisines; generic ingredients get []
 - "dishes": every kind of dish it goes into or alongside, from ${Object.keys(DISHES).map((d) => `"${d}"`).join(", ")}; when unsure, include it
 My foods may come as a list, a recipe, a screenshot or export from another app, or photos of labels or food; work out each food's values from whatever I give.
-If you can search the web, look up branded, packaged and restaurant foods instead of estimating: use the maker's published nutrition facts first, then Open Food Facts. For plain whole foods, use USDA FoodData Central values.
+If you can search the web, you must look up every food you can identify well enough to search for. Do not estimate from memory to save time. For branded, packaged and restaurant foods, use the maker's published nutrition facts first, then Open Food Facts. For plain whole foods, use USDA FoodData Central values. Estimate only when a search finds nothing usable or you can't search.
 For a recipe, use one portion if I say how many it makes; otherwise use the whole batch, e.g. "pot". Reply with only the JSON.
 
 My foods:
@@ -1683,7 +1683,7 @@ async function init() {
       getSelection().selectAllChildren($("#mine-msg"));
       e.target.textContent = "Copy the selection";
     }
-    setTimeout(() => (e.target.textContent = "Copy error"), 2000);
+    setTimeout(() => (e.target.textContent = "Copy error(s)"), 2000);
   });
   $("#mine-json").addEventListener("input", syncClear);
   new ResizeObserver(syncClear).observe($("#mine-json"));
@@ -1768,7 +1768,7 @@ async function init() {
 
   setupToast();
 
-  builtIn = await (await fetch("foods.json?v=25dc96fe")).json();
+  builtIn = await (await fetch("foods.json?v=649aa34f")).json();
   setFoods();
   upgradeCombo();
   render();

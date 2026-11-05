@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Macro Map</title>
-<link rel="stylesheet" href="style.css?v=25dc96fe">
+<link rel="stylesheet" href="style.css?v=649aa34f">
 <script>
   // Applied before first paint so a saved theme doesn't flash the other one.
   try { const t = localStorage.getItem("macro-map-theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
@@ -50,7 +50,7 @@
   </div>
   <div class="mine-msg-row">
     <p id="mine-msg" class="hint" aria-live="polite"></p>
-    <button type="button" id="copy-errors" class="button" hidden>Copy error</button>
+    <button type="button" id="copy-errors" class="button" hidden>Copy error(s)</button>
   </div>
   <div class="controls wrap">
     <button type="button" id="add-mine" class="button">Add foods</button>
@@ -190,6 +190,6 @@ check labels for packaged foods. Your own foods use the numbers you give them.</
   <button type="button" id="toast-close" class="remove" aria-label="Dismiss">×</button>
 </div>
 <div id="toast-live" class="visually-hidden" role="status" aria-live="polite"></div>
-<script src="app.js?v=25dc96fe"></script>
+<script src="app.js?v=649aa34f"></script>
 </body>
 </html>
