@@ -1633,7 +1633,7 @@ async function init() {
       getSelection().selectAllChildren($("#mine-msg"));
       e.target.textContent = "Copy the selection";
     }
-    setTimeout(() => (e.target.textContent = "Copy errors"), 2000);
+    setTimeout(() => (e.target.textContent = "Copy error"), 2000);
   });
   $("#mine-json").addEventListener("input", syncClear);
   new ResizeObserver(syncClear).observe($("#mine-json"));
