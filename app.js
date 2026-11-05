@@ -1357,6 +1357,8 @@ function drawMine() {
     </li>`).join("");
 }
 
+let foodErrors = [];
+
 function importFoods({ records, errors }) {
   if (records.length) {
     closeToast(); // an undone delete could otherwise bring back a food with the same name
@@ -1368,7 +1370,22 @@ function importFoods({ records, errors }) {
   const msg = $("#mine-msg");
   msg.classList.toggle("over", !!errors.length);
   msg.innerHTML = [added, ...errors].filter(Boolean).map(esc).join("<br>");
+  foodErrors = errors;
+  $("#copy-errors").hidden = !errors.length;
   return records.length > 0 && !errors.length;
+}
+
+function setPasteText(text) {
+  $("#mine-json").value = text;
+  syncClear();
+}
+
+// Keeps Clear inside the box but left of its scrollbar, whose width depends on the platform.
+function syncClear() {
+  const box = $("#mine-json");
+  $("#clear-json").hidden = !box.value;
+  const scrollbar = box.offsetWidth - box.clientWidth - 2; // 2 = left and right borders
+  box.parentElement.style.setProperty("--scrollbar", `${scrollbar}px`);
 }
 
 const THEME_KEY = "macro-map-theme";
@@ -1603,10 +1620,26 @@ async function init() {
       await navigator.clipboard.writeText(foodPrompt());
       e.target.textContent = "Copied";
     } catch {
-      $("#mine-json").value = foodPrompt(); // clipboard can be blocked; leave it where it can be copied by hand
+      setPasteText(foodPrompt()); // clipboard can be blocked; leave it where it can be copied by hand
       e.target.textContent = "Copy it from the box";
     }
     setTimeout(() => (e.target.textContent = "Copy AI prompt"), 2000);
+  });
+  $("#copy-errors").addEventListener("click", async (e) => {
+    try {
+      await navigator.clipboard.writeText(foodErrors.join("\n"));
+      e.target.textContent = "Copied";
+    } catch {
+      getSelection().selectAllChildren($("#mine-msg"));
+      e.target.textContent = "Copy the selection";
+    }
+    setTimeout(() => (e.target.textContent = "Copy error"), 2000);
+  });
+  $("#mine-json").addEventListener("input", syncClear);
+  new ResizeObserver(syncClear).observe($("#mine-json"));
+  $("#clear-json").addEventListener("click", () => {
+    setPasteText("");
+    $("#mine-json").focus();
   });
   const showMine = (open) => {
     $("#mine").hidden = !open;
@@ -1663,7 +1696,7 @@ async function init() {
   $("#mine-toggle").addEventListener("click", () => showMine($("#mine").hidden));
   $("#close-mine").addEventListener("click", () => showMine(false));
   $("#add-mine").addEventListener("click", () => {
-    if (importFoods(parseFoods($("#mine-json").value))) $("#mine-json").value = "";
+    if (importFoods(parseFoods($("#mine-json").value))) setPasteText("");
   });
   $("#import-mine").addEventListener("change", async (e) => {
     const [file] = e.target.files;
