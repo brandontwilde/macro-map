@@ -1331,6 +1331,7 @@ function drawFilters() {
 }
 
 function render() {
+  if (!state.combo.length) state.filters.anyFood = false; // Pair is hidden without a combo, so each new combo starts on Goes with combo
   const rank = ranked();
   drawFilters();
   drawPlot(rank);
@@ -1680,7 +1681,7 @@ async function init() {
 
   setupToast();
 
-  builtIn = await (await fetch("foods.json?v=fce3d6ee")).json();
+  builtIn = await (await fetch("foods.json?v=9fae8152")).json();
   setFoods();
   upgradeCombo();
   render();
