@@ -160,14 +160,19 @@ function parseFoods(text) {
   } catch {
     return { records: [], errors: ["That isn't valid JSON. Paste just the JSON part of the reply."] };
   }
-  return checkFoods(data);
+  return checkFoods(data, true);
 }
 
-function checkFoods(data) {
+const FOOD_KEYS = ["name", "group", "diet", "unit", "grams", "protein", "carbs", "fat", "kcal", "min", "max", "meals", "role", "cuisines", "dishes"];
+
+// strictKeys rejects misspelled keys, which would otherwise be ignored; saved foods skip it since they carry an id.
+function checkFoods(data, strictKeys = false) {
   const records = [], errors = [];
   (Array.isArray(data) ? data : [data]).forEach((item, i) => {
     const label = `Item ${i + 1}${item?.name ? ` (${item.name})` : ""}`;
     if (!item || typeof item !== "object") return errors.push(`${label}: not an object.`);
+    const unknownKeys = strictKeys ? Object.keys(item).filter((k) => !FOOD_KEYS.includes(k)) : [];
+    if (unknownKeys.length) return errors.push(`${label}: unknown key ${unknownKeys.map((k) => `"${k}"`).join(", ")}; use only ${FOOD_KEYS.join(", ")}.`);
     const name = String(item.name ?? "").trim();
     const num = (k) => (item[k] === "" || item[k] == null ? NaN : Number(item[k]));
     const [protein, carbs, fat] = ["protein", "carbs", "fat"].map(num);
@@ -1364,6 +1369,8 @@ function drawMine() {
     </li>`).join("");
 }
 
+let foodErrors = [];
+
 function importFoods({ records, errors }) {
   if (records.length) {
     closeToast(); // an undone delete could otherwise bring back a food with the same name
@@ -1375,7 +1382,22 @@ function importFoods({ records, errors }) {
   const msg = $("#mine-msg");
   msg.classList.toggle("over", !!errors.length);
   msg.innerHTML = [added, ...errors].filter(Boolean).map(esc).join("<br>");
+  foodErrors = errors;
+  $("#copy-errors").hidden = !errors.length;
   return records.length > 0 && !errors.length;
+}
+
+function setPasteText(text) {
+  $("#mine-json").value = text;
+  syncClear();
+}
+
+// Keeps Clear inside the box but left of its scrollbar, whose width depends on the platform.
+function syncClear() {
+  const box = $("#mine-json");
+  $("#clear-json").hidden = !box.value;
+  const scrollbar = box.offsetWidth - box.clientWidth - 2; // 2 = left and right borders
+  box.parentElement.style.setProperty("--scrollbar", `${scrollbar}px`);
 }
 
 const THEME_KEY = "macro-map-theme";
@@ -1610,10 +1632,26 @@ async function init() {
       await navigator.clipboard.writeText(foodPrompt());
       e.target.textContent = "Copied";
     } catch {
-      $("#mine-json").value = foodPrompt(); // clipboard can be blocked; leave it where it can be copied by hand
+      setPasteText(foodPrompt()); // clipboard can be blocked; leave it where it can be copied by hand
       e.target.textContent = "Copy it from the box";
     }
     setTimeout(() => (e.target.textContent = "Copy AI prompt"), 2000);
+  });
+  $("#copy-errors").addEventListener("click", async (e) => {
+    try {
+      await navigator.clipboard.writeText(foodErrors.join("\n"));
+      e.target.textContent = "Copied";
+    } catch {
+      getSelection().selectAllChildren($("#mine-msg"));
+      e.target.textContent = "Copy the selection";
+    }
+    setTimeout(() => (e.target.textContent = "Copy error"), 2000);
+  });
+  $("#mine-json").addEventListener("input", syncClear);
+  new ResizeObserver(syncClear).observe($("#mine-json"));
+  $("#clear-json").addEventListener("click", () => {
+    setPasteText("");
+    $("#mine-json").focus();
   });
   const showMine = (open) => {
     $("#mine").hidden = !open;
@@ -1670,7 +1708,7 @@ async function init() {
   $("#mine-toggle").addEventListener("click", () => showMine($("#mine").hidden));
   $("#close-mine").addEventListener("click", () => showMine(false));
   $("#add-mine").addEventListener("click", () => {
-    if (importFoods(parseFoods($("#mine-json").value))) $("#mine-json").value = "";
+    if (importFoods(parseFoods($("#mine-json").value))) setPasteText("");
   });
   $("#import-mine").addEventListener("change", async (e) => {
     const [file] = e.target.files;
@@ -1692,7 +1730,7 @@ async function init() {
 
   setupToast();
 
-  builtIn = await (await fetch("foods.json?v=c45d276e")).json();
+  builtIn = await (await fetch("foods.json?v=588338dd")).json();
   setFoods();
   upgradeCombo();
   render();

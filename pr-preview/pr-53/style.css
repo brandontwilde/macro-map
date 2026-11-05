@@ -291,6 +291,13 @@ ol { list-style: none; margin: 0; padding: 0; }
   display: block; width: 100%; font: 12px/1.4 ui-monospace, monospace; color: inherit; background: var(--bg);
   border: 1px solid var(--border); border-radius: 6px; padding: 6px 8px; resize: vertical;
 }
+.paste-box { position: relative; }
+.paste-box:has(#clear-json:not([hidden])) #mine-json { padding-right: 60px; } /* keeps text clear of the button */
+#clear-json { position: absolute; top: 5px; right: calc(5px + var(--scrollbar, 0px)); padding: 1px 8px; font-size: 12px; color: var(--text-muted); background: var(--surface); }
+#clear-json:hover { color: var(--text-primary); }
+.mine-msg-row { display: flex; align-items: flex-start; gap: 10px; }
+.mine-msg-row .hint { flex: 1; min-width: 0; }
+#copy-errors { flex: none; margin-top: 6px; padding: 1px 8px; font-size: 12px; }
 #mine-json::placeholder { font: 13px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
 .controls.wrap { flex-wrap: wrap; margin-top: 10px; }
 .ai-step { flex-wrap: wrap; align-items: center; margin: 4px 0 8px; font-size: 13px; }
