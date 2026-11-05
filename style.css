@@ -87,7 +87,7 @@ main { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); g
 .hint:empty { display: none; }
 .hint.over { color: var(--over); }
 
-.inputs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+.inputs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 10px; }
 .inputs > div { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 2px 4px; }
 .inputs select { appearance: none; padding: 6px; text-align: center; cursor: pointer; } /* no arrow, so the number keeps room on a phone */
 .inputs label {
@@ -98,6 +98,7 @@ main { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); g
 .m-p { --swatch: var(--protein); }
 .m-c { --swatch: var(--carbs); }
 .m-f { --swatch: var(--fat); }
+.m-kcal { --swatch: var(--text-muted); }
 .inputs em { font-style: normal; color: var(--text-muted); }
 .controls { display: flex; gap: 8px; min-width: 0; }
 input, select {
@@ -267,6 +268,7 @@ ol { list-style: none; margin: 0; padding: 0; }
 
 @media (max-width: 520px) {
   .card-head { flex-wrap: wrap; }
+  .inputs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .inputs input { padding: 6px; -moz-appearance: textfield; }
   .inputs input::-webkit-inner-spin-button { display: none; } /* the spinner would cover the number */
   .controls { flex: 1 1 100%; }
