@@ -1153,11 +1153,13 @@ function drawCombo() {
       <span class="rank">${i + 1}</span>
       <span class="name">${esc(food.name)}</span>
       <button type="button" class="remove" data-id="${food.id}" aria-label="Remove ${esc(food.name)}">×</button>
-      <button type="button" class="lock" data-id="${food.id}" aria-pressed="${!!locked}"
-        aria-label="Lock amount of ${esc(food.name)}" title="${locked ? "Locked: Fit leaves this amount as it is" : "Lock this amount so Fit adjusts the others"}">${lockIcon(locked)}</button>
       <span class="serving">
-        <input type="number" class="qty" data-id="${food.id}" min="0" step="${stepOf(food, unit)}" value="${qtyIn(unit, grams)}"
-          aria-label="Amount of ${esc(food.name)}">
+        <span class="amount${locked ? " locked" : ""}">
+          <input type="number" class="qty" data-id="${food.id}" min="0" step="${stepOf(food, unit)}" value="${qtyIn(unit, grams)}"
+            aria-label="Amount of ${esc(food.name)}">
+          <button type="button" class="lock" data-id="${food.id}" aria-pressed="${!!locked}"
+            aria-label="Lock amount of ${esc(food.name)}" title="${locked ? "Locked: Fit leaves this amount as it is" : "Lock this amount so Fit adjusts the others"}">${lockIcon(locked)}</button>
+        </span>
         <select class="unit" data-id="${food.id}" aria-label="Unit for ${esc(food.name)}">${options}</select>
         <span class="muted equiv" data-id="${food.id}"></span>
       </span>
@@ -1777,7 +1779,7 @@ async function init() {
 
   setupToast();
 
-  builtIn = await (await fetch("foods.json?v=9d44103f")).json();
+  builtIn = await (await fetch("foods.json?v=cc8bff51")).json();
   setFoods();
   upgradeCombo();
   render();
