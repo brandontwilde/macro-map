@@ -671,9 +671,10 @@ function solveBoxed(cols, r, w, lo, hi, mid, pull) {
   const goals = Object.keys(w);
   const dot = (a, b) => goals.reduce((s, k) => s + w[k] * a[k] * b[k], 0);
   const G = cols.map((a) => cols.map((b) => dot(a, b)));
-  const ridge = 1e-9 * Math.max(1e-12, ...G.map((row, i) => row[i])); // keeps the system solvable when foods are interchangeable
-  const H = G.map((row, i) => row.map((v, j) => v + (i === j ? pull[i] + ridge : 0)));
-  const b = cols.map((a, i) => dot(a, r) + (pull[i] + ridge) * mid[i]);
+  const trace = 1e-9 * Math.max(...G.map((row, i) => row[i])) || 1e-12;
+  const tie = pull.map((p) => p || trace); // with no pull, a trace of one keeps the system solvable when foods are interchangeable
+  const H = G.map((row, i) => row.map((v, j) => v + (i === j ? tie[i] : 0)));
+  const b = cols.map((a, i) => dot(a, r) + tie[i] * mid[i]);
   const x = mid.map((m, i) => Math.min(hi[i], Math.max(lo[i], m)));
   const at = x.map((v, i) => (lo[i] === hi[i] ? "fixed" : null)); // "lo", "hi", "fixed" or null when free
   for (let iter = 0; iter < 20 * n + 20; iter++) {
@@ -762,10 +763,11 @@ function limitMiss(cols, x, r, modes = state.modes) {
 function gaussSolve(M, b) {
   const n = b.length;
   const a = M.map((row, i) => [...row, b[i]]);
+  const tol = 1e-14 * Math.max(...M.map((row) => Math.max(...row.map(Math.abs)))); // relative, since grams² per gram² are tiny
   for (let col = 0; col < n; col++) {
     let piv = col;
     for (let r = col + 1; r < n; r++) if (Math.abs(a[r][col]) > Math.abs(a[piv][col])) piv = r;
-    if (Math.abs(a[piv][col]) < 1e-12) return null;
+    if (Math.abs(a[piv][col]) < tol) return null;
     [a[col], a[piv]] = [a[piv], a[col]];
     for (let r = 0; r < n; r++) {
       if (r === col) continue;
