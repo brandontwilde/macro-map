@@ -1154,11 +1154,11 @@ function drawCombo() {
       <span class="name">${esc(food.name)}</span>
       <button type="button" class="remove" data-id="${food.id}" aria-label="Remove ${esc(food.name)}">×</button>
       <span class="serving">
+        <button type="button" class="lock" data-id="${food.id}" aria-pressed="${!!locked}"
+          aria-label="Lock amount of ${esc(food.name)}" title="${locked ? "Locked: Fit leaves this amount as it is" : "Lock this amount so Fit adjusts the others"}">${lockIcon(locked)}</button>
         <input type="number" class="qty" data-id="${food.id}" min="0" step="${stepOf(food, unit)}" value="${qtyIn(unit, grams)}"
           aria-label="Amount of ${esc(food.name)}">
         <select class="unit" data-id="${food.id}" aria-label="Unit for ${esc(food.name)}">${options}</select>
-        <button type="button" class="lock" data-id="${food.id}" aria-pressed="${!!locked}"
-          aria-label="Lock amount of ${esc(food.name)}" title="${locked ? "Locked: Fit leaves this amount as it is" : "Lock this amount so Fit adjusts the others"}">${lockIcon(locked)}</button>
         <span class="muted equiv" data-id="${food.id}"></span>
       </span>
       <span class="sub">${splitBar(food)}<span class="item-macros" data-id="${food.id}"></span></span>
