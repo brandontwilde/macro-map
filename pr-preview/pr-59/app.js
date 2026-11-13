@@ -1642,7 +1642,7 @@ async function init() {
     render();
     $(`#combo-items .lock[data-id="${entry.id}"]`)?.focus();
   });
-  // Typing an amount redraws only the totals and map, so the input keeps focus.
+  // Typing an amount leaves the combo list alone, so the input keeps focus. A locked amount changes the suggestions.
   $("#combo-items").addEventListener("input", (e) => {
     const input = e.target.closest(".qty");
     if (!input) return;
@@ -1650,7 +1650,9 @@ async function init() {
     const entry = state.combo.find((c) => c.id === item.id);
     entry.grams = Math.max(0, Number(input.value) || 0) * findUnit(item.food, item.unit).g;
     save();
-    drawPlot(ranked());
+    const rank = ranked();
+    drawPlot(rank);
+    if (entry.locked) drawList(rank);
     drawComboTotals(comboItems());
   });
   // Switching units keeps the same amount of food and re-expresses it.
@@ -1779,7 +1781,7 @@ async function init() {
 
   setupToast();
 
-  builtIn = await (await fetch("foods.json?v=cc8bff51")).json();
+  builtIn = await (await fetch("foods.json?v=f75dc396")).json();
   setFoods();
   upgradeCombo();
   render();
