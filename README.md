@@ -6,7 +6,7 @@ optionally calories: what's left for the day, or a single meal or snack.
 Every food is plotted on a triangle by its macro split (by grams): pure
 protein at the top corner, pure carbs bottom-left, pure fat bottom-right.
 Your target is a marker on the same triangle, so foods near the marker are
-the ones that fit. Pick up to five foods and it works out the
+the ones that fit. Pick any number of foods and it works out the
 amounts that land closest to your numbers, keeping each food within what a
 person would eat in one meal. Any mix of foods sits inside the outline around
 them on the map.

@@ -5,7 +5,6 @@ const GOAL_NAMES = { ...MACRO_NAMES, kcal: "Calories" };
 const KCAL_PER_G = 4; // kcal off a calorie target that weigh as much in the fit as 1 g off a macro target
 const TOP_MATCHES = 5;
 const LIST_LENGTH = 30;
-const MAX_COMBO = 5;
 const WEIGHTS = [{ label: "g", g: 1 }, { label: "oz", g: 28.35 }];
 // PR previews share the live site's origin, so each keeps its own saved state.
 const PREVIEW_PATH = location.pathname.match(/\/pr-preview\/pr-\d+\//);
@@ -244,7 +243,7 @@ function removeMine(id) {
 
 function restoreMine({ record, index, entry, at }) {
   state.mine.splice(Math.min(index, state.mine.length), 0, record);
-  if (entry && state.combo.length < MAX_COMBO) state.combo.splice(Math.min(at, state.combo.length), 0, entry);
+  if (entry) state.combo.splice(Math.min(at, state.combo.length), 0, entry);
   saveMine();
   save();
 }
@@ -664,36 +663,51 @@ function solveCombo(foods, r, modes = state.modes) {
   return best.x;
 }
 
-// Minimises Σ w_k (A x − r)_k² over the goals k in w + Σ pull_i (x_i − mid_i)² with each x_i in [lo_i, hi_i]. Every food is tried at its
-// lower bound, at its upper bound and free (3^n cases); the problem is convex, so the best feasible case is the optimum.
+// Minimises Σ w_k (A x − r)_k² over the goals k in w + Σ pull_i (x_i − mid_i)² with each x_i in [lo_i, hi_i], by a primal
+// active-set method: solve for the foods off their bounds, step toward that answer until one meets a bound, and free a
+// bound food whenever the cost falls by moving it inward. A food with lo = hi stays put.
 function solveBoxed(cols, r, w, lo, hi, mid, pull) {
   const n = cols.length;
   const goals = Object.keys(w);
   const dot = (a, b) => goals.reduce((s, k) => s + w[k] * a[k] * b[k], 0);
   const G = cols.map((a) => cols.map((b) => dot(a, b)));
-  const Ar = cols.map((a) => dot(a, r));
-  const cost = (x) => goals.reduce((s, k) => s + w[k] * (cols.reduce((t, v, i) => t + v[k] * x[i], 0) - r[k]) ** 2, 0) +
-    x.reduce((s, v, i) => s + pull[i] * (v - mid[i]) ** 2, 0);
-  let best = null;
-  for (let code = 0; code < 3 ** n; code++) {
-    const x = [], free = [];
-    for (let i = 0, c = code; i < n; i++, c = Math.floor(c / 3)) {
-      if (c % 3 === 0) free.push(i);
-      x[i] = [null, lo[i], hi[i]][c % 3];
+  const trace = 1e-9 * Math.max(...G.map((row, i) => row[i])) || 1e-12;
+  const tie = pull.map((p) => p || trace); // with no pull, a trace of one keeps the system solvable when foods are interchangeable
+  const H = G.map((row, i) => row.map((v, j) => v + (i === j ? tie[i] : 0)));
+  const b = cols.map((a, i) => dot(a, r) + tie[i] * mid[i]);
+  const x = mid.map((m, i) => Math.min(hi[i], Math.max(lo[i], m)));
+  const at = x.map((v, i) => (lo[i] === hi[i] ? "fixed" : null)); // "lo", "hi", "fixed" or null when free
+  for (let iter = 0; iter < 20 * n + 20; iter++) {
+    const free = at.flatMap((a, i) => (a ? [] : [i]));
+    const z = free.length && gaussSolve(
+      free.map((i) => free.map((j) => H[i][j])),
+      free.map((i) => b[i] - x.reduce((s, v, j) => (at[j] ? s + H[i][j] * v : s), 0)),
+    );
+    if (free.length && !z) break;
+    let step = 1, block = -1, side = null;
+    free.forEach((i, j) => {
+      const d = z[j] - x[i];
+      const room = d < 0 ? (lo[i] - x[i]) / d : d > 0 ? (hi[i] - x[i]) / d : Infinity;
+      if (room < step) [step, block, side] = [Math.max(0, room), i, d < 0 ? "lo" : "hi"];
+    });
+    free.forEach((i, j) => (x[i] += step * (z[j] - x[i])));
+    if (block >= 0) {
+      at[block] = side;
+      x[block] = side === "lo" ? lo[block] : hi[block];
+      continue;
     }
-    if (x.includes(Infinity)) continue;
-    if (free.length) {
-      const M = free.map((i) => free.map((j) => G[i][j] + (i === j ? pull[i] : 0)));
-      const rhs = free.map((i) => Ar[i] + pull[i] * mid[i] - x.reduce((s, v, j) => (v == null ? s : s + G[i][j] * v), 0));
-      const sol = gaussSolve(M, rhs);
-      if (!sol || sol.some((v, j) => v < lo[free[j]] - 1e-6 || v > hi[free[j]] + 1e-6)) continue;
-      free.forEach((i, j) => (x[i] = sol[j]));
-    }
-    if (code === 0) return x; // the unbounded optimum already sits inside every range
-    const c = cost(x);
-    if (!best || c < best.cost) best = { x, cost: c };
+    // At the optimum for this free set; free the bound food whose gradient points inward the most.
+    let worst = -1, pullIn = 1e-9 * (1 + Math.abs(b.reduce((s, v) => s + Math.abs(v), 0)));
+    at.forEach((a, i) => {
+      if (a !== "lo" && a !== "hi") return;
+      const g = H[i].reduce((s, h, j) => s + h * x[j], 0) - b[i];
+      const inward = a === "lo" ? -g : g;
+      if (inward > pullIn) [worst, pullIn] = [i, inward];
+    });
+    if (worst < 0) break;
+    at[worst] = null;
   }
-  return best.x;
+  return x;
 }
 
 // Rounds each amount to its step, then moves amounts a step at a time, alone or traded between two foods,
@@ -749,10 +763,11 @@ function limitMiss(cols, x, r, modes = state.modes) {
 function gaussSolve(M, b) {
   const n = b.length;
   const a = M.map((row, i) => [...row, b[i]]);
+  const tol = 1e-14 * Math.max(...M.map((row) => Math.max(...row.map(Math.abs)))); // relative, since grams² per gram² are tiny
   for (let col = 0; col < n; col++) {
     let piv = col;
     for (let r = col + 1; r < n; r++) if (Math.abs(a[r][col]) > Math.abs(a[piv][col])) piv = r;
-    if (Math.abs(a[piv][col]) < 1e-12) return null;
+    if (Math.abs(a[piv][col]) < tol) return null;
     [a[col], a[piv]] = [a[piv], a[col]];
     for (let r = 0; r < n; r++) {
       if (r === col) continue;
@@ -827,9 +842,8 @@ function rank() {
       .sort((a, b) => a.d - b.d);
   }
   const norm = Math.hypot(...goalsOf(r).map((k) => r[k] * scaleOf(k))) || 1;
-  const base = items.slice(items.length >= MAX_COMBO ? 1 : 0); // adding a food pushes out the oldest
   const picks = state.foods.filter((f) => !inCombo(f.id) && shown(f, items)).map((food) => {
-    const foods = [...base.map((c) => c.food), food];
+    const foods = [...items.map((c) => c.food), food];
     const x = solveCombo(foods, r);
     const unit = findUnit(food, food.unit);
     const grams = roundAmount(food, unit, x.at(-1));
@@ -1144,7 +1158,7 @@ function drawCombo() {
       <span class="sub">${splitBar(food)}<span class="item-macros" data-id="${food.id}"></span></span>
     </li>`;
   }).join("") +
-    (items.length < MAX_COMBO ? `<li class="empty">Add ${MAX_COMBO - items.length === 1 ? "one more food" : `up to ${MAX_COMBO - items.length} more foods`} from the list or map.</li>` : "");
+    `<li class="empty">Add more foods from the list or map.</li>`;
   drawComboTotals(items);
 }
 
@@ -1258,12 +1272,6 @@ function toggleCombo(id) {
     const hit = ranked().find((r) => r.food.id === id); // a suggestion comes in at the amount it was shown with
     state.combo.push(hit ? { id, unit: hit.unit, grams: hit.grams } : newEntry(state.foods.find((f) => f.id === id)));
     fresh = { id, at: performance.now() };
-    if (state.combo.length > MAX_COMBO) {
-      const out = state.combo.shift();
-      save();
-      render();
-      return showPushedOut(out, id);
-    }
   }
   closeToast();
   save();
@@ -1274,7 +1282,6 @@ const TOAST_MS = 6000;
 const FRESH_MS = 1600; // keep in step with the just-added animation in style.css
 let fresh = null; // { id, at }: the food that just came into the combo, briefly highlighted
 let toast = null; // { undo, timer, left, started }
-const foodName = (id) => state.foods.find((f) => f.id === id)?.name ?? "A food";
 function announce(text) {
   const live = $("#toast-live");
   live.textContent = ""; // cleared first so the same words are read again
@@ -1294,9 +1301,6 @@ function undoToast() {
   closeToast();
   undo();
 }
-function showPushedOut(out, inId) {
-  showToast(`${foodName(out.id)} was removed to make room for ${foodName(inId)}.`, () => undoPushOut(out, inId));
-}
 function runToast() {
   if (!toast || toast.timer) return;
   toast.started = performance.now();
@@ -1313,15 +1317,6 @@ function closeToast() {
   clearTimeout(toast.timer);
   toast = null;
   $("#toast").hidden = true;
-}
-function undoPushOut(out, inId) {
-  state.combo = state.combo.filter((c) => c.id !== inId && c.id !== out.id);
-  state.combo.unshift(out); // back in its old place, as the oldest
-  state.combo.length = Math.min(state.combo.length, MAX_COMBO);
-  if (fresh?.id === inId) fresh = null;
-  save();
-  render();
-  announce(`${foodName(out.id)} is back in the combo and ${foodName(inId)} was removed.`);
 }
 function setupToast() {
   const el = $("#toast");
@@ -1768,7 +1763,7 @@ async function init() {
 
   setupToast();
 
-  builtIn = await (await fetch("foods.json?v=649aa34f")).json();
+  builtIn = await (await fetch("foods.json?v=6fc6e1c4")).json();
   setFoods();
   upgradeCombo();
   render();
