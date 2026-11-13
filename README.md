@@ -73,6 +73,15 @@ python3 -m http.server 8000
 Then go to http://localhost:8000. Opening `index.html` directly from disk
 won't work, because browsers block it from loading `foods.json`.
 
+## Test it
+
+The fit lives in `fit.js` and has tests in `tests/`. They need Node 18 or
+later and no packages:
+
+```bash
+node --test tests/*.test.js
+```
+
 ## Food data
 
 `foods.json` is generated from USDA FoodData Central's SR Legacy dataset
