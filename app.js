@@ -54,7 +54,7 @@ const state = {
   mine: [], // the person's own foods, as entered: [{ id, name, group, diet, unit, grams, protein, carbs, fat, kcal }]
   remaining: { p: 40, c: 60, f: 20, kcal: null }, // about a 580 kcal meal; null leaves that goal out of the fit
   modes: { p: "eq", c: "eq", f: "eq", kcal: "max" }, // per goal, a key of MODES
-  combo: [], // [{ id, grams, unit }], unit being a label from units(food)
+  combo: [], // [{ id, grams, unit, locked }], unit being a label from units(food); Fit leaves locked amounts as they are
   caps: true, // hold combo amounts to at most what a person eats in one meal
   floors: true, // and to at least a small portion of each, so no food drops out
   query: "",
@@ -633,9 +633,9 @@ const inCombo = (id) => state.combo.some((c) => c.id === id);
 // a small pull toward the middle of each meal-size range, which picks the realistic answer when several hit the target.
 // With "at least" or "at most" targets, the cost is one quadratic per guess of which side of its value each such total
 // lands on. The cost is convex and smooth, so a guess that its own optimum confirms gives the global optimum.
-function solveCombo(foods, r, modes = state.modes) {
+function solveCombo(foods, r, fixed = [], modes = state.modes) {
   const cols = foods.map(perGram);
-  const [lo, hi] = [0, 1].map((j) => foods.map((f) => bounds(f)[j]));
+  const [lo, hi] = [0, 1].map((j) => foods.map((f, i) => fixed[i] ?? bounds(f)[j]));
   const mid = foods.map((f) => (f.min + f.max) / 2);
   const pull = foods.map((f) => (state.caps || state.floors ? FIT_PULL / ((f.max - f.min) / 2) ** 2 : 0));
   const goals = goalsOf(r);
@@ -713,12 +713,13 @@ function solveBoxed(cols, r, w, lo, hi, mid, pull) {
 // Rounds each amount to its step, then moves amounts a step at a time, alone or traded between two foods,
 // while that lowers limitMiss, or macroError without raising limitMiss: rounding each food on its own can add up
 // to grams off, and can leave a limit the unrounded amounts all but met.
-function roundCombo(foods, units, x, r) {
+function roundCombo(foods, units, x, r, fixed = []) {
   const cols = foods.map(perGram);
-  const g = foods.map((f, i) => roundAmount(f, units[i], x[i]));
+  const g = foods.map((f, i) => fixed[i] ?? roundAmount(f, units[i], x[i]));
   const steps = foods.map((f, i) => stepOf(f, units[i]) * units[i].g);
   const fits = (i) => { const [min, max] = bounds(foods[i]); return g[i] >= min - 1e-9 && g[i] <= max + 1e-9; };
-  const moves = foods.flatMap((_, i) => [[[i, 1]], [[i, -1]], ...foods.flatMap((_, j) => (j === i ? [] : [[[i, 1], [j, -1]]]))]);
+  const open = foods.flatMap((_, i) => (fixed[i] == null ? [i] : []));
+  const moves = open.flatMap((i) => [[[i, 1]], [[i, -1]], ...open.flatMap((j) => (j === i ? [] : [[[i, 1], [j, -1]]]))]);
   for (let pass = 0, moved = true; moved && pass < 50; pass++) {
     moved = false;
     for (const move of moves) {
@@ -816,10 +817,11 @@ function shown(food, items = comboItems()) {
   return !pairing() || (items.every((c) => !clash(c.food, food)) && items.some((c) => goesWith(c.food, food)));
 }
 
-// Suggestions re-fit the whole combo, so they depend on which foods are in it but not on their amounts.
+// Suggestions re-fit the whole combo, so they depend on which foods are in it but not on their amounts, bar locked ones.
+const lockedAmounts = (items = state.combo) => items.map((c) => (c.locked ? c.grams : null));
 let rankCache = {};
 function ranked() {
-  const key = JSON.stringify([state.remaining, state.modes, state.combo.map((c) => c.id), state.filters, state.caps, state.floors, foodsVersion]);
+  const key = JSON.stringify([state.remaining, state.modes, state.combo.map((c) => c.id), lockedAmounts(), state.filters, state.caps, state.floors, foodsVersion]);
   if (rankCache.key !== key) rankCache = { key, value: rank() };
   return rankCache.value;
 }
@@ -844,7 +846,7 @@ function rank() {
   const norm = Math.hypot(...goalsOf(r).map((k) => r[k] * scaleOf(k))) || 1;
   const picks = state.foods.filter((f) => !inCombo(f.id) && shown(f, items)).map((food) => {
     const foods = [...items.map((c) => c.food), food];
-    const x = solveCombo(foods, r);
+    const x = solveCombo(foods, r, lockedAmounts(items));
     const unit = findUnit(food, food.unit);
     const grams = roundAmount(food, unit, x.at(-1));
     return {
@@ -1132,6 +1134,8 @@ function drawList(rank) {
     </li>`).join("");
 }
 
+const lockIcon = (locked) => `<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="${locked ? "M5 7V5a3 3 0 0 1 6 0v2" : "M5 7V5a3 3 0 0 1 5.8-1.1"}"/></svg>`;
+
 function drawCombo() {
   const items = comboItems();
   $("#combo").hidden = !items.length;
@@ -1139,7 +1143,7 @@ function drawCombo() {
   $("#caps-toggle").setAttribute("aria-checked", state.caps);
   $("#floors-toggle").setAttribute("aria-checked", state.floors);
 
-  $("#combo-items").innerHTML = items.map(({ food, grams, unit: label }, i) => {
+  $("#combo-items").innerHTML = items.map(({ food, grams, unit: label, locked }, i) => {
     const unit = findUnit(food, label);
     const options = units(food).map((u) =>
       `<option value="${esc(u.label)}"${u.label === unit.label ? " selected" : ""}>${esc(u.label)}</option>`).join("");
@@ -1150,8 +1154,12 @@ function drawCombo() {
       <span class="name">${esc(food.name)}</span>
       <button type="button" class="remove" data-id="${food.id}" aria-label="Remove ${esc(food.name)}">×</button>
       <span class="serving">
-        <input type="number" class="qty" data-id="${food.id}" min="0" step="${stepOf(food, unit)}" value="${qtyIn(unit, grams)}"
-          aria-label="Amount of ${esc(food.name)}">
+        <span class="amount${locked ? " locked" : ""}">
+          <input type="number" class="qty" data-id="${food.id}" min="0" step="${stepOf(food, unit)}" value="${qtyIn(unit, grams)}"
+            aria-label="Amount of ${esc(food.name)}">
+          <button type="button" class="lock" data-id="${food.id}" aria-pressed="${!!locked}"
+            aria-label="Lock amount of ${esc(food.name)}" title="${locked ? "Locked: Fit leaves this amount as it is" : "Lock this amount so Fit adjusts the others"}">${lockIcon(locked)}</button>
+        </span>
         <select class="unit" data-id="${food.id}" aria-label="Unit for ${esc(food.name)}">${options}</select>
         <span class="muted equiv" data-id="${food.id}"></span>
       </span>
@@ -1192,7 +1200,8 @@ function drawComboTotals(items) {
 function fitCombo() {
   const items = comboItems();
   const foods = items.map((c) => c.food);
-  const grams = roundCombo(foods, items.map((c) => findUnit(c.food, c.unit)), solveCombo(foods, state.remaining), state.remaining);
+  const fixed = lockedAmounts(items);
+  const grams = roundCombo(foods, items.map((c) => findUnit(c.food, c.unit)), solveCombo(foods, state.remaining, fixed), state.remaining, fixed);
   items.forEach((c, i) => (state.combo.find((e) => e.id === c.id).grams = grams[i]));
   save();
   render();
@@ -1625,8 +1634,15 @@ async function init() {
   $("#combo-items").addEventListener("click", (e) => {
     const btn = e.target.closest(".remove");
     if (btn) toggleCombo(Number(btn.dataset.id));
+    const lock = e.target.closest(".lock");
+    if (!lock) return;
+    const entry = state.combo.find((c) => c.id === Number(lock.dataset.id));
+    entry.locked = !entry.locked;
+    save();
+    render();
+    $(`#combo-items .lock[data-id="${entry.id}"]`)?.focus();
   });
-  // Typing an amount redraws only the totals and map, so the input keeps focus.
+  // Typing an amount leaves the combo list alone, so the input keeps focus. A locked amount changes the suggestions.
   $("#combo-items").addEventListener("input", (e) => {
     const input = e.target.closest(".qty");
     if (!input) return;
@@ -1634,7 +1650,9 @@ async function init() {
     const entry = state.combo.find((c) => c.id === item.id);
     entry.grams = Math.max(0, Number(input.value) || 0) * findUnit(item.food, item.unit).g;
     save();
-    drawPlot(ranked());
+    const rank = ranked();
+    drawPlot(rank);
+    if (entry.locked) drawList(rank);
     drawComboTotals(comboItems());
   });
   // Switching units keeps the same amount of food and re-expresses it.
@@ -1763,7 +1781,7 @@ async function init() {
 
   setupToast();
 
-  builtIn = await (await fetch("foods.json?v=6fc6e1c4")).json();
+  builtIn = await (await fetch("foods.json?v=05dd1f58")).json();
   setFoods();
   upgradeCombo();
   render();

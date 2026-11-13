@@ -219,6 +219,18 @@ ol { list-style: none; margin: 0; padding: 0; }
 .serving { grid-column: 2 / -1; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .serving input { width: 72px; padding: 3px 6px; }
 .serving select { padding: 3px 6px; max-width: 14em; }
+.amount { position: relative; display: inline-flex; }
+.serving .amount input { width: 80px; padding-right: 24px; appearance: textfield; -moz-appearance: textfield; }
+.amount input::-webkit-inner-spin-button, .amount input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.amount.locked input { background: var(--select); border-color: var(--text-muted); }
+.lock {
+  position: absolute; right: 3px; top: 50%; transform: translateY(-50%);
+  display: grid; place-items: center; width: 20px; height: 20px; padding: 0; cursor: pointer;
+  border: 0; border-radius: 4px; background: none; color: var(--text-muted);
+}
+.lock:hover, .amount.locked .lock { color: var(--text-primary); }
+.lock svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+.amount.locked .lock rect { fill: currentColor; }
 .muted { color: var(--text-muted); }
 .button {
   font: inherit; font-size: 13px; color: var(--text-primary); background: var(--bg);
