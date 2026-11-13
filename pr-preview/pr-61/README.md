@@ -79,7 +79,7 @@ The fit lives in `fit.js` and has tests in `tests/`. They need Node 18 or
 later and no packages:
 
 ```bash
-node --test tests/
+node --test tests/*.test.js
 ```
 
 ## Food data
